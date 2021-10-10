@@ -1,0 +1,123 @@
+class Item
+{
+abstract;
+  autounique itemId;
+  string title;
+  boolean isArchive;
+  boolean isReservable;
+  Date releaseDate;
+  int quantityAvailable;
+  int quantity;
+  }
+
+enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
+
+class Book
+{
+  string isbn;
+  int numPages;
+  BMGenre genre;
+  isA Item;
+}
+
+class Album
+{
+  int numSongs;
+  isA Item;
+  enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, Hip-Hop};
+}
+
+class Movie
+{
+  int duration;
+  isA Item;
+  BMGenre genre;
+}
+
+class Newspaper
+{
+  isA Item;
+}
+
+class User
+{
+  1 user -- * Event events;
+  string firstName;
+  string lastName;
+string address;
+autounique userId;
+  boolean isLocal;
+abstract;
+}
+
+class OnlineUser
+{
+  string username;
+  string password;
+  string email;
+isA User;
+}
+
+class OfflineUser
+{
+isA User;
+}
+
+class Librarian
+{
+  isA OnlineUser;
+  0..1 library -> * LibraryHour libraryHour;
+}
+
+class HeadLibrarian
+{
+  isA Librarian;
+}
+
+class LibraryApplication
+{
+  1 <@>- * User users;
+  1 <@>- * Item items;
+  1 <@>- * TimeSlot timeSlots;
+  1 <@>- 1 HeadLibrarian headLibrarian;
+  1 <@>- * LibraryHour libraryHours;
+  1 <@>- 1 Library library;
+  }
+
+class Creator
+{
+  enum CreatorType {Director, Author, Artist, Publisher};
+  CreatorType creatorType;
+  1 creator -- * Item items;
+}
+
+
+
+class Event
+{
+0..1 event -- 1 TimeSlot timeSlot;
+  string name;
+  boolean isPrivate;
+}
+
+class TimeSlot
+{
+  Time startTime;
+  Time endTime;
+  Date startDate;
+  Date endDate;
+}
+
+class LibraryHour
+{
+  Time startTime;
+  Time endTime;
+  enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+  Day day;
+}
+
+class Library
+{
+  0..1 library -> * LibraryHour libraryHours;
+  0..1 library -> * TimeSlot timeSlots;
+}
