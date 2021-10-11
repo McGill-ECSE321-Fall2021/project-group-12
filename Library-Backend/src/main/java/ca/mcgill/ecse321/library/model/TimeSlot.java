@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -20,23 +21,23 @@ public class TimeSlot
   private Date endDate;
 
   //TimeSlot Associations
-  private LibraryApplication libraryApplication;
+  private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, LibraryApplication aLibraryApplication)
+  public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, LibraryApplicationSystem aLibraryApplicationSystem)
   {
     startTime = aStartTime;
     endTime = aEndTime;
     startDate = aStartDate;
     endDate = aEndDate;
-    boolean didAddLibraryApplication = setLibraryApplication(aLibraryApplication);
-    if (!didAddLibraryApplication)
+    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
+    if (!didAddLibraryApplicationSystem)
     {
-      throw new RuntimeException("Unable to create timeSlot due to libraryApplication. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create timeSlot due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -96,9 +97,9 @@ public class TimeSlot
     return endDate;
   }
   /* Code from template association_GetOne */
-  public LibraryApplication getLibraryApplication()
+  public LibraryApplicationSystem getLibraryApplicationSystem()
   {
-    return libraryApplication;
+    return libraryApplicationSystem;
   }
   /* Code from template association_GetOne */
   public Event getEvent()
@@ -112,21 +113,21 @@ public class TimeSlot
     return has;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setLibraryApplication(LibraryApplication aLibraryApplication)
+  public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;
-    if (aLibraryApplication == null)
+    if (aLibraryApplicationSystem == null)
     {
       return wasSet;
     }
 
-    LibraryApplication existingLibraryApplication = libraryApplication;
-    libraryApplication = aLibraryApplication;
-    if (existingLibraryApplication != null && !existingLibraryApplication.equals(aLibraryApplication))
+    LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
+    libraryApplicationSystem = aLibraryApplicationSystem;
+    if (existingLibraryApplicationSystem != null && !existingLibraryApplicationSystem.equals(aLibraryApplicationSystem))
     {
-      existingLibraryApplication.removeTimeSlot(this);
+      existingLibraryApplicationSystem.removeTimeSlot(this);
     }
-    libraryApplication.addTimeSlot(this);
+    libraryApplicationSystem.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
@@ -160,11 +161,11 @@ public class TimeSlot
 
   public void delete()
   {
-    LibraryApplication placeholderLibraryApplication = libraryApplication;
-    this.libraryApplication = null;
-    if(placeholderLibraryApplication != null)
+    LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
+    this.libraryApplicationSystem = null;
+    if(placeholderLibraryApplicationSystem != null)
     {
-      placeholderLibraryApplication.removeTimeSlot(this);
+      placeholderLibraryApplicationSystem.removeTimeSlot(this);
     }
     Event existingEvent = event;
     event = null;
@@ -182,7 +183,7 @@ public class TimeSlot
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "libraryApplication = "+(getLibraryApplication()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplication())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "event = "+(getEvent()!=null?Integer.toHexString(System.identityHashCode(getEvent())):"null");
   }
 }

@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -30,14 +31,14 @@ public abstract class Item
   private int itemId;
 
   //Item Associations
-  private LibraryApplication libraryApplication;
+  private LibraryApplicationSystem libraryApplicationSystem;
   private Creator creator;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Item(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplication aLibraryApplication, Creator aCreator)
+  public Item(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator)
   {
     title = aTitle;
     isArchive = aIsArchive;
@@ -46,10 +47,10 @@ public abstract class Item
     quantityAvailable = aQuantityAvailable;
     quantity = aQuantity;
     itemId = nextItemId++;
-    boolean didAddLibraryApplication = setLibraryApplication(aLibraryApplication);
-    if (!didAddLibraryApplication)
+    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
+    if (!didAddLibraryApplicationSystem)
     {
-      throw new RuntimeException("Unable to create item due to libraryApplication. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create item due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddCreator = setCreator(aCreator);
     if (!didAddCreator)
@@ -145,9 +146,9 @@ public abstract class Item
     return itemId;
   }
   /* Code from template association_GetOne */
-  public LibraryApplication getLibraryApplication()
+  public LibraryApplicationSystem getLibraryApplicationSystem()
   {
-    return libraryApplication;
+    return libraryApplicationSystem;
   }
   /* Code from template association_GetOne */
   public Creator getCreator()
@@ -155,21 +156,21 @@ public abstract class Item
     return creator;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setLibraryApplication(LibraryApplication aLibraryApplication)
+  public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;
-    if (aLibraryApplication == null)
+    if (aLibraryApplicationSystem == null)
     {
       return wasSet;
     }
 
-    LibraryApplication existingLibraryApplication = libraryApplication;
-    libraryApplication = aLibraryApplication;
-    if (existingLibraryApplication != null && !existingLibraryApplication.equals(aLibraryApplication))
+    LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
+    libraryApplicationSystem = aLibraryApplicationSystem;
+    if (existingLibraryApplicationSystem != null && !existingLibraryApplicationSystem.equals(aLibraryApplicationSystem))
     {
-      existingLibraryApplication.removeItem(this);
+      existingLibraryApplicationSystem.removeItem(this);
     }
-    libraryApplication.addItem(this);
+    libraryApplicationSystem.addItem(this);
     wasSet = true;
     return wasSet;
   }
@@ -195,11 +196,11 @@ public abstract class Item
 
   public void delete()
   {
-    LibraryApplication placeholderLibraryApplication = libraryApplication;
-    this.libraryApplication = null;
-    if(placeholderLibraryApplication != null)
+    LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
+    this.libraryApplicationSystem = null;
+    if(placeholderLibraryApplicationSystem != null)
     {
-      placeholderLibraryApplication.removeItem(this);
+      placeholderLibraryApplicationSystem.removeItem(this);
     }
     Creator placeholderCreator = creator;
     this.creator = null;
@@ -220,7 +221,7 @@ public abstract class Item
             "quantityAvailable" + ":" + getQuantityAvailable()+ "," +
             "quantity" + ":" + getQuantity()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "releaseDate" + "=" + (getReleaseDate() != null ? !getReleaseDate().equals(this)  ? getReleaseDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "libraryApplication = "+(getLibraryApplication()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplication())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "creator = "+(getCreator()!=null?Integer.toHexString(System.identityHashCode(getCreator())):"null");
   }
 }

@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -26,9 +27,9 @@ public class Movie extends Item
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplication aLibraryApplication, Creator aCreator, int aDuration, BMGenre aGenre)
+  public Movie(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, int aDuration, BMGenre aGenre)
   {
-    super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplication, aCreator);
+    super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
     duration = aDuration;
     genre = aGenre;
   }

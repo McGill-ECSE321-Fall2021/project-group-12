@@ -74,7 +74,7 @@ class HeadLibrarian
   isA Librarian;
 }
 
-class LibraryApplication
+class LibraryApplicationSystem
 {
   1 <@>- * User users;
   1 <@>- * Item items;

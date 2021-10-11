@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -7,14 +8,14 @@ import java.sql.Date;
 import java.sql.Time;
 
 // line 77 "library.ump"
-public class LibraryApplication
+public class LibraryApplicationSystem
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //LibraryApplication Associations
+  //LibraryApplicationSystem Associations
   private List<User> users;
   private List<Item> items;
   private List<TimeSlot> timeSlots;
@@ -25,20 +26,20 @@ public class LibraryApplication
   // CONSTRUCTOR
   //------------------------
 
-  public LibraryApplication(Library aLibrary)
+  public LibraryApplicationSystem(Library aLibrary)
   {
     users = new ArrayList<User>();
     items = new ArrayList<Item>();
     timeSlots = new ArrayList<TimeSlot>();
     libraryHours = new ArrayList<LibraryHour>();
-    if (aLibrary == null || aLibrary.getLibraryApplication() != null)
+    if (aLibrary == null || aLibrary.getLibraryApplicationSystem() != null)
     {
-      throw new RuntimeException("Unable to create LibraryApplication due to aLibrary. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create LibraryApplicationSystem due to aLibrary. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     library = aLibrary;
   }
 
-  public LibraryApplication()
+  public LibraryApplicationSystem()
   {
     users = new ArrayList<User>();
     items = new ArrayList<Item>();
@@ -187,11 +188,11 @@ public class LibraryApplication
   {
     boolean wasAdded = false;
     if (users.contains(aUser)) { return false; }
-    LibraryApplication existingLibraryApplication = aUser.getLibraryApplication();
-    boolean isNewLibraryApplication = existingLibraryApplication != null && !this.equals(existingLibraryApplication);
-    if (isNewLibraryApplication)
+    LibraryApplicationSystem existingLibraryApplicationSystem = aUser.getLibraryApplicationSystem();
+    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
+    if (isNewLibraryApplicationSystem)
     {
-      aUser.setLibraryApplication(this);
+      aUser.setLibraryApplicationSystem(this);
     }
     else
     {
@@ -204,8 +205,8 @@ public class LibraryApplication
   public boolean removeUser(User aUser)
   {
     boolean wasRemoved = false;
-    //Unable to remove aUser, as it must always have a libraryApplication
-    if (!this.equals(aUser.getLibraryApplication()))
+    //Unable to remove aUser, as it must always have a libraryApplicationSystem
+    if (!this.equals(aUser.getLibraryApplicationSystem()))
     {
       users.remove(aUser);
       wasRemoved = true;
@@ -256,11 +257,11 @@ public class LibraryApplication
   {
     boolean wasAdded = false;
     if (items.contains(aItem)) { return false; }
-    LibraryApplication existingLibraryApplication = aItem.getLibraryApplication();
-    boolean isNewLibraryApplication = existingLibraryApplication != null && !this.equals(existingLibraryApplication);
-    if (isNewLibraryApplication)
+    LibraryApplicationSystem existingLibraryApplicationSystem = aItem.getLibraryApplicationSystem();
+    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
+    if (isNewLibraryApplicationSystem)
     {
-      aItem.setLibraryApplication(this);
+      aItem.setLibraryApplicationSystem(this);
     }
     else
     {
@@ -273,8 +274,8 @@ public class LibraryApplication
   public boolean removeItem(Item aItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a libraryApplication
-    if (!this.equals(aItem.getLibraryApplication()))
+    //Unable to remove aItem, as it must always have a libraryApplicationSystem
+    if (!this.equals(aItem.getLibraryApplicationSystem()))
     {
       items.remove(aItem);
       wasRemoved = true;
@@ -328,11 +329,11 @@ public class LibraryApplication
   {
     boolean wasAdded = false;
     if (timeSlots.contains(aTimeSlot)) { return false; }
-    LibraryApplication existingLibraryApplication = aTimeSlot.getLibraryApplication();
-    boolean isNewLibraryApplication = existingLibraryApplication != null && !this.equals(existingLibraryApplication);
-    if (isNewLibraryApplication)
+    LibraryApplicationSystem existingLibraryApplicationSystem = aTimeSlot.getLibraryApplicationSystem();
+    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
+    if (isNewLibraryApplicationSystem)
     {
-      aTimeSlot.setLibraryApplication(this);
+      aTimeSlot.setLibraryApplicationSystem(this);
     }
     else
     {
@@ -345,8 +346,8 @@ public class LibraryApplication
   public boolean removeTimeSlot(TimeSlot aTimeSlot)
   {
     boolean wasRemoved = false;
-    //Unable to remove aTimeSlot, as it must always have a libraryApplication
-    if (!this.equals(aTimeSlot.getLibraryApplication()))
+    //Unable to remove aTimeSlot, as it must always have a libraryApplicationSystem
+    if (!this.equals(aTimeSlot.getLibraryApplicationSystem()))
     {
       timeSlots.remove(aTimeSlot);
       wasRemoved = true;
@@ -400,11 +401,11 @@ public class LibraryApplication
   {
     boolean wasAdded = false;
     if (libraryHours.contains(aLibraryHour)) { return false; }
-    LibraryApplication existingLibraryApplication = aLibraryHour.getLibraryApplication();
-    boolean isNewLibraryApplication = existingLibraryApplication != null && !this.equals(existingLibraryApplication);
-    if (isNewLibraryApplication)
+    LibraryApplicationSystem existingLibraryApplicationSystem = aLibraryHour.getLibraryApplicationSystem();
+    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
+    if (isNewLibraryApplicationSystem)
     {
-      aLibraryHour.setLibraryApplication(this);
+      aLibraryHour.setLibraryApplicationSystem(this);
     }
     else
     {
@@ -417,8 +418,8 @@ public class LibraryApplication
   public boolean removeLibraryHour(LibraryHour aLibraryHour)
   {
     boolean wasRemoved = false;
-    //Unable to remove aLibraryHour, as it must always have a libraryApplication
-    if (!this.equals(aLibraryHour.getLibraryApplication()))
+    //Unable to remove aLibraryHour, as it must always have a libraryApplicationSystem
+    if (!this.equals(aLibraryHour.getLibraryApplicationSystem()))
     {
       libraryHours.remove(aLibraryHour);
       wasRemoved = true;

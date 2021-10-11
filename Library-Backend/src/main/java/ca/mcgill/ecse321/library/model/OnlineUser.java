@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -21,9 +22,9 @@ public class OnlineUser extends User
   // CONSTRUCTOR
   //------------------------
 
-  public OnlineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplication aLibraryApplication, String aUsername, String aPassword, String aEmail)
+  public OnlineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail)
   {
-    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplication);
+    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem);
     username = aUsername;
     password = aPassword;
     email = aEmail;

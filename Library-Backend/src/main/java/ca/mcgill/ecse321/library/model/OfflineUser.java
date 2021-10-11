@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -16,9 +17,9 @@ public class OfflineUser extends User
   // CONSTRUCTOR
   //------------------------
 
-  public OfflineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplication aLibraryApplication)
+  public OfflineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem)
   {
-    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplication);
+    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem);
   }
 
   //------------------------

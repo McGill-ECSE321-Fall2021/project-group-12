@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -24,21 +25,21 @@ public class LibraryHour
   private Day day;
 
   //LibraryHour Associations
-  private LibraryApplication libraryApplication;
+  private LibraryApplicationSystem libraryApplicationSystem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public LibraryHour(Time aStartTime, Time aEndTime, Day aDay, LibraryApplication aLibraryApplication)
+  public LibraryHour(Time aStartTime, Time aEndTime, Day aDay, LibraryApplicationSystem aLibraryApplicationSystem)
   {
     startTime = aStartTime;
     endTime = aEndTime;
     day = aDay;
-    boolean didAddLibraryApplication = setLibraryApplication(aLibraryApplication);
-    if (!didAddLibraryApplication)
+    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
+    if (!didAddLibraryApplicationSystem)
     {
-      throw new RuntimeException("Unable to create libraryHour due to libraryApplication. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create libraryHour due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -85,37 +86,37 @@ public class LibraryHour
     return day;
   }
   /* Code from template association_GetOne */
-  public LibraryApplication getLibraryApplication()
+  public LibraryApplicationSystem getLibraryApplicationSystem()
   {
-    return libraryApplication;
+    return libraryApplicationSystem;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setLibraryApplication(LibraryApplication aLibraryApplication)
+  public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;
-    if (aLibraryApplication == null)
+    if (aLibraryApplicationSystem == null)
     {
       return wasSet;
     }
 
-    LibraryApplication existingLibraryApplication = libraryApplication;
-    libraryApplication = aLibraryApplication;
-    if (existingLibraryApplication != null && !existingLibraryApplication.equals(aLibraryApplication))
+    LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
+    libraryApplicationSystem = aLibraryApplicationSystem;
+    if (existingLibraryApplicationSystem != null && !existingLibraryApplicationSystem.equals(aLibraryApplicationSystem))
     {
-      existingLibraryApplication.removeLibraryHour(this);
+      existingLibraryApplicationSystem.removeLibraryHour(this);
     }
-    libraryApplication.addLibraryHour(this);
+    libraryApplicationSystem.addLibraryHour(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    LibraryApplication placeholderLibraryApplication = libraryApplication;
-    this.libraryApplication = null;
-    if(placeholderLibraryApplication != null)
+    LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
+    this.libraryApplicationSystem = null;
+    if(placeholderLibraryApplicationSystem != null)
     {
-      placeholderLibraryApplication.removeLibraryHour(this);
+      placeholderLibraryApplicationSystem.removeLibraryHour(this);
     }
   }
 
@@ -126,6 +127,6 @@ public class LibraryHour
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "day" + "=" + (getDay() != null ? !getDay().equals(this)  ? getDay().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "libraryApplication = "+(getLibraryApplication()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplication())):"null");
+            "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null");
   }
 }

@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -29,13 +30,13 @@ public abstract class User
 
   //User Associations
   private List<Event> events;
-  private LibraryApplication libraryApplication;
+  private LibraryApplicationSystem libraryApplicationSystem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplication aLibraryApplication)
+  public User(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem)
   {
     firstName = aFirstName;
     lastName = aLastName;
@@ -43,10 +44,10 @@ public abstract class User
     isLocal = aIsLocal;
     userId = nextUserId++;
     events = new ArrayList<Event>();
-    boolean didAddLibraryApplication = setLibraryApplication(aLibraryApplication);
-    if (!didAddLibraryApplication)
+    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
+    if (!didAddLibraryApplicationSystem)
     {
-      throw new RuntimeException("Unable to create user due to libraryApplication. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create user due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -141,9 +142,9 @@ public abstract class User
     return index;
   }
   /* Code from template association_GetOne */
-  public LibraryApplication getLibraryApplication()
+  public LibraryApplicationSystem getLibraryApplicationSystem()
   {
-    return libraryApplication;
+    return libraryApplicationSystem;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfEvents()
@@ -218,21 +219,21 @@ public abstract class User
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setLibraryApplication(LibraryApplication aLibraryApplication)
+  public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;
-    if (aLibraryApplication == null)
+    if (aLibraryApplicationSystem == null)
     {
       return wasSet;
     }
 
-    LibraryApplication existingLibraryApplication = libraryApplication;
-    libraryApplication = aLibraryApplication;
-    if (existingLibraryApplication != null && !existingLibraryApplication.equals(aLibraryApplication))
+    LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
+    libraryApplicationSystem = aLibraryApplicationSystem;
+    if (existingLibraryApplicationSystem != null && !existingLibraryApplicationSystem.equals(aLibraryApplicationSystem))
     {
-      existingLibraryApplication.removeUser(this);
+      existingLibraryApplicationSystem.removeUser(this);
     }
-    libraryApplication.addUser(this);
+    libraryApplicationSystem.addUser(this);
     wasSet = true;
     return wasSet;
   }
@@ -244,11 +245,11 @@ public abstract class User
       Event aEvent = events.get(i - 1);
       aEvent.delete();
     }
-    LibraryApplication placeholderLibraryApplication = libraryApplication;
-    this.libraryApplication = null;
-    if(placeholderLibraryApplication != null)
+    LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
+    this.libraryApplicationSystem = null;
+    if(placeholderLibraryApplicationSystem != null)
     {
-      placeholderLibraryApplication.removeUser(this);
+      placeholderLibraryApplicationSystem.removeUser(this);
     }
   }
 
@@ -261,6 +262,6 @@ public abstract class User
             "lastName" + ":" + getLastName()+ "," +
             "address" + ":" + getAddress()+ "," +
             "isLocal" + ":" + getIsLocal()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "libraryApplication = "+(getLibraryApplication()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplication())):"null");
+            "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null");
   }
 }

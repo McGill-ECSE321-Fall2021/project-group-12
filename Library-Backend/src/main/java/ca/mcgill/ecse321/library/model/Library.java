@@ -1,3 +1,4 @@
+package ca.mcgill.ecse321.library.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
@@ -15,28 +16,28 @@ public class Library
   //Library Associations
   private List<LibraryHour> libraryHours;
   private List<TimeSlot> timeSlots;
-  private LibraryApplication libraryApplication;
+  private LibraryApplicationSystem libraryApplicationSystem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Library(LibraryApplication aLibraryApplication)
+  public Library(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     libraryHours = new ArrayList<LibraryHour>();
     timeSlots = new ArrayList<TimeSlot>();
-    if (aLibraryApplication == null || aLibraryApplication.getLibrary() != null)
+    if (aLibraryApplicationSystem == null || aLibraryApplicationSystem.getLibrary() != null)
     {
-      throw new RuntimeException("Unable to create Library due to aLibraryApplication. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Library due to aLibraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    libraryApplication = aLibraryApplication;
+    libraryApplicationSystem = aLibraryApplicationSystem;
   }
 
   public Library()
   {
     libraryHours = new ArrayList<LibraryHour>();
     timeSlots = new ArrayList<TimeSlot>();
-    libraryApplication = new LibraryApplication(this);
+    libraryApplicationSystem = new LibraryApplicationSystem(this);
   }
 
   //------------------------
@@ -103,9 +104,9 @@ public class Library
     return index;
   }
   /* Code from template association_GetOne */
-  public LibraryApplication getLibraryApplication()
+  public LibraryApplicationSystem getLibraryApplicationSystem()
   {
-    return libraryApplication;
+    return libraryApplicationSystem;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLibraryHours()
@@ -226,11 +227,11 @@ public class Library
   {
     libraryHours.clear();
     timeSlots.clear();
-    LibraryApplication existingLibraryApplication = libraryApplication;
-    libraryApplication = null;
-    if (existingLibraryApplication != null)
+    LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
+    libraryApplicationSystem = null;
+    if (existingLibraryApplicationSystem != null)
     {
-      existingLibraryApplication.delete();
+      existingLibraryApplicationSystem.delete();
     }
   }
 
