@@ -2,7 +2,7 @@ class Item
 {
 abstract;
   autounique itemId;
-  string title;
+  String title;
   boolean isArchive;
   boolean isReservable;
   Date releaseDate;
@@ -14,7 +14,7 @@ enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
 
 class Book
 {
-  string isbn;
+  String isbn;
   int numPages;
   BMGenre genre;
   isA Item;
@@ -24,7 +24,7 @@ class Album
 {
   int numSongs;
   isA Item;
-  enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, Hip-Hop};
+  enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop};
 }
 
 class Movie
@@ -42,9 +42,9 @@ class Newspaper
 class User
 {
   1 user -- * Event events;
-  string firstName;
-  string lastName;
-string address;
+String firstName;
+String lastName;
+String address;
 autounique userId;
   boolean isLocal;
 abstract;
@@ -52,9 +52,9 @@ abstract;
 
 class OnlineUser
 {
-  string username;
-  string password;
-  string email;
+  String username;
+  String password;
+  String email;
 isA User;
 }
 
@@ -79,7 +79,6 @@ class LibraryApplication
   1 <@>- * User users;
   1 <@>- * Item items;
   1 <@>- * TimeSlot timeSlots;
-  1 <@>- 1 HeadLibrarian headLibrarian;
   1 <@>- * LibraryHour libraryHours;
   1 <@>- 1 Library library;
   }
@@ -96,7 +95,7 @@ class Creator
 class Event
 {
 0..1 event -- 1 TimeSlot timeSlot;
-  string name;
+  String name;
   boolean isPrivate;
 }
 
