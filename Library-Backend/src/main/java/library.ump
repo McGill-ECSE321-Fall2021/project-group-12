@@ -81,6 +81,8 @@ class LibraryApplicationSystem
   1 <@>- * TimeSlot timeSlots;
   1 <@>- * LibraryHour libraryHours;
   1 <@>- 1 Library library;
+  1 <@>- * Event events;
+  1 <@>- * Creator creators;
   }
 
 class Creator
