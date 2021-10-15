@@ -5,7 +5,7 @@
 | :---: | :---: |
 | Aaron Mills | [aaronmills0](https://github.com/aaronmills0) |
 | Ann Trinh | [anntri2001](https://github.com/anntri2001) |
-| Chirag Sood | | [Chiragsud](https://github.com/Chiragsud)
+| Chirag Sood | [Chiragsud](https://github.com/Chiragsud) |
 | Lucca Di Lullo | [LuccaDiLullo](https://github.com/LuccaDiLullo) |
 | Mia Stevanovic | [msteva131](https://github.com/msteva131) |
 | Yuyan Shi | [YuyanShi-Evan](https://github.com/YuyanShi-Evan) |
