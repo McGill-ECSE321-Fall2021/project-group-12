@@ -154,7 +154,7 @@ public abstract class User
   /* Code from template association_AddManyToOne */
   public Event addEvent(String aName, boolean aIsPrivate, TimeSlot aTimeSlot)
   {
-    return new Event(aName, aIsPrivate, aTimeSlot, this);
+    return new Event(aName, aIsPrivate, aTimeSlot, this, this.libraryApplicationSystem);
   }
 
   public boolean addEvent(Event aEvent)
