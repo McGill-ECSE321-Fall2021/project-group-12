@@ -33,13 +33,6 @@ public class Library
     libraryApplicationSystem = aLibraryApplicationSystem;
   }
 
-  public Library()
-  {
-    libraryHours = new ArrayList<LibraryHour>();
-    timeSlots = new ArrayList<TimeSlot>();
-    libraryApplicationSystem = new LibraryApplicationSystem(this);
-  }
-
   //------------------------
   // INTERFACE
   //------------------------
