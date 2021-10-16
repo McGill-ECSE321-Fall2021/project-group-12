@@ -1,192 +1,100 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 
 import java.util.*;
-import java.sql.Date;
 
-// line 86 "library.ump"
-public class Creator
-{
+import javax.persistence.*;
 
-	//------------------------
-	// ENUMERATIONS
-	//------------------------
+@Entity
+public class Creator {
 
-	public enum CreatorType { Director, Author, Artist, Publisher }
 
-	//------------------------
-	// MEMBER VARIABLES
-	//------------------------
+	public enum CreatorType { Director, Author, Artist, Publisher }	
 
-	//Creator Attributes
 	private CreatorType creatorType;
 
-	//Creator Associations
+	private Long creatorId;
+
 	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-
-	//------------------------
-	// CONSTRUCTOR
-	//------------------------
-
-	public Creator(CreatorType aCreatorType, LibraryApplicationSystem aLibraryApplicationSystem)
-	{
-		creatorType = aCreatorType;
+	public Creator(CreatorType type, LibraryApplicationSystem libraryApplicationSystem) {
+		creatorType = type;
 		items = new ArrayList<Item>();
-		boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-		if (!didAddLibraryApplicationSystem)
-		{
-			throw new RuntimeException("Unable to create creator due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+		boolean success = setLibraryApplicationSystem(libraryApplicationSystem);
+		if (!success) {
+			throw new RuntimeException("Cannot have 'null' LibraryApplicationSystem.");
 		}
 	}
 
-	//------------------------
-	// INTERFACE
-	//------------------------
-
-	public boolean setCreatorType(CreatorType aCreatorType)
-	{
-		boolean wasSet = false;
-		creatorType = aCreatorType;
-		wasSet = true;
-		return wasSet;
+	public boolean setCreatorType(CreatorType type) {
+		creatorType = type;
+		return true;
 	}
 
-	public CreatorType getCreatorType()
-	{
+	public CreatorType getCreatorType() {
 		return creatorType;
 	}
-	/* Code from template association_GetMany */
-	public Item getItem(int index)
-	{
-		Item aItem = items.get(index);
-		return aItem;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long getCreatorId() {
+		return creatorId;
 	}
 
-	public List<Item> getItems()
-	{
-		List<Item> newItems = Collections.unmodifiableList(items);
-		return newItems;
+	@OneToMany(cascade = {CascadeType.ALL})
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public int numberOfItems()
-	{
-		int number = items.size();
-		return number;
+	public int numberOfItems() {
+		return items.size();
 	}
 
-	public boolean hasItems()
-	{
-		boolean has = items.size() > 0;
-		return has;
+	public boolean hasItems() {
+		return items.size() > 0;
 	}
 
-	public int indexOfItem(Item aItem)
-	{
-		int index = items.indexOf(aItem);
-		return index;
-	}
-	public LibraryApplicationSystem getLibraryApplicationSystem()
-	{
+	@ManyToOne(cascade = {CascadeType.ALL})
+	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
 	}
-	/* Code from template association_MinimumNumberOfMethod */
-	public static int minimumNumberOfItems()
-	{
-		return 0;
-	}
-	/* Code from template association_AddManyToOne */
 
-
-	public boolean addItem(Item aItem)
-	{
-		boolean wasAdded = false;
-		if (items.contains(aItem)) { return false; }
-		Creator existingCreator = aItem.getCreator();
-		boolean isNewCreator = existingCreator != null && !this.equals(existingCreator);
-		if (isNewCreator)
-		{
-			aItem.setCreator(this);
+	public boolean addItem(Item item) {
+		if (items.contains(item)) { 
+			return false;
 		}
-		else
-		{
-			items.add(aItem);
-		}
-		wasAdded = true;
-		return wasAdded;
+		item.setCreator(this);
+		items.add(item);
+		return true;
 	}
 
-	public boolean removeItem(Item aItem)
-	{
-		boolean wasRemoved = false;
-		//Unable to remove aItem, as it must always have a creator
-		if (!this.equals(aItem.getCreator()))
-		{
-			items.remove(aItem);
-			wasRemoved = true;
+	public boolean removeItem(Item item) {
+		if (items.contains(item)) {
+			items.remove(item);
+			return true;
 		}
-		return wasRemoved;
-	}
-	/* Code from template association_AddIndexControlFunctions */
-	public boolean addItemAt(Item aItem, int index)
-	{  
-		boolean wasAdded = false;
-		if(addItem(aItem))
-		{
-			if(index < 0 ) { index = 0; }
-			if(index > numberOfItems()) { index = numberOfItems() - 1; }
-			items.remove(aItem);
-			items.add(index, aItem);
-			wasAdded = true;
-		}
-		return wasAdded;
+		return false;
 	}
 
-	public boolean addOrMoveItemAt(Item aItem, int index)
-	{
-		boolean wasAdded = false;
-		if(items.contains(aItem))
-		{
-			if(index < 0 ) { index = 0; }
-			if(index > numberOfItems()) { index = numberOfItems() - 1; }
-			items.remove(aItem);
-			items.add(index, aItem);
-			wasAdded = true;
-		} 
-		else 
-		{
-			wasAdded = addItemAt(aItem, index);
+	public boolean setLibraryApplicationSystem(LibraryApplicationSystem system) {
+		if (libraryApplicationSystem == null) {
+			return false;
 		}
-		return wasAdded;
-	}
-
-	public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
-	{
-		boolean wasSet = false;
-		if (aLibraryApplicationSystem == null)
-		{
-			return wasSet;
-		}
-		LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
-		libraryApplicationSystem = aLibraryApplicationSystem;
-		if (existingLibraryApplicationSystem != null && !existingLibraryApplicationSystem.equals(aLibraryApplicationSystem))
-		{
-			existingLibraryApplicationSystem.removeCreator(this);
-		}
+		libraryApplicationSystem = system;
 		libraryApplicationSystem.addCreator(this);
-		wasSet = true;
-		return wasSet;
+		return true;
 	}
 
-	public void delete()
-	{
+	public void delete() {
 		for(int i=items.size(); i > 0; i--)
 		{
 			Item aItem = items.get(i - 1);
 			aItem.delete();
+		}
+		LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
+		this.libraryApplicationSystem = null;
+		if(placeholderLibraryApplicationSystem != null) {
+			placeholderLibraryApplicationSystem.removeCreator(this);
 		}
 	}
 
