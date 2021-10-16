@@ -215,8 +215,8 @@ public class LibraryApplicationSystem {
 		return false;
 	}
 
-	public Creator addCreator(Creator.CreatorType creatorType) {
-		return new Creator(creatorType, this);
+	public Creator addCreator(String firstName, String lastName, Creator.CreatorType creatorType) {
+		return new Creator(firstName, lastName, creatorType, this);
 	}
 
 	public boolean addCreator(Creator creator) {

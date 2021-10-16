@@ -85,7 +85,8 @@ public class Book extends Item
     wasSet = true;
     return wasSet;
   }
-
+  
+  @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getBookId()
   {

@@ -86,6 +86,7 @@ public class Album extends Item
     return wasSet;
   }
 
+  @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getAlbumId()
   {

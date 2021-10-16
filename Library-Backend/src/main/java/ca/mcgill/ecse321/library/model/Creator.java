@@ -13,17 +13,38 @@ public class Creator {
 	private CreatorType creatorType;
 
 	private Long creatorId;
-
+	private String firstName;
+	private String lastName;
 	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-	public Creator(CreatorType type, LibraryApplicationSystem libraryApplicationSystem) {
+	public Creator(String first, String last, CreatorType type, LibraryApplicationSystem libraryApplicationSystem) {
+		firstName = first;
+		lastName = last;
 		creatorType = type;
 		items = new ArrayList<Item>();
 		boolean success = setLibraryApplicationSystem(libraryApplicationSystem);
 		if (!success) {
 			throw new RuntimeException("Cannot have 'null' LibraryApplicationSystem.");
 		}
+	}
+	
+	public boolean setFirstName(String first) {
+		firstName = first;
+		return true;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public boolean setLastName(String last) {
+		lastName = last;
+		return true;
+	}
+	
+	public String getLastName() {
+		return lastName;
 	}
 
 	public boolean setCreatorType(CreatorType type) {

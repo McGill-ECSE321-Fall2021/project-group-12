@@ -85,7 +85,8 @@ public class Movie extends Item
     wasSet = true;
     return wasSet;
   }
-
+  
+  @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getMovieId()
   {

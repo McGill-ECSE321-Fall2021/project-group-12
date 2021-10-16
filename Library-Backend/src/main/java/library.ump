@@ -100,7 +100,10 @@ class Creator
   enum CreatorType {Director, Author, Artist, Publisher};
   CreatorType creatorType;
   Long creatorId;
-  1 creator -- * Item items;
+  1 creator -- *
+  String firstName;
+  String lastName; 
+  Item items;
 }
 
 
