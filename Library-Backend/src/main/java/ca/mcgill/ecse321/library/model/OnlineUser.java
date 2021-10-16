@@ -1,26 +1,14 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 
-import java.util.*;
+import javax.persistence.Entity;
 
-// line 53 "library.ump"
+@Entity
 public class OnlineUser extends User
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //OnlineUser Attributes
   private String username;
   private String password;
   private String email;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public OnlineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail)
   {
@@ -30,60 +18,32 @@ public class OnlineUser extends User
     email = aEmail;
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-
-  public boolean setUsername(String aUsername)
-  {
-    boolean wasSet = false;
+  public void setUsername(String aUsername) {
     username = aUsername;
-    wasSet = true;
-    return wasSet;
   }
 
-  public boolean setPassword(String aPassword)
-  {
-    boolean wasSet = false;
+  public void setPassword(String aPassword) {
     password = aPassword;
-    wasSet = true;
-    return wasSet;
   }
 
-  public boolean setEmail(String aEmail)
-  {
-    boolean wasSet = false;
+  public void setEmail(String aEmail) {
     email = aEmail;
-    wasSet = true;
-    return wasSet;
   }
 
-  public String getUsername()
-  {
+  public String getUsername() {
     return username;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
 
-  public String getEmail()
-  {
+  public String getEmail() {
     return email;
   }
 
   public void delete()
   {
     super.delete();
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "username" + ":" + getUsername()+ "," +
-            "password" + ":" + getPassword()+ "," +
-            "email" + ":" + getEmail()+ "]";
   }
 }
