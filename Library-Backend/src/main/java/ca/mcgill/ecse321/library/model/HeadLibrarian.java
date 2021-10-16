@@ -1,34 +1,66 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 
 import java.util.*;
 
-// line 72 "library.ump"
-public class HeadLibrarian extends Librarian
-{
+import javax.persistence.Entity;
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+@Entity
+public class HeadLibrarian extends Librarian {
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	public HeadLibrarian(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail) {
+		super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem, aUsername, aPassword, aEmail);
+	}
 
-  public HeadLibrarian(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail)
-  {
-    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem, aUsername, aPassword, aEmail);
-  }
+	public void delete() {
+		super.delete();
+	}
+	
+	public boolean addLibraryHour(LibraryHour aLibraryHour, Librarian aLibrarian) {
+		boolean wasAdded = false;
+	    if (aLibrarian.getLibraryHour().contains(aLibraryHour)) { return false; }
+	    aLibrarian.getLibraryHour().add(aLibraryHour);
+	    wasAdded = true;
+	    return wasAdded;
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	public boolean removeLibraryHour(LibraryHour aLibraryHour, Librarian aLibrarian) {
+		boolean wasRemoved = false;
+	    if (aLibrarian.getLibraryHour().contains(aLibraryHour))
+	    {
+	      aLibrarian.getLibraryHour().remove(aLibraryHour);
+	      wasRemoved = true;
+	    }
+	    return wasRemoved;
+	}
 
-  public void delete()
-  {
-    super.delete();
-  }
+	public boolean addLibraryHourAt(LibraryHour aLibraryHour, int index, Librarian aLibrarian) {
+		boolean wasAdded = false;
+	    if(addLibraryHour(aLibraryHour, aLibrarian))
+	    {
+	      if(index < 0 ) { index = 0; }
+	      if(index > numberOfLibraryHour()) { index = numberOfLibraryHour() - 1; }
+	      aLibrarian.getLibraryHour().remove(aLibraryHour);
+	      aLibrarian.getLibraryHour().add(index, aLibraryHour);
+	      wasAdded = true;
+	    }
+	    return wasAdded;
+	}
+
+	public boolean addOrMoveLibraryHourAt(LibraryHour aLibraryHour, int index, Librarian aLibrarian) {
+		boolean wasAdded = false;
+	    if(aLibrarian.getLibraryHour().contains(aLibraryHour))
+	    {
+	      if(index < 0 ) { index = 0; }
+	      if(index > numberOfLibraryHour()) { index = numberOfLibraryHour() - 1; }
+	      aLibrarian.getLibraryHour().remove(aLibraryHour);
+	      aLibrarian.getLibraryHour().add(index, aLibraryHour);
+	      wasAdded = true;
+	    } 
+	    else 
+	    {
+	      wasAdded = addLibraryHourAt(aLibraryHour, index, aLibrarian);
+	    }
+	    return wasAdded;
+	}
 
 }
