@@ -5,7 +5,9 @@ package ca.mcgill.ecse321.library.model;
 
 import java.sql.Date;
 
-// line 1 "library.ump"
+import javax.persistence.*;
+
+@MappedSuperclass
 public abstract class Item
 {
 

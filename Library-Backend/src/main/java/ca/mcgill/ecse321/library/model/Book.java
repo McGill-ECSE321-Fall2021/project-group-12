@@ -5,7 +5,9 @@ package ca.mcgill.ecse321.library.model;
 
 import java.sql.Date;
 
-// line 15 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class Book extends Item
 {
 

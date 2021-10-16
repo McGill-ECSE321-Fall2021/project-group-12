@@ -1,14 +1,11 @@
 package ca.mcgill.ecse321.library.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
+
 
 import java.util.*;
 
-@Entity
+@MappedSuperclass
 public abstract class User{
 	
 	private static int nextUserId = 1;
