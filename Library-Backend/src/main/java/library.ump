@@ -81,12 +81,16 @@ class LibraryApplicationSystem
   1 <@>- * TimeSlot timeSlots;
   1 <@>- * LibraryHour libraryHours;
   1 <@>- 1 Library library;
+  1 <@>- * Event events;
+  1 <@>- * Creator creators;
+  Long applicationId;
   }
 
 class Creator
 {
   enum CreatorType {Director, Author, Artist, Publisher};
   CreatorType creatorType;
+  Long creatorId;
   1 creator -- * Item items;
 }
 

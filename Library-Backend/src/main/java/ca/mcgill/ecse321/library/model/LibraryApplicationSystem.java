@@ -1,487 +1,286 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
 
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
-// line 77 "library.ump"
-public class LibraryApplicationSystem
-{
+import javax.persistence.*;
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+@Entity
+public class LibraryApplicationSystem {
 
-  //LibraryApplicationSystem Associations
-  private List<User> users;
-  private List<Item> items;
-  private List<TimeSlot> timeSlots;
-  private List<LibraryHour> libraryHours;
-  private Library library;
+	private Long applicationId;
+	private List<User> users;
+	private List<Item> items;
+	private List<TimeSlot> timeSlots;
+	private List<LibraryHour> libraryHours;
+	private Library library;
+	private List<Event> events;
+	private List<Creator> creators;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	public LibraryApplicationSystem() {
+		users = new ArrayList<User>();
+		items = new ArrayList<Item>();
+		timeSlots = new ArrayList<TimeSlot>();
+		libraryHours = new ArrayList<LibraryHour>();
+		library = new Library(this);
+		events = new ArrayList<Event>();
+		creators = new ArrayList<Creator>();
+	}
 
-  public LibraryApplicationSystem()
-  {
-    users = new ArrayList<User>();
-    items = new ArrayList<Item>();
-    timeSlots = new ArrayList<TimeSlot>();
-    libraryHours = new ArrayList<LibraryHour>();
-    library = new Library(this);
-  }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long getApplicationId() {
+		return applicationId;
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Code from template association_GetMany */
-  public User getUser(int index)
-  {
-    User aUser = users.get(index);
-    return aUser;
-  }
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public List<User> getUsers() {
+		return users;
+	}
 
-  public List<User> getUsers()
-  {
-    List<User> newUsers = Collections.unmodifiableList(users);
-    return newUsers;
-  }
+	public int numberOfUsers() {
+		return users.size();
+	}
 
-  public int numberOfUsers()
-  {
-    int number = users.size();
-    return number;
-  }
+	public boolean hasUsers() {
+		return users.size() > 0;
+	}
 
-  public boolean hasUsers()
-  {
-    boolean has = users.size() > 0;
-    return has;
-  }
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public List<Item> getItems() {
+		return items;
+	}
 
-  public int indexOfUser(User aUser)
-  {
-    int index = users.indexOf(aUser);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Item getItem(int index)
-  {
-    Item aItem = items.get(index);
-    return aItem;
-  }
+	public int numberOfItems() {
+		return items.size();
+	}
 
-  public List<Item> getItems()
-  {
-    List<Item> newItems = Collections.unmodifiableList(items);
-    return newItems;
-  }
+	public boolean hasItems() {
+		return items.size() > 0;
+	}
 
-  public int numberOfItems()
-  {
-    int number = items.size();
-    return number;
-  }
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public List<TimeSlot> getTimeSlots() {
+		return timeSlots;
+	}
 
-  public boolean hasItems()
-  {
-    boolean has = items.size() > 0;
-    return has;
-  }
+	public int numberOfTimeSlots() {
+		return timeSlots.size();
+	}
 
-  public int indexOfItem(Item aItem)
-  {
-    int index = items.indexOf(aItem);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public TimeSlot getTimeSlot(int index)
-  {
-    TimeSlot aTimeSlot = timeSlots.get(index);
-    return aTimeSlot;
-  }
+	public boolean hasTimeSlots() {
+		return timeSlots.size() > 0;
+	}
 
-  public List<TimeSlot> getTimeSlots()
-  {
-    List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
-    return newTimeSlots;
-  }
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public List<LibraryHour> getLibraryHours() {
+		return libraryHours;
+	}
 
-  public int numberOfTimeSlots()
-  {
-    int number = timeSlots.size();
-    return number;
-  }
+	public int numberOfLibraryHours() {
+		return libraryHours.size();
+	}
 
-  public boolean hasTimeSlots()
-  {
-    boolean has = timeSlots.size() > 0;
-    return has;
-  }
+	public boolean hasLibraryHours() {
+		return libraryHours.size() > 0;
+	}
 
-  public int indexOfTimeSlot(TimeSlot aTimeSlot)
-  {
-    int index = timeSlots.indexOf(aTimeSlot);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public LibraryHour getLibraryHour(int index)
-  {
-    LibraryHour aLibraryHour = libraryHours.get(index);
-    return aLibraryHour;
-  }
+	@OneToOne(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public Library getLibrary() {
+		return library;
+	}
 
-  public List<LibraryHour> getLibraryHours()
-  {
-    List<LibraryHour> newLibraryHours = Collections.unmodifiableList(libraryHours);
-    return newLibraryHours;
-  }
+	@OneToMany(cascade={CascadeType.ALL})
+	public List<Event> getEvents() {
+		return events;
+	}
 
-  public int numberOfLibraryHours()
-  {
-    int number = libraryHours.size();
-    return number;
-  }
+	public int numberOfEvents() {
+		return events.size();
+	}
 
-  public boolean hasLibraryHours()
-  {
-    boolean has = libraryHours.size() > 0;
-    return has;
-  }
+	public boolean hasEvents() {
+		return events.size() > 0;
+	}
 
-  public int indexOfLibraryHour(LibraryHour aLibraryHour)
-  {
-    int index = libraryHours.indexOf(aLibraryHour);
-    return index;
-  }
-  /* Code from template association_GetOne */
-  public Library getLibrary()
-  {
-    return library;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfUsers()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
+	public List<Creator> getCreators() {
+		return creators;
+	}
 
+	public int numberOfCreators() {
+		return creators.size();
+	}
 
-  public boolean addUser(User aUser)
-  {
-    boolean wasAdded = false;
-    if (users.contains(aUser)) { return false; }
-    LibraryApplicationSystem existingLibraryApplicationSystem = aUser.getLibraryApplicationSystem();
-    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
-    if (isNewLibraryApplicationSystem)
-    {
-      aUser.setLibraryApplicationSystem(this);
-    }
-    else
-    {
-      users.add(aUser);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+	public boolean hasCreators() {
+		return creators.size() > 0;
+	}
+	
+	public boolean addUser(User user) {
+		if (users.contains(user)) { 
+			return false;
+		}
+		user.setLibraryApplicationSystem(this);
+		users.add(user);
+		return true;
+	}
 
-  public boolean removeUser(User aUser)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aUser, as it must always have a libraryApplicationSystem
-    if (!this.equals(aUser.getLibraryApplicationSystem()))
-    {
-      users.remove(aUser);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserAt(User aUser, int index)
-  {  
-    boolean wasAdded = false;
-    if(addUser(aUser))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public boolean removeUser(User user) {
+		if (users.contains(user)) {
+			users.remove(user);
+			return true;
+		}
+		return false;
+	}
 
-  public boolean addOrMoveUserAt(User aUser, int index)
-  {
-    boolean wasAdded = false;
-    if(users.contains(aUser))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUsers()) { index = numberOfUsers() - 1; }
-      users.remove(aUser);
-      users.add(index, aUser);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addUserAt(aUser, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfItems()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
+	public boolean addItem(Item item) {
+		if (items.contains(item)) { 
+			return false;
+		}
+		item.setLibraryApplicationSystem(this);
+		items.add(item);
+		return true;
+	}
 
+	public boolean removeItem(Item item) {
+		if (items.contains(item)) {
+			items.remove(item);
+			return true;
+		}
+		return false;
+	}
 
-  public boolean addItem(Item aItem)
-  {
-    boolean wasAdded = false;
-    if (items.contains(aItem)) { return false; }
-    LibraryApplicationSystem existingLibraryApplicationSystem = aItem.getLibraryApplicationSystem();
-    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
-    if (isNewLibraryApplicationSystem)
-    {
-      aItem.setLibraryApplicationSystem(this);
-    }
-    else
-    {
-      items.add(aItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+	public TimeSlot addTimeSlot(Time startTime, Time endTime, Date startDate, Date endDate) {
+		return new TimeSlot(startTime, endTime, startDate, endDate, this);
+	}
 
-  public boolean removeItem(Item aItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a libraryApplicationSystem
-    if (!this.equals(aItem.getLibraryApplicationSystem()))
-    {
-      items.remove(aItem);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemAt(Item aItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addItem(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public boolean addTimeSlot(TimeSlot timeSlot) {
+		if (timeSlots.contains(timeSlot)) { 
+			return false;
+		}
+		timeSlot.setLibraryApplicationSystem(this);
+		timeSlots.add(timeSlot);
+		return true;
+	}
 
-  public boolean addOrMoveItemAt(Item aItem, int index)
-  {
-    boolean wasAdded = false;
-    if(items.contains(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addItemAt(aItem, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTimeSlots()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public TimeSlot addTimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate)
-  {
-    return new TimeSlot(aStartTime, aEndTime, aStartDate, aEndDate, this);
-  }
+	public boolean removeTimeSlot(TimeSlot timeSlot) {
+		if (timeSlots.contains(timeSlot)) {
+			timeSlots.remove(timeSlot);
+			return true;
+		}
+		return false;
+	}
 
-  public boolean addTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasAdded = false;
-    if (timeSlots.contains(aTimeSlot)) { return false; }
-    LibraryApplicationSystem existingLibraryApplicationSystem = aTimeSlot.getLibraryApplicationSystem();
-    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
-    if (isNewLibraryApplicationSystem)
-    {
-      aTimeSlot.setLibraryApplicationSystem(this);
-    }
-    else
-    {
-      timeSlots.add(aTimeSlot);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+	public LibraryHour addLibraryHour(Time startTime, Time endTime, LibraryHour.Day day) {
+		return new LibraryHour(startTime, endTime, day, this);
+	}
 
-  public boolean removeTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aTimeSlot, as it must always have a libraryApplicationSystem
-    if (!this.equals(aTimeSlot.getLibraryApplicationSystem()))
-    {
-      timeSlots.remove(aTimeSlot);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTimeSlot(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public boolean addLibraryHour(LibraryHour libraryHour) {
+		if (libraryHours.contains(libraryHour)) { 
+			return false;
+		}
+		libraryHour.setLibraryApplicationSystem(this);
+		libraryHours.add(libraryHour);
+		return true;
+	}
 
-  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {
-    boolean wasAdded = false;
-    if(timeSlots.contains(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTimeSlotAt(aTimeSlot, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfLibraryHours()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public LibraryHour addLibraryHour(Time aStartTime, Time aEndTime, LibraryHour.Day aDay)
-  {
-    return new LibraryHour(aStartTime, aEndTime, aDay, this);
-  }
+	public boolean removeLibraryHour(LibraryHour libraryHour) {
+		if (libraryHours.contains(libraryHour)) {
+			libraryHours.remove(libraryHour);
+			return true;
+		}
+		return false;
+	}
 
-  public boolean addLibraryHour(LibraryHour aLibraryHour)
-  {
-    boolean wasAdded = false;
-    if (libraryHours.contains(aLibraryHour)) { return false; }
-    LibraryApplicationSystem existingLibraryApplicationSystem = aLibraryHour.getLibraryApplicationSystem();
-    boolean isNewLibraryApplicationSystem = existingLibraryApplicationSystem != null && !this.equals(existingLibraryApplicationSystem);
-    if (isNewLibraryApplicationSystem)
-    {
-      aLibraryHour.setLibraryApplicationSystem(this);
-    }
-    else
-    {
-      libraryHours.add(aLibraryHour);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+	public Event addEvent(String name, boolean isPrivate, TimeSlot timeSlot, User user) {
+		return new Event(name, isPrivate, timeSlot, user, this);
+	}
 
-  public boolean removeLibraryHour(LibraryHour aLibraryHour)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aLibraryHour, as it must always have a libraryApplicationSystem
-    if (!this.equals(aLibraryHour.getLibraryApplicationSystem()))
-    {
-      libraryHours.remove(aLibraryHour);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addLibraryHourAt(LibraryHour aLibraryHour, int index)
-  {  
-    boolean wasAdded = false;
-    if(addLibraryHour(aLibraryHour))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibraryHours()) { index = numberOfLibraryHours() - 1; }
-      libraryHours.remove(aLibraryHour);
-      libraryHours.add(index, aLibraryHour);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public boolean addEvent(Event event) {
+		if (events.contains(event)) { 
+			return false; 
+		}
+		event.setLibraryApplicationSystem(this);
+		events.add(event);
+		return true;
+	}
 
-  public boolean addOrMoveLibraryHourAt(LibraryHour aLibraryHour, int index)
-  {
-    boolean wasAdded = false;
-    if(libraryHours.contains(aLibraryHour))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibraryHours()) { index = numberOfLibraryHours() - 1; }
-      libraryHours.remove(aLibraryHour);
-      libraryHours.add(index, aLibraryHour);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addLibraryHourAt(aLibraryHour, index);
-    }
-    return wasAdded;
-  }
+	public boolean removeEvent(Event event) {
+		if (events.contains(event)) {
+			events.remove(event);
+			return true;
+		}
+		return false;
+	}
 
-  public void delete()
-  {
-    while (users.size() > 0)
-    {
-      User aUser = users.get(users.size() - 1);
-      aUser.delete();
-      users.remove(aUser);
-    }
-    
-    while (items.size() > 0)
-    {
-      Item aItem = items.get(items.size() - 1);
-      aItem.delete();
-      items.remove(aItem);
-    }
-    
-    while (timeSlots.size() > 0)
-    {
-      TimeSlot aTimeSlot = timeSlots.get(timeSlots.size() - 1);
-      aTimeSlot.delete();
-      timeSlots.remove(aTimeSlot);
-    }
-    
-    while (libraryHours.size() > 0)
-    {
-      LibraryHour aLibraryHour = libraryHours.get(libraryHours.size() - 1);
-      aLibraryHour.delete();
-      libraryHours.remove(aLibraryHour);
-    }
-    
-    Library existingLibrary = library;
-    library = null;
-    if (existingLibrary != null)
-    {
-      existingLibrary.delete();
-    }
-  }
+	public Creator addCreator(Creator.CreatorType creatorType) {
+		return new Creator(creatorType, this);
+	}
+
+	public boolean addCreator(Creator creator) {
+		if (creators.contains(creator)) { 
+			return false;
+		}
+		creator.setLibraryApplicationSystem(this);
+		creators.add(creator);
+		return true;
+	}
+
+	public boolean removeCreator(Creator creator) {
+		if (creators.contains(creator)) {
+			creators.remove(creator);
+			return true;
+		}
+		return false;
+	}
+
+	public void delete() {
+		while (users.size() > 0) {
+			User user = users.get(users.size() - 1);
+			user.delete();
+			users.remove(user);
+		}
+
+		while (items.size() > 0) {
+			Item item = items.get(items.size() - 1);
+			item.delete();
+			items.remove(item);
+		}
+
+		while (timeSlots.size() > 0) {
+			TimeSlot timeSlot = timeSlots.get(timeSlots.size() - 1);
+			timeSlot.delete();
+			timeSlots.remove(timeSlot);
+		}
+
+		while (libraryHours.size() > 0) {
+			LibraryHour libraryHour = libraryHours.get(libraryHours.size() - 1);
+			libraryHour.delete();
+			libraryHours.remove(libraryHour);
+		}
+
+		Library existingLibrary = library;
+		library = null;
+		if (existingLibrary != null) {
+			existingLibrary.delete();
+		}
+
+		while (events.size() > 0) {
+			Event event = events.get(events.size() - 1);
+			event.delete();
+			events.remove(event);
+		}
+		while (creators.size() > 0) {
+			Creator creator = creators.get(creators.size() - 1);
+			creator.delete();
+			creators.remove(creator);
+		}
+	}
+	
+	public String toString() {
+		return "LibraryApplicationSystem " + this.applicationId;
+	}
 
 }
