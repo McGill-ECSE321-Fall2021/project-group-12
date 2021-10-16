@@ -2,6 +2,9 @@ package ca.mcgill.ecse321.library.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 import java.util.*;
 
@@ -75,7 +78,7 @@ public abstract class User{
 		Event aEvent = events.get(index);
 		return aEvent;
 	}
-
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user creator")
 	public List<Event> getEvents() {
 		List<Event> newEvents = Collections.unmodifiableList(events);
 		return newEvents;
@@ -96,7 +99,7 @@ public abstract class User{
 		return index;
 	}
 	
-	/* Code from template association_GetOne */
+	@ManyToOne(optional=false)
 	public LibraryApplicationSystem getLibraryApplicationSystem()
 	{
 		return libraryApplicationSystem;
@@ -136,35 +139,6 @@ public abstract class User{
 			wasRemoved = true;
 		}
 		return wasRemoved;
-	}
-	/* Code from template association_AddIndexControlFunctions */
-	public boolean addEventAt(Event aEvent, int index)
-	{  
-		boolean wasAdded = false;
-		if(addEvent(aEvent))
-		{
-			if(index < 0 ) { index = 0; }
-			if(index > numberOfEvents()) { index = numberOfEvents() - 1; }
-			events.remove(aEvent);
-			events.add(index, aEvent);
-			wasAdded = true;
-		}
-		return wasAdded;
-	}
-
-	public boolean addOrMoveEventAt(Event aEvent, int index) {
-		boolean wasAdded = false;
-		if(events.contains(aEvent)) {
-			if(index < 0 ) { index = 0; }
-			if(index > numberOfEvents()) { index = numberOfEvents() - 1; }
-			events.remove(aEvent);
-			events.add(index, aEvent);
-			wasAdded = true;
-		} 
-		else {
-			wasAdded = addEventAt(aEvent, index);
-		}
-		return wasAdded;
 	}
 	/* Code from template association_SetOneToMany */
 	public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem) {
