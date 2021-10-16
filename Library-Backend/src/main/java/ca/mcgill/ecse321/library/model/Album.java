@@ -5,7 +5,7 @@ package ca.mcgill.ecse321.library.model;
 
 import java.sql.Date;
 
-// line 23 "library.ump"
+// line 25 "library.ump"
 public class Album extends Item
 {
 
@@ -16,25 +16,65 @@ public class Album extends Item
   public enum MusicGenre { Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop }
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextAlbumId = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Album Attributes
+  private String albumName;
+  private String artist;
+  private Date release;
   private int numSongs;
+
+  //Autounique Attributes
+  private int albumId;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Album(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, int aNumSongs)
+  public Album(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aAlbumName, String aArtist, Date aRelease, int aNumSongs)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
+    albumName = aAlbumName;
+    artist = aArtist;
+    release = aRelease;
     numSongs = aNumSongs;
+    albumId = nextAlbumId++;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setAlbumName(String aAlbumName)
+  {
+    boolean wasSet = false;
+    albumName = aAlbumName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setArtist(String aArtist)
+  {
+    boolean wasSet = false;
+    artist = aArtist;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setRelease(Date aRelease)
+  {
+    boolean wasSet = false;
+    release = aRelease;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setNumSongs(int aNumSongs)
   {
@@ -44,9 +84,29 @@ public class Album extends Item
     return wasSet;
   }
 
+  public String getAlbumName()
+  {
+    return albumName;
+  }
+
+  public String getArtist()
+  {
+    return artist;
+  }
+
+  public Date getRelease()
+  {
+    return release;
+  }
+
   public int getNumSongs()
   {
     return numSongs;
+  }
+
+  public int getAlbumId()
+  {
+    return albumId;
   }
 
   public void delete()
@@ -58,6 +118,10 @@ public class Album extends Item
   public String toString()
   {
     return super.toString() + "["+
-            "numSongs" + ":" + getNumSongs()+ "]";
+            "albumId" + ":" + getAlbumId()+ "," +
+            "albumName" + ":" + getAlbumName()+ "," +
+            "artist" + ":" + getArtist()+ "," +
+            "numSongs" + ":" + getNumSongs()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "release" + "=" + (getRelease() != null ? !getRelease().equals(this)  ? getRelease().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }

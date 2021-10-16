@@ -16,34 +16,54 @@ public class Book extends Item
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextBookId = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Book Attributes
-  private String isbn;
+  private String author;
+  private Date release;
   private int numPages;
   private BMGenre genre;
+
+  //Autounique Attributes
+  private int bookId;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Book(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aIsbn, int aNumPages, BMGenre aGenre)
+  public Book(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aAuthor, Date aRelease, int aNumPages, BMGenre aGenre)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
-    isbn = aIsbn;
+    author = aAuthor;
+    release = aRelease;
     numPages = aNumPages;
     genre = aGenre;
+    bookId = nextBookId++;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setIsbn(String aIsbn)
+  public boolean setAuthor(String aAuthor)
   {
     boolean wasSet = false;
-    isbn = aIsbn;
+    author = aAuthor;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setRelease(Date aRelease)
+  {
+    boolean wasSet = false;
+    release = aRelease;
     wasSet = true;
     return wasSet;
   }
@@ -64,9 +84,14 @@ public class Book extends Item
     return wasSet;
   }
 
-  public String getIsbn()
+  public String getAuthor()
   {
-    return isbn;
+    return author;
+  }
+
+  public Date getRelease()
+  {
+    return release;
   }
 
   public int getNumPages()
@@ -79,6 +104,11 @@ public class Book extends Item
     return genre;
   }
 
+  public int getBookId()
+  {
+    return bookId;
+  }
+
   public void delete()
   {
     super.delete();
@@ -88,8 +118,10 @@ public class Book extends Item
   public String toString()
   {
     return super.toString() + "["+
-            "isbn" + ":" + getIsbn()+ "," +
+            "bookId" + ":" + getBookId()+ "," +
+            "author" + ":" + getAuthor()+ "," +
             "numPages" + ":" + getNumPages()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "release" + "=" + (getRelease() != null ? !getRelease().equals(this)  ? getRelease().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "genre" + "=" + (getGenre() != null ? !getGenre().equals(this)  ? getGenre().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
