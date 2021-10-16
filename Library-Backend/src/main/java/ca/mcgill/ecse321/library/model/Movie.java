@@ -18,41 +18,41 @@ public class Movie extends Item
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextMovieId = 1;
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Movie Attributes
+  private Long movieId;
   private String director;
   private Date release;
   private int duration;
   private BMGenre genre;
 
-  //Autounique Attributes
-  private int movieId;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aDirector, Date aRelease, int aDuration, BMGenre aGenre)
+  public Movie(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, Long aMovieId, String aDirector, Date aRelease, int aDuration, BMGenre aGenre)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
+    movieId = aMovieId;
     director = aDirector;
     release = aRelease;
     duration = aDuration;
     genre = aGenre;
-    movieId = nextMovieId++;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setMovieId(Long aMovieId)
+  {
+    boolean wasSet = false;
+    movieId = aMovieId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setDirector(String aDirector)
   {
@@ -86,6 +86,12 @@ public class Movie extends Item
     return wasSet;
   }
 
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getMovieId()
+  {
+    return movieId;
+  }
+
   public String getDirector()
   {
     return director;
@@ -104,11 +110,6 @@ public class Movie extends Item
   public BMGenre getGenre()
   {
     return genre;
-  }
-
-  public int getMovieId()
-  {
-    return movieId;
   }
 
   public void delete()

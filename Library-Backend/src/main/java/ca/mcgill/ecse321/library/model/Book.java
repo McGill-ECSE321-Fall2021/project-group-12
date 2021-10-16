@@ -18,41 +18,41 @@ public class Book extends Item
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextBookId = 1;
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Book Attributes
+  private Long bookId;
   private String author;
   private Date release;
   private int numPages;
   private BMGenre genre;
 
-  //Autounique Attributes
-  private int bookId;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Book(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aAuthor, Date aRelease, int aNumPages, BMGenre aGenre)
+  public Book(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, Long aBookId, String aAuthor, Date aRelease, int aNumPages, BMGenre aGenre)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
+    bookId = aBookId;
     author = aAuthor;
     release = aRelease;
     numPages = aNumPages;
     genre = aGenre;
-    bookId = nextBookId++;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setBookId(Long aBookId)
+  {
+    boolean wasSet = false;
+    bookId = aBookId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setAuthor(String aAuthor)
   {
@@ -86,6 +86,12 @@ public class Book extends Item
     return wasSet;
   }
 
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getBookId()
+  {
+    return bookId;
+  }
+
   public String getAuthor()
   {
     return author;
@@ -104,11 +110,6 @@ public class Book extends Item
   public BMGenre getGenre()
   {
     return genre;
-  }
-
-  public int getBookId()
-  {
-    return bookId;
   }
 
   public void delete()

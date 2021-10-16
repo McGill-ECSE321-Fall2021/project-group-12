@@ -14,7 +14,7 @@ enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
 
 class Book
 {
-  autounique bookId;
+  Long bookId;
   String author;
   Date release;
   int numPages;
@@ -24,7 +24,7 @@ class Book
 
 class Album
 {
-  autounique albumId;
+  Long albumId;
   String albumName;
   String artist;
   Date release;
@@ -35,7 +35,7 @@ class Album
 
 class Movie
 {
-  autounique movieId;
+  Long movieId;
   String director;
   Date release;
   int duration;

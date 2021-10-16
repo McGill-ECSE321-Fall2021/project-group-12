@@ -18,41 +18,41 @@ public class Album extends Item
   public enum MusicGenre { Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop }
 
   //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextAlbumId = 1;
-
-  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Album Attributes
+  private Long albumId;
   private String albumName;
   private String artist;
   private Date release;
   private int numSongs;
 
-  //Autounique Attributes
-  private int albumId;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Album(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, String aAlbumName, String aArtist, Date aRelease, int aNumSongs)
+  public Album(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator, Long aAlbumId, String aAlbumName, String aArtist, Date aRelease, int aNumSongs)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
+    albumId = aAlbumId;
     albumName = aAlbumName;
     artist = aArtist;
     release = aRelease;
     numSongs = aNumSongs;
-    albumId = nextAlbumId++;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setAlbumId(Long aAlbumId)
+  {
+    boolean wasSet = false;
+    albumId = aAlbumId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setAlbumName(String aAlbumName)
   {
@@ -86,6 +86,12 @@ public class Album extends Item
     return wasSet;
   }
 
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getAlbumId()
+  {
+    return albumId;
+  }
+
   public String getAlbumName()
   {
     return albumName;
@@ -104,11 +110,6 @@ public class Album extends Item
   public int getNumSongs()
   {
     return numSongs;
-  }
-
-  public int getAlbumId()
-  {
-    return albumId;
   }
 
   public void delete()
