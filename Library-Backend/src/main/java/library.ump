@@ -14,7 +14,6 @@ enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
 
 class Book
 {
-  long bookId;
   int numPages;
   BMGenre genre;
   isA Item;
@@ -90,18 +89,10 @@ class Creator
 {
   enum CreatorType {Director, Author, Artist, Publisher};
   CreatorType creatorType;
-<<<<<<< HEAD
   long creatorId;
   1 creator -- * Item items;
   String firstName;
   String lastName; 
-=======
-  Long creatorId;
-  1 creator -- *
-  String firstName;
-  String lastName; 
-  Item items;
->>>>>>> persistencetestcreator
 }
 
 

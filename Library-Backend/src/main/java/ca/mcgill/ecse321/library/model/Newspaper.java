@@ -12,27 +12,17 @@ import javax.persistence.*;
 public class Newspaper extends Item
 {
 
-
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long newspaperId;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public void delete()
   {
     super.delete();
   }
 
-  public Long getNewspaperId() {
-      return this.newspaperId;
+
+  @Id
+  public Long getItemId() {
+      return super.getItemId();
   }
 
   public void setNewspaperId(Long newspaperId) {

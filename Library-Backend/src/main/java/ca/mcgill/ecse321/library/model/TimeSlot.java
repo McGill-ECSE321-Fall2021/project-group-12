@@ -18,9 +18,18 @@ public class TimeSlot
   private Date endDate;
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
+  private Long timeSlotId;
+  
+  public boolean setTimeSlotId(Long id) {
+	  timeSlotId = id;
+	  return true;
+  }
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long timeSlotId;
+  public Long getTimeSlotId() {
+	  return timeSlotId;
+  }
 
   public boolean setStartTime(Time aStartTime)
   {

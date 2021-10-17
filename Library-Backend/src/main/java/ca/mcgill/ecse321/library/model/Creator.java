@@ -12,8 +12,6 @@ public class Creator {
 
 	private CreatorType creatorType;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long creatorId;
 	private String firstName;
 	private String lastName;
@@ -47,6 +45,8 @@ public class Creator {
 		return creatorType;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getCreatorId() {
 		return creatorId;
 	}

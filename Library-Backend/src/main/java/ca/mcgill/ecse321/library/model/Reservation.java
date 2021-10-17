@@ -3,13 +3,30 @@ package ca.mcgill.ecse321.library.model;
 
 import java.util.*;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Reservation
 {
 
+  private Long reservationId;
   private List<Item> items;
   private User user;
   private TimeSlot timeSlot;
   private LibraryApplicationSystem libraryApplicationSystem;
+  
+  
+  public boolean setReservationId(Long id) {
+	  reservationId = id;
+	  return true;
+  }
+  
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getReservationId() {
+	  return reservationId;
+  }
   
   public Item getItem(int index)
   {

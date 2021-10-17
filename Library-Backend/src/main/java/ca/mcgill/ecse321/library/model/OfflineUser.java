@@ -7,8 +7,9 @@ import javax.persistence.*;
 public class OfflineUser extends User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long offlineUserId;
+  public Long getUserId() {
+	  return super.getUserId();
+  }
 
 
   public void delete()

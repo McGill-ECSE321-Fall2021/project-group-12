@@ -10,8 +10,6 @@ import javax.persistence.*;
 @Entity
 public class LibraryApplicationSystem {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long applicationId;
 	private List<User> users;
 	private List<Item> items;
@@ -21,6 +19,8 @@ public class LibraryApplicationSystem {
 	private List<Creator> creators;
 	private List<Reservation> reservations;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getApplicationId() {
 		return applicationId;
 	}

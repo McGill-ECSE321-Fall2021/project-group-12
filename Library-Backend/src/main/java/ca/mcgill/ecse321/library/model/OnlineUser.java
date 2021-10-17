@@ -10,10 +10,11 @@ public class OnlineUser extends User
   private String password;
   private String email;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long onlineUserId;
 
+  @Id
+  public Long getUserId() {
+	  return super.getUserId();
+  }
 
   public void setUsername(String aUsername) {
     username = aUsername;

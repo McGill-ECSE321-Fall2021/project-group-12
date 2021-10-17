@@ -15,7 +15,7 @@ import ca.mcgill.ecse321.library.model.*;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = LibraryApplication.class)
+@SpringBootTest()
 public class TestCreatorPersistence {
 	@Autowired
 	private CreatorRepository creatorRepository;

@@ -3,17 +3,17 @@ package ca.mcgill.ecse321.library.model;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Librarian extends OnlineUser {
 	
 	private List<LibraryHour> libraryHour;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long librarianId;
 
+	@Id
+	public Long getUserId() {
+		return super.getUserId();
+	}
 	
 	public LibraryHour getLibraryHour(int index) {
 		LibraryHour aLibraryHour = libraryHour.get(index);

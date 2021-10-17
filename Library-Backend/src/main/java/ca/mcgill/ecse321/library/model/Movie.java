@@ -9,18 +9,12 @@ public class Movie extends Item
 
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long movieId;
   private int duration;
   private BMGenre genre;
-
-  public boolean setMovieId(Long aMovieId)
-  {
-    boolean wasSet = false;
-    movieId = aMovieId;
-    wasSet = true;
-    return wasSet;
+  
+  @Id
+  public Long getItemId() {
+	  return super.getItemId();
   }
 
   public boolean setDuration(int aDuration)
@@ -37,11 +31,6 @@ public class Movie extends Item
     genre = aGenre;
     wasSet = true;
     return wasSet;
-  }
-  
-  public Long getMovieId()
-  {
-    return movieId;
   }
 
   public int getDuration()
@@ -63,7 +52,6 @@ public class Movie extends Item
   public String toString()
   {
     return super.toString() + "["+
-            "movieId" + ":" + getMovieId()+ "," +
             "duration" + ":" + getDuration()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "genre" + "=" + (getGenre() != null ? !getGenre().equals(this)  ? getGenre().toString().replaceAll("  ","    ") : "this" : "null");
   }

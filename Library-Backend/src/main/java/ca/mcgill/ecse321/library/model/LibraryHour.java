@@ -16,19 +16,18 @@ public class LibraryHour {
 	private Time startTime;
 	private Time endTime;
 	private Day day;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long ID;
+	private Long libraryHourId;
   
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-	
-	public void setID(Long id) {
-		this.ID = id;
+	public void setLibraryHourId(Long id) {
+		libraryHourId = id;
 	}
 	
-	public Long getID() {
-		return this.ID;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long getLibraryHourId() {
+		return libraryHourId;
 	}
 	
 	public void setStartTime(Time aStartTime) {

@@ -8,19 +8,8 @@ public class Book extends Item
 
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long bookId;
   private int numPages;
   private BMGenre genre;
-
-  public boolean setBookId(Long aBookId)
-  {
-    boolean wasSet = false;
-    bookId = aBookId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public boolean setNumPages(int aNumPages)
   {
@@ -38,9 +27,10 @@ public class Book extends Item
     return wasSet;
   }
 
-  public Long getBookId()
+  @Id
+  public Long getItemId()
   {
-    return bookId;
+    return super.getItemId();
   }
 
   public int getNumPages()
@@ -62,7 +52,6 @@ public class Book extends Item
   public String toString()
   {
     return super.toString() + "["+
-            "bookId" + ":" + getBookId()+ "," +
             "numPages" + ":" + getNumPages()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "genre" + "=" + (getGenre() != null ? !getGenre().equals(this)  ? getGenre().toString().replaceAll("  ","    ") : "this" : "null");
   }

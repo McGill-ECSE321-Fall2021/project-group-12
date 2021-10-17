@@ -13,8 +13,6 @@ public abstract class User{
 	private String address;
 	private boolean isLocal;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userId;
 
 	//User Associations
@@ -54,6 +52,8 @@ public abstract class User{
 		return isLocal;
 	}
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getUserId() {
 		return userId;
 	}

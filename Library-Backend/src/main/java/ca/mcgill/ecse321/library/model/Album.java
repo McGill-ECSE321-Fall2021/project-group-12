@@ -9,20 +9,8 @@ public class Album extends Item
 
   public enum MusicGenre { Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long albumId;
   private int numSongs;
-
-
-  public boolean setAlbumId(Long aAlbumId)
-  {
-    boolean wasSet = false;
-    albumId = aAlbumId;
-    wasSet = true;
-    return wasSet;
-  }
-
+  
   public boolean setNumSongs(int aNumSongs)
   {
     boolean wasSet = false;
@@ -31,10 +19,10 @@ public class Album extends Item
     return wasSet;
   }
 
-
-  public Long getAlbumId()
+  @Id
+  public Long getItemId()
   {
-    return albumId;
+    return super.getItemId();
   }
 
   public int getNumSongs()
@@ -51,7 +39,6 @@ public class Album extends Item
   public String toString()
   {
     return super.toString() + "["+
-            "albumId" + ":" + getAlbumId()+ "," +
             "numSongs" + ":" + getNumSongs()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }

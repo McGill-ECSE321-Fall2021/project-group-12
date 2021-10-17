@@ -52,7 +52,7 @@ public class TestNewspaperPersistence {
         newspaper.setLibraryApplicationSystem(system);
         newspaper.setCreator(new Creator());
 		newspaperRepository.save(newspaper);
-		Long id = newspaper.getNewspaperId();
+		Long id = newspaper.getItemId();
 		
 		newspaper = null;
 		
@@ -60,7 +60,7 @@ public class TestNewspaperPersistence {
 		newspaper = newspaperRepository.findByNewspaperId(id);
 		
 		assertNotNull(newspaper);
-		assertEquals(id, newspaper.getNewspaperId());
+		assertEquals(id, newspaper.getItemId());
 		assertEquals(title, newspaper.getTitle());
 		assertEquals(isArchive, newspaper.getIsArchive());
 		assertEquals(isReservable, newspaper.getIsReservable());

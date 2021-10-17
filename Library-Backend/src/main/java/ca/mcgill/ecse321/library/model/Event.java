@@ -14,10 +14,18 @@ public class Event
 	private TimeSlot timeSlot;
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
+	private Long eventId;
+	
+	public boolean setEventId(Long id) {
+		eventId = id;
+		return true;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long eventId;
-
+	public Long getEventId() {
+		return eventId;
+	}
 	public boolean setName(String aName)
 	{
 		name = aName;
