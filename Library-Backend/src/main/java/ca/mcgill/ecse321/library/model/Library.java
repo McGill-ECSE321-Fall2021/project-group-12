@@ -28,19 +28,6 @@ public class Library
   // CONSTRUCTOR
   //------------------------
 
-  public Library(LibraryApplicationSystem aLibraryApplicationSystem)
-  {
-    libraryHours = new ArrayList<LibraryHour>();
-    timeSlots = new ArrayList<TimeSlot>();
-    if (aLibraryApplicationSystem == null || aLibraryApplicationSystem.getLibrary() != null)
-    {
-      throw new RuntimeException("Unable to create Library due to aLibraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    libraryApplicationSystem = aLibraryApplicationSystem;
-  }
-
-  public Library() {}
-
   //------------------------
   // INTERFACE
   //------------------------
