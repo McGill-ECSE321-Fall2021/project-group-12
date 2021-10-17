@@ -1,7 +1,4 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 
 import java.sql.Time;
 import java.sql.Date;
@@ -10,7 +7,6 @@ import javax.persistence.*;
 @Entity
 public class TimeSlot
 {
-
 
   private Time startTime;
   private Time endTime;
@@ -95,12 +91,11 @@ public class TimeSlot
 
     return true;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setEvent(Event aNewEvent)
   {
     if (event != null && !event.equals(aNewEvent) && equals(event.getTimeSlot()))
     {
-      //Unable to setEvent, as existing event would become an orphan
       return false;
     }
 
