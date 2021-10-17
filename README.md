@@ -26,7 +26,7 @@ Design a website and an application for a library to assist it in providing its 
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills |
+| Aaron Mills | <ul><li>Setup Gradle, Spring, and Heroku</li><li>Setup Continuous Integration (Github Actions)</li><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Booking Event</li><li>Detailed specification: Set Librarian Schedule</li><li>Refactor and persistence: LibaryApplicationSystem, Creator</li></ul> | 18 |
 | Ann Trihn |
 | Chirag Sood |
 | Lucca Di Lullo |
