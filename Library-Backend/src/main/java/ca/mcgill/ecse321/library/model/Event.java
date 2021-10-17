@@ -2,6 +2,9 @@ package ca.mcgill.ecse321.library.model;
 
 import javax.persistence.*;
 
+// line 95 "library.ump"
+import javax.persistence.*;
+
 @Entity
 public class Event
 {
@@ -11,7 +14,9 @@ public class Event
 	private TimeSlot timeSlot;
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long eventId;
 
 	public boolean setName(String aName)
 	{

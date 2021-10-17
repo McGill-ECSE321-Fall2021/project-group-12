@@ -1,9 +1,20 @@
 package ca.mcgill.ecse321.library.model;
 
+
 import javax.persistence.Entity;
+
+import java.util.*;
+
+import javax.persistence.*;
+
 
 @Entity
 public class HeadLibrarian extends Librarian {
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long headLibrarianId;
 
 	public void delete() {
 		super.delete();

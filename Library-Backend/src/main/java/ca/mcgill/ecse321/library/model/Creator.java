@@ -12,10 +12,31 @@ public class Creator {
 
 	private CreatorType creatorType;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long creatorId;
-
+	private String firstName;
+	private String lastName;
 	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
+	
+	public boolean setFirstName(String first) {
+		firstName = first;
+		return true;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public boolean setLastName(String last) {
+		lastName = last;
+		return true;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
 
 	public boolean setCreatorType(CreatorType type) {
 		creatorType = type;
@@ -26,8 +47,6 @@ public class Creator {
 		return creatorType;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getCreatorId() {
 		return creatorId;
 	}

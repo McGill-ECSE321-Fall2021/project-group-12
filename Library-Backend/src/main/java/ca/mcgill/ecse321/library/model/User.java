@@ -13,12 +13,15 @@ public abstract class User{
 	private String address;
 	private boolean isLocal;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userId;
 
 	//User Associations
 	private List<Event> events;
 	private List<Reservation> reservations;
 	private LibraryApplicationSystem libraryApplicationSystem;
+
 	public void setFirstName(String aFirstName) {	
 		firstName = aFirstName;
 	}
@@ -50,8 +53,7 @@ public abstract class User{
 	public boolean getIsLocal() {
 		return isLocal;
 	}
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	public Long getUserId() {
 		return userId;
 	}

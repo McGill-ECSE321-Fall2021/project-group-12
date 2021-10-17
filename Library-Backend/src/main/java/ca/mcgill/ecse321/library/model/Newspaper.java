@@ -6,12 +6,37 @@ package ca.mcgill.ecse321.library.model;
 import java.sql.Date;
 
 // line 37 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class Newspaper extends Item
 {
+
+
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long newspaperId;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  //------------------------
+  // INTERFACE
+  //------------------------
 
   public void delete()
   {
     super.delete();
+  }
+
+  public Long getNewspaperId() {
+      return this.newspaperId;
+  }
+
+  public void setNewspaperId(Long newspaperId) {
+      this.newspaperId = newspaperId;
   }
 
 }

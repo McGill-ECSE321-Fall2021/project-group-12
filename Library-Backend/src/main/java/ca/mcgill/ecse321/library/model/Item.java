@@ -19,7 +19,9 @@ public abstract class Item
   private int quantity;
   private Reservation reservation;
 
+
   private Long itemId;
+
 
   //Item Associations
   private LibraryApplicationSystem libraryApplicationSystem;

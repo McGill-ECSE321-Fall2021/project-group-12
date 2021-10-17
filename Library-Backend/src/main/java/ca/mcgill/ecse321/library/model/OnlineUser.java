@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.library.model;
 
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class OnlineUser extends User
@@ -9,6 +9,11 @@ public class OnlineUser extends User
   private String username;
   private String password;
   private String email;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long onlineUserId;
+
 
   public void setUsername(String aUsername) {
     username = aUsername;

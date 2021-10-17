@@ -9,8 +9,11 @@ public class Album extends Item
 
   public enum MusicGenre { Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long albumId;
   private int numSongs;
+
 
   public boolean setAlbumId(Long aAlbumId)
   {
@@ -27,8 +30,8 @@ public class Album extends Item
     wasSet = true;
     return wasSet;
   }
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+
+
   public Long getAlbumId()
   {
     return albumId;

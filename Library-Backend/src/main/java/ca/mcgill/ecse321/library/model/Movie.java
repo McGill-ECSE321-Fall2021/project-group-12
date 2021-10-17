@@ -9,6 +9,8 @@ public class Movie extends Item
 
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long movieId;
   private int duration;
   private BMGenre genre;
@@ -36,8 +38,7 @@ public class Movie extends Item
     wasSet = true;
     return wasSet;
   }
-
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  
   public Long getMovieId()
   {
     return movieId;

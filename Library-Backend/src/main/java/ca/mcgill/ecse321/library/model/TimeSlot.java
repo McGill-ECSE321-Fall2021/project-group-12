@@ -4,6 +4,10 @@ import java.sql.Time;
 import java.sql.Date;
 import javax.persistence.*;
 
+
+// line 102 "library.ump"
+import javax.persistence.*;
+
 @Entity
 public class TimeSlot
 {
@@ -14,6 +18,9 @@ public class TimeSlot
   private Date endDate;
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long timeSlotId;
 
   public boolean setStartTime(Time aStartTime)
   {

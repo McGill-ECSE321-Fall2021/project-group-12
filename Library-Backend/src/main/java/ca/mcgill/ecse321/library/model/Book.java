@@ -8,6 +8,8 @@ public class Book extends Item
 
   public enum BMGenre { Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long bookId;
   private int numPages;
   private BMGenre genre;
@@ -35,8 +37,7 @@ public class Book extends Item
     wasSet = true;
     return wasSet;
   }
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+
   public Long getBookId()
   {
     return bookId;
