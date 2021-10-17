@@ -30,7 +30,9 @@ public abstract class Item
   private int quantity;
 
   //Autounique Attributes
-  private int itemId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer itemId;
 
   //Item Associations
   private LibraryApplicationSystem libraryApplicationSystem;
@@ -60,6 +62,8 @@ public abstract class Item
       throw new RuntimeException("Unable to create item due to creator. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
+
+  public Item() {}
 
   //------------------------
   // INTERFACE

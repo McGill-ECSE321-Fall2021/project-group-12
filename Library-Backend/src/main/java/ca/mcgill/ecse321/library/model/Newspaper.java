@@ -6,6 +6,9 @@ package ca.mcgill.ecse321.library.model;
 import java.sql.Date;
 
 // line 37 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class Newspaper extends Item
 {
 
@@ -20,6 +23,10 @@ public class Newspaper extends Item
   public Newspaper(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator)
   {
     super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
+  }
+
+  public Newspaper() {
+      super();
   }
 
   //------------------------
