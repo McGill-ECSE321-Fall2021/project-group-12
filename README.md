@@ -31,7 +31,7 @@ Design a website and an application for a library to assist it in providing its 
 | Chirag Sood |
 | Lucca Di Lullo |
 | Mia Stevanovic |
-| Yuyan Shi |
+| Yuyan Shi | <ul><li>Continuous Integration</li><li>Success Spectrum</li><li>Domain Model</li><li>Use case diagram: User Account</li><li>Detailed soecification: Create Online Account</li><li>Refactor and persistence: Librarian, HeadLibrarian, LibraryHour</li></ul> | 17 |
 
 ## Deliverable 2
 
