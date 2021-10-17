@@ -9,23 +9,6 @@ import java.sql.Date;
 public class Newspaper extends Item
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Newspaper(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator)
-  {
-    super(aTitle, aIsArchive, aIsReservable, aReleaseDate, aQuantityAvailable, aQuantity, aLibraryApplicationSystem, aCreator);
-  }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
-
   public void delete()
   {
     super.delete();

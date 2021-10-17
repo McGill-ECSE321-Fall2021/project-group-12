@@ -10,14 +10,6 @@ public class OnlineUser extends User
   private String password;
   private String email;
 
-  public OnlineUser(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail)
-  {
-    super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem);
-    username = aUsername;
-    password = aPassword;
-    email = aEmail;
-  }
-
   public void setUsername(String aUsername) {
     username = aUsername;
   }

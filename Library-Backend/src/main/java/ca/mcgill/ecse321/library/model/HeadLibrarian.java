@@ -1,15 +1,9 @@
 package ca.mcgill.ecse321.library.model;
 
-import java.util.*;
-
 import javax.persistence.Entity;
 
 @Entity
 public class HeadLibrarian extends Librarian {
-
-	public HeadLibrarian(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail) {
-		super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem, aUsername, aPassword, aEmail);
-	}
 
 	public void delete() {
 		super.delete();

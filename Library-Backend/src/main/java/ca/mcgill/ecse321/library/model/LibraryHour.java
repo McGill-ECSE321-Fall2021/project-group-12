@@ -19,18 +19,6 @@ public class LibraryHour {
 	private Long ID;
   
 	private LibraryApplicationSystem libraryApplicationSystem;
-
-	public LibraryHour(Time aStartTime, Time aEndTime, Day aDay, LibraryApplicationSystem aLibraryApplicationSystem) {
-		startTime = aStartTime;
-	    endTime = aEndTime;
-	    day = aDay;
-	    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-	    if (!didAddLibraryApplicationSystem)
-	    {
-	      throw new RuntimeException("Unable to create libraryHour due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-	    }
-	}
-	
 	
 	public void setID(Long id) {
 		this.ID = id;

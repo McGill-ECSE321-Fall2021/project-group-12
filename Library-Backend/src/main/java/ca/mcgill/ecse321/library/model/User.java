@@ -7,34 +7,18 @@ import java.util.*;
 
 @MappedSuperclass
 public abstract class User{
-	
-	private static int nextUserId = 1;
 
 	private String firstName;
 	private String lastName;
 	private String address;
 	private boolean isLocal;
 
-	private int userId;
+	private Long userId;
 
 	//User Associations
 	private List<Event> events;
+	private List<Reservation> reservations;
 	private LibraryApplicationSystem libraryApplicationSystem;
-
-	public User(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem) {
-		firstName = aFirstName;
-		lastName = aLastName;
-		address = aAddress;
-		isLocal = aIsLocal;
-		userId = nextUserId++;
-		events = new ArrayList<Event>();
-		boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-		if (!didAddLibraryApplicationSystem)
-		{
-			throw new RuntimeException("Unable to create user due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-		}
-	}
-
 	public void setFirstName(String aFirstName) {	
 		firstName = aFirstName;
 	}
@@ -67,7 +51,8 @@ public abstract class User{
 		return isLocal;
 	}
 	@Id
-	public int getUserId() {
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long getUserId() {
 		return userId;
 	}
 	//any other way to find the event?
@@ -91,21 +76,10 @@ public abstract class User{
 		return has;
 	}
 
-	public int indexOfEvent(Event aEvent) {
-		int index = events.indexOf(aEvent);
-		return index;
-	}
-	
 	@ManyToOne(optional=false)
 	public LibraryApplicationSystem getLibraryApplicationSystem()
 	{
 		return libraryApplicationSystem;
-	}
-
-	/* Code from template association_AddManyToOne */
-	public Event addEvent(String aName, boolean aIsPrivate, TimeSlot aTimeSlot)
-	{
-		return new Event(aName, aIsPrivate, aTimeSlot, this, libraryApplicationSystem);
 	}
 
 	public boolean addEvent(Event aEvent)
@@ -125,6 +99,24 @@ public abstract class User{
 		wasAdded = true;
 		return wasAdded;
 	}
+
+	public List<Reservation> getReservation()
+	{
+		List<Reservation> newReservation = Collections.unmodifiableList(reservations);
+		return newReservation;
+	}
+
+	public int numberOfReservation()
+	{
+		int number = reservations.size();
+		return number;
+	}
+	public boolean hasReservation()
+	{
+		boolean has = reservations.size() > 0;
+		return has;
+	}
+
 
 	public boolean removeEvent(Event aEvent)
 	{
@@ -151,6 +143,46 @@ public abstract class User{
 		libraryApplicationSystem.addUser(this);
 		wasSet = true;
 		return wasSet;
+	}
+
+	public static int minimumNumberOfReservation()
+	{
+		return 0;
+	}
+	public Reservation addReservation(TimeSlot aTimeSlot, LibraryApplicationSystem aLibraryApplicationSystem)
+	{
+		Reservation reservation = new Reservation();
+		reservation.setUser(this);
+		reservation.setTimeSlot(aTimeSlot);
+		reservation.setLibraryApplicationSystem(aLibraryApplicationSystem);
+		return reservation;
+	}
+	public boolean addReservation(Reservation aReservation)
+	{
+		boolean wasAdded = false;
+		if (reservations.contains(aReservation)) { return false; }
+		User existingUser = aReservation.getUser();
+		boolean isNewUser = existingUser != null && !this.equals(existingUser);
+		if (isNewUser)
+		{
+			aReservation.setUser(this);
+		}
+		else
+		{
+			reservations.add(aReservation);
+		}
+		wasAdded = true;
+		return wasAdded;
+	}
+	public boolean removeReservation(Reservation aReservation)
+	{
+		boolean wasRemoved = false;
+		if (!this.equals(aReservation.getUser()))
+		{
+			reservations.remove(aReservation);
+			wasRemoved = true;
+		}
+		return wasRemoved;
 	}
 	//deletion of the user
 	public void delete() {

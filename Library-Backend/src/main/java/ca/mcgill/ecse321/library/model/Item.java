@@ -11,59 +11,19 @@ import javax.persistence.*;
 public abstract class Item
 {
 
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextItemId = 1;
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Item Attributes
   private String title;
   private boolean isArchive;
   private boolean isReservable;
   private Date releaseDate;
   private int quantityAvailable;
   private int quantity;
+  private Reservation reservation;
 
-  //Autounique Attributes
-  private int itemId;
+  private Long itemId;
 
   //Item Associations
   private LibraryApplicationSystem libraryApplicationSystem;
   private Creator creator;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Item(String aTitle, boolean aIsArchive, boolean aIsReservable, Date aReleaseDate, int aQuantityAvailable, int aQuantity, LibraryApplicationSystem aLibraryApplicationSystem, Creator aCreator)
-  {
-    title = aTitle;
-    isArchive = aIsArchive;
-    isReservable = aIsReservable;
-    releaseDate = aReleaseDate;
-    quantityAvailable = aQuantityAvailable;
-    quantity = aQuantity;
-    itemId = nextItemId++;
-    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-    if (!didAddLibraryApplicationSystem)
-    {
-      throw new RuntimeException("Unable to create item due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddCreator = setCreator(aCreator);
-    if (!didAddCreator)
-    {
-      throw new RuntimeException("Unable to create item due to creator. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setTitle(String aTitle)
   {
@@ -132,6 +92,30 @@ public abstract class Item
   {
     return releaseDate;
   }
+  
+  public Reservation getReservation()
+  {
+    return reservation;
+  }
+  
+  public boolean setReservation(Reservation aReservation)
+  {
+    boolean wasSet = false;
+    if (aReservation == null)
+    {
+      return wasSet;
+    }
+
+    Reservation existingReservation = reservation;
+    reservation = aReservation;
+    if (existingReservation != null && !existingReservation.equals(aReservation))
+    {
+      existingReservation.removeItem(this);
+    }
+    reservation.addItem(this);
+    wasSet = true;
+    return wasSet;
+  }
 
   public int getQuantityAvailable()
   {
@@ -143,7 +127,9 @@ public abstract class Item
     return quantity;
   }
 
-  public int getItemId()
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  public Long getItemId()
   {
     return itemId;
   }
@@ -211,6 +197,8 @@ public abstract class Item
       placeholderCreator.removeItem(this);
     }
   }
+  
+  
 
 
   public String toString()

@@ -17,15 +17,6 @@ public class Creator {
 	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-	public Creator(CreatorType type, LibraryApplicationSystem libraryApplicationSystem) {
-		creatorType = type;
-		items = new ArrayList<Item>();
-		boolean success = setLibraryApplicationSystem(libraryApplicationSystem);
-		if (!success) {
-			throw new RuntimeException("Cannot have 'null' LibraryApplicationSystem.");
-		}
-	}
-
 	public boolean setCreatorType(CreatorType type) {
 		creatorType = type;
 		return true;

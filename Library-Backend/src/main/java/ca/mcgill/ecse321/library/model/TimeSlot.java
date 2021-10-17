@@ -19,39 +19,28 @@ public class TimeSlot
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
 
-
-  public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, LibraryApplicationSystem aLibraryApplicationSystem)
-  {
-    startTime = aStartTime;
-    endTime = aEndTime;
-    startDate = aStartDate;
-    endDate = aEndDate;
-    boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-    if (!didAddLibraryApplicationSystem)
-    {
-      throw new RuntimeException("Unable to create timeSlot due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
-
-
   public boolean setStartTime(Time aStartTime)
   {
     startTime = aStartTime;
+    return true;
   }
 
   public boolean setEndTime(Time aEndTime)
   {
     endTime = aEndTime;
+    return true;
   }
 
   public boolean setStartDate(Date aStartDate)
   {
     startDate = aStartDate;
+    return true;
   }
 
   public boolean setEndDate(Date aEndDate)
   {
     endDate = aEndDate;
+    return true;
   }
 
   public Time getStartTime()

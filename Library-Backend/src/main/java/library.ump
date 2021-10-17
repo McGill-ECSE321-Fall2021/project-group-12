@@ -1,7 +1,7 @@
 class Item
 {
 abstract;
-  autounique itemId;
+  long itemId;
   String title;
   boolean isArchive;
   boolean isReservable;
@@ -14,9 +14,7 @@ enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
 
 class Book
 {
-  Long bookId;
-  String author;
-  Date release;
+  long bookId;
   int numPages;
   BMGenre genre;
   isA Item;
@@ -24,10 +22,6 @@ class Book
 
 class Album
 {
-  Long albumId;
-  String albumName;
-  String artist;
-  Date release;
   int numSongs;
   isA Item;
   enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop};
@@ -35,9 +29,6 @@ class Album
 
 class Movie
 {
-  Long movieId;
-  String director;
-  Date release;
   int duration;
   isA Item;
   BMGenre genre;
@@ -54,7 +45,7 @@ class User
 String firstName;
 String lastName;
 String address;
-autounique userId;
+long userId;
   boolean isLocal;
 abstract;
 }
@@ -75,7 +66,7 @@ isA User;
 class Librarian
 {
   isA OnlineUser;
-  0..1 library -> * LibraryHour libraryHour;
+  1 librarian <- * LibraryHour libraryHour;
 }
 
 class HeadLibrarian
@@ -89,25 +80,27 @@ class LibraryApplicationSystem
   1 <@>- * Item items;
   1 <@>- * TimeSlot timeSlots;
   1 <@>- * LibraryHour libraryHours;
-  1 <@>- 1 Library library;
   1 <@>- * Event events;
   1 <@>- * Creator creators;
-  Long applicationId;
+  1 <@>- * Reservation reservations;
+  long applicationId;
   }
 
 class Creator
 {
   enum CreatorType {Director, Author, Artist, Publisher};
   CreatorType creatorType;
-  Long creatorId;
+  long creatorId;
   1 creator -- * Item items;
+  String firstName;
+  String lastName; 
 }
 
 
 
 class Event
 {
-0..1 event -- 1 TimeSlot timeSlot;
+0..1 event -> 1 TimeSlot timeSlot;
   String name;
   boolean isPrivate;
 }
@@ -126,10 +119,9 @@ class LibraryHour
   Time endTime;
   enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
   Day day;
-}
-
-class Library
+}class Reservation
 {
-  0..1 library -> * LibraryHour libraryHours;
-  0..1 library -> * TimeSlot timeSlots;
+  1 reservation -- * Item items;
+  * reservations -- 1 User user;
+  0..1 reservation -> 1 TimeSlot timeSlot;
 }

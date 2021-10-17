@@ -15,19 +15,9 @@ public class LibraryApplicationSystem {
 	private List<Item> items;
 	private List<TimeSlot> timeSlots;
 	private List<LibraryHour> libraryHours;
-	private Library library;
 	private List<Event> events;
 	private List<Creator> creators;
-
-	public LibraryApplicationSystem() {
-		users = new ArrayList<User>();
-		items = new ArrayList<Item>();
-		timeSlots = new ArrayList<TimeSlot>();
-		libraryHours = new ArrayList<LibraryHour>();
-		library = new Library(this);
-		events = new ArrayList<Event>();
-		creators = new ArrayList<Creator>();
-	}
+	private List<Reservation> reservations;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,12 +76,7 @@ public class LibraryApplicationSystem {
 	public boolean hasLibraryHours() {
 		return libraryHours.size() > 0;
 	}
-
-	@OneToOne(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
-	public Library getLibrary() {
-		return library;
-	}
-
+	
 	@OneToMany(cascade={CascadeType.ALL})
 	public List<Event> getEvents() {
 		return events;
@@ -104,6 +89,20 @@ public class LibraryApplicationSystem {
 	public boolean hasEvents() {
 		return events.size() > 0;
 	}
+	
+	@OneToMany(cascade={CascadeType.ALL})
+	public List<Reservation> getReservation() {
+	    return reservations;
+	}
+	
+	public int numberOfReservation() {
+	    return reservations.size();
+	  }
+
+	public boolean hasReservation() {
+	    return reservations.size() > 0;
+	}
+
 
 	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<Creator> getCreators() {
@@ -153,7 +152,12 @@ public class LibraryApplicationSystem {
 	}
 
 	public TimeSlot addTimeSlot(Time startTime, Time endTime, Date startDate, Date endDate) {
-		return new TimeSlot(startTime, endTime, startDate, endDate, this);
+		TimeSlot timeSlot = new TimeSlot();
+		timeSlot.setStartDate(startDate);
+		timeSlot.setEndDate(endDate);
+		timeSlot.setEndDate(endDate);
+		timeSlot.setEndTime(endTime);
+		return timeSlot;
 	}
 
 	public boolean addTimeSlot(TimeSlot timeSlot) {
@@ -174,7 +178,11 @@ public class LibraryApplicationSystem {
 	}
 
 	public LibraryHour addLibraryHour(Time startTime, Time endTime, LibraryHour.Day day) {
-		return new LibraryHour(startTime, endTime, day, this);
+		LibraryHour libraryHour = new LibraryHour();
+		libraryHour.setStartTime(startTime);
+		libraryHour.setEndTime(endTime);
+		libraryHour.setDay(day);
+		return libraryHour;
 	}
 
 	public boolean addLibraryHour(LibraryHour libraryHour) {
@@ -195,7 +203,12 @@ public class LibraryApplicationSystem {
 	}
 
 	public Event addEvent(String name, boolean isPrivate, TimeSlot timeSlot, User user) {
-		return new Event(name, isPrivate, timeSlot, user, this);
+		Event event = new Event();
+		event.setName(name);
+		event.setIsPrivate(isPrivate);
+		event.setTimeSlot(timeSlot);
+		event.setUser(user);
+		return event;
 	}
 
 	public boolean addEvent(Event event) {
@@ -214,9 +227,36 @@ public class LibraryApplicationSystem {
 		}
 		return false;
 	}
+	
+	public Reservation addReservation(User user, TimeSlot timeSlot) {
+		Reservation reservation = new Reservation();
+		reservation.setUser(user);
+		reservation.setTimeSlot(timeSlot);
+		return reservation;
+	}
+
+	public boolean addReservation(Reservation reservation) {
+	    if (reservations.contains(reservation)) { 
+	    	return false;
+	    }
+	    reservation.setLibraryApplicationSystem(this);
+	    reservations.add(reservation);
+	    return true;
+	}
+
+	public boolean removeReservation(Reservation reservation) {
+	    if (reservations.contains(reservation)) {
+	    	reservations.remove(reservation);
+	    	return true;
+	    }
+	    return false;
+	}
 
 	public Creator addCreator(Creator.CreatorType creatorType) {
-		return new Creator(creatorType, this);
+		Creator creator = new Creator();
+		creator.setCreatorType(creatorType);
+		creator.setLibraryApplicationSystem(this);
+		return creator;
 	}
 
 	public boolean addCreator(Creator creator) {
@@ -259,12 +299,6 @@ public class LibraryApplicationSystem {
 			LibraryHour libraryHour = libraryHours.get(libraryHours.size() - 1);
 			libraryHour.delete();
 			libraryHours.remove(libraryHour);
-		}
-
-		Library existingLibrary = library;
-		library = null;
-		if (existingLibrary != null) {
-			existingLibrary.delete();
 		}
 
 		while (events.size() > 0) {
