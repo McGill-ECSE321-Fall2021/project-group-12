@@ -35,6 +35,8 @@ public abstract class User{
 		}
 	}
 
+    public User() {}
+
 	public void setFirstName(String aFirstName) {	
 		firstName = aFirstName;
 	}
@@ -66,7 +68,7 @@ public abstract class User{
 	public boolean getIsLocal() {
 		return isLocal;
 	}
-	@Id
+	
 	public int getUserId() {
 		return userId;
 	}

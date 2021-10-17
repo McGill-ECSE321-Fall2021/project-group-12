@@ -2,18 +2,25 @@ package ca.mcgill.ecse321.library.model;
 
 import java.util.*;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Librarian extends OnlineUser {
 	
 	private List<LibraryHour> libraryHour;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long librarianId;
 
 	public Librarian(String aFirstName, String aLastName, String aAddress, boolean aIsLocal, LibraryApplicationSystem aLibraryApplicationSystem, String aUsername, String aPassword, String aEmail) {
 		super(aFirstName, aLastName, aAddress, aIsLocal, aLibraryApplicationSystem, aUsername, aPassword, aEmail);
 		libraryHour = new ArrayList<LibraryHour>();
 	}
+
+    public Librarian() {
+        super();
+    }
 	
 	public LibraryHour getLibraryHour(int index) {
 		LibraryHour aLibraryHour = libraryHour.get(index);

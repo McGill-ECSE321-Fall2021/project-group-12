@@ -5,6 +5,9 @@ package ca.mcgill.ecse321.library.model;
 
 
 // line 95 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class Event
 {
 
@@ -20,6 +23,9 @@ public class Event
 	private TimeSlot timeSlot;
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long eventId;
 
 	//------------------------
 	// CONSTRUCTOR
@@ -45,6 +51,8 @@ public class Event
 			throw new RuntimeException("Unable to create event due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
 		}
 	}
+
+    public Event() {}
 
 	//------------------------
 	// INTERFACE

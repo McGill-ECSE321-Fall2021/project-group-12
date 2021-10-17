@@ -7,8 +7,8 @@ import ca.mcgill.ecse321.library.model.Newspaper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NewspaperRepository extends CrudRepository<Newspaper, Integer>{
+public interface NewspaperRepository extends CrudRepository<Newspaper, Long>{
 	
-	Newspaper findByItemId(Integer itemId);
+	Newspaper findByNewspaperId(Long newspaperId);
 	
 }

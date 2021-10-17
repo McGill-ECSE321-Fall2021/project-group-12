@@ -22,6 +22,8 @@ public class Album extends Item
   //------------------------
 
   //Album Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long albumId;
   private String albumName;
   private String artist;
@@ -40,6 +42,10 @@ public class Album extends Item
     artist = aArtist;
     release = aRelease;
     numSongs = aNumSongs;
+  }
+
+  public Album() {
+      super();
   }
 
   //------------------------
@@ -86,8 +92,6 @@ public class Album extends Item
     return wasSet;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getAlbumId()
   {
     return albumId;

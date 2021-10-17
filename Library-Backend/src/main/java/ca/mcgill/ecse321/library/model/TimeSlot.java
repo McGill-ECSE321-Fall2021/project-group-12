@@ -7,6 +7,9 @@ import java.sql.Time;
 import java.sql.Date;
 
 // line 102 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class TimeSlot
 {
 
@@ -23,6 +26,9 @@ public class TimeSlot
   //TimeSlot Associations
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long timeSlotId;
 
   //------------------------
   // CONSTRUCTOR
@@ -40,6 +46,8 @@ public class TimeSlot
       throw new RuntimeException("Unable to create timeSlot due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
+
+  public TimeSlot() {}
 
   //------------------------
   // INTERFACE

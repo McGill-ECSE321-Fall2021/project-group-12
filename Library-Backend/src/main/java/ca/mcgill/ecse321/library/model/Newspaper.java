@@ -16,6 +16,10 @@ public class Newspaper extends Item
   // MEMBER VARIABLES
   //------------------------
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long newspaperId;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -36,6 +40,14 @@ public class Newspaper extends Item
   public void delete()
   {
     super.delete();
+  }
+
+  public Long getNewspaperId() {
+      return this.newspaperId;
+  }
+
+  public void setNewspaperId(Long newspaperId) {
+      this.newspaperId = newspaperId;
   }
 
 }

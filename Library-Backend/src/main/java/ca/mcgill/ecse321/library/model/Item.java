@@ -30,8 +30,6 @@ public abstract class Item
   private int quantity;
 
   //Autounique Attributes
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer itemId;
 
   //Item Associations

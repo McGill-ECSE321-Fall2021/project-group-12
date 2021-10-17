@@ -6,6 +6,9 @@ package ca.mcgill.ecse321.library.model;
 import java.util.*;
 
 // line 118 "library.ump"
+import javax.persistence.*;
+
+@Entity
 public class Library
 {
 
@@ -17,6 +20,9 @@ public class Library
   private List<LibraryHour> libraryHours;
   private List<TimeSlot> timeSlots;
   private LibraryApplicationSystem libraryApplicationSystem;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long libraryId;
 
   //------------------------
   // CONSTRUCTOR
@@ -32,6 +38,8 @@ public class Library
     }
     libraryApplicationSystem = aLibraryApplicationSystem;
   }
+
+  public Library() {}
 
   //------------------------
   // INTERFACE

@@ -22,6 +22,8 @@ public class Movie extends Item
   //------------------------
 
   //Movie Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long movieId;
   private String director;
   private Date release;
@@ -41,6 +43,8 @@ public class Movie extends Item
     duration = aDuration;
     genre = aGenre;
   }
+
+  public Movie() {}
 
   //------------------------
   // INTERFACE
@@ -86,8 +90,6 @@ public class Movie extends Item
     return wasSet;
   }
   
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getMovieId()
   {
     return movieId;

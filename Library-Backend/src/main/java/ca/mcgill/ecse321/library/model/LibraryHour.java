@@ -16,6 +16,8 @@ public class LibraryHour {
 	private Time startTime;
 	private Time endTime;
 	private Day day;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long ID;
   
 	private LibraryApplicationSystem libraryApplicationSystem;
@@ -30,14 +32,14 @@ public class LibraryHour {
 	      throw new RuntimeException("Unable to create libraryHour due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
 	    }
 	}
+
+    public LibraryHour() {}
 	
 	
 	public void setID(Long id) {
 		this.ID = id;
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getID() {
 		return this.ID;
 	}

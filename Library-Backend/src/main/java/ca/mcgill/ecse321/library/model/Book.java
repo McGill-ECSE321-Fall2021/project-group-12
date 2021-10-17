@@ -22,6 +22,8 @@ public class Book extends Item
   //------------------------
 
   //Book Attributes
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long bookId;
   private String author;
   private Date release;
@@ -40,6 +42,10 @@ public class Book extends Item
     release = aRelease;
     numPages = aNumPages;
     genre = aGenre;
+  }
+
+  public Book() {
+      super();
   }
 
   //------------------------
@@ -86,8 +92,6 @@ public class Book extends Item
     return wasSet;
   }
   
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getBookId()
   {
     return bookId;

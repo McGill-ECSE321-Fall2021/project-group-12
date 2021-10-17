@@ -12,6 +12,8 @@ public class Creator {
 
 	private CreatorType creatorType;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long creatorId;
 	private String firstName;
 	private String lastName;
@@ -28,6 +30,8 @@ public class Creator {
 			throw new RuntimeException("Cannot have 'null' LibraryApplicationSystem.");
 		}
 	}
+
+    public Creator() {}
 	
 	public boolean setFirstName(String first) {
 		firstName = first;
@@ -56,8 +60,6 @@ public class Creator {
 		return creatorType;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getCreatorId() {
 		return creatorId;
 	}
