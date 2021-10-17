@@ -39,7 +39,11 @@ public class TestCreatorPersistence {
 		String firstName = "First";
 		String lastName = "Last";
 		CreatorType type = Creator.CreatorType.Author;
-		Creator creator = new Creator(firstName, lastName, type, system);
+		Creator creator = new Creator();
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		creator.setCreatorType(Creator.CreatorType.Author);
+		creator.setLibraryApplicationSystem(system);
 		creatorRepository.save(creator);
 		Long id = creator.getCreatorId();
 		

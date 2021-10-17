@@ -42,7 +42,15 @@ public class TestNewspaperPersistence {
         int quantityAvailable = 1;
         int quantity = 1;
         Creator creator = null;
-		Newspaper newspaper = new Newspaper(title, isArchive, isReservable, releaseDate, quantityAvailable, quantity, system, creator);
+        Newspaper newspaper = new Newspaper();
+        newspaper.setTitle(title);
+        newspaper.setIsArchive(isArchive);
+        newspaper.setIsReservable(isReservable);
+        newspaper.setReleaseDate(releaseDate);
+        newspaper.setQuantityAvailable(quantityAvailable);
+        newspaper.setQuantity(quantity);
+        newspaper.setLibraryApplicationSystem(system);
+        newspaper.setCreator(new Creator());
 		newspaperRepository.save(newspaper);
 		Long id = newspaper.getNewspaperId();
 		

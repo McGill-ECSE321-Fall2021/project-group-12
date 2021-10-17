@@ -45,7 +45,7 @@ public class TestLibrarianPersistence {
 		librarian.setEmail(email);
 		
 		librarianRepository.save(librarian);
-		int userId = librarian.getUserId();
+		Long userId = librarian.getUserId();
 		
 		librarian = null;
 		

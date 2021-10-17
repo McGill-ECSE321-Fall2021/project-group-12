@@ -8,6 +8,6 @@ import ca.mcgill.ecse321.library.model.Librarian;
 @Repository
 public interface LibrarianRepository extends CrudRepository<Librarian, Integer> {
 	
-	Librarian findLibrarianbyUserid(int userId);
+	Librarian findLibrarianbyUserid(Long userId);
 
 }
