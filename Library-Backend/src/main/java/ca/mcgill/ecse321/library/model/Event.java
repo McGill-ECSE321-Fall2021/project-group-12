@@ -1,30 +1,18 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
 
+import javax.persistence.*;
 
-
-// line 95 "library.ump"
+@Entity
 public class Event
 {
 
-	//------------------------
-	// MEMBER VARIABLES
-	//------------------------
-
-	//Event Attributes
 	private String name;
 	private boolean isPrivate;
-
-	//Event Associations
 	private TimeSlot timeSlot;
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-	//------------------------
-	// CONSTRUCTOR
-	//------------------------
-
+	
 	public Event(String aName, boolean aIsPrivate, TimeSlot aTimeSlot, User aUser, LibraryApplicationSystem aLibraryApplicationSystem)
 	{
 		name = aName;
@@ -46,24 +34,15 @@ public class Event
 		}
 	}
 
-	//------------------------
-	// INTERFACE
-	//------------------------
 
 	public boolean setName(String aName)
 	{
-		boolean wasSet = false;
 		name = aName;
-		wasSet = true;
-		return wasSet;
 	}
 
 	public boolean setIsPrivate(boolean aIsPrivate)
 	{
-		boolean wasSet = false;
 		isPrivate = aIsPrivate;
-		wasSet = true;
-		return wasSet;
 	}
 
 	public String getName()
@@ -75,12 +54,12 @@ public class Event
 	{
 		return isPrivate;
 	}
-	/* Code from template association_GetOne */
+	
 	public TimeSlot getTimeSlot()
 	{
 		return timeSlot;
 	}
-	/* Code from template association_GetOne */
+	
 	public User getUser()
 	{
 		return user;
@@ -90,21 +69,18 @@ public class Event
 	{
 		return libraryApplicationSystem;
 	}
-	/* Code from template association_SetOneToOptionalOne */
+
 	public boolean setTimeSlot(TimeSlot aNewTimeSlot)
 	{
-		boolean wasSet = false;
 		if (aNewTimeSlot == null)
 		{
-			//Unable to setTimeSlot to null, as event must always be associated to a timeSlot
-			return wasSet;
+			return false;
 		}
 
 		Event existingEvent = aNewTimeSlot.getEvent();
 		if (existingEvent != null && !equals(existingEvent))
 		{
-			//Unable to setTimeSlot, the current timeSlot already has a event, which would be orphaned if it were re-assigned
-			return wasSet;
+			return false;
 		}
 
 		TimeSlot anOldTimeSlot = timeSlot;
@@ -115,16 +91,15 @@ public class Event
 		{
 			anOldTimeSlot.setEvent(null);
 		}
-		wasSet = true;
-		return wasSet;
+		return true;
 	}
-	/* Code from template association_SetOneToMany */
+	
+	
 	public boolean setUser(User aUser)
 	{
-		boolean wasSet = false;
 		if (aUser == null)
 		{
-			return wasSet;
+			return false;
 		}
 
 		User existingUser = user;
@@ -134,16 +109,15 @@ public class Event
 			existingUser.removeEvent(this);
 		}
 		user.addEvent(this);
-		wasSet = true;
-		return wasSet;
+		return true;
 	}
 
 	public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
 	{
-		boolean wasSet = false;
+		
 		if (aLibraryApplicationSystem == null)
 		{
-			return wasSet;
+			return false;
 		}
 		LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
 		libraryApplicationSystem = aLibraryApplicationSystem;
@@ -152,8 +126,8 @@ public class Event
 			existingLibraryApplicationSystem.removeEvent(this);
 		}
 		libraryApplicationSystem.addEvent(this);
-		wasSet = true;
-		return wasSet;
+		
+		return true;
 	}
 
 	public void delete()

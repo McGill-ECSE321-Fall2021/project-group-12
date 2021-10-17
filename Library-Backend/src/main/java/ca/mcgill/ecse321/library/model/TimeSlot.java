@@ -5,28 +5,20 @@ package ca.mcgill.ecse321.library.model;
 
 import java.sql.Time;
 import java.sql.Date;
+import javax.persistence.*;
 
-// line 102 "library.ump"
+@Entity
 public class TimeSlot
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
 
-  //TimeSlot Attributes
   private Time startTime;
   private Time endTime;
   private Date startDate;
   private Date endDate;
-
-  //TimeSlot Associations
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public TimeSlot(Time aStartTime, Time aEndTime, Date aStartDate, Date aEndDate, LibraryApplicationSystem aLibraryApplicationSystem)
   {
@@ -41,40 +33,25 @@ public class TimeSlot
     }
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setStartTime(Time aStartTime)
   {
-    boolean wasSet = false;
     startTime = aStartTime;
-    wasSet = true;
-    return wasSet;
   }
 
   public boolean setEndTime(Time aEndTime)
   {
-    boolean wasSet = false;
     endTime = aEndTime;
-    wasSet = true;
-    return wasSet;
   }
 
   public boolean setStartDate(Date aStartDate)
   {
-    boolean wasSet = false;
     startDate = aStartDate;
-    wasSet = true;
-    return wasSet;
   }
 
   public boolean setEndDate(Date aEndDate)
   {
-    boolean wasSet = false;
     endDate = aEndDate;
-    wasSet = true;
-    return wasSet;
   }
 
   public Time getStartTime()
@@ -96,12 +73,12 @@ public class TimeSlot
   {
     return endDate;
   }
-  /* Code from template association_GetOne */
+
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;
   }
-  /* Code from template association_GetOne */
+
   public Event getEvent()
   {
     return event;
@@ -112,13 +89,12 @@ public class TimeSlot
     boolean has = event != null;
     return has;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
-    boolean wasSet = false;
     if (aLibraryApplicationSystem == null)
     {
-      return wasSet;
+      return false;
     }
 
     LibraryApplicationSystem existingLibraryApplicationSystem = libraryApplicationSystem;
@@ -127,18 +103,16 @@ public class TimeSlot
     {
       existingLibraryApplicationSystem.removeTimeSlot(this);
     }
-    libraryApplicationSystem.addTimeSlot(this);
-    wasSet = true;
-    return wasSet;
+
+    return true;
   }
   /* Code from template association_SetOptionalOneToOne */
   public boolean setEvent(Event aNewEvent)
   {
-    boolean wasSet = false;
     if (event != null && !event.equals(aNewEvent) && equals(event.getTimeSlot()))
     {
       //Unable to setEvent, as existing event would become an orphan
-      return wasSet;
+      return false;
     }
 
     event = aNewEvent;
@@ -155,8 +129,7 @@ public class TimeSlot
         event.setTimeSlot(this);
       }
     }
-    wasSet = true;
-    return wasSet;
+    return true;
   }
 
   public void delete()
