@@ -33,7 +33,6 @@ public class Event
 	public boolean getIsPrivate()
 	{
 		return isPrivate;
-		return true;
 	}
 	
 	public TimeSlot getTimeSlot()
