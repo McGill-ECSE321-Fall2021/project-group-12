@@ -38,11 +38,13 @@ public class Event
 	public boolean setName(String aName)
 	{
 		name = aName;
+		return true;
 	}
 
 	public boolean setIsPrivate(boolean aIsPrivate)
 	{
 		isPrivate = aIsPrivate;
+		return true;
 	}
 
 	public String getName()
@@ -53,6 +55,7 @@ public class Event
 	public boolean getIsPrivate()
 	{
 		return isPrivate;
+		return true;
 	}
 	
 	public TimeSlot getTimeSlot()

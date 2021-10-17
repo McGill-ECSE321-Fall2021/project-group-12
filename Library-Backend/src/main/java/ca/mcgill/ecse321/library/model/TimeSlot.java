@@ -37,21 +37,25 @@ public class TimeSlot
   public boolean setStartTime(Time aStartTime)
   {
     startTime = aStartTime;
+    return true;
   }
 
   public boolean setEndTime(Time aEndTime)
   {
     endTime = aEndTime;
+    return true;
   }
 
   public boolean setStartDate(Date aStartDate)
   {
     startDate = aStartDate;
+    return true;
   }
 
   public boolean setEndDate(Date aEndDate)
   {
     endDate = aEndDate;
+    return true;
   }
 
   public Time getStartTime()
@@ -106,12 +110,11 @@ public class TimeSlot
 
     return true;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setEvent(Event aNewEvent)
   {
     if (event != null && !event.equals(aNewEvent) && equals(event.getTimeSlot()))
     {
-      //Unable to setEvent, as existing event would become an orphan
       return false;
     }
 
