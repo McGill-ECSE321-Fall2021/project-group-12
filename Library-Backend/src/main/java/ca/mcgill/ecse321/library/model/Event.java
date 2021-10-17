@@ -12,28 +12,6 @@ public class Event
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
 
-	
-	public Event(String aName, boolean aIsPrivate, TimeSlot aTimeSlot, User aUser, LibraryApplicationSystem aLibraryApplicationSystem)
-	{
-		name = aName;
-		isPrivate = aIsPrivate;
-		boolean didAddTimeSlot = setTimeSlot(aTimeSlot);
-		if (!didAddTimeSlot)
-		{
-			throw new RuntimeException("Unable to create event due to timeSlot. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-		}
-		boolean didAddUser = setUser(aUser);
-		if (!didAddUser)
-		{
-			throw new RuntimeException("Unable to create event due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-		}
-		boolean didAddLibraryApplicationSystem = setLibraryApplicationSystem(aLibraryApplicationSystem);
-		if (!didAddLibraryApplicationSystem)
-		{
-			throw new RuntimeException("Unable to create event due to libraryApplicationSystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-		}
-	}
-
 
 	public boolean setName(String aName)
 	{
