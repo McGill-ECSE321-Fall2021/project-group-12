@@ -3,10 +3,9 @@ package ca.mcgill.ecse321.library.model;
 
 import java.util.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
 public class Reservation
 {
 
@@ -63,11 +62,15 @@ public class Reservation
     return user;
   }
   /* Code from template association_GetOne */
+
+  @ManyToOne(cascade = {CascadeType.ALL})
   public TimeSlot getTimeSlot()
   {
     return timeSlot;
   }
   /* Code from template association_GetOne */
+
+  @ManyToOne(cascade = {CascadeType.ALL})
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;

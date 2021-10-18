@@ -94,7 +94,8 @@ public abstract class Item
   {
     return releaseDate;
   }
-  
+
+  @OneToOne
   public Reservation getReservation()
   {
     return reservation;
@@ -136,11 +137,13 @@ public abstract class Item
     return itemId;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(cascade = {CascadeType.ALL})
   public Creator getCreator()
   {
     return creator;
