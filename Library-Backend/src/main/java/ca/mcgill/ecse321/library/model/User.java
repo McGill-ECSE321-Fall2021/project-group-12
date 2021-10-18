@@ -101,12 +101,14 @@ public abstract class User{
 		wasAdded = true;
 		return wasAdded;
 	}
-
+	@OneToMany
 	public List<Reservation> getReservation()
 	{
 		List<Reservation> newReservation = Collections.unmodifiableList(reservations);
 		return newReservation;
 	}
+	
+	
 
 	public int numberOfReservation()
 	{
