@@ -30,7 +30,7 @@ Design a website and an application for a library to assist it in providing its 
 | Ann Trihn |
 | Chirag Sood |
 | Lucca Di Lullo |
-| Mia Stevanovic |
+| Mia Stevanovic | <ul><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Head Libarian Features</li><li>Detailed specification: Set Library Business Hours</li><li>Refactor and persistence: Event, TimeSlot</li></ul> | 15 |
 | Yuyan Shi | <ul><li>Continuous Integration</li><li>Success Spectrum</li><li>Domain Model</li><li>Use case diagram: User Account</li><li>Detailed soecification: Create Online Account</li><li>Refactor and persistence: Librarian, HeadLibrarian, LibraryHour</li></ul> | 17 |
 
 ## Deliverable 2
