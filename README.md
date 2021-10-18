@@ -27,7 +27,7 @@ Design a website and an application for a library to assist it in providing its 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
 | Aaron Mills | <ul><li>Setup Gradle, Spring, and Heroku</li><li>Setup Continuous Integration (Github Actions)</li><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Booking Event</li><li>Detailed specification: Set Librarian Schedule</li><li>Refactor and persistence: LibaryApplicationSystem, Creator</li><li>Debugging</li></ul> | 22 |
-| Ann Trihn | <ul><li>Success Spectrum</li><li>Requirements</li><li>Domain Model</li><li>Detailed specification: Book event</li><li>Refactor and persistence: User, OfflineUser, OnlineUser</li><li>Recorded meeting minutes, key decisions</li><li>Organizaed the wiki page</li><li></ul> | 16 |
+| Ann Trihn | <ul><li>Success Spectrum</li><li>Requirements</li><li>Domain Model</li><li>Detailed specification: Book event</li><li>Refactor and persistence: User, OfflineUser, OnlineUser</li><li>Recorded meeting minutes, key decisions</li><li>Organizaed the wiki page</li></ul> | 16 |
 | Chirag Sood |
 | Lucca Di Lullo |
 | Mia Stevanovic | <ul><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Head Libarian Features</li><li>Detailed specification: Set Library Business Hours</li><li>Refactor and persistence: Event, TimeSlot</li></ul> | 15 |
