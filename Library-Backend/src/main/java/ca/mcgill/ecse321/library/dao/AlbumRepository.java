@@ -8,6 +8,6 @@ import ca.mcgill.ecse321.library.model.Album;
 @Repository
 public interface AlbumRepository extends CrudRepository<Album, Long>{
 
-	Album findAlbumByAlbumId(Long albumId);
+	Album findAlbumByItemId(Long itemId);
 	
 }

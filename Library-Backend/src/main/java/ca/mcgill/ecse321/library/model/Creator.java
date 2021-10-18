@@ -50,10 +50,20 @@ public class Creator {
 	public Long getCreatorId() {
 		return creatorId;
 	}
+	
+	public boolean setCreatorId(Long id) {
+		creatorId = id;
+		return true;
+	}
 
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Item> getItems() {
 		return items;
+	}
+	
+	public boolean setItems(List<Item> newItems) {
+		items = newItems;
+		return true;
 	}
 
 	public int numberOfItems() {
@@ -64,16 +74,21 @@ public class Creator {
 		return items.size() > 0;
 	}
 
-	@ManyToOne(cascade = {CascadeType.ALL})
+	@ManyToOne(optional=false)
 	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
 	}
 
 	public boolean addItem(Item item) {
+		if (items == null) {
+			items = new ArrayList<Item>();
+		}
 		if (items.contains(item)) { 
 			return false;
 		}
-		item.setCreator(this);
+		if(!item.getCreator().equals(this)) {
+			item.setCreator(this);
+		}
 		items.add(item);
 		return true;
 	}

@@ -64,9 +64,9 @@ public class TestBookPersitence {
 		book = null;
 		
 		
-		book = bookRepository.findBookByBookId(id);
+		book = bookRepository.findBookByItemId(id);
 		
-		assertNotNull(creator);
+		assertNotNull(book);
 		assertEquals(id, book.getItemId());
 		
 		

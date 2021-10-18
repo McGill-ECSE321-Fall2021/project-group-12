@@ -1,13 +1,10 @@
 package ca.mcgill.ecse321.library.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.1.5099.60569f335 modeling language!*/
-
 
 import java.sql.Date;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
 public abstract class Item
 {
 
@@ -21,9 +18,6 @@ public abstract class Item
 
 
   private Long itemId;
-
-
-  //Item Associations
   private LibraryApplicationSystem libraryApplicationSystem;
   private Creator creator;
 
@@ -95,7 +89,7 @@ public abstract class Item
     return releaseDate;
   }
 
-  @OneToOne
+  @OneToOne(optional=true, cascade={CascadeType.ALL})
   public Reservation getReservation()
   {
     return reservation;
@@ -136,19 +130,24 @@ public abstract class Item
   {
     return itemId;
   }
-  /* Code from template association_GetOne */
+  
+  public boolean setItemId(Long id) {
+	  itemId = id;
+	  return true;
+  }
+  
   @ManyToOne(optional=false)
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;
   }
-  /* Code from template association_GetOne */
-  @ManyToOne(cascade = {CascadeType.ALL})
+
+  @ManyToOne
   public Creator getCreator()
   {
     return creator;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;
@@ -167,7 +166,7 @@ public abstract class Item
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setCreator(Creator aCreator)
   {
     boolean wasSet = false;
@@ -202,9 +201,6 @@ public abstract class Item
       placeholderCreator.removeItem(this);
     }
   }
-  
-  
-
 
   public String toString()
   {

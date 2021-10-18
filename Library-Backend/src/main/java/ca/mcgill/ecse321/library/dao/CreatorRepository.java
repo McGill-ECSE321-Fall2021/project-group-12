@@ -12,6 +12,4 @@ public interface CreatorRepository extends CrudRepository<Creator, Long>{
 	
 	Creator findCreatorByCreatorId(Long creatorId);
 	
-	Creator findByItem(Item itemId);
-	
 }

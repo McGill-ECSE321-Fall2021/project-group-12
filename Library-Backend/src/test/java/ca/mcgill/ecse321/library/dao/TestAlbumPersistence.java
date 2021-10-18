@@ -66,9 +66,9 @@ public class TestAlbumPersistence {
 		album = null;
 		
 		
-		album = albumRepository.findAlbumByAlbumId(id);
+		album = albumRepository.findAlbumByItemId(id);
 		
-		assertNotNull(creator);
+		assertNotNull(album);
 		assertEquals(id, album.getItemId());
 		
 		

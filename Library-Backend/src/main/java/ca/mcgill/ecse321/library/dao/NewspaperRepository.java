@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NewspaperRepository extends CrudRepository<Newspaper, Long>{
 	
-	Newspaper findByNewspaperId(Long newspaperId);
+	Newspaper findByItemId(Long ItemId);
 	
 }

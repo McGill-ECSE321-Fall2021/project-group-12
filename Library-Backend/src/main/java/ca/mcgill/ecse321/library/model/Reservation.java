@@ -27,16 +27,15 @@ public class Reservation
 	  return reservationId;
   }
   
-  public Item getItem(int index)
-  {
-    Item aItem = items.get(index);
-    return aItem;
-  }
-
+  @OneToMany
   public List<Item> getItems()
   {
-    List<Item> newItems = Collections.unmodifiableList(items);
-    return newItems;
+    return items;
+  }
+  
+  public boolean setItems(List<Item> newItems) {
+	  	items = newItems;
+		return true;
   }
 
   public int numberOfItems()
@@ -51,36 +50,23 @@ public class Reservation
     return has;
   }
 
-  public int indexOfItem(Item aItem)
-  {
-    int index = items.indexOf(aItem);
-    return index;
-  }
-  /* Code from template association_GetOne */
+  @OneToOne
   public User getUser()
   {
     return user;
   }
-  /* Code from template association_GetOne */
 
   @ManyToOne(cascade = {CascadeType.ALL})
   public TimeSlot getTimeSlot()
   {
     return timeSlot;
   }
-  /* Code from template association_GetOne */
 
-  @ManyToOne(cascade = {CascadeType.ALL})
+  @ManyToOne(optional=false)
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfItems()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
 
 
   public boolean addItem(Item aItem)
@@ -112,39 +98,7 @@ public class Reservation
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemAt(Item aItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addItem(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
 
-  public boolean addOrMoveItemAt(Item aItem, int index)
-  {
-    boolean wasAdded = false;
-    if(items.contains(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addItemAt(aItem, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_SetOneToMany */
   public boolean setUser(User aUser)
   {
     boolean wasSet = false;
@@ -163,7 +117,7 @@ public class Reservation
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOne */
+  
   public boolean setTimeSlot(TimeSlot aNewTimeSlot)
   {
     boolean wasSet = false;
@@ -174,7 +128,7 @@ public class Reservation
     }
     return wasSet;
   }
-  /* Code from template association_SetOneToMany */
+  
   public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem)
   {
     boolean wasSet = false;

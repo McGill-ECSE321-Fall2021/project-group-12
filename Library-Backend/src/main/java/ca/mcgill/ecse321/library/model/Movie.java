@@ -11,11 +11,6 @@ public class Movie extends Item
 
   private int duration;
   private BMGenre genre;
-  
-  @Id
-  public Long getItemId() {
-	  return super.getItemId();
-  }
 
   public boolean setDuration(int aDuration)
   {

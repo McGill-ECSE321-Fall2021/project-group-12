@@ -4,10 +4,6 @@ import java.sql.Time;
 import java.sql.Date;
 import javax.persistence.*;
 
-
-// line 102 "library.ump"
-import javax.persistence.*;
-
 @Entity
 public class TimeSlot
 {
@@ -18,6 +14,7 @@ public class TimeSlot
   private Date endDate;
   private LibraryApplicationSystem libraryApplicationSystem;
   private Event event;
+  private Reservation reservation;
   private Long timeSlotId;
   
   public boolean setTimeSlotId(Long id) {
@@ -75,16 +72,27 @@ public class TimeSlot
     return endDate;
   }
 
+  @ManyToOne(optional=false)
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;
   }
+  
+  @OneToOne(optional=true, cascade={CascadeType.ALL})
+  public Reservation getReservation() {
+	  return reservation;
+  }
 
+  @OneToOne(optional=true, cascade={CascadeType.ALL})
   public Event getEvent()
   {
     return event;
   }
 
+  public boolean hasReservation() {
+	  return reservation != null;
+  }
+  
   public boolean hasEvent()
   {
     boolean has = event != null;
@@ -106,6 +114,12 @@ public class TimeSlot
     }
 
     return true;
+  }
+  
+  public boolean setReservation(Reservation newReservation) {
+	  newReservation.setTimeSlot(this);
+	  reservation = newReservation;
+	  return true;
   }
 
   public boolean setEvent(Event aNewEvent)
@@ -146,6 +160,12 @@ public class TimeSlot
     {
       existingEvent.delete();
     }
+    
+    Reservation existingReservation = reservation;
+    reservation = null;
+    if (existingReservation != null) {
+    	existingReservation.delete();
+    }
   }
 
 
@@ -157,6 +177,7 @@ public class TimeSlot
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "event = "+(getEvent()!=null?Integer.toHexString(System.identityHashCode(getEvent())):"null");
+            "  " + "event = "+(getEvent()!=null?Integer.toHexString(System.identityHashCode(getEvent())):"null") +
+            "  " + "reservation = "+(getReservation()!=null?Integer.toHexString(System.identityHashCode(getReservation())):"null");
   }
 }

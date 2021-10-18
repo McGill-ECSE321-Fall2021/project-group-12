@@ -46,7 +46,7 @@ public class TestUserPersistence {
 		
 		offlineUser = null;
 		
-		offlineUser = offlineUserRepository.findOfflineUserById(id);
+		offlineUser = offlineUserRepository.findOfflineUserByUserId(id);
 		
 		assertNotNull(offlineUser);
 		assertEquals(firstName, offlineUser.getFirstName());
@@ -81,7 +81,7 @@ public class TestUserPersistence {
 		
 		onlineUser = null;
 		
-		onlineUser = onlineUserRepository.findOnlineUserById(id);
+		onlineUser = onlineUserRepository.findOnlineUserByUserId(id);
 		
 		assertNotNull(onlineUser);
 		assertEquals(firstName, onlineUser.getFirstName());

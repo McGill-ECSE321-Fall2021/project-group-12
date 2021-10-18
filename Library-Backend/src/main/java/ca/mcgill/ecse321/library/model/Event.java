@@ -2,9 +2,6 @@ package ca.mcgill.ecse321.library.model;
 
 import javax.persistence.*;
 
-// line 95 "library.ump"
-import javax.persistence.*;
-
 @Entity
 public class Event
 {
@@ -26,39 +23,37 @@ public class Event
 	public Long getEventId() {
 		return eventId;
 	}
-	public boolean setName(String aName)
-	{
+	
+	public boolean setName(String aName) {
 		name = aName;
 		return true;
 	}
 
-	public boolean setIsPrivate(boolean aIsPrivate)
-	{
+	public boolean setIsPrivate(boolean aIsPrivate) {
 		isPrivate = aIsPrivate;
 		return true;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public boolean getIsPrivate()
-	{
+	public boolean getIsPrivate() {
 		return isPrivate;
 	}
 	
-	public TimeSlot getTimeSlot()
-	{
+	@OneToOne(optional=true, cascade={CascadeType.ALL})
+	public TimeSlot getTimeSlot() {
 		return timeSlot;
 	}
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@OneToOne
 	public User getUser()
 	{
 		return user;
 	}
 
+	@ManyToOne(optional=false)
 	public LibraryApplicationSystem getLibraryApplicationSystem()
 	{
 		return libraryApplicationSystem;

@@ -8,6 +8,6 @@ import ca.mcgill.ecse321.library.model.Movie;
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Long>{
 
-	Movie findMovieByMovieId(Long movieId);
+	Movie findMovieByItemId(Long itemId);
 	
 }

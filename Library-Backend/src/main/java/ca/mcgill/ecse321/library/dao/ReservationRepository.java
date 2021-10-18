@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Long>{
 	
-	Reservation findByReservationId(Long reservationId);
+	Reservation findReservationByReservationId(Long reservationId);
 	
 }

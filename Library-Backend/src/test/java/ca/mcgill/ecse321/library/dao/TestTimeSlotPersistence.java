@@ -52,7 +52,7 @@ public class TestTimeSlotPersistence {
 		
 		timeSlot = null;
 		
-		timeSlot = timeSlotRepository.findTimeSlotById(tId);
+		timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(tId);
 		
 		
 		assertNotNull(timeSlot);

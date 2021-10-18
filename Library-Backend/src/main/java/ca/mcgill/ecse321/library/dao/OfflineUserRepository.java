@@ -5,5 +5,5 @@ import ca.mcgill.ecse321.library.model.OfflineUser;
 
 public interface OfflineUserRepository extends CrudRepository<OfflineUser, Long>{
 	
-	OfflineUser findOfflineUserById(Long id);
+	OfflineUser findOfflineUserByUserId(Long id);
 }

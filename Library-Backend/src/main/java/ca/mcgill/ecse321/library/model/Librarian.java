@@ -7,42 +7,41 @@ import javax.persistence.*;
 @Entity
 public class Librarian extends OnlineUser {
 	
-	private List<LibraryHour> libraryHour;
-
-
-	@Id
-	public Long getUserId() {
-		return super.getUserId();
-	}
+	private List<LibraryHour> libraryHours;
 	
-	public LibraryHour getLibraryHour(int index) {
-		LibraryHour aLibraryHour = libraryHour.get(index);
+	public LibraryHour getLibraryHours(int index) {
+		LibraryHour aLibraryHour = libraryHours.get(index);
 		return aLibraryHour;
 	}
 	
-	@OneToMany
-	public List<LibraryHour> getLibraryHour() {
-		List<LibraryHour> newLibraryHour = Collections.unmodifiableList(libraryHour);
+	public boolean setLibraryHours(List<LibraryHour> newLibraryHours) {
+		libraryHours = newLibraryHours;
+		return true;
+	}
+	
+	@OneToMany(cascade={CascadeType.ALL})
+	public List<LibraryHour> getLibraryHours() {
+		List<LibraryHour> newLibraryHour = Collections.unmodifiableList(libraryHours);
 	    return newLibraryHour;
 	}
 
-	public int numberOfLibraryHour() {
-		int number = libraryHour.size();
+	public int numberOfLibraryHours() {
+		int number = libraryHours.size();
 	    return number;
 	}
 
-	public boolean hasLibraryHour() {
-		boolean has = libraryHour.size() > 0;
+	public boolean hasLibraryHours() {
+		boolean has = libraryHours.size() > 0;
 	    return has;
 	}
 	
 	public void delete() {
-  		libraryHour.clear();
+  		libraryHours.clear();
   	    super.delete();
   	}
 	
 	public int indexOfLibraryHour(LibraryHour aLibraryHour) {
-		int index = libraryHour.indexOf(aLibraryHour);
+		int index = libraryHours.indexOf(aLibraryHour);
 	    return index;
 	}
 	

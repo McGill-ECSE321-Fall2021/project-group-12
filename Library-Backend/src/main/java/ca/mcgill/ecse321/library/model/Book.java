@@ -27,12 +27,6 @@ public class Book extends Item
     return wasSet;
   }
 
-  @Id
-  public Long getItemId()
-  {
-    return super.getItemId();
-  }
-
   public int getNumPages()
   {
     return numPages;

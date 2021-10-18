@@ -57,7 +57,7 @@ public class TestNewspaperPersistence {
 		newspaper = null;
 		
 		
-		newspaper = newspaperRepository.findByNewspaperId(id);
+		newspaper = newspaperRepository.findByItemId(id);
 		
 		assertNotNull(newspaper);
 		assertEquals(id, newspaper.getItemId());

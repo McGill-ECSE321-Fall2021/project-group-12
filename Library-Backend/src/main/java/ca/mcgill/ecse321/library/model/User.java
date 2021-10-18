@@ -5,7 +5,8 @@ import javax.persistence.*;
 
 import java.util.*;
 
-@MappedSuperclass
+@Entity
+@Table(name = "Accounts")
 public abstract class User{
 
 	private String firstName;
@@ -14,8 +15,6 @@ public abstract class User{
 	private boolean isLocal;
 
 	private Long userId;
-
-	//User Associations
 	private List<Event> events;
 	private List<Reservation> reservations;
 	private LibraryApplicationSystem libraryApplicationSystem;
@@ -52,17 +51,18 @@ public abstract class User{
 		return isLocal;
 	}
 	
+	public boolean setUserId(Long id) {
+		userId = id;
+		return true;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getUserId() {
 		return userId;
 	}
-	//any other way to find the event?
-	public Event getEvent(int index) {
-		Event aEvent = events.get(index);
-		return aEvent;
-	}
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="user creator")
+	
+	@OneToMany(cascade=CascadeType.ALL)
 	public List<Event> getEvents() {
 		List<Event> newEvents = Collections.unmodifiableList(events);
 		return newEvents;
@@ -76,6 +76,11 @@ public abstract class User{
 	public boolean hasEvents() {
 		boolean has = events.size() > 0;
 		return has;
+	}
+	
+	public boolean setEvents(List<Event> newEvents) {
+		events = newEvents;
+		return true;
 	}
 
 	@ManyToOne(optional=false)
@@ -101,21 +106,25 @@ public abstract class User{
 		wasAdded = true;
 		return wasAdded;
 	}
-	@OneToMany
-	public List<Reservation> getReservation()
+	
+	@OneToMany(cascade={CascadeType.ALL})
+	public List<Reservation> getReservations()
 	{
 		List<Reservation> newReservation = Collections.unmodifiableList(reservations);
 		return newReservation;
 	}
 	
-	
+	public boolean setReservations(List<Reservation> newReservations) {
+		reservations = newReservations;
+		return true;
+	}
 
-	public int numberOfReservation()
+	public int numberOfReservations()
 	{
 		int number = reservations.size();
 		return number;
 	}
-	public boolean hasReservation()
+	public boolean hasReservations()
 	{
 		boolean has = reservations.size() > 0;
 		return has;
@@ -149,10 +158,7 @@ public abstract class User{
 		return wasSet;
 	}
 
-	public static int minimumNumberOfReservation()
-	{
-		return 0;
-	}
+	
 	public Reservation addReservation(TimeSlot aTimeSlot, LibraryApplicationSystem aLibraryApplicationSystem)
 	{
 		Reservation reservation = new Reservation();
@@ -188,7 +194,7 @@ public abstract class User{
 		}
 		return wasRemoved;
 	}
-	//deletion of the user
+	
 	public void delete() {
 		for(int i=events.size(); i > 0; i--) {
 			Event aEvent = events.get(i - 1);
@@ -199,5 +205,9 @@ public abstract class User{
 		if(placeholderLibraryApplicationSystem != null) {
 			placeholderLibraryApplicationSystem.removeUser(this);
 		}
+	}
+	
+	public String toString() {
+		return "Id: " + userId + " Name: " + firstName + " " + lastName + " Address: " + address + " Local: " + isLocal;
 	}
 }

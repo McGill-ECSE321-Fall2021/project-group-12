@@ -64,9 +64,9 @@ public class TestMoviePersistnece {
 		movie = null;
 		
 		
-		movie = movieRepository.findMovieByMovieId(id);
+		movie = movieRepository.findMovieByItemId(id);
 		
-		assertNotNull(creator);
+		assertNotNull(movie);
 		assertEquals(id, movie.getItemId());
 		
 		

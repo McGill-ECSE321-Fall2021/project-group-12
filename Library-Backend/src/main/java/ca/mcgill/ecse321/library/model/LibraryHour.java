@@ -54,7 +54,7 @@ public class LibraryHour {
 		return day;
 	}
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
 	}

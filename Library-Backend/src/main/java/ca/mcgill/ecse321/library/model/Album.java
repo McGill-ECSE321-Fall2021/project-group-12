@@ -3,8 +3,6 @@ package ca.mcgill.ecse321.library.model;
 
 import javax.persistence.*;
 
-import ca.mcgill.ecse321.library.model.Book.BMGenre;
-
 @Entity
 public class Album extends Item
 {
@@ -28,12 +26,6 @@ public class Album extends Item
     genre = aGenre;
     wasSet = true;
     return wasSet;
-  }
-
-  @Id
-  public Long getItemId()
-  {
-    return super.getItemId();
   }
 
   public int getNumSongs()

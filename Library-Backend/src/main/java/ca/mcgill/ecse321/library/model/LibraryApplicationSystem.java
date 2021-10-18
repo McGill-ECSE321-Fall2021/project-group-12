@@ -24,10 +24,23 @@ public class LibraryApplicationSystem {
 	public Long getApplicationId() {
 		return applicationId;
 	}
+	
+	public boolean setApplicationId(Long id) {
+		applicationId = id;
+		return true;
+	}
 
 	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<User> getUsers() {
 		return users;
+	}
+	
+	public boolean setUsers(List<User> newUsers) {
+		for (User u : newUsers) {
+			u.setLibraryApplicationSystem(this);
+		}
+		users = newUsers;
+		return true;
 	}
 
 	public int numberOfUsers() {
@@ -42,6 +55,14 @@ public class LibraryApplicationSystem {
 	public List<Item> getItems() {
 		return items;
 	}
+	
+	public boolean setItems(List<Item> newItems) {
+		for (Item i : newItems) {
+			i.setLibraryApplicationSystem(this);
+		}
+		items = newItems;
+		return true;
+	}
 
 	public int numberOfItems() {
 		return items.size();
@@ -54,6 +75,14 @@ public class LibraryApplicationSystem {
 	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<TimeSlot> getTimeSlots() {
 		return timeSlots;
+	}
+	
+	public boolean setTimeSlots(List<TimeSlot> newTimeSlots) {
+		for (TimeSlot t : newTimeSlots) {
+			t.setLibraryApplicationSystem(this);
+		}
+		timeSlots = newTimeSlots;
+		return true;
 	}
 
 	public int numberOfTimeSlots() {
@@ -69,6 +98,14 @@ public class LibraryApplicationSystem {
 		return libraryHours;
 	}
 
+	public boolean setLibraryHours(List<LibraryHour> newLibraryHours) {
+		for (LibraryHour l : newLibraryHours) {
+			l.setLibraryApplicationSystem(this);
+		}
+		libraryHours = newLibraryHours;
+		return true;
+	}
+
 	public int numberOfLibraryHours() {
 		return libraryHours.size();
 	}
@@ -81,6 +118,14 @@ public class LibraryApplicationSystem {
 	public List<Event> getEvents() {
 		return events;
 	}
+	
+	public boolean setEvents(List<Event> newEvents) {
+		for (Event e : newEvents) {
+			e.setLibraryApplicationSystem(this);
+		}
+		events = newEvents;
+		return true;
+	}
 
 	public int numberOfEvents() {
 		return events.size();
@@ -91,15 +136,23 @@ public class LibraryApplicationSystem {
 	}
 	
 	@OneToMany(cascade={CascadeType.ALL})
-	public List<Reservation> getReservation() {
+	public List<Reservation> getReservations() {
 	    return reservations;
 	}
 	
-	public int numberOfReservation() {
+	public boolean setReservations(List<Reservation> newReservations) {
+		for (Reservation r : newReservations) {
+			r.setLibraryApplicationSystem(this);
+		}
+		reservations = newReservations;
+		return true;
+	}
+	
+	public int numberOfReservations() {
 	    return reservations.size();
 	  }
 
-	public boolean hasReservation() {
+	public boolean hasReservations() {
 	    return reservations.size() > 0;
 	}
 
@@ -107,6 +160,14 @@ public class LibraryApplicationSystem {
 	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<Creator> getCreators() {
 		return creators;
+	}
+	
+	public boolean setCreators(List<Creator> newCreators) {
+		for (Creator c : newCreators) {
+			c.setLibraryApplicationSystem(this);
+		}
+		creators = newCreators;
+		return true;
 	}
 
 	public int numberOfCreators() {
@@ -118,8 +179,14 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean addUser(User user) {
+		if (users == null) {
+			users = new ArrayList<User>();
+		}
 		if (users.contains(user)) { 
 			return false;
+		}
+		if (!user.getLibraryApplicationSystem().equals(this)) {
+			user.setLibraryApplicationSystem(this);
 		}
 		user.setLibraryApplicationSystem(this);
 		users.add(user);
@@ -135,10 +202,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addItem(Item item) {
+		if (items == null) {
+			items = new ArrayList<Item>();
+		}
 		if (items.contains(item)) { 
 			return false;
 		}
-		item.setLibraryApplicationSystem(this);
+		if (!item.getLibraryApplicationSystem().equals(this)) {
+			item.setLibraryApplicationSystem(this);
+		}
 		items.add(item);
 		return true;
 	}
@@ -161,10 +233,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addTimeSlot(TimeSlot timeSlot) {
+		if (timeSlots == null) {
+			timeSlots = new ArrayList<TimeSlot>();
+		}
 		if (timeSlots.contains(timeSlot)) { 
 			return false;
 		}
-		timeSlot.setLibraryApplicationSystem(this);
+		if (!timeSlot.getLibraryApplicationSystem().equals(this)) {
+			timeSlot.setLibraryApplicationSystem(this);
+		}
 		timeSlots.add(timeSlot);
 		return true;
 	}
@@ -186,10 +263,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addLibraryHour(LibraryHour libraryHour) {
+		if (libraryHours == null) {
+			libraryHours = new ArrayList<LibraryHour>();
+		}
 		if (libraryHours.contains(libraryHour)) { 
 			return false;
 		}
-		libraryHour.setLibraryApplicationSystem(this);
+		if (!libraryHour.getLibraryApplicationSystem().equals(this)) {
+			libraryHour.setLibraryApplicationSystem(this);
+		}
 		libraryHours.add(libraryHour);
 		return true;
 	}
@@ -212,10 +294,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addEvent(Event event) {
+		if (events == null) {
+			events = new ArrayList<Event>();
+		}
 		if (events.contains(event)) { 
 			return false; 
 		}
-		event.setLibraryApplicationSystem(this);
+		if (!event.getLibraryApplicationSystem().equals(this)) {
+			event.setLibraryApplicationSystem(this);
+		}
 		events.add(event);
 		return true;
 	}
@@ -236,10 +323,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addReservation(Reservation reservation) {
+		if (reservations == null) {
+			reservations = new ArrayList<Reservation>();
+		}
 	    if (reservations.contains(reservation)) { 
 	    	return false;
 	    }
-	    reservation.setLibraryApplicationSystem(this);
+		if (!reservation.getLibraryApplicationSystem().equals(this)) {
+		    reservation.setLibraryApplicationSystem(this);
+		}
 	    reservations.add(reservation);
 	    return true;
 	}
@@ -261,10 +353,15 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean addCreator(Creator creator) {
+		if (creators == null) {
+			creators = new ArrayList<Creator>();
+		}
 		if (creators.contains(creator)) { 
 			return false;
 		}
-		creator.setLibraryApplicationSystem(this);
+		if (!creator.getLibraryApplicationSystem().equals(this)) {
+		    creator.setLibraryApplicationSystem(this);
+		}
 		creators.add(creator);
 		return true;
 	}
