@@ -135,7 +135,7 @@ public class LibraryApplicationSystem {
 		return events.size() > 0;
 	}
 	
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<Reservation> getReservations() {
 	    return reservations;
 	}
