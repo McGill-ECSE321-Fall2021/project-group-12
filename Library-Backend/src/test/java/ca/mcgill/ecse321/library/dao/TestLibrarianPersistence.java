@@ -50,7 +50,7 @@ public class TestLibrarianPersistence {
 		
 		librarian = null;
 		
-		librarian = librarianRepository.findLibrarianbyUserid(userId);
+		librarian = librarianRepository.findLibrarianByUserId(userId);
 		assertNotNull(librarian);
 		assertEquals(userId, librarian.getUserId());
 		assertEquals(firstName, librarian.getFirstName());

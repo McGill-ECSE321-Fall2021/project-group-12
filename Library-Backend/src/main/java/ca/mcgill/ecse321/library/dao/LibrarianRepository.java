@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import ca.mcgill.ecse321.library.model.Librarian;
 
 @Repository
-public interface LibrarianRepository extends CrudRepository<Librarian, Integer> {
+public interface LibrarianRepository extends CrudRepository<Librarian, Long> {
 	
-	Librarian findLibrarianbyUserid(Long userId);
+	Librarian findLibrarianByUserId(Long userId);
 
 }
