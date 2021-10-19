@@ -27,13 +27,13 @@ public class TestNewspaperPersistence {
 
 	@AfterEach
 	public void clearDatabase() {
-		newspaperRepository.deleteAll();
+		newspaperRepository.deleteAll(); //After methods clear database
 		creatorRepository.deleteAll();
 	}
 
 	@Test
 	public void testPersistAndLoadNewspaper() {
-		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		LibraryApplicationSystem system = new LibraryApplicationSystem(); //Create new library system
         String title = "title";
         boolean isArchive = true;
         boolean isReservable = true;
@@ -48,8 +48,9 @@ public class TestNewspaperPersistence {
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
 		creator.setLibraryApplicationSystem(system);
-		creatorRepository.save(creator);
-        Newspaper newspaper = new Newspaper();
+		creatorRepository.save(creator); //Save newspaper creator
+		
+        Newspaper newspaper = new Newspaper(); //Create newspaper object
         newspaper.setTitle(title);
         newspaper.setIsArchive(isArchive);
         newspaper.setIsReservable(isReservable);
@@ -59,14 +60,14 @@ public class TestNewspaperPersistence {
         newspaper.setLibraryApplicationSystem(system);
         newspaper.setCreator(creator);
         newspaper.setLibraryApplicationSystem(system);
-		newspaperRepository.save(newspaper);
-		Long id = newspaper.getItemId();
+		newspaperRepository.save(newspaper); //Save newspaper object
+		Long id = newspaper.getItemId(); //Newspaper ID
 		
 		newspaper = null;
 		
-		
 		newspaper = newspaperRepository.findByItemId(id);
 		
+		//Verify proper creation of object in database
 		assertNotNull(newspaper);
 		assertEquals(id, newspaper.getItemId());
 		assertEquals(title, newspaper.getTitle());

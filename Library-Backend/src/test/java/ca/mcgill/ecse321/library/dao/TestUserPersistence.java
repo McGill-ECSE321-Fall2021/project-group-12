@@ -22,7 +22,7 @@ public class TestUserPersistence {
 	
 	@AfterEach
 	public void clearDatabase() {
-		offlineUserRepository.deleteAll();
+		offlineUserRepository.deleteAll(); //After each method clear database
 	}
 	
 	@Test
@@ -32,19 +32,20 @@ public class TestUserPersistence {
 		String lastName = "Last";
 		String address = "123 address street";
 		boolean isLocal = true;
-		OfflineUser offlineUser = new OfflineUser();
+		OfflineUser offlineUser = new OfflineUser(); //New offline user object
 		offlineUser.setFirstName(firstName);
 		offlineUser.setLastName(lastName);
 		offlineUser.setAddress(address);
 		offlineUser.setIsLocal(isLocal);
 		offlineUser.setLibraryApplicationSystem(system);
-		offlineUserRepository.save(offlineUser);
+		offlineUserRepository.save(offlineUser); //Save offline user object
 		Long id = offlineUser.getUserId();
 		
 		offlineUser = null;
 		
 		offlineUser = offlineUserRepository.findOfflineUserByUserId(id);
 		
+		//Verify proper creation of object in database
 		assertNotNull(offlineUser);
 		assertEquals(firstName, offlineUser.getFirstName());
 		assertEquals(lastName, offlineUser.getLastName());
@@ -65,7 +66,7 @@ public class TestUserPersistence {
 		String username = "username";
 		String password = "password";
 		String email = "email@email.email";
-		OnlineUser onlineUser = new OnlineUser();
+		OnlineUser onlineUser = new OnlineUser(); //Create new online user object
 		onlineUser.setFirstName(firstName);
 		onlineUser.setLastName(lastName);
 		onlineUser.setAddress(address);
@@ -74,13 +75,14 @@ public class TestUserPersistence {
 		onlineUser.setUsername(username);
 		onlineUser.setPassword(password);
 		onlineUser.setEmail(email);
-		onlineUserRepository.save(onlineUser);
-		Long id = onlineUser.getUserId();
+		onlineUserRepository.save(onlineUser); //Save online user object
+		Long id = onlineUser.getUserId(); //Get online ser ID
 		
 		onlineUser = null;
 		
 		onlineUser = onlineUserRepository.findOnlineUserByUserId(id);
 		
+		//Verify proper creation of object in database
 		assertNotNull(onlineUser);
 		assertEquals(firstName, onlineUser.getFirstName());
 		assertEquals(lastName, onlineUser.getLastName());

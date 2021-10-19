@@ -21,24 +21,24 @@ public class TestReservationPersistence {
 
 	@AfterEach
 	public void clearDatabase() {
-		reservationRepository.deleteAll();
+		reservationRepository.deleteAll(); //After methods clear database
 	}
 	
 	@Test
 	public void testPersistAndLoadReservation() {
-		LibraryApplicationSystem system = new LibraryApplicationSystem();
-		Reservation reservation = new Reservation();
+		LibraryApplicationSystem system = new LibraryApplicationSystem(); //Create new library system
+		Reservation reservation = new Reservation(); //Create new reservation object
 		
 		reservation.setLibraryApplicationSystem(system);
 	
-		reservationRepository.save(reservation);
-		Long id = reservation.getReservationId();
+		reservationRepository.save(reservation); //Save reservation object
+		Long id = reservation.getReservationId(); //Get reservation object ID
 		
 		reservation = null;
 		
+		reservation = reservationRepository.findReservationByReservationId(id); //Find reservation in database
 		
-		reservation = reservationRepository.findReservationByReservationId(id);
-		
+		//Verify proper creation of object in database
 		assertNotNull(reservation);
 		assertEquals(id, reservation.getReservationId());
 		assertNotNull(reservation.getLibraryApplicationSystem());

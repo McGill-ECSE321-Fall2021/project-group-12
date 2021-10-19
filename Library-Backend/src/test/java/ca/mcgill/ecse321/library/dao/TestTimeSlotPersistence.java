@@ -25,13 +25,13 @@ public class TestTimeSlotPersistence {
 	
 	@AfterEach
 	public void clearDatabase() {
-		timeSlotRepository.deleteAll();
+		timeSlotRepository.deleteAll(); //After methods clear database 
 	}
 	
 	@Test
 	public void testPersistAndLoadTimeSlot() {
 		
-		TimeSlot timeSlot = new TimeSlot();
+		TimeSlot timeSlot = new TimeSlot(); //New timeslot object
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
 		Time startTime = Time.valueOf("09:00:00");
 		Time endTime = Time.valueOf("17:00:00");
@@ -44,14 +44,14 @@ public class TestTimeSlotPersistence {
 		timeSlot.setEndDate(endDate);
 		timeSlot.setLibraryApplicationSystem(system);
 		
-		timeSlotRepository.save(timeSlot);
-		Long timeSlotId = timeSlot.getTimeSlotId();
+		timeSlotRepository.save(timeSlot); //Save timeslot
+		Long timeSlotId = timeSlot.getTimeSlotId(); //Get timeslot ID
 		
 		timeSlot = null;
 		
 		timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
 		
-		
+		//Verify proper creation in database
 		assertNotNull(timeSlot);
 		assertEquals(timeSlotId, timeSlot.getTimeSlotId());
 		assertNotNull(timeSlot.getStartTime());
