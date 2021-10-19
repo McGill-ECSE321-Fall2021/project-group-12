@@ -12,7 +12,7 @@
 
 ## Project
 ### Description
-Design a website and an application for a library to assist it in providing its services.
+Design an application for a library to assist it in providing its services. Such services include the browsing of available items, reserve items, and booking the library for an event. Users are people of a small town and can choose to have an online or an offline account. Librarians will also be part of the system and have the functionalities of a user and can view their work schedules on the online library system. A website and a mobile application will be designed to fulfill the aforementioned functionalities.
 
 ### Technologies Used
 * Gradle
