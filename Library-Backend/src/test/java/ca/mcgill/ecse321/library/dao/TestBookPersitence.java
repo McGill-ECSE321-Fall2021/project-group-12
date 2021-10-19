@@ -34,6 +34,8 @@ public class TestBookPersitence {
 	@Test
 	public void testPersistAndLoadBook() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		
+		// Define Book attributes
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
@@ -42,7 +44,11 @@ public class TestBookPersitence {
 		int quantity = 12;
 		int numPages = 400;
 		BMGenre genre = Book.BMGenre.Action;
+		
+		// Create Creator object 
 		Creator creator = new Creator();
+		
+		// Define Creator attributes
 		String firstName = "First";
 		String lastName = "Last";
 		CreatorType type = Creator.CreatorType.Author;
@@ -50,10 +56,14 @@ public class TestBookPersitence {
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
 		creator.setLibraryApplicationSystem(system);
+		
+		// Save Creator object
 		creatorRepository.save(creator);
 		
+		// Create Book object
 		Book book = new Book();
 		
+		// Set book attributes
 		book.setTitle(title);
 		book.setIsArchive(isArchive);
 		book.setIsReservable(isReservable);
@@ -65,18 +75,21 @@ public class TestBookPersitence {
 		book.setGenre(genre);
 		book.setLibraryApplicationSystem(system);
 	
+		// Save Book object
 		bookRepository.save(book);
+		
+		// Save Id
 		Long id = book.getItemId();
 		
+		// Set object to null
 		book = null;
 		
-		
+		// Retrieve object using Id
 		book = bookRepository.findBookByItemId(id);
 		
+		// Verify the object has been retrieved
 		assertNotNull(book);
 		assertEquals(id, book.getItemId());
-		
-		
 		assertEquals(title, book.getTitle());
 		assertEquals(isArchive, book.getIsArchive());
 		assertEquals(isReservable,book.getIsReservable());

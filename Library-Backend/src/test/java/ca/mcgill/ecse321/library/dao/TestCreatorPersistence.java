@@ -26,22 +26,34 @@ public class TestCreatorPersistence {
 	@Test
 	public void testPersistAndLoadCreator() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		
+		// Define attributes
 		String firstName = "First";
 		String lastName = "Last";
 		CreatorType type = Creator.CreatorType.Author;
+		
+		// Create Creator object
 		Creator creator = new Creator();
+		
+		// Set attributes
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
 		creator.setLibraryApplicationSystem(system);
+		
+		// Save object
 		creatorRepository.save(creator);
+		
+		// Save Id
 		Long id = creator.getCreatorId();
 		
+		// Set object to null
 		creator = null;
 		
-		
+		// Retrieve object using Id
 		creator = creatorRepository.findCreatorByCreatorId(id);
 		
+		// Verify the object has been retrieved
 		assertNotNull(creator);
 		assertEquals(id, creator.getCreatorId());
 		assertEquals(firstName, creator.getFirstName());

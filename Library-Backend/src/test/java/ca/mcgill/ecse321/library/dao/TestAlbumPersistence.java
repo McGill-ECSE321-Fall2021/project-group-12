@@ -35,6 +35,8 @@ public class TestAlbumPersistence {
 	@Test
 	public void testPersistAndLoadAlbum() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		
+		// Define Album attributes
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
@@ -43,7 +45,11 @@ public class TestAlbumPersistence {
 		int quantity = 12;
 		int numSongs = 15;
 		MusicGenre genre = Album.MusicGenre.Jazz;
+		
+		// Create Creator object
 		Creator creator = new Creator();
+		
+		// Define Creator attributes
 		String firstName = "First";
 		String lastName = "Last";
 		CreatorType type = Creator.CreatorType.Author;
@@ -51,11 +57,14 @@ public class TestAlbumPersistence {
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
 		creator.setLibraryApplicationSystem(system);
+		
+		// Save Creator object
 		creatorRepository.save(creator);
 		
-		
+		// Create Album object
 		Album album = new Album();
 		
+		// Set Album attributes
 		album.setTitle(title);
 		album.setIsArchive(isArchive);
 		album.setIsReservable(isReservable);
@@ -65,21 +74,23 @@ public class TestAlbumPersistence {
 		album.setNumSongs(numSongs);
 		album.setCreator(creator);
 		album.setGenre(genre);
-		
 		album.setLibraryApplicationSystem(system);
 	
+		// Save Album object
 		albumRepository.save(album);
+		
+		// Save Album Id
 		Long id = album.getItemId();
 		
+		// Set Album object to null
 		album = null;
 		
-		
+		// Retrieve Album object using Id
 		album = albumRepository.findAlbumByItemId(id);
 		
+		// Verify the object has been retrieved
 		assertNotNull(album);
 		assertEquals(id, album.getItemId());
-		
-		
 		assertEquals(title, album.getTitle());
 		assertEquals(isArchive, album.getIsArchive());
 		assertEquals(isReservable,album.getIsReservable());
