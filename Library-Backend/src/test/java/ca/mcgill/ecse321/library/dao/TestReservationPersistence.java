@@ -21,7 +21,6 @@ public class TestReservationPersistence {
 
 	@AfterEach
 	public void clearDatabase() {
-		
 		reservationRepository.deleteAll();
 	}
 	
