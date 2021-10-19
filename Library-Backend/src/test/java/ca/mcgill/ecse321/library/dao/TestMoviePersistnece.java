@@ -35,26 +35,31 @@ public class TestMoviePersistnece {
 	@Test
 	public void testPersistAndLoadMovie() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		//initializing attributes for movie
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
+		//initialize date
 		Date releaseDate = new Date(10-18-2021);
 		int quantityAvailable = 5;
 		int quantity = 12;
 		int duration = 200;
 		BMGenre genre = Movie.BMGenre.Action;
+		//initialize creator object
 		Creator creator = new Creator();
 		String firstName = "First";
 		String lastName = "Last";
 		CreatorType type = Creator.CreatorType.Author;
+		//setting attributes
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
 		creator.setLibraryApplicationSystem(system);
+		//save creator in persistence
 		creatorRepository.save(creator);
-		
+		//initialize movie object
 		Movie movie = new Movie();
-		
+		//setting attributes
 		movie.setTitle(title);
 		movie.setIsArchive(isArchive);
 		movie.setIsReservable(isReservable);
@@ -65,15 +70,15 @@ public class TestMoviePersistnece {
 		movie.setCreator(creator);
 		movie.setGenre(genre);
 		movie.setLibraryApplicationSystem(system);
-	
+		//save movie object
 		movieRepository.save(movie);
 		Long id = movie.getItemId();
 		
 		movie = null;
 		
-		
+		//find movie object
 		movie = movieRepository.findMovieByItemId(id);
-		
+		//testing if object persisted
 		assertNotNull(movie);
 		assertEquals(id, movie.getItemId());
 		

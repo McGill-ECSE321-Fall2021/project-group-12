@@ -23,12 +23,14 @@ public class TestHeadLibrarianPersistence {
 	
 	@AfterEach
 	public void clearDatabase() {
+		//clearing database after each test
 		headLibrarianRepository.deleteAll();
 	}
 	
 	@Test
 	public void testPersistAndLoadHeadLibrarian() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		//initializing attributes for head librarian 
 		String firstName = "Parker";
 		String lastName = "Peter";
 		String address = "123 Street";
@@ -36,7 +38,9 @@ public class TestHeadLibrarianPersistence {
 		String password = "11454";
 		String email = "Peter@gmail.com";
 		boolean isLocal = true;
+		//instantiating head librarian 
 		HeadLibrarian headLibrarian = new HeadLibrarian();
+		//setting attributes
 		headLibrarian.setFirstName(firstName);
 		headLibrarian.setLastName(lastName);
 		headLibrarian.setAddress(address);
@@ -46,12 +50,15 @@ public class TestHeadLibrarianPersistence {
 		headLibrarian.setEmail(email);
 		headLibrarian.setLibraryApplicationSystem(system);
 		
+		//saving object headLibrarian
 		headLibrarianRepository.save(headLibrarian);
 		Long userId = headLibrarian.getUserId();
 		
 		headLibrarian = null;
 		
+		//finding head librarian in persistence
 		headLibrarian = headLibrarianRepository.findHeadLibrarianByUserId(userId);
+		//testing if head librarian persisted
 		assertNotNull(headLibrarian);
 		assertEquals(userId, headLibrarian.getUserId());
 		assertEquals(firstName, headLibrarian.getFirstName());

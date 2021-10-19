@@ -30,20 +30,26 @@ public class TestLibraryHourPersistence {
 	@Test
 	public void testPersistAndLoadLibraryHour() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		//initializing attributes for timeslot
 		Time startTime = Time.valueOf("10:00:00");
 		Time endTime = Time.valueOf("12:00:00");
 		Day day = Day.Monday;
+		//instantiating library hour
 		LibraryHour libraryHour = new LibraryHour();
+		//setting attributes
 		libraryHour.setStartTime(startTime);
 		libraryHour.setEndTime(endTime);
 		libraryHour.setDay(day);
 		libraryHour.setLibraryApplicationSystem(system);
+		//save libraryhour in persistence
 		libraryHourRepository.save(libraryHour);
 		Long libraryHourId = libraryHour.getLibraryHourId();
 		
 		libraryHour = null;
 		
+		//finding libraryhour in persistence
 		libraryHour = libraryHourRepository.findLibraryHourByLibraryHourId(libraryHourId);
+		//testing if object persisted
 		assertNotNull(libraryHour);
 		assertNotNull(libraryHour.getStartTime());
 		assertNotNull(libraryHour.getEndTime());

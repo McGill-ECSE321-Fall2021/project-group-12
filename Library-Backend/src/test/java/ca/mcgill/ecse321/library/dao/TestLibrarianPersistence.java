@@ -29,6 +29,7 @@ public class TestLibrarianPersistence {
 	@Test
 	public void testPersistAndLoadLibrarian() {
 		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		//initializing attributes for librarian 
 		String firstName = "Parker";
 		String lastName = "Peter";
 		String address = "123 Street";
@@ -36,7 +37,9 @@ public class TestLibrarianPersistence {
 		String password = "11454";
 		String email = "Peter@gmail.com";
 		boolean isLocal = true;
+		//instantiating librarian 
 		Librarian librarian = new Librarian();
+		//setting attributes
 		librarian.setFirstName(firstName);
 		librarian.setLastName(lastName);
 		librarian.setAddress(address);
@@ -46,12 +49,14 @@ public class TestLibrarianPersistence {
 		librarian.setEmail(email);
 		librarian.setLibraryApplicationSystem(system);
 		
+		//saving object
 		librarianRepository.save(librarian);
 		Long userId = librarian.getUserId();
 		
 		librarian = null;
-		
+		//finding librarian in persistence
 		librarian = librarianRepository.findLibrarianByUserId(userId);
+		//testing if librarian persisted
 		assertNotNull(librarian);
 		assertEquals(userId, librarian.getUserId());
 		assertEquals(firstName, librarian.getFirstName());
