@@ -136,7 +136,7 @@ public abstract class Item
 	  return true;
   }
   
-  @ManyToOne(optional=false)
+  @ManyToOne
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;

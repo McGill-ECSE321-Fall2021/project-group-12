@@ -2,11 +2,7 @@ package ca.mcgill.ecse321.library.model;
 
 import java.sql.Time;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class LibraryHour {
@@ -54,7 +50,7 @@ public class LibraryHour {
 		return day;
 	}
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(cascade= {CascadeType.ALL})
 	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
 	}

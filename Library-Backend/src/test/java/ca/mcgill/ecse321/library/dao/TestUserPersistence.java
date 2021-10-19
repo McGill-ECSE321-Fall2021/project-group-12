@@ -9,8 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import ca.mcgill.ecse321.library.LibraryApplication;
 import ca.mcgill.ecse321.library.model.*;
 
 @ExtendWith(SpringExtension.class)
@@ -22,8 +20,6 @@ public class TestUserPersistence {
 	@Autowired
 	private OnlineUserRepository onlineUserRepository;
 	
-	private LibraryApplicationSystem system = new LibraryApplicationSystem();
-	
 	@AfterEach
 	public void clearDatabase() {
 		offlineUserRepository.deleteAll();
@@ -31,6 +27,7 @@ public class TestUserPersistence {
 	
 	@Test
 	public void testPersistAndLoadOfflineUser() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
 		String firstName = "First";
 		String lastName = "Last";
 		String address = "123 address street";
@@ -53,13 +50,14 @@ public class TestUserPersistence {
 		assertEquals(lastName, offlineUser.getLastName());
 		assertEquals(address, offlineUser.getAddress());
 		assertEquals(isLocal, offlineUser.getIsLocal());
-		assertEquals(system, offlineUser.getLibraryApplicationSystem());
+		assertNotNull(offlineUser.getLibraryApplicationSystem());
 		assertEquals(id, offlineUser.getUserId());
 		
 	}
 	
 	@Test
 	public void testPersistAndLoadOnlineUser() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
 		String firstName = "First";
 		String lastName = "Last";
 		String address = "123 address street";
@@ -88,7 +86,7 @@ public class TestUserPersistence {
 		assertEquals(lastName, onlineUser.getLastName());
 		assertEquals(address, onlineUser.getAddress());
 		assertEquals(isLocal, onlineUser.getIsLocal());
-		assertEquals(system, onlineUser.getLibraryApplicationSystem());
+		assertNotNull(onlineUser.getLibraryApplicationSystem());
 		assertEquals(id, onlineUser.getUserId());
 		assertEquals(username, onlineUser.getUsername());
 		assertEquals(password, onlineUser.getPassword());

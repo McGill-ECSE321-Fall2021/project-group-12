@@ -74,7 +74,7 @@ public class Creator {
 		return items.size() > 0;
 	}
 
-	@ManyToOne(optional=false)
+	@ManyToOne(cascade= {CascadeType.ALL})
 	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
 	}
@@ -102,11 +102,11 @@ public class Creator {
 	}
 
 	public boolean setLibraryApplicationSystem(LibraryApplicationSystem system) {
-		if (libraryApplicationSystem == null) {
+		if (system == null) {
 			return false;
 		}
+		system.addCreator(this);
 		libraryApplicationSystem = system;
-		libraryApplicationSystem.addCreator(this);
 		return true;
 	}
 

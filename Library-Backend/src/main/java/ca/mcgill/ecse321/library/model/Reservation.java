@@ -62,7 +62,7 @@ public class Reservation
     return timeSlot;
   }
 
-  @ManyToOne(optional=false)
+  @ManyToOne(cascade = {CascadeType.ALL})
   public LibraryApplicationSystem getLibraryApplicationSystem()
   {
     return libraryApplicationSystem;

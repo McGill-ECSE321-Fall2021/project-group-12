@@ -36,9 +36,6 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean setUsers(List<User> newUsers) {
-		for (User u : newUsers) {
-			u.setLibraryApplicationSystem(this);
-		}
 		users = newUsers;
 		return true;
 	}
@@ -57,9 +54,6 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean setItems(List<Item> newItems) {
-		for (Item i : newItems) {
-			i.setLibraryApplicationSystem(this);
-		}
 		items = newItems;
 		return true;
 	}
@@ -78,9 +72,6 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean setTimeSlots(List<TimeSlot> newTimeSlots) {
-		for (TimeSlot t : newTimeSlots) {
-			t.setLibraryApplicationSystem(this);
-		}
 		timeSlots = newTimeSlots;
 		return true;
 	}
@@ -99,9 +90,6 @@ public class LibraryApplicationSystem {
 	}
 
 	public boolean setLibraryHours(List<LibraryHour> newLibraryHours) {
-		for (LibraryHour l : newLibraryHours) {
-			l.setLibraryApplicationSystem(this);
-		}
 		libraryHours = newLibraryHours;
 		return true;
 	}
@@ -114,15 +102,12 @@ public class LibraryApplicationSystem {
 		return libraryHours.size() > 0;
 	}
 	
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="libraryApplicationSystem", cascade={CascadeType.ALL})
 	public List<Event> getEvents() {
 		return events;
 	}
 	
 	public boolean setEvents(List<Event> newEvents) {
-		for (Event e : newEvents) {
-			e.setLibraryApplicationSystem(this);
-		}
 		events = newEvents;
 		return true;
 	}
@@ -141,9 +126,7 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean setReservations(List<Reservation> newReservations) {
-		for (Reservation r : newReservations) {
-			r.setLibraryApplicationSystem(this);
-		}
+
 		reservations = newReservations;
 		return true;
 	}
@@ -163,9 +146,6 @@ public class LibraryApplicationSystem {
 	}
 	
 	public boolean setCreators(List<Creator> newCreators) {
-		for (Creator c : newCreators) {
-			c.setLibraryApplicationSystem(this);
-		}
 		creators = newCreators;
 		return true;
 	}
@@ -185,16 +165,13 @@ public class LibraryApplicationSystem {
 		if (users.contains(user)) { 
 			return false;
 		}
-		if (!user.getLibraryApplicationSystem().equals(this)) {
-			user.setLibraryApplicationSystem(this);
-		}
-		user.setLibraryApplicationSystem(this);
 		users.add(user);
 		return true;
 	}
 
 	public boolean removeUser(User user) {
 		if (users.contains(user)) {
+			user.setLibraryApplicationSystem(null);
 			users.remove(user);
 			return true;
 		}
@@ -208,15 +185,13 @@ public class LibraryApplicationSystem {
 		if (items.contains(item)) { 
 			return false;
 		}
-		if (!item.getLibraryApplicationSystem().equals(this)) {
-			item.setLibraryApplicationSystem(this);
-		}
 		items.add(item);
 		return true;
 	}
 
 	public boolean removeItem(Item item) {
 		if (items.contains(item)) {
+			item.setLibraryApplicationSystem(null);
 			items.remove(item);
 			return true;
 		}
@@ -239,15 +214,13 @@ public class LibraryApplicationSystem {
 		if (timeSlots.contains(timeSlot)) { 
 			return false;
 		}
-		if (!timeSlot.getLibraryApplicationSystem().equals(this)) {
-			timeSlot.setLibraryApplicationSystem(this);
-		}
 		timeSlots.add(timeSlot);
 		return true;
 	}
 
 	public boolean removeTimeSlot(TimeSlot timeSlot) {
 		if (timeSlots.contains(timeSlot)) {
+			timeSlot.setLibraryApplicationSystem(null);
 			timeSlots.remove(timeSlot);
 			return true;
 		}
@@ -269,15 +242,13 @@ public class LibraryApplicationSystem {
 		if (libraryHours.contains(libraryHour)) { 
 			return false;
 		}
-		if (!libraryHour.getLibraryApplicationSystem().equals(this)) {
-			libraryHour.setLibraryApplicationSystem(this);
-		}
 		libraryHours.add(libraryHour);
 		return true;
 	}
 
 	public boolean removeLibraryHour(LibraryHour libraryHour) {
 		if (libraryHours.contains(libraryHour)) {
+			libraryHour.setLibraryApplicationSystem(null);
 			libraryHours.remove(libraryHour);
 			return true;
 		}
@@ -300,15 +271,13 @@ public class LibraryApplicationSystem {
 		if (events.contains(event)) { 
 			return false; 
 		}
-		if (!event.getLibraryApplicationSystem().equals(this)) {
-			event.setLibraryApplicationSystem(this);
-		}
 		events.add(event);
 		return true;
 	}
 
 	public boolean removeEvent(Event event) {
 		if (events.contains(event)) {
+			event.setLibraryApplicationSystem(null);
 			events.remove(event);
 			return true;
 		}
@@ -329,15 +298,13 @@ public class LibraryApplicationSystem {
 	    if (reservations.contains(reservation)) { 
 	    	return false;
 	    }
-		if (!reservation.getLibraryApplicationSystem().equals(this)) {
-		    reservation.setLibraryApplicationSystem(this);
-		}
 	    reservations.add(reservation);
 	    return true;
 	}
 
 	public boolean removeReservation(Reservation reservation) {
 	    if (reservations.contains(reservation)) {
+	    	reservation.setLibraryApplicationSystem(null);
 	    	reservations.remove(reservation);
 	    	return true;
 	    }
@@ -359,15 +326,13 @@ public class LibraryApplicationSystem {
 		if (creators.contains(creator)) { 
 			return false;
 		}
-		if (!creator.getLibraryApplicationSystem().equals(this)) {
-		    creator.setLibraryApplicationSystem(this);
-		}
 		creators.add(creator);
 		return true;
 	}
 
 	public boolean removeCreator(Creator creator) {
 		if (creators.contains(creator)) {
+			creator.setLibraryApplicationSystem(null);
 			creators.remove(creator);
 			return true;
 		}
@@ -408,6 +373,12 @@ public class LibraryApplicationSystem {
 			Creator creator = creators.get(creators.size() - 1);
 			creator.delete();
 			creators.remove(creator);
+		}
+		
+		while (reservations.size() > 0) {
+			Reservation reservation = reservations.get(reservations.size() - 1);
+			reservation.delete();
+			reservations.remove(reservation);
 		}
 	}
 	

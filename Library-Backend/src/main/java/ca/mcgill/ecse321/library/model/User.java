@@ -64,8 +64,7 @@ public abstract class User{
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	public List<Event> getEvents() {
-		List<Event> newEvents = Collections.unmodifiableList(events);
-		return newEvents;
+		return events;
 	}
 
 	public int numberOfEvents() {
@@ -83,7 +82,7 @@ public abstract class User{
 		return true;
 	}
 
-	@ManyToOne(optional=false)
+	@ManyToOne(cascade={CascadeType.ALL})
 	public LibraryApplicationSystem getLibraryApplicationSystem()
 	{
 		return libraryApplicationSystem;
@@ -91,6 +90,9 @@ public abstract class User{
 
 	public boolean addEvent(Event aEvent)
 	{
+		if (events == null) {
+			events = new ArrayList<Event>();
+		}
 		boolean wasAdded = false;
 		if (events.contains(aEvent)) { return false; }
 		User existingUser = aEvent.getUser();
@@ -110,8 +112,7 @@ public abstract class User{
 	@OneToMany(cascade={CascadeType.ALL})
 	public List<Reservation> getReservations()
 	{
-		List<Reservation> newReservation = Collections.unmodifiableList(reservations);
-		return newReservation;
+		return reservations;
 	}
 	
 	public boolean setReservations(List<Reservation> newReservations) {
@@ -142,7 +143,6 @@ public abstract class User{
 		}
 		return wasRemoved;
 	}
-	/* Code from template association_SetOneToMany */
 	public boolean setLibraryApplicationSystem(LibraryApplicationSystem aLibraryApplicationSystem) {
 		boolean wasSet = false;
 		if (aLibraryApplicationSystem == null) {

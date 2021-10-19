@@ -42,7 +42,7 @@ public class Event
 		return isPrivate;
 	}
 	
-	@OneToOne(optional=true, cascade={CascadeType.ALL})
+	@OneToOne(cascade={CascadeType.ALL})
 	public TimeSlot getTimeSlot() {
 		return timeSlot;
 	}
@@ -53,7 +53,7 @@ public class Event
 		return user;
 	}
 
-	@ManyToOne(optional=false)
+	@ManyToOne(cascade= {CascadeType.ALL})
 	public LibraryApplicationSystem getLibraryApplicationSystem()
 	{
 		return libraryApplicationSystem;
@@ -65,21 +65,7 @@ public class Event
 		{
 			return false;
 		}
-
-		Event existingEvent = aNewTimeSlot.getEvent();
-		if (existingEvent != null && !equals(existingEvent))
-		{
-			return false;
-		}
-
-		TimeSlot anOldTimeSlot = timeSlot;
 		timeSlot = aNewTimeSlot;
-		timeSlot.setEvent(this);
-
-		if (anOldTimeSlot != null)
-		{
-			anOldTimeSlot.setEvent(null);
-		}
 		return true;
 	}
 	
@@ -121,12 +107,7 @@ public class Event
 
 	public void delete()
 	{
-		TimeSlot existingTimeSlot = timeSlot;
 		timeSlot = null;
-		if (existingTimeSlot != null)
-		{
-			existingTimeSlot.setEvent(null);
-		}
 		User placeholderUser = user;
 		this.user = null;
 		if(placeholderUser != null)

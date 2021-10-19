@@ -21,8 +21,7 @@ public class Librarian extends OnlineUser {
 	
 	@OneToMany(cascade={CascadeType.ALL})
 	public List<LibraryHour> getLibraryHours() {
-		List<LibraryHour> newLibraryHour = Collections.unmodifiableList(libraryHours);
-	    return newLibraryHour;
+	    return libraryHours;
 	}
 
 	public int numberOfLibraryHours() {

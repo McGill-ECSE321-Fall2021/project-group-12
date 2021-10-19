@@ -12,29 +12,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.library.LibraryApplication;
 import ca.mcgill.ecse321.library.model.*;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest()
+@SpringBootTest
 public class TestAlbumPersistence {
 	
 	@Autowired
 	private AlbumRepository albumRepository;
-	
-	private LibraryApplicationSystem system = new LibraryApplicationSystem();
+	@Autowired
+	private CreatorRepository creatorRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		
 		albumRepository.deleteAll();
-		system = new LibraryApplicationSystem();
+		creatorRepository.deleteAll();
 	}
 	
 	@Test
 	public void testPersistAndLoadAlbum() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
@@ -44,6 +44,14 @@ public class TestAlbumPersistence {
 		int numSongs = 15;
 		MusicGenre genre = Album.MusicGenre.Jazz;
 		Creator creator = new Creator();
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType type = Creator.CreatorType.Author;
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		creator.setCreatorType(type);
+		creator.setLibraryApplicationSystem(system);
+		creatorRepository.save(creator);
 		
 		
 		Album album = new Album();
@@ -52,7 +60,7 @@ public class TestAlbumPersistence {
 		album.setIsArchive(isArchive);
 		album.setIsReservable(isReservable);
 		album.setReleaseDate(releaseDate);
-		album.setQuantity(quantityAvailable);
+		album.setQuantityAvailable(quantityAvailable);
 		album.setQuantity(quantity);
 		album.setNumSongs(numSongs);
 		album.setCreator(creator);
@@ -75,14 +83,13 @@ public class TestAlbumPersistence {
 		assertEquals(title, album.getTitle());
 		assertEquals(isArchive, album.getIsArchive());
 		assertEquals(isReservable,album.getIsReservable());
-		assertEquals(releaseDate, album.getReleaseDate());
+		assertNotNull(album.getReleaseDate());
 		assertEquals(quantityAvailable, album.getQuantityAvailable());
 		assertEquals(quantity, album.getQuantity());
 		assertEquals(numSongs, album.getNumSongs());
-		assertEquals(creator, album.getCreator());
+		assertNotNull(album.getCreator());
 		assertEquals(genre, album.getGenre());
-		assertEquals(album.toString(), album.toString());
-		assertEquals(system, album.getLibraryApplicationSystem());
+		assertNotNull(album.getLibraryApplicationSystem());
 	}
 
 }

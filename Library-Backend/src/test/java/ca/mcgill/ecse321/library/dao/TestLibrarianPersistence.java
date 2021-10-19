@@ -28,6 +28,7 @@ public class TestLibrarianPersistence {
 	
 	@Test
 	public void testPersistAndLoadLibrarian() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
 		String firstName = "Parker";
 		String lastName = "Peter";
 		String address = "123 Street";
@@ -36,7 +37,6 @@ public class TestLibrarianPersistence {
 		String email = "Peter@gmail.com";
 		boolean isLocal = true;
 		Librarian librarian = new Librarian();
-		//Need to set userId? No method to set userId.
 		librarian.setFirstName(firstName);
 		librarian.setLastName(lastName);
 		librarian.setAddress(address);
@@ -44,6 +44,7 @@ public class TestLibrarianPersistence {
 		librarian.setPassword(password);
 		librarian.setIsLocal(isLocal);
 		librarian.setEmail(email);
+		librarian.setLibraryApplicationSystem(system);
 		
 		librarianRepository.save(librarian);
 		Long userId = librarian.getUserId();
@@ -60,6 +61,7 @@ public class TestLibrarianPersistence {
 		assertEquals(password, librarian.getPassword());
 		assertEquals(email, librarian.getEmail());
 		assertEquals(isLocal, librarian.getIsLocal());
+		assertNotNull(librarian.getLibraryApplicationSystem());
 	}
 
 }
