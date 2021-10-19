@@ -22,18 +22,20 @@ Design a website and an application for a library to assist it in providing its 
 * Sprint / Spring Boot
 * UMPLE
 
-## Deliverable 1
+## Sprint 1
+
+**[Project Report - Sprint 1](https://github.com/McGill-ECSE321-Fall2021/project-group-12/wiki/Project-Report---Sprint-1)**
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills | <ul><li>Setup Gradle, Spring, and Heroku</li><li>Setup Continuous Integration (Github Actions)</li><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Booking Event</li><li>Detailed specification: Set Librarian Schedule</li><li>Refactor and persistence: LibaryApplicationSystem, Creator</li><li>Debugging</li></ul> | 22 |
-| Ann Trinh | <ul><li>Success Spectrum</li><li>Requirements</li><li>Domain Model</li><li>Detailed specification: Book event</li><li>Refactor and persistence: User, OfflineUser, OnlineUser</li><li>Recorded meeting minutes, key decisions</li><li>Organizaed the wiki page</li></ul> | 16 |
+| Aaron Mills | <ul><li>Setup Gradle, Spring, and Heroku</li><li>Setup Continuous Integration (Github Actions)</li><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Booking Event</li><li>Detailed specification: Set Librarian Schedule</li><li>Refactor and persistence: LibaryApplicationSystem, Creator</li><li>Debugging</li></ul> | 26 |
+| Ann Trinh | <ul><li>Success Spectrum</li><li>Requirements</li><li>Domain Model</li><li>Detailed specification: Book event</li><li>Refactor and persistence: User, OfflineUser, OnlineUser</li><li>Recorded meeting minutes, key decisions</li><li>Organizaed the wiki page</li><li>Debugging</li></ul> | 21 |
 | Chirag Sood | <ul><li>Success Spectrum</li><li>Domain Model</li><li>Use case diagram: Reserve Item</li><li>Detailed soecification: Reserve Item</li><li>Refactor and persistence: Item, Newspaper, Reservation</li></ul> | 17 |
-| Lucca Di Lullo | <ul><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Create GitHub Issues</li><li>Use case diagram: Reserve Item</li><li>Detailed specification: Create Offline Account</li><li>Refactor and persistence: Book, Album, Movie</li></ul> | 16 |
+| Lucca Di Lullo | <ul><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Create GitHub Issues</li><li>Use case diagram: Reserve Item</li><li>Detailed specification: Create Offline Account</li><li>Refactor and persistence: Book, Album, Movie</li><li>Debugging</li></ul> | 21 |
 | Mia Stevanovic | <ul><li>Success Spectrum</li><Requirements></li><li>Domain Model</li><li>Use case diagram: Head Libarian Features</li><li>Detailed specification: Set Library Business Hours</li><li>Refactor and persistence: Event, TimeSlot</li></ul> | 15 |
 | Yuyan Shi | <ul><li>Continuous Integration</li><li>Success Spectrum</li><li>Domain Model</li><li>Use case diagram: User Account</li><li>Detailed soecification: Create Online Account</li><li>Refactor and persistence: Librarian, HeadLibrarian, LibraryHour</li></ul> | 17 |
 
-## Deliverable 2
+## Sprint 2
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
@@ -44,7 +46,7 @@ Design a website and an application for a library to assist it in providing its 
 | Mia Stevanovic |
 | Yuyan Shi |
 
-## Deliverable 3
+## Sprint 3
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
@@ -55,7 +57,7 @@ Design a website and an application for a library to assist it in providing its 
 | Mia Stevanovic |
 | Yuyan Shi |
 
-## Deliverable 4
+## Sprint 4
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
@@ -66,7 +68,7 @@ Design a website and an application for a library to assist it in providing its 
 | Mia Stevanovic |
 | Yuyan Shi |
 
-## Deliverable 5
+## Sprint 5
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
