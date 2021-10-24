@@ -18,7 +18,7 @@ import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest()
-public class TestMoviePersistnece {
+public class TestMoviePersistence {
 	
 	@Autowired
 	private MovieRepository movieRepository;
@@ -41,9 +41,8 @@ public class TestMoviePersistnece {
 		boolean isReservable = true;
 		//initialize date
 		Date releaseDate = new Date(10-18-2021);
-		int quantityAvailable = 5;
-		int quantity = 12;
 		int duration = 200;
+		boolean available = true;
 		BMGenre genre = Movie.BMGenre.Action;
 		//initialize creator object
 		Creator creator = new Creator();
@@ -64,8 +63,7 @@ public class TestMoviePersistnece {
 		movie.setIsArchive(isArchive);
 		movie.setIsReservable(isReservable);
 		movie.setReleaseDate(releaseDate);
-		movie.setQuantityAvailable(quantityAvailable);
-		movie.setQuantity(quantity);
+		movie.setIsAvailable(available);
 		movie.setDuration(duration);
 		movie.setCreator(creator);
 		movie.setGenre(genre);
@@ -87,8 +85,7 @@ public class TestMoviePersistnece {
 		assertEquals(isArchive, movie.getIsArchive());
 		assertEquals(isReservable,movie.getIsReservable());
 		assertNotNull(movie.getReleaseDate());
-		assertEquals(quantityAvailable, movie.getQuantityAvailable());
-		assertEquals(quantity, movie.getQuantity());
+		assertEquals(available, movie.getIsAvailable());
 		assertEquals(duration, movie.getDuration());
 		assertNotNull(movie.getCreator());
 		assertEquals(genre, movie.getGenre());

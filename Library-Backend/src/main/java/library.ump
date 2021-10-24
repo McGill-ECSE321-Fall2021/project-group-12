@@ -19,11 +19,13 @@ class Book
   isA Item;
 }
 
+enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop};
+
 class Album
 {
   int numSongs;
   isA Item;
-  enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop};
+  MusicGenre genre;
 }
 
 class Movie

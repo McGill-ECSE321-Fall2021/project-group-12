@@ -41,9 +41,8 @@ public class TestAlbumPersistence {
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = new Date(10-18-2021);
-		int quantityAvailable = 5;
-		int quantity = 12;
 		int numSongs = 15;
+		boolean available = true;
 		MusicGenre genre = Album.MusicGenre.Jazz;
 		
 		// Create Creator object
@@ -69,8 +68,7 @@ public class TestAlbumPersistence {
 		album.setIsArchive(isArchive);
 		album.setIsReservable(isReservable);
 		album.setReleaseDate(releaseDate);
-		album.setQuantityAvailable(quantityAvailable);
-		album.setQuantity(quantity);
+		album.setIsAvailable(available);
 		album.setNumSongs(numSongs);
 		album.setCreator(creator);
 		album.setGenre(genre);
@@ -95,8 +93,7 @@ public class TestAlbumPersistence {
 		assertEquals(isArchive, album.getIsArchive());
 		assertEquals(isReservable,album.getIsReservable());
 		assertNotNull(album.getReleaseDate());
-		assertEquals(quantityAvailable, album.getQuantityAvailable());
-		assertEquals(quantity, album.getQuantity());
+		assertEquals(available, album.getIsAvailable());
 		assertEquals(numSongs, album.getNumSongs());
 		assertNotNull(album.getCreator());
 		assertEquals(genre, album.getGenre());

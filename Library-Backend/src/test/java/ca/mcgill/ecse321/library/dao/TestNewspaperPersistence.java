@@ -38,8 +38,7 @@ public class TestNewspaperPersistence {
         boolean isArchive = true;
         boolean isReservable = true;
         Date releaseDate = Date.valueOf(LocalDate.of(2021, 10, 17));
-        int quantityAvailable = 1;
-        int quantity = 1;
+        boolean available = true;
         Creator creator = new Creator();
 		String firstName = "First";
 		String lastName = "Last";
@@ -55,8 +54,7 @@ public class TestNewspaperPersistence {
         newspaper.setIsArchive(isArchive);
         newspaper.setIsReservable(isReservable);
         newspaper.setReleaseDate(releaseDate);
-        newspaper.setQuantityAvailable(quantityAvailable);
-        newspaper.setQuantity(quantity);
+        newspaper.setIsAvailable(available);
         newspaper.setLibraryApplicationSystem(system);
         newspaper.setCreator(creator);
         newspaper.setLibraryApplicationSystem(system);
@@ -74,8 +72,7 @@ public class TestNewspaperPersistence {
 		assertEquals(isArchive, newspaper.getIsArchive());
 		assertEquals(isReservable, newspaper.getIsReservable());
 		assertNotNull(newspaper.getReleaseDate());
-		assertEquals(quantityAvailable, newspaper.getQuantityAvailable());
-		assertEquals(quantity, newspaper.getQuantity());
+		assertEquals(available, newspaper.getIsAvailable());
 		assertNotNull(newspaper.getCreator());
 		assertNotNull(newspaper.getLibraryApplicationSystem());
 	}

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "Accounts")
+@Table(name = "Users")
 public abstract class User{
 
 	private String firstName;

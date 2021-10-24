@@ -40,9 +40,8 @@ public class TestBookPersitence {
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = new Date(10-18-2021);
-		int quantityAvailable = 5;
-		int quantity = 12;
 		int numPages = 400;
+		boolean available = true;
 		BMGenre genre = Book.BMGenre.Action;
 		
 		// Create Creator object 
@@ -68,8 +67,7 @@ public class TestBookPersitence {
 		book.setIsArchive(isArchive);
 		book.setIsReservable(isReservable);
 		book.setReleaseDate(releaseDate);
-		book.setQuantityAvailable(quantityAvailable);
-		book.setQuantity(quantity);
+		book.setIsAvailable(available);
 		book.setNumPages(numPages);
 		book.setCreator(creator);
 		book.setGenre(genre);
@@ -94,8 +92,7 @@ public class TestBookPersitence {
 		assertEquals(isArchive, book.getIsArchive());
 		assertEquals(isReservable,book.getIsReservable());
 		assertNotNull(book.getReleaseDate());
-		assertEquals(quantityAvailable, book.getQuantityAvailable());
-		assertEquals(quantity, book.getQuantity());
+		assertEquals(available, book.getIsAvailable());
 		assertEquals(numPages, book.getNumPages());
 		assertNotNull(book.getCreator());
 		assertEquals(genre, book.getGenre());

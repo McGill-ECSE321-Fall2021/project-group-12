@@ -12,8 +12,7 @@ public abstract class Item
   private boolean isArchive;
   private boolean isReservable;
   private Date releaseDate;
-  private int quantityAvailable;
-  private int quantity;
+  private boolean isAvailable;
   private Reservation reservation;
 
 
@@ -52,19 +51,11 @@ public abstract class Item
     wasSet = true;
     return wasSet;
   }
-
-  public boolean setQuantityAvailable(int aQuantityAvailable)
+  
+  public boolean setIsAvailable(boolean aIsAvailable)
   {
     boolean wasSet = false;
-    quantityAvailable = aQuantityAvailable;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setQuantity(int aQuantity)
-  {
-    boolean wasSet = false;
-    quantity = aQuantity;
+    isAvailable = aIsAvailable;
     wasSet = true;
     return wasSet;
   }
@@ -82,6 +73,11 @@ public abstract class Item
   public boolean getIsReservable()
   {
     return isReservable;
+  }
+  
+  public boolean getIsAvailable()
+  {
+    return isAvailable;
   }
 
   public Date getReleaseDate()
@@ -112,16 +108,6 @@ public abstract class Item
     reservation.addItem(this);
     wasSet = true;
     return wasSet;
-  }
-
-  public int getQuantityAvailable()
-  {
-    return quantityAvailable;
-  }
-
-  public int getQuantity()
-  {
-    return quantity;
   }
 
   @Id
@@ -209,8 +195,7 @@ public abstract class Item
             "title" + ":" + getTitle()+ "," +
             "isArchive" + ":" + getIsArchive()+ "," +
             "isReservable" + ":" + getIsReservable()+ "," +
-            "quantityAvailable" + ":" + getQuantityAvailable()+ "," +
-            "quantity" + ":" + getQuantity()+ "]" + System.getProperties().getProperty("line.separator") +
+            "isAvailable" + ":" + getIsAvailable()+ "," +
             "  " + "releaseDate" + "=" + (getReleaseDate() != null ? !getReleaseDate().equals(this)  ? getReleaseDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "creator = "+(getCreator()!=null?Integer.toHexString(System.identityHashCode(getCreator())):"null");
