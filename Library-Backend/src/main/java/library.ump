@@ -67,12 +67,8 @@ isA User;
 class Librarian
 {
   isA OnlineUser;
+  boolean isHead;
   1 librarian <- * LibraryHour libraryHour;
-}
-
-class HeadLibrarian
-{
-  isA Librarian;
 }
 
 class LibraryApplicationSystem

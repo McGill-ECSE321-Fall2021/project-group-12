@@ -37,6 +37,7 @@ public class TestLibrarianPersistence {
 		String password = "11454";
 		String email = "Peter@gmail.com";
 		boolean isLocal = true;
+		boolean isHead = true;
 		//instantiating librarian 
 		Librarian librarian = new Librarian();
 		//setting attributes
@@ -48,6 +49,7 @@ public class TestLibrarianPersistence {
 		librarian.setIsLocal(isLocal);
 		librarian.setEmail(email);
 		librarian.setLibraryApplicationSystem(system);
+		librarian.setIsHead(isHead);
 		
 		//saving object
 		librarianRepository.save(librarian);
@@ -66,6 +68,7 @@ public class TestLibrarianPersistence {
 		assertEquals(password, librarian.getPassword());
 		assertEquals(email, librarian.getEmail());
 		assertEquals(isLocal, librarian.getIsLocal());
+		assertEquals(isHead, librarian.getIsHead());
 		assertNotNull(librarian.getLibraryApplicationSystem());
 	}
 

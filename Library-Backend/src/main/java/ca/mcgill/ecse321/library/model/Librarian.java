@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class Librarian extends OnlineUser {
 	
 	private List<LibraryHour> libraryHours;
+	private boolean isHead = false;
 	
 	public LibraryHour getLibraryHours(int index) {
 		LibraryHour aLibraryHour = libraryHours.get(index);
@@ -25,13 +26,50 @@ public class Librarian extends OnlineUser {
 	}
 
 	public int numberOfLibraryHours() {
-		int number = libraryHours.size();
-	    return number;
+		return libraryHours.size();
 	}
 
 	public boolean hasLibraryHours() {
 		boolean has = libraryHours.size() > 0;
 	    return has;
+	}
+	
+	public boolean getIsHead() {
+	    return isHead;
+	}
+	
+	public boolean setIsHead(boolean aIsHead) {
+		
+		if(aIsHead) {
+			
+			List<User> users = this.getLibraryApplicationSystem().getUsers();
+			
+			for(User u:users) {
+				
+				if(u instanceof Librarian) {
+					
+					if(((Librarian)u).getIsHead()) {
+						
+						if(this.equals(u)) {
+							
+							return true;
+							
+						}
+						
+						isHead=false;
+						return false;
+						
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		isHead = aIsHead;
+		return true;
 	}
 	
 	public void delete() {
