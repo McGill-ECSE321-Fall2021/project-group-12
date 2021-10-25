@@ -7,6 +7,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "Users")
+@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class User{
 
 	private String firstName;
