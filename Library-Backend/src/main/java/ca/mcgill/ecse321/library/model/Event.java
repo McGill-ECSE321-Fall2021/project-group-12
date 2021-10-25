@@ -42,7 +42,7 @@ public class Event
 		return isPrivate;
 	}
 	
-	@OneToOne(cascade={CascadeType.ALL})
+	@OneToOne
 	public TimeSlot getTimeSlot() {
 		return timeSlot;
 	}

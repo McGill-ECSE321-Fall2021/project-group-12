@@ -27,7 +27,7 @@ public class Reservation
 	  return reservationId;
   }
   
-  @OneToMany (cascade={CascadeType.ALL}, orphanRemoval = true)
+  @OneToMany (orphanRemoval = true)
   public List<Item> getItems()
   {
     return items;
@@ -55,8 +55,8 @@ public class Reservation
   {
     return user;
   }
-
-  @ManyToOne(cascade = {CascadeType.ALL})
+ 
+  @ManyToOne
   public TimeSlot getTimeSlot()
   {
     return timeSlot;

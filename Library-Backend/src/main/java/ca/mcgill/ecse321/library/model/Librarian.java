@@ -20,7 +20,7 @@ public class Librarian extends OnlineUser {
 		return true;
 	}
 	
-	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true)
+	@OneToMany(orphanRemoval = true)
 	public List<LibraryHour> getLibraryHours() {
 	    return libraryHours;
 	}

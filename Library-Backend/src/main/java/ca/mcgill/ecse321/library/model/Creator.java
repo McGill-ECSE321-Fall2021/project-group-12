@@ -56,7 +56,7 @@ public class Creator {
 		return true;
 	}
 
-	@OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
+	@OneToMany(orphanRemoval = true)
 	public List<Item> getItems() {
 		return items;
 	}
