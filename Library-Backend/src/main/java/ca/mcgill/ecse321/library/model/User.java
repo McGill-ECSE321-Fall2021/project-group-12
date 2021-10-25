@@ -63,7 +63,7 @@ public abstract class User{
 		return userId;
 	}
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade= {CascadeType.ALL}, orphanRemoval = true)
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -110,7 +110,7 @@ public abstract class User{
 		return wasAdded;
 	}
 	
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true)
 	public List<Reservation> getReservations()
 	{
 		return reservations;

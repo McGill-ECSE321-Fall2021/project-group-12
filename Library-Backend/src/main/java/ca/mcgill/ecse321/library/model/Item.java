@@ -86,7 +86,7 @@ public abstract class Item
     return releaseDate;
   }
 
-  @OneToOne(optional=true, cascade={CascadeType.ALL})
+  @ManyToOne
   public Reservation getReservation()
   {
     return reservation;
