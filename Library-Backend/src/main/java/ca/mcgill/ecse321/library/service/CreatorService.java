@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.library.dao.CreatorRepository;
 
 import ca.mcgill.ecse321.library.model.Creator;
+import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 import ca.mcgill.ecse321.library.model.Item;
 
 @Service
@@ -20,42 +21,86 @@ public class CreatorService {
 	
 	
 	@Transactional
-	public Creator createCreator(String firstName, String lastName, Creator.CreatorType creatorType) {
+	public Creator createCreator(String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
+		if (firstName == null || lastName == null || creatorType == null) {
+			throw new IllegalArgumentException("Cannot create creator with empty name or type.");
+		}
+		if (firstName  == "" || lastName == "") {
+			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		}
+		boolean valid = false;
+		for (int i=0; i<firstName.length();i++) {
+			if (firstName.charAt(i) != ' ') {
+				valid = true;
+				break;
+			}
+		}
+		for (int i=0; i<lastName.length();i++) {
+			if (lastName.charAt(i) != ' ') {
+				valid = true;
+				break;
+			}
+		}
+		if (!valid) {
+			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		}
 		Creator creator = new Creator();
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(creatorType);
+		creator.setCreatorName();
 		creatorRepository.save(creator);
 		return creator;	
 	}
 	
 	@Transactional 
-	public Creator updateCreator(Long id, String newFirstName, String newLastName, Creator.CreatorType newCreatorType) throws IllegalArgumentException {
-		Creator creator = creatorRepository.findCreatorByCreatorId(id);
+	public Creator updateCreator(String oldFirstName, String oldLastName, CreatorType oldCreatorType, String newFirstName, String newLastName, Creator.CreatorType newCreatorType) throws IllegalArgumentException {
+		String creatorName = oldLastName + oldFirstName + oldCreatorType;
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		creator.setFirstName(newFirstName);
 		creator.setLastName(newLastName);
 		creator.setCreatorType(newCreatorType);
+		creator.setCreatorName();
 		creatorRepository.save(creator);
 		return creator;
 	}
 	
 	@Transactional
-	public Creator deleteCreator(Long id) throws IllegalArgumentException {
-		Creator creator = creatorRepository.findCreatorByCreatorId(id);
+	public Creator deleteCreator(String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
+		String creatorName = lastName + firstName + creatorType;
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
-		creatorRepository.deleteById(id);
+		creatorRepository.delete(creator);
 		return creator;
 		
 	}
 	
 	@Transactional
-	public Creator getCreator(Long id) {
-		Creator creator = creatorRepository.findCreatorByCreatorId(id);
+	public Creator deleteCreator(String creatorName) throws IllegalArgumentException {
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+		if (creator == null) {
+			throw new IllegalArgumentException("Creator does not exist.");
+		}
+		creatorRepository.delete(creator);
+		return creator;
+		
+	}
+	
+	@Transactional
+	public Creator getCreator(String firstName, String lastName, CreatorType creatorType) {
+		String creatorName = lastName + firstName + creatorType;
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+		return creator;
+	}
+	
+	@Transactional
+	public Creator getCreator(String creatorName) {
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
 		return creator;
 	}
 	
@@ -65,8 +110,19 @@ public class CreatorService {
 	}
 	
 	@Transactional
-	public List<Item> getItemsByCreator(Long id){
-		Creator creator = creatorRepository.findCreatorByCreatorId(id);
+	public List<Item> getItemsByCreator(String firstName, String lastName, CreatorType creatorType){
+		String creatorName = lastName + firstName + creatorType;
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+		if (creator.getItems() != null) {
+			return creator.getItems();
+		} else {
+			return new ArrayList<Item>(); // We do not want to return null, so return an empty ArrayList
+		}
+	}
+	
+	@Transactional
+	public List<Item> getItemsByCreator(String creatorName){
+		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
 		if (creator.getItems() != null) {
 			return creator.getItems();
 		} else {

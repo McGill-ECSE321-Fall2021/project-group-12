@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import ca.mcgill.ecse321.library.model.*;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
@@ -39,23 +40,21 @@ public class TestCreatorPersistence {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
+		creator.setCreatorName(lastName+firstName+type);
 		creator.setLibraryApplicationSystem(system);
 		
 		// Save object
 		creatorRepository.save(creator);
 		
-		// Save Id
-		Long id = creator.getCreatorId();
-		
+		String creatorName = creator.getCreatorName();
 		// Set object to null
 		creator = null;
 		
-		// Retrieve object using Id
-		creator = creatorRepository.findCreatorByCreatorId(id);
+		creator = creatorRepository.findCreatorByCreatorName(creatorName);
 		
 		// Verify the object has been retrieved
 		assertNotNull(creator);
-		assertEquals(id, creator.getCreatorId());
+		assertEquals(creatorName, creator.getCreatorName());
 		assertEquals(firstName, creator.getFirstName());
 		assertEquals(lastName, creator.getLastName());
 		assertEquals(type.toString(), creator.getCreatorType().toString());

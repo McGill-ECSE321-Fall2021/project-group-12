@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import ca.mcgill.ecse321.library.model.Creator;
 
 @Repository
-public interface CreatorRepository extends CrudRepository<Creator, Long>{
+public interface CreatorRepository extends CrudRepository<Creator, String>{
 	
-	Creator findCreatorByCreatorId(Long creatorId);
+	Creator findCreatorByCreatorName(String creatorName);
 	
 }
