@@ -52,6 +52,7 @@ public class AlbumService {
 		album.setNumSongs(numSongs);
 		album.setIsAvailable(available);
 		album.setGenre(genre);
+		albumRepository.save(album);
 		return album;	
 	}
 	

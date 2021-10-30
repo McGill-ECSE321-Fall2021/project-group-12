@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.library.dao.BookRepository;
-import ca.mcgill.ecse321.library.dao.CreatorRepository;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Book.BMGenre;
-import ca.mcgill.ecse321.library.model.Item;
 
 @Service
 public class BookService {
@@ -52,6 +50,8 @@ public class BookService {
 		book.setNumPages(numPages);
 		book.setIsAvailable(available);
 		book.setGenre(genre);
+		bookRepository.save(book);
+
 		return book;	
 	}
 	
