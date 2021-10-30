@@ -9,25 +9,25 @@ public class CreatorDto {
 	
 	private String firstName;
 	private String lastName;
-	private String creatorName;
+	private Long creatorId;
 	private List<ItemDto> items;
 	private CreatorType creatorType;
 	
 	public CreatorDto() {}
 	
 	@SuppressWarnings("unchecked")
-	public CreatorDto(String firstName, String lastName, CreatorType creatorType) {
+	public CreatorDto(String firstName, String lastName, CreatorType creatorType, Long creatorId) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.creatorType = creatorType;
-		this.creatorName = lastName + firstName + creatorType;
+		this.creatorId = creatorId;
 		this.items = Collections.EMPTY_LIST;
 	}
 	
-	public CreatorDto(String firstName, String lastName, CreatorType creatorType, List<ItemDto> items) {
+	public CreatorDto(String firstName, String lastName, CreatorType creatorType, Long creatorId, List<ItemDto> items) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.creatorName = lastName + firstName + creatorType;
+		this.creatorId = creatorId;
 		this.creatorType = creatorType;
 		this.items = items;
 	}
@@ -48,15 +48,12 @@ public class CreatorDto {
 		this.lastName = lastName;
 	}
 	
-	public String getCreatorName() {
-		return this.creatorName;
+	public Long getCreatorId() {
+		return this.creatorId;
 	}
 	
-	public void setCreatorName(String firstName, String lastName, CreatorType creatorType) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.creatorType = creatorType;
-		this.creatorName = lastName + firstName + creatorType;
+	public void setCreatorId(Long creatorId) {
+		this.creatorId = creatorId;
 	}
 	
 	public List<ItemDto> getItems(){

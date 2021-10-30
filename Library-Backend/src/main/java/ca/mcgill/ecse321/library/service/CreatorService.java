@@ -25,23 +25,10 @@ public class CreatorService {
 		if (firstName == null || lastName == null || creatorType == null) {
 			throw new IllegalArgumentException("Cannot create creator with empty name or type.");
 		}
-		if (firstName  == "" || lastName == "") {
+		if (firstName.length() == 0 || lastName.length() == 0) {
 			throw new IllegalArgumentException("Cannot create creator with empty name.");
 		}
-		boolean valid = false;
-		for (int i=0; i<firstName.length();i++) {
-			if (firstName.charAt(i) != ' ') {
-				valid = true;
-				break;
-			}
-		}
-		for (int i=0; i<lastName.length();i++) {
-			if (lastName.charAt(i) != ' ') {
-				valid = true;
-				break;
-			}
-		}
-		if (!valid) {
+		if (firstName.trim().length() == 0 || lastName.length() == 0) {
 			throw new IllegalArgumentException("Cannot create creator with empty name.");
 		}
 		Creator creator = new Creator();
@@ -53,27 +40,25 @@ public class CreatorService {
 	}
 	
 	@Transactional 
-	public Creator updateCreator(Long creatorId, String oldFirstName, String oldLastName, CreatorType oldCreatorType, String newFirstName, String newLastName, Creator.CreatorType newCreatorType) throws IllegalArgumentException {
+	public Creator updateCreator(Long creatorId, String firstName, String lastName, Creator.CreatorType creatorType) throws IllegalArgumentException {
 		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
-		creator.setFirstName(newFirstName);
-		creator.setLastName(newLastName);
-		creator.setCreatorType(newCreatorType);
+		if (firstName == null || lastName == null || creatorType == null) {
+			throw new IllegalArgumentException("Cannot create creator with empty name or type.");
+		}
+		if (firstName.length() == 0 || lastName.length() == 0) {
+			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		}
+		if (firstName.trim().length() == 0 || lastName.length() == 0) {
+			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		}
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		creator.setCreatorType(creatorType);
 		creatorRepository.save(creator);
 		return creator;
-	}
-	
-	@Transactional
-	public Creator deleteCreator(Long creatorId, String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
-		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
-		if (creator == null) {
-			throw new IllegalArgumentException("Creator does not exist.");
-		}
-		creatorRepository.delete(creator);
-		return creator;
-		
 	}
 	
 	@Transactional
