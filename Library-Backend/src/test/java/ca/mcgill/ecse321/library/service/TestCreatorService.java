@@ -39,15 +39,18 @@ public class TestCreatorService {
 	private static final String LAST_NAME = "Last";
 	private static final CreatorType CREATOR_TYPE = CreatorType.Artist;
 	
-	private static final String CREATOR_KEY = LAST_NAME + FIRST_NAME + CREATOR_TYPE;
+	private static final Long CREATOR_KEY = 0L;
 	
 	
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(creatorDao.findCreatorByCreatorName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+		lenient().when(creatorDao.findCreatorByCreatorId(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(CREATOR_KEY)) {
 				Creator creator = new Creator();
-				creator.setCreatorName(FIRST_NAME, LAST_NAME, CREATOR_TYPE);
+				creator.setFirstName(FIRST_NAME);
+				creator.setLastName(LAST_NAME);
+				creator.setCreatorType(CREATOR_TYPE);
+				creator.setCreatorId(CREATOR_KEY);
 				return creator;
 			}else {
 				return null;
@@ -77,7 +80,7 @@ public class TestCreatorService {
 		assertEquals(firstName, creator.getFirstName());
 		assertEquals(lastName, creator.getLastName());
 		assertEquals(creatorType.toString(), creator.getCreatorType().toString());
-		assertEquals(CREATOR_KEY, creator.getCreatorName());
+		assertEquals(CREATOR_KEY, creator.getCreatorId());
 	}
 	
 	@Test

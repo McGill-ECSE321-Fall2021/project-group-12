@@ -48,30 +48,26 @@ public class CreatorService {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(creatorType);
-		creator.setCreatorName();
 		creatorRepository.save(creator);
 		return creator;	
 	}
 	
 	@Transactional 
-	public Creator updateCreator(String oldFirstName, String oldLastName, CreatorType oldCreatorType, String newFirstName, String newLastName, Creator.CreatorType newCreatorType) throws IllegalArgumentException {
-		String creatorName = oldLastName + oldFirstName + oldCreatorType;
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+	public Creator updateCreator(Long creatorId, String oldFirstName, String oldLastName, CreatorType oldCreatorType, String newFirstName, String newLastName, Creator.CreatorType newCreatorType) throws IllegalArgumentException {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		creator.setFirstName(newFirstName);
 		creator.setLastName(newLastName);
 		creator.setCreatorType(newCreatorType);
-		creator.setCreatorName();
 		creatorRepository.save(creator);
 		return creator;
 	}
 	
 	@Transactional
-	public Creator deleteCreator(String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
-		String creatorName = lastName + firstName + creatorType;
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+	public Creator deleteCreator(Long creatorId, String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
@@ -81,8 +77,8 @@ public class CreatorService {
 	}
 	
 	@Transactional
-	public Creator deleteCreator(String creatorName) throws IllegalArgumentException {
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+	public Creator deleteCreator(Long creatorId) throws IllegalArgumentException {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
@@ -91,16 +87,10 @@ public class CreatorService {
 		
 	}
 	
-	@Transactional
-	public Creator getCreator(String firstName, String lastName, CreatorType creatorType) {
-		String creatorName = lastName + firstName + creatorType;
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
-		return creator;
-	}
 	
 	@Transactional
-	public Creator getCreator(String creatorName) {
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+	public Creator getCreator(Long creatorId) {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		return creator;
 	}
 	
@@ -109,20 +99,10 @@ public class CreatorService {
 		return toList(creatorRepository.findAll());
 	}
 	
-	@Transactional
-	public List<Item> getItemsByCreator(String firstName, String lastName, CreatorType creatorType){
-		String creatorName = lastName + firstName + creatorType;
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
-		if (creator.getItems() != null) {
-			return creator.getItems();
-		} else {
-			return new ArrayList<Item>(); // We do not want to return null, so return an empty ArrayList
-		}
-	}
 	
 	@Transactional
-	public List<Item> getItemsByCreator(String creatorName){
-		Creator creator = creatorRepository.findCreatorByCreatorName(creatorName);
+	public List<Item> getItemsByCreator(Long creatorId){
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		if (creator.getItems() != null) {
 			return creator.getItems();
 		} else {

@@ -34,14 +34,14 @@ public class CreatorRestController {
 		return service.getAllCreators().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
 	}
 	
-	@GetMapping(value = { "/creators/{creatorName}", "/creators/{creatorId}/" })
-	public CreatorDto getCreator(@PathVariable("creatorName") String creatorName) throws IllegalArgumentException {
-		return convertToDto(service.getCreator(creatorName));
+	@GetMapping(value = { "/creator/{creatorId}", "/creator/{creatorId}/" })
+	public CreatorDto getCreator(@PathVariable("creatorId") Long creatorId) throws IllegalArgumentException {
+		return convertToDto(service.getCreator(creatorId));
 	}
 	
-	@GetMapping(value = { "/creators/items/{creatorName}", "/creators/items/{creatorId}/" })
-	public List<ItemDto> getCreatorItems(@PathVariable("creatorName") String creatorName) throws IllegalArgumentException {
-		Creator creator = service.getCreator(creatorName);
+	@GetMapping(value = { "/creators/items/{creatorId}", "/creators/items/{creatorId}/" })
+	public List<ItemDto> getCreatorItems(@PathVariable("creatorId") Long creatorId) throws IllegalArgumentException {
+		Creator creator = service.getCreator(creatorId);
 		return itemDtosForCreator(creator);
 	}
 		
@@ -53,14 +53,14 @@ public class CreatorRestController {
 	}
 	
 	@PutMapping(value = { "/creators/update", "/creators/update/" })
-	public CreatorDto updateCreator(@RequestParam(value="oldFirstName") String oldFirstName, @RequestParam(value="oldLastName") String oldLastName, @RequestParam(value="oldCreatorType") CreatorType oldCreatorType, @RequestParam(value="newFirstName") String newFirstName, @RequestParam(value="newLastName") String newLastName, @RequestParam(value="newCreatorType") CreatorType newCreatorType) throws IllegalArgumentException {
-		Creator creator = service.updateCreator(oldFirstName, oldLastName, oldCreatorType, newFirstName, newLastName, newCreatorType);
+	public CreatorDto updateCreator(@RequestParam(value="creatorId") Long creatorId, @RequestParam(value="oldFirstName") String oldFirstName, @RequestParam(value="oldLastName") String oldLastName, @RequestParam(value="oldCreatorType") CreatorType oldCreatorType, @RequestParam(value="newFirstName") String newFirstName, @RequestParam(value="newLastName") String newLastName, @RequestParam(value="newCreatorType") CreatorType newCreatorType) throws IllegalArgumentException {
+		Creator creator = service.updateCreator(creatorId, oldFirstName, oldLastName, oldCreatorType, newFirstName, newLastName, newCreatorType);
 		return convertToDto(creator);
 	}
 	
 	@DeleteMapping(value = { "/creators/delete/{creatorName}", "/creators/delete/{creatorId}/" })
-	public CreatorDto deleteCreator(@PathVariable("creatorName") String creatorName) throws IllegalArgumentException {
-		Creator creator = service.deleteCreator(creatorName);
+	public CreatorDto deleteCreator(@PathVariable("creatorName") Long creatorId) throws IllegalArgumentException {
+		Creator creator = service.deleteCreator(creatorId);
 		return convertToDto(creator);
 	}
 
@@ -83,7 +83,7 @@ public class CreatorRestController {
 	}
 	
 	private List<ItemDto> itemDtosForCreator(Creator creator){
-		List<Item> items = service.getItemsByCreator(creator.getCreatorName());
+		List<Item> items = service.getItemsByCreator(creator.getCreatorId());
 		List<ItemDto> itemDtos = new ArrayList<ItemDto>();
 		if (items != null) {
 			for (Item i:items) {

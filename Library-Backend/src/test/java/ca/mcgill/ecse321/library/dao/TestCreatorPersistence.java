@@ -40,21 +40,21 @@ public class TestCreatorPersistence {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		creator.setCreatorType(type);
-		creator.setCreatorName(lastName+firstName+type);
 		creator.setLibraryApplicationSystem(system);
 		
 		// Save object
 		creatorRepository.save(creator);
 		
-		String creatorName = creator.getCreatorName();
+		Long id = creator.getCreatorId();
+		
 		// Set object to null
 		creator = null;
 		
-		creator = creatorRepository.findCreatorByCreatorName(creatorName);
+		creator = creatorRepository.findCreatorByCreatorId(id);
 		
 		// Verify the object has been retrieved
 		assertNotNull(creator);
-		assertEquals(creatorName, creator.getCreatorName());
+		assertEquals(id, creator.getCreatorId());
 		assertEquals(firstName, creator.getFirstName());
 		assertEquals(lastName, creator.getLastName());
 		assertEquals(type.toString(), creator.getCreatorType().toString());

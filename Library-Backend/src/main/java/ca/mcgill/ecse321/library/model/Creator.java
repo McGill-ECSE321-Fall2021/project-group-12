@@ -11,13 +11,12 @@ public class Creator {
 	public enum CreatorType { Director, Author, Artist, Publisher }	
 
 	private CreatorType creatorType;
-	
+
+	private Long creatorId;
 	private String firstName;
 	private String lastName;
-	private String creatorName;
 	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
-	private Long creatorId;
 	
 	public boolean setFirstName(String first) {
 		firstName = first;
@@ -45,7 +44,7 @@ public class Creator {
 	public CreatorType getCreatorType() {
 		return creatorType;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getCreatorId() {
@@ -54,39 +53,6 @@ public class Creator {
 	
 	public boolean setCreatorId(Long id) {
 		creatorId = id;
-		return true;
-	}
-	
-	
-	public String getCreatorName() {
-		return creatorName;
-	}
-	
-	public boolean setCreatorName() {
-		if (this.getFirstName() == null || this.getLastName() == null || this.getCreatorType() == null) {
-			return false;
-		}
-		creatorName = this.getLastName() + this.getFirstName() + this.getCreatorType().toString();
-		return true;
-	}
-	
-	public boolean setCreatorName(String creatorName) {
-		String currentName = lastName + firstName + creatorType;
-		if (creatorName == currentName) {
-			this.creatorName = currentName;
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean setCreatorName(String firstName, String lastName, CreatorType creatorType) {
-		if (firstName == null || lastName == null || creatorType == null) {
-			return false;
-		}
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.setCreatorType(creatorType);
-		creatorName = this.getLastName() + this.getFirstName() + this.getCreatorType().toString();
 		return true;
 	}
 
