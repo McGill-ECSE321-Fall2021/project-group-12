@@ -76,6 +76,9 @@ public class CreatorService {
 	@Transactional
 	public Creator getCreator(Long creatorId) {
 		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
+		if (creator == null) {
+			throw new IllegalArgumentException("Creator does not exist.");
+		}
 		return creator;
 	}
 	
