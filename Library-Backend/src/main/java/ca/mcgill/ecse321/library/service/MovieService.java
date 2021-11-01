@@ -15,6 +15,8 @@ import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 @Service
 public class MovieService {
 	
+	//what do we do for creator?
+	
 	@Autowired
 	MovieRepository movieRepository;
 	
@@ -32,7 +34,10 @@ public class MovieService {
 		return newMovie;
 	}
 	
-	//edit a movie with with id, 
+	//edit a movie with with id
+	//want to only edit some things?
+	//i'll just implement them all
+	//specific or complete
 	
 	@Transactional
 	public List<Movie> getAllMovies() {
