@@ -109,16 +109,13 @@ public class LibrarianService {
 		}
 		
 		@Transactional
-		public LibraryHour createLibraryHour(Long id, String startTime, String endTime, String day) {
+		public LibraryHour createLibraryHour(Long id, Time startTime, Time endTime, Day day) {
 			//make new library hour
 			//cannot allow if already existing (not implemented)
-			Time createStartTime = Time.valueOf(startTime);
-			Time createEndTime = Time.valueOf(endTime);
-			Day createDay = Day.valueOf(day);
 			LibraryHour newLibraryHour = new LibraryHour();
-			newLibraryHour.setStartTime(createStartTime);
-			newLibraryHour.setEndTime(createEndTime);
-			newLibraryHour.setDay(createDay);
+			newLibraryHour.setStartTime(startTime);
+			newLibraryHour.setEndTime(endTime);
+			newLibraryHour.setDay(day);
 			libraryHourRepository.save(newLibraryHour);
 			//adding libraryhour method missing?
 			//needs to add the library hour to the librarian
@@ -168,28 +165,22 @@ public class LibrarianService {
 		
 		//if null then the information does not change
 		@Transactional
-		public OnlineUser editOnlineUserInformation(OnlineUser onlineUser, String password, String username, String address, String isLocal) {
+		public OnlineUser editOnlineUserInformation(OnlineUser onlineUser, String password, String username, String address, boolean isLocal) {
 			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(onlineUser.getUserId());
 			if (password != foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password, unable to make requested changes");
 			}
 			if (username != null) foundOnlineUser.setUsername(username);
 			if (address != null) foundOnlineUser.setAddress(address);
-			if (isLocal != null) {
-				boolean isLocalInput = Boolean.valueOf(isLocal);
-				foundOnlineUser.setIsLocal(isLocalInput);
-			}
+			foundOnlineUser.setIsLocal(isLocal);
 			return onlineUser;
 		}
 		
 		@Transactional
-		public OfflineUser editOfflineUserInformation(OfflineUser offlineUser, String address, String isLocal) {
+		public OfflineUser editOfflineUserInformation(OfflineUser offlineUser, String address, boolean isLocal) {
 			OfflineUser foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(offlineUser.getUserId());
 			if (address != null) foundOfflineUser.setAddress(address);
-			if (isLocal != null) {
-				boolean isLocalInput = Boolean.valueOf(isLocal);
-				foundOfflineUser.setIsLocal(isLocalInput);
-			}
+			foundOfflineUser.setIsLocal(isLocal);
 			return offlineUser;
 		}
 		
