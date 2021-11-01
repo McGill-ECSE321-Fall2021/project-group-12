@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.library.service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
+import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
+import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Librarian;
+import ca.mcgill.ecse321.library.model.LibraryHour;
+import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 
@@ -23,35 +28,10 @@ public class LibrarianService {
 		OfflineUserRepository offlineUserRepository;
 		@Autowired
 		OnlineUserRepository onlineUserRepository;
-		
-		/*
-		 * use cases for librarian:
-		 * - librarian accepting reservation
-		 * - view person's reservation
-		 * - librarian adds item
-		 * - librarian deletes item
-		 * - librarian updates item
-		 * 
-		 * - view times
-		 * - edit booking
-		 * - view bookings by person
-		 * - accept booking
-		 * - reject booking
-		 * 
-		 * - create offline account (done - need input checks)
-		 * - create online account (done - needs input checks)
-		 * - set librarian account (hl) (done - needs input checks)
-		 * - change password (done - need input checks)
-		 * - log in online account (??)
-		 * - edit personal information (done)
-		 * - log in offline account (??)
-		 * 
-		 * - add librarian (done)
-		 * - remove librarian ()
-		 * - view schedule
-		 * - create schedule
-		 * - edit schedule
-		 */
+		@Autowired
+		LibraryHourRepository libraryHourRepository;
+		@Autowired
+		ReservationRepository reservationRepository;
 		
 		@Transactional
 		public Librarian createHeadLibrarian(String first, String last, String address, String email, String password, String username) {
@@ -81,7 +61,7 @@ public class LibrarianService {
 				librarianRepository.save(librarian);
 				return librarian;
 			}
-			throw new IllegalArgumentException("Only Head Librarian can create a librarian account");
+			throw new IllegalArgumentException("Only the Head Librarian can create a librarian account.");
 		}
 		
 		@Transactional
@@ -110,6 +90,46 @@ public class LibrarianService {
 		@Transactional
 		public List<Librarian> getAllLibrarians() {
 			return toList(librarianRepository.findAll());
+		}
+		
+		@Transactional
+		public boolean removeLibrarian(Librarian headLibrarian, Long id) throws IllegalArgumentException{
+			if (headLibrarian.getIsHead()) {
+				Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+				librarian.delete();
+				return true;
+			}
+			throw new IllegalArgumentException("Only the Head Librarian can remove a librarian account.");
+		}
+		
+		@Transactional
+		public List<LibraryHour> getLibraryHour(Long id) {
+			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+			return librarian.getLibraryHours();
+		}
+		
+		@Transactional
+		public LibraryHour createLibraryHour(Long id, String startTime, String endTime, String day) {
+			//make new library hour
+			//cannot allow if already existing (not implemented)
+			Time createStartTime = Time.valueOf(startTime);
+			Time createEndTime = Time.valueOf(endTime);
+			Day createDay = Day.valueOf(day);
+			LibraryHour newLibraryHour = new LibraryHour();
+			newLibraryHour.setStartTime(createStartTime);
+			newLibraryHour.setEndTime(createEndTime);
+			newLibraryHour.setDay(createDay);
+			libraryHourRepository.save(newLibraryHour);
+			//adding libraryhour method missing?
+			//needs to add the library hour to the librarian
+			return newLibraryHour;
+			
+		}
+		//incomplete -- need to check
+		@Transactional
+		public LibraryHour editLibraryHour() {
+			LibraryHour editLibraryHour = new LibraryHour();
+			return editLibraryHour;
 		}
 		
 		@Transactional
@@ -180,4 +200,45 @@ public class LibrarianService {
 			}
 			return resultList;
 		}
+		
+//		@Transactional
+//		public List<Reservation> getReservationByUser(Long id) {
+//			//check if user exists
+//			
+//		}
 }
+
+/*
+ * use cases for librarian:
+ * !!! how to determine if it's the head librarian that does the action?
+ * !!! how to do the log-in services??
+ * 
+ * - librarian accepting reservation (do we have anything that implements this?)
+ * - view person's reservation
+ * - librarian adds item
+ * - librarian deletes item
+ * - librarian updates item
+ * 
+ * - view times
+ * - edit booking
+ * - view bookings by person
+ * - accept booking (do we have anything that implements this?)
+ * - reject booking (do we have anything that implements this?)
+ * 
+ * - create offline account (done - need input checks)
+ * - create online account (done - needs input checks)
+ * - set librarian account (done - needs input checks)
+ * - change password (done - need input checks)
+ * - log in online account (??)
+ * - edit personal information (done)
+ * - log in offline account (??)
+ * 
+ * only head librarian
+ * - add librarian (done)
+ * - remove librarian (done)
+ * - view schedule (done)
+ * libraryhour, missing methods in java code? adding libraryhour
+ * libraryhour, unidirectional but in wrong direction?
+ * - create schedule (incomplete)
+ * - edit schedule (incomplete)
+ */
