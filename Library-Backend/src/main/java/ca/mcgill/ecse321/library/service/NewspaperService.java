@@ -35,6 +35,7 @@ public class NewspaperService {
 		newspaper.setIsReservable(false);
 		newspaper.setReleaseDate(releaseDate);
 		newspaper.setIsAvailable(false);
+		newspaper.setCreator(creator);
 		newspaperRepository.save(newspaper);
 		return newspaper;
 	}
@@ -52,7 +53,7 @@ public class NewspaperService {
 			throw new IllegalArgumentException("A newspaper cannot have an empty release date.");
 		}
 		if (creator == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty creator");
+			throw new IllegalArgumentException("A newspaper cannot have an empty creator.");
 		}
 		newspaper.setTitle(title);
 		newspaper.setIsArchive(isArchive);
@@ -85,6 +86,7 @@ public class NewspaperService {
 	
 	@Transactional
 	public List<Newspaper> getAllNewspapers(){
+		System.out.println(newspaperRepository.findAll());
 		return toList(newspaperRepository.findAll());
 	}
 	

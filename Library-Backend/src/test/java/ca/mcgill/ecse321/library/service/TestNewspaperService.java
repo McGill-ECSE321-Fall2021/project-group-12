@@ -474,7 +474,7 @@ public class TestNewspaperService {
 		// TESTED CREATION ABOVE
 		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
 		
-		String newTitle = null;
+		String newTitle = "NewTitle";
 		boolean newIsArchive = true;
 		Date newReleaseDate = null;
 		
@@ -548,6 +548,71 @@ public class TestNewspaperService {
 		assertEquals(100L, newspaper.getCreator().getCreatorId());
 		
 		assertEquals("A newspaper cannot have an empty creator.", error);
+	}
+	
+	@Test
+	public void testDeleteNewspaper() {
+		String title = "Title";
+		boolean isArchive = false;
+		Date releaseDate = Date.valueOf("2021-10-31");
+		
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType creatorType = CreatorType.Artist;
+		Creator creator = new Creator();
+		creator.setCreatorId(100L);
+		creator.setCreatorType(creatorType);
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		
+		// TESTED CREATION ABOVE
+		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
+		try {
+			newspaper = newspaperService.deleteNewspaper(NEWSPAPER_ID);
+		} catch (Exception e) {
+			fail();
+		}
+		
+		// WE RETURN THE NEWSPAPER OBJECT BUT IT SHOULD NOT EXIST IN THE SYSTEM.
+		assertNotNull(newspaper); 
+		assertEquals(0, newspaperService.getAllNewspapers().size());
+	}
+	
+	@Test
+	public void testGetNewspaper() {
+		String title = "Title";
+		boolean isArchive = false;
+		Date releaseDate = Date.valueOf("2021-10-31");
+		
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType creatorType = CreatorType.Artist;
+		Creator creator = new Creator();
+		creator.setCreatorId(100L);
+		creator.setCreatorType(creatorType);
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		
+		// TESTED CREATION ABOVE
+		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
+		assertNotNull(newspaper); // To confirm newspaper exists
+		Newspaper newspaper2 = null;
+		try {
+			newspaper2 = newspaperService.getNewspaper(NEWSPAPER_ID);
+		} catch (Exception e) {
+			fail();
+		}
+		
+		assertNotNull(newspaper2);
+		assertEquals(newspaper.getTitle(), newspaper2.getTitle());
+		assertEquals(newspaper.getIsArchive(), newspaper2.getIsArchive());
+		assertEquals(newspaper.getIsAvailable(), newspaper2.getIsAvailable());
+		assertEquals(newspaper.getIsReservable(), newspaper2.getIsReservable());
+		assertEquals(newspaper.getItemId(), newspaper2.getItemId());
+		assertEquals(newspaper.getReleaseDate(), newspaper2.getReleaseDate());
+		assertNotNull(newspaper.getCreator());
+		assertNotNull(newspaper2.getCreator());
+		assertEquals(newspaper.getCreator().getCreatorId(), newspaper2.getCreator().getCreatorId());
 	}
 
 	
