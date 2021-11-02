@@ -71,7 +71,4 @@ public class CreatorDto {
 	public void setCreatorType(CreatorType creatorType) {
 		this.creatorType = creatorType;
 	}
-	
-	
-
 }
