@@ -14,9 +14,7 @@ import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
 @Service
 public class MovieService {
-	
-	//what do we do for creator?
-	
+//!!! add input checks and creator jazz	
 	@Autowired
 	MovieRepository movieRepository;
 	
@@ -33,17 +31,38 @@ public class MovieService {
 		movieRepository.save(newMovie);
 		return newMovie;
 	}
-	
-	//edit a movie with with id
-	//want to only edit some things?
-	//i'll just implement them all
-	//specific or complete
-	
+	@Transactional 
+	public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre) throws IllegalArgumentException {
+		Movie movie = movieRepository.findMovieByItemId(id);
+		//checks if the title, release date, or duration is null then don't change, remains the same
+		//if the duration is zero
+		if (newTitle != null) movie.setTitle(newTitle);
+		if (newReleaseDate != null) movie.setReleaseDate(newReleaseDate);
+		if (newDuration != 0) {
+			movie.setDuration(newDuration);
+		} else {
+			//if the duration is zero
+			throw new IllegalArgumentException("Invalid Input: The duration of a movie cannot be zero.");
+		}
+		if (newGenre != null) movie.setGenre(newGenre);
+		movie.setIsArchive(newIsArchive);
+		movie.setIsAvailable(newIsAvailable);
+		movie.setIsReservable(newIsReservable);
+		movieRepository.save(movie);
+		return movie;
+	}
 	@Transactional
 	public List<Movie> getAllMovies() {
 		return toList(movieRepository.findAll());
 	}
-	
+	@Transactional
+	public Movie getMovie(Long id) throws IllegalArgumentException {
+		Movie movie = movieRepository.findMovieByItemId(id);
+		if (movie == null) {
+			throw new IllegalArgumentException("Movie does not exist.");
+		}
+		return movie;
+	}
 	@Transactional
 	public boolean deleteMovie(Long id) {
 		movieRepository.findById(id);
