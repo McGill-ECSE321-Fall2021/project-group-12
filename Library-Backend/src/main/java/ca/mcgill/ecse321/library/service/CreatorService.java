@@ -19,17 +19,16 @@ public class CreatorService {
 	@Autowired
 	CreatorRepository creatorRepository;
 	
-	
 	@Transactional
 	public Creator createCreator(String firstName, String lastName, CreatorType creatorType) throws IllegalArgumentException {
-		if (firstName == null || lastName == null || creatorType == null) {
-			throw new IllegalArgumentException("Cannot create creator with empty name or type.");
+		if (firstName == null || firstName.trim().length() == 0) {
+			throw new IllegalArgumentException("A creator cannot have an empty first name.");
 		}
-		if (firstName.length() == 0 || lastName.length() == 0) {
-			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		if (lastName == null || lastName.trim().length() == 0) {
+			throw new IllegalArgumentException("A creator cannot have an empty last name.");
 		}
-		if (firstName.trim().length() == 0 || lastName.length() == 0) {
-			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		if (creatorType == null) {
+			throw new IllegalArgumentException("A creator cannot have an empty creator type.");
 		}
 		Creator creator = new Creator();
 		creator.setFirstName(firstName);
@@ -45,14 +44,14 @@ public class CreatorService {
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
-		if (firstName == null || lastName == null || creatorType == null) {
-			throw new IllegalArgumentException("Cannot create creator with empty name or type.");
+		if (firstName == null || firstName.trim().length() == 0) {
+			throw new IllegalArgumentException("A creator cannot have an empty first name.");
 		}
-		if (firstName.length() == 0 || lastName.length() == 0) {
-			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		if (lastName == null || lastName.trim().length() == 0) {
+			throw new IllegalArgumentException("A creator cannot have an empty last name.");
 		}
-		if (firstName.trim().length() == 0 || lastName.length() == 0) {
-			throw new IllegalArgumentException("Cannot create creator with empty name.");
+		if (creatorType == null) {
+			throw new IllegalArgumentException("A creator cannot have an empty creator type.");
 		}
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
@@ -96,6 +95,43 @@ public class CreatorService {
 		} else {
 			return new ArrayList<Item>(); // We do not want to return null, so return an empty ArrayList
 		}
+	}
+	
+	@Transactional
+	public Creator addItemToCreator(Long creatorId, Item item) {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
+		if (creator == null) {
+			throw new IllegalArgumentException("Creator does not exist.");
+		}
+		if (item == null) {
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		if (item.getCreator() == null || !item.getCreator().equals(creator)) {
+			item.setCreator(creator);
+		}
+		creator.addItem(item);
+		creatorRepository.save(creator);
+		return creator;
+	}
+	
+	@Transactional
+	public Creator removeItemFromCreator(Long creatorId, Item item) {
+		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
+		if (creator == null) {
+			throw new IllegalArgumentException("Creator does not exist.");
+		}
+		if (item == null) {
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		for (Item i: creator.getItems()) {
+			if (i.getItemId() == item.getItemId()) {
+				i.setCreator(null);
+				creator.removeItem(i);
+				break;
+			}
+		}
+		creatorRepository.save(creator);
+		return creator;
 	}
 	
 	public List<Creator> toList(Iterable<Creator> iterable){
