@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class MovieRestController {
 	
-	@Autowired
-	private MovieService service;
-	
+//	@Autowired
+//	private MovieService service;
+//	
 //	@GetMapping(value = {"/movies", "/movies/"})
 //	public List<MovieDto> getAllMovies() {
 //		return service.getAllMovies().stream().map(p -> convertToDto(p)).collect(Collectors.toList());	
@@ -45,14 +45,14 @@ public class MovieRestController {
 //	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 //		return convertToDto(service.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));
 //	}
-	
+//	
 //	@DeleteMapping(value = { "/movie/delete/{itemId}", "/movie/delete/{itemId}/"})
 //	public MovieDto deleteAlbum(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
 //		Movie movie = service.getMovie(itemId);
 //		service.deleteMovie(itemId);
 //		return convertToDto(movie);
 //	}
-	
+//	
 //	private MovieDto convertToDto(Movie movie) throws IllegalArgumentException {
 //		if (movie == null) {
 //			throw new IllegalArgumentException("Movie does not exist");
