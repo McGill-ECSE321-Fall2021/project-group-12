@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.library.dto;
 
 import java.sql.Date;
 
-import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.model.Book.BMGenre;
 
 public class BookDto {
@@ -14,10 +13,11 @@ public class BookDto {
 	int numPages;
 	boolean available;
 	BMGenre genre;
+	CreatorDto creator;
 
 	public BookDto() {}
 
-	public BookDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, BMGenre genre) {
+	public BookDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, BMGenre genre, CreatorDto creator) {
 		this.title = title;
 		this.isArchive = isArchive;
 		this.isReservable = isReservable;
@@ -25,6 +25,7 @@ public class BookDto {
 		this.numPages = numPages;
 		this.available = available;
 		this.genre = genre;
+		this.creator = creator;
 	}
 
 	public String getTitle() {
@@ -65,6 +66,10 @@ public class BookDto {
 
 	public BMGenre getGenre() {
 		return this.genre;
+	}
+	
+	public CreatorDto getCreator() {
+		return this.creator;
 	}
 
 

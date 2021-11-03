@@ -13,10 +13,11 @@ public class AlbumDto {
 	int numSongs;
 	boolean available;
 	MusicGenre genre;
+	CreatorDto creator;
 	
 	public AlbumDto() {}
 	
-	public AlbumDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre) {
+	public AlbumDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, CreatorDto creator) {
 		this.title = title;
 		this.isArchive = isArchive;
 		this.isReservable = isReservable;
@@ -24,6 +25,7 @@ public class AlbumDto {
 		this.numSongs = numSongs;
 		this.available = available;
 		this.genre = genre;
+		this.creator = creator;
 	}
 	
 	public String getTitle() {
@@ -64,6 +66,10 @@ public class AlbumDto {
 	
 	public MusicGenre getGenre() {
 		return this.genre;
+	}
+	
+	public CreatorDto getCreator() {
+		return this.creator;
 	}
 
 }

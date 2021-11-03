@@ -12,6 +12,7 @@ import ca.mcgill.ecse321.library.dao.AlbumRepository;
 
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
+import ca.mcgill.ecse321.library.model.Creator;
 
 
 @Service
@@ -21,7 +22,7 @@ public class AlbumService {
 	AlbumRepository albumRepository;
 	
 	@Transactional
-	public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre) throws IllegalArgumentException {
+	public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, Creator creator) throws IllegalArgumentException {
 		if (title == null || releaseDate == null) {
 			throw new IllegalArgumentException("Cannot create album with empty fields.");
 		}
@@ -44,6 +45,10 @@ public class AlbumService {
 			throw new IllegalArgumentException("Cannot create album");
 		}
 		
+		if (creator == null) {
+			throw new IllegalArgumentException("A newspaper cannot have an empty creator.");
+		}
+		
 		Album album = new Album();
 		album.setTitle(title);
 		album.setIsArchive(isArchive);
@@ -52,8 +57,22 @@ public class AlbumService {
 		album.setNumSongs(numSongs);
 		album.setIsAvailable(available);
 		album.setGenre(genre);
+		album.setCreator(creator);
 		albumRepository.save(album);
 		return album;	
+	}
+	
+	@Transactional
+	public Album updateAlbum(Long itemId, boolean isArchive, boolean isReservable, boolean available) throws IllegalArgumentException {
+		Album album = albumRepository.findAlbumByItemId(itemId);
+		if (album == null) {
+			throw new IllegalArgumentException("Newspaper does not exist.");
+		}
+		
+		album.setIsArchive(isArchive);
+		album.setIsReservable(isReservable);
+		album.setIsAvailable(available);
+		return album;
 	}
 	
 	@Transactional
