@@ -13,10 +13,11 @@ public class MovieDto {
 	private Date releaseDate;
 	private int duration;
 	private BMGenre genre;
+	private CreatorDto creator;
 	
 	public MovieDto() {}
 	
-	public MovieDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, boolean isAvailable, int duration, BMGenre genre) {
+	public MovieDto(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, CreatorDto creator) {
 		this.title = title;
 		this.isArchive = isArchive;
 		this.isReservable = isReservable;
@@ -24,6 +25,7 @@ public class MovieDto {
 		this.releaseDate = releaseDate;
 		this.duration = duration;
 		this.genre = genre;
+		this.creator = creator;
 	}
 	public String getTitle() {
 		return title;
@@ -78,6 +80,14 @@ public class MovieDto {
 	}
 	public boolean setGenre(BMGenre genre) {
 		this.genre = genre;
+		return true;
+	}
+	
+	public CreatorDto getCreator() {
+		return creator;
+	}
+	public boolean setCreator(CreatorDto creator) {
+		this.creator = creator;
 		return true;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.library.dao.MovieRepository;
+import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
@@ -19,13 +20,16 @@ public class MovieService {
 	MovieRepository movieRepository;
 	
 	@Transactional
-	public Movie createMovie(String title, boolean isArchive, boolean isReservable, Date releaseDate, boolean isAvailable, int duration, BMGenre genre) throws IllegalArgumentException {
+	public Movie createMovie(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, Creator creator) throws IllegalArgumentException {
 		Movie newMovie = new Movie();
 		if (title == null || title.trim().length() == 0) {
 			throw new IllegalArgumentException("A movie cannot have an empty title.");
 		}
 		if (releaseDate == null) {
 			throw new IllegalArgumentException("A movie cannot have an empty release date.");
+		}
+		if (creator == null) {
+			throw new IllegalArgumentException("A movie cannot have an empty creator.");
 		}
 		if (duration == 0) {
 			throw new IllegalArgumentException("A movie cannot have a duration of zero.");
@@ -37,11 +41,12 @@ public class MovieService {
 		newMovie.setIsAvailable(isAvailable);
 		newMovie.setDuration(duration);
 		newMovie.setGenre(genre);
+		newMovie.setCreator(creator);
 		movieRepository.save(newMovie);
 		return newMovie;
 	}
 	@Transactional 
-	public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre) throws IllegalArgumentException {
+	public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre, Creator newCreator) throws IllegalArgumentException {
 		Movie movie = movieRepository.findMovieByItemId(id);
 		//if the title, release date, or duration are null then don't change, remains the same
 		//if the duration is zero
@@ -54,6 +59,7 @@ public class MovieService {
 			throw new IllegalArgumentException("Invalid Input: The duration of a movie cannot be zero.");
 		}
 		if (newGenre != null) movie.setGenre(newGenre);
+		if (newCreator != null) movie.setCreator(newCreator);
 		movie.setIsArchive(newIsArchive);
 		movie.setIsAvailable(newIsAvailable);
 		movie.setIsReservable(newIsReservable);
