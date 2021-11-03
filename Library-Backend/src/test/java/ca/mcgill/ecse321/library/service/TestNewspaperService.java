@@ -551,34 +551,6 @@ public class TestNewspaperService {
 	}
 	
 	@Test
-	public void testDeleteNewspaper() {
-		String title = "Title";
-		boolean isArchive = false;
-		Date releaseDate = Date.valueOf("2021-10-31");
-		
-		String firstName = "First";
-		String lastName = "Last";
-		CreatorType creatorType = CreatorType.Artist;
-		Creator creator = new Creator();
-		creator.setCreatorId(100L);
-		creator.setCreatorType(creatorType);
-		creator.setFirstName(firstName);
-		creator.setLastName(lastName);
-		
-		// TESTED CREATION ABOVE
-		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
-		try {
-			newspaper = newspaperService.deleteNewspaper(NEWSPAPER_ID);
-		} catch (Exception e) {
-			fail();
-		}
-		
-		// WE RETURN THE NEWSPAPER OBJECT BUT IT SHOULD NOT EXIST IN THE SYSTEM.
-		assertNotNull(newspaper); 
-		assertEquals(0, newspaperService.getAllNewspapers().size());
-	}
-	
-	@Test
 	public void testGetNewspaper() {
 		String title = "Title";
 		boolean isArchive = false;
