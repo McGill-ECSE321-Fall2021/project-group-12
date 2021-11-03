@@ -14,13 +14,22 @@ import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
 @Service
 public class MovieService {
-//!!! add input checks and creator jazz	
+	
 	@Autowired
 	MovieRepository movieRepository;
 	
 	@Transactional
-	public Movie createMovie(String title, boolean isArchive, boolean isReservable, Date releaseDate, boolean isAvailable, int duration, BMGenre genre) {
+	public Movie createMovie(String title, boolean isArchive, boolean isReservable, Date releaseDate, boolean isAvailable, int duration, BMGenre genre) throws IllegalArgumentException {
 		Movie newMovie = new Movie();
+		if (title == null || title.trim().length() == 0) {
+			throw new IllegalArgumentException("A movie cannot have an empty title.");
+		}
+		if (releaseDate == null) {
+			throw new IllegalArgumentException("A movie cannot have an empty release date.");
+		}
+		if (duration == 0) {
+			throw new IllegalArgumentException("A movie cannot have a duration of zero.");
+		}
 		newMovie.setTitle(title);
 		newMovie.setIsArchive(isArchive);
 		newMovie.setIsReservable(isReservable);
@@ -34,7 +43,7 @@ public class MovieService {
 	@Transactional 
 	public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre) throws IllegalArgumentException {
 		Movie movie = movieRepository.findMovieByItemId(id);
-		//checks if the title, release date, or duration is null then don't change, remains the same
+		//if the title, release date, or duration are null then don't change, remains the same
 		//if the duration is zero
 		if (newTitle != null) movie.setTitle(newTitle);
 		if (newReleaseDate != null) movie.setReleaseDate(newReleaseDate);
@@ -65,7 +74,11 @@ public class MovieService {
 	}
 	@Transactional
 	public boolean deleteMovie(Long id) {
-		movieRepository.findById(id);
+		Movie movie = movieRepository.findMovieByItemId(id);
+		if (movie == null) {
+			throw new IllegalArgumentException("Movie does not exist.");
+		}
+		movieRepository.delete(movie);
 		return true;
 	}
 	
