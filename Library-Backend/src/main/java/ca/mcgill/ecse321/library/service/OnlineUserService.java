@@ -213,6 +213,7 @@ public class OnlineUserService {
         event.setIsPrivate(isPrivate);
         event.setTimeSlot(timeSlot);
         event.setUser(onlineUser);
+        event.setIsAccepted(false);
         eventRepository.save(event);
         return event;
     }
