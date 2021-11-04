@@ -94,4 +94,82 @@ public class TestUserPersistence {
 		assertEquals(password, onlineUser.getPassword());
 		assertEquals(email, onlineUser.getEmail());
 	}
+	
+	@Test
+	public void testPersistAndLoadOnlineUserByUsername() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		String firstName = "First";
+		String lastName = "Last";
+		String address = "123 address street";
+		boolean isLocal = true;
+		String username = "username2";
+		String password = "password";
+		String email = "email2@email.email";
+		OnlineUser onlineUser = new OnlineUser(); //Create new online user object
+		onlineUser.setFirstName(firstName);
+		onlineUser.setLastName(lastName);
+		onlineUser.setAddress(address);
+		onlineUser.setIsLocal(isLocal);
+		onlineUser.setLibraryApplicationSystem(system);
+		onlineUser.setUsername(username);
+		onlineUser.setPassword(password);
+		onlineUser.setEmail(email);
+		onlineUserRepository.save(onlineUser); //Save online user object
+		Long id = onlineUser.getUserId(); //Get online ser ID
+		
+		onlineUser = null;
+		
+		onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+		
+		//Verify proper creation of object in database
+		assertNotNull(onlineUser);
+		assertEquals(firstName, onlineUser.getFirstName());
+		assertEquals(lastName, onlineUser.getLastName());
+		assertEquals(address, onlineUser.getAddress());
+		assertEquals(isLocal, onlineUser.getIsLocal());
+		assertNotNull(onlineUser.getLibraryApplicationSystem());
+		assertEquals(id, onlineUser.getUserId());
+		assertEquals(username, onlineUser.getUsername());
+		assertEquals(password, onlineUser.getPassword());
+		assertEquals(email, onlineUser.getEmail());
+	}
+	
+	@Test
+	public void testPersistAndLoadOnlineUserByEmail() {
+		LibraryApplicationSystem system = new LibraryApplicationSystem();
+		String firstName = "First";
+		String lastName = "Last";
+		String address = "123 address street";
+		boolean isLocal = true;
+		String username = "username3";
+		String password = "password";
+		String email = "email3@email.email";
+		OnlineUser onlineUser = new OnlineUser(); //Create new online user object
+		onlineUser.setFirstName(firstName);
+		onlineUser.setLastName(lastName);
+		onlineUser.setAddress(address);
+		onlineUser.setIsLocal(isLocal);
+		onlineUser.setLibraryApplicationSystem(system);
+		onlineUser.setUsername(username);
+		onlineUser.setPassword(password);
+		onlineUser.setEmail(email);
+		onlineUserRepository.save(onlineUser); //Save online user object
+		Long id = onlineUser.getUserId(); //Get online ser ID
+		
+		onlineUser = null;
+		
+		onlineUser = onlineUserRepository.findOnlineUserByEmail(email);
+		
+		//Verify proper creation of object in database
+		assertNotNull(onlineUser);
+		assertEquals(firstName, onlineUser.getFirstName());
+		assertEquals(lastName, onlineUser.getLastName());
+		assertEquals(address, onlineUser.getAddress());
+		assertEquals(isLocal, onlineUser.getIsLocal());
+		assertNotNull(onlineUser.getLibraryApplicationSystem());
+		assertEquals(id, onlineUser.getUserId());
+		assertEquals(username, onlineUser.getUsername());
+		assertEquals(password, onlineUser.getPassword());
+		assertEquals(email, onlineUser.getEmail());
+	}
 }
