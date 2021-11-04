@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.library.controller;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.dto.BookDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
-import ca.mcgill.ecse321.library.dto.ItemDto;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
-import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Book.BMGenre;
 import ca.mcgill.ecse321.library.service.BookService;
 import ca.mcgill.ecse321.library.service.CreatorService;
@@ -84,27 +81,8 @@ public class BookRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId() ,itemDtosForCreator(creator));
+		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId());
 		return creatorDto;
-	}
-	
-	private ItemDto convertToDto(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("Item does not exist.");
-		}
-		ItemDto itemDto = new ItemDto(); // To be updated when ItemDto gets updated
-		return itemDto;
-	}
-	
-	private List<ItemDto> itemDtosForCreator(Creator creator){
-		List<Item> items = creatorService.getItemsByCreator(creator.getCreatorId());
-		List<ItemDto> itemDtos = new ArrayList<ItemDto>();
-		if (items != null) {
-			for (Item i:items) {
-				itemDtos.add(convertToDto(i));
-			}
-		}
-		return itemDtos;
 	}
 	
 }

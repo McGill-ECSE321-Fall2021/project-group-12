@@ -10,9 +10,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.lenient;
-
-import java.sql.Date;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,16 +18,18 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.library.dao.CreatorRepository;
+import ca.mcgill.ecse321.library.dao.MovieRepository;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
-import ca.mcgill.ecse321.library.model.Movie;
-import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
 @ExtendWith(MockitoExtension.class)
 public class TestCreatorService {
 
 	@Mock
 	private CreatorRepository creatorDao;
+	
+	@Mock
+	private MovieRepository movieDao;
 
 	@InjectMocks
 	private CreatorService service;
@@ -40,8 +39,6 @@ public class TestCreatorService {
 	private static final CreatorType CREATOR_TYPE = CreatorType.Artist;
 
 	private static final Long CREATOR_KEY = 0L;
-	
-	private static final Long CREATOR2_KEY = 1L;
 
 
 	@BeforeEach
@@ -53,31 +50,6 @@ public class TestCreatorService {
 				creator.setLastName(LAST_NAME);
 				creator.setCreatorType(CREATOR_TYPE);
 				creator.setCreatorId(CREATOR_KEY);
-				return creator;
-			}else if (invocation.getArgument(0).equals(CREATOR2_KEY)) {
-				String title = "Movie Title";
-				boolean isArchive = false;
-				boolean isReservable = true;
-				Date releaseDate = Date.valueOf("2021-11-02");
-				boolean isAvailable = true;
-				int duration = 3;
-				BMGenre genre = BMGenre.Action;
-				Movie movie = new Movie();
-				movie.setTitle(title);
-				movie.setIsArchive(isArchive);
-				movie.setIsReservable(isReservable);
-				movie.setReleaseDate(releaseDate);
-				movie.setIsAvailable(isAvailable);
-				movie.setDuration(duration);
-				movie.setGenre(genre);
-				
-				String firstName = "First";
-				String lastName = "Last";
-				CreatorType creatorType = CreatorType.Artist;
-				Creator creator = new Creator();
-				creator.setFirstName(firstName);
-				creator.setLastName(lastName);
-				creator.setCreatorType(creatorType);
 				return creator;
 			}else {
 				return null;
@@ -480,54 +452,4 @@ public class TestCreatorService {
 		assertEquals(creator.getLastName(), creator2.getLastName());
 		assertEquals(creator.getCreatorType(), creator2.getCreatorType());
 	}
-	
-	@Test
-	public void testAddItemToCreator() {
-		String title = "Movie Title";
-		boolean isArchive = false;
-		boolean isReservable = true;
-		Date releaseDate = Date.valueOf("2021-11-02");
-		boolean isAvailable = true;
-		int duration = 3;
-		BMGenre genre = BMGenre.Action;
-		Movie movie = new Movie();
-		movie.setTitle(title);
-		movie.setIsArchive(isArchive);
-		movie.setIsReservable(isReservable);
-		movie.setReleaseDate(releaseDate);
-		movie.setIsAvailable(isAvailable);
-		movie.setDuration(duration);
-		movie.setGenre(genre);
-		
-		String firstName = "First";
-		String lastName = "Last";
-		CreatorType creatorType = CreatorType.Artist;
-		Creator creator = null;
-		// CREATION IS ALREADY TESTED ABOVE
-		creator = service.createCreator(firstName, lastName, creatorType);
-		
-		try {
-			creator = service.addItemToCreator(CREATOR_KEY, movie);
-		} catch (Exception e) {
-			fail();
-		}
-		
-		assertNotNull(creator);
-		assertNotNull(creator.getItems());
-		assertEquals(1, creator.getItems().size());
-		Movie itemMovie = (Movie)creator.getItems().get(0);
-		assertEquals(movie.getTitle(), itemMovie.getTitle());
-		assertEquals(movie.getIsArchive(), itemMovie.getIsArchive());
-		assertEquals(movie.getIsReservable(), itemMovie.getIsReservable());
-		assertEquals(movie.getReleaseDate(), itemMovie.getReleaseDate());
-		assertEquals(movie.getIsAvailable(), itemMovie.getIsAvailable());
-		assertEquals(movie.getDuration(), itemMovie.getDuration());
-		assertEquals(movie.getGenre(), itemMovie.getGenre());
-		assertNotNull(itemMovie.getCreator());
-		Creator itemCreator = itemMovie.getCreator();
-		assertEquals(creator.getFirstName(), itemCreator.getFirstName());
-		assertEquals(creator.getLastName(), itemCreator.getLastName());
-		assertEquals(creator.getCreatorType(), itemCreator.getCreatorType());
-	}
-
 }

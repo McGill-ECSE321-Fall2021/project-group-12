@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.library.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,11 +14,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.library.dto.AlbumDto;
+import ca.mcgill.ecse321.library.dto.BookDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
 import ca.mcgill.ecse321.library.dto.ItemDto;
+import ca.mcgill.ecse321.library.dto.MovieDto;
+import ca.mcgill.ecse321.library.dto.NewspaperDto;
+import ca.mcgill.ecse321.library.model.Album;
+import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
+import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.Item;
+import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.service.CreatorService;
 
 @CrossOrigin(origins = "*")
@@ -41,8 +48,8 @@ public class CreatorRestController {
 	
 	@GetMapping(value = { "/creator/items/{creatorId}", "/creator/items/{creatorId}/" })
 	public List<ItemDto> getCreatorItems(@PathVariable("creatorId") Long creatorId) throws IllegalArgumentException {
-		Creator creator = service.getCreator(creatorId);
-		return itemDtosForCreator(creator);
+		List<Item> items = service.getItemsByCreator(creatorId);
+		return itemDtosForCreator(creatorId, items);
 	}
 		
 	
@@ -66,30 +73,36 @@ public class CreatorRestController {
 		return creatorDto;
 	}
 
-	
 	private CreatorDto convertToDto(Creator creator) {
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId() ,itemDtosForCreator(creator));
+		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId());
 		return creatorDto;
 	}
 	
-	private ItemDto convertToDto(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("Item does not exist.");
-		}
-		ItemDto itemDto = null; // To be updated when ItemDto gets updated
-		return itemDto;
-	}
-	
-	private List<ItemDto> itemDtosForCreator(Creator creator){
-		List<Item> items = service.getItemsByCreator(creator.getCreatorId());
+
+	private List<ItemDto> itemDtosForCreator(Long creatorId, List<Item> items){
+		CreatorDto creatorDto = convertToDto(service.getCreator(creatorId));
 		List<ItemDto> itemDtos = new ArrayList<ItemDto>();
-		if (items != null) {
-			for (Item i:items) {
-				itemDtos.add(convertToDto(i));
+		for (Item i: items) {
+			if (i instanceof Movie) {
+				Movie movie = (Movie)i;
+				MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto);
+				itemDtos.add(movieDto);
+			} else if (i instanceof Album) {
+				Album album = (Album)i;
+				AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), creatorDto);
+				itemDtos.add(albumDto);
+			} else if (i instanceof Book) {
+				Book book = (Book)i;
+				BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), creatorDto);
+				itemDtos.add(bookDto);
+			} else {
+				Newspaper newspaper = (Newspaper)i;
+				NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), creatorDto);
+				itemDtos.add(newspaperDto);
 			}
 		}
 		return itemDtos;
