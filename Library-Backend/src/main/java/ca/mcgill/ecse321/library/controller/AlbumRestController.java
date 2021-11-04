@@ -54,9 +54,10 @@ public class AlbumRestController {
 	
 	
 	@PostMapping(value = { "/album/create", "/album/create/" })
-	public AlbumDto createAlbum(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") Date releaseDate, @RequestParam(value="numSongs") int numSongs, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") MusicGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
+	public AlbumDto createAlbum(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numSongs") int numSongs, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") MusicGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
-		Album album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, available, genre, creator);
+		Date date = Date.valueOf(releaseDate);
+		Album album = albumService.createAlbum(title, isArchive, isReservable, date, numSongs, available, genre, creator);
 		return convertToDto(album);
 	}
 	

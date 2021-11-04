@@ -52,9 +52,10 @@ public class BookRestController {
 	
 	
 	@PostMapping(value = { "/book/create", "/book/create/" })
-	public BookDto createBook(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") Date releaseDate, @RequestParam(value="numPages") int numPages, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") BMGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
+	public BookDto createBook(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numPages") int numPages, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") BMGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
-		Book book = bookService.createBook(title, isArchive, isReservable, releaseDate, numPages, available, genre, creator);
+		Date date = Date.valueOf(releaseDate);
+		Book book = bookService.createBook(title, isArchive, isReservable, date, numPages, available, genre, creator);
 		return convertToDto(book);
 	}
 	
