@@ -48,7 +48,7 @@ public class CreatorRestController {
 	
 	@PostMapping(value = { "/creator/create", "/creator/create/" })
 	public CreatorDto createCreator(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="creatorType") CreatorType creatorType) throws IllegalArgumentException {
-		Creator creator = service.createCreator(firstName, firstName, creatorType);
+		Creator creator = service.createCreator(firstName, lastName, creatorType);
 		return convertToDto(creator);
 	}
 	
@@ -80,7 +80,7 @@ public class CreatorRestController {
 		if (item == null) {
 			throw new IllegalArgumentException("Item does not exist.");
 		}
-		ItemDto itemDto = new ItemDto(); // To be updated when ItemDto gets updated
+		ItemDto itemDto = null; // To be updated when ItemDto gets updated
 		return itemDto;
 	}
 	

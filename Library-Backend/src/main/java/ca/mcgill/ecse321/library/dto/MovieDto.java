@@ -17,7 +17,6 @@ public class MovieDto {
 	
 	public MovieDto() {}
 	
-	
 	public MovieDto(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, CreatorDto creator) {
 		this.title = title;
 		this.isArchive = isArchive;
