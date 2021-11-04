@@ -148,7 +148,7 @@ public class ReservationRestController {
 		if(user == null) {
 			throw new IllegalArgumentException("Input user is null.");
 		}
-		OnlineUserDto onUser = new OnlineUser();
+		OnlineUserDto onUser = new OnlineUserDto();
 		//Can be done once OnlineUser is constructed;
 		return onUser;
 	}
@@ -157,7 +157,7 @@ public class ReservationRestController {
 		if(user == null) {
 			throw new IllegalArgumentException("Input user is null.");
 		}
-		LibrarianDto librarianDto = new Librarian();
+		LibrarianDto librarianDto = new LibrarianDto();
 		//Can be done once LibrarianDto is constructed.
 		return librarianDto;
 	}

@@ -16,6 +16,8 @@ public class OfflineUserDto {
     private List<Event> events;
     private List<Reservation> reservations;
     private LibraryApplicationSystem libraryApplicationSystem;
+    
+    public OfflineUserDto() {}
 
     public OfflineUserDto(String firstName, String lastName, String address, boolean isLocal, Long userId, List<Event> events, List<Reservation> reservations, LibraryApplicationSystem libraryApplicationSystem) {
         this.firstName = firstName;

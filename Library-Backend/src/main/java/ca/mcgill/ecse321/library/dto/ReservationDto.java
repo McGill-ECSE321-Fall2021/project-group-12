@@ -69,7 +69,7 @@ public class ReservationDto {
 		return this.movies;
 	}
 	
-	public void setMovies(List<MoviesDto> movies) {
+	public void setMovies(List<MovieDto> movies) {
 		this.movies = movies;
 	}
 	
