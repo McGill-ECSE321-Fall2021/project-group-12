@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.library.model;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +13,6 @@ public class Creator {
 	private Long creatorId;
 	private String firstName;
 	private String lastName;
-	private List<Item> items;
 	private LibraryApplicationSystem libraryApplicationSystem;
 	
 	public boolean setFirstName(String first) {
@@ -56,49 +53,9 @@ public class Creator {
 		return true;
 	}
 
-	@OneToMany(orphanRemoval = true)
-	public List<Item> getItems() {
-		return items;
-	}
-	
-	public boolean setItems(List<Item> newItems) {
-		items = newItems;
-		return true;
-	}
-
-	public int numberOfItems() {
-		return items.size();
-	}
-
-	public boolean hasItems() {
-		return items.size() > 0;
-	}
-
 	@ManyToOne(cascade= {CascadeType.ALL})
 	public LibraryApplicationSystem getLibraryApplicationSystem() {
 		return libraryApplicationSystem;
-	}
-
-	public boolean addItem(Item item) {
-		if (items == null) {
-			items = new ArrayList<Item>();
-		}
-		if (items.contains(item)) { 
-			return false;
-		}
-		if(!item.getCreator().equals(this)) {
-			item.setCreator(this);
-		}
-		items.add(item);
-		return true;
-	}
-
-	public boolean removeItem(Item item) {
-		if (items.contains(item)) {
-			items.remove(item);
-			return true;
-		}
-		return false;
 	}
 
 	public boolean setLibraryApplicationSystem(LibraryApplicationSystem system) {
@@ -111,11 +68,6 @@ public class Creator {
 	}
 
 	public void delete() {
-		for(int i=items.size(); i > 0; i--)
-		{
-			Item aItem = items.get(i - 1);
-			aItem.delete();
-		}
 		LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;
 		this.libraryApplicationSystem = null;
 		if(placeholderLibraryApplicationSystem != null) {

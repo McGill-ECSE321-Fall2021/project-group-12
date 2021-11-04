@@ -24,14 +24,6 @@ public class CreatorDto {
 		this.items = Collections.EMPTY_LIST;
 	}
 	
-	public CreatorDto(String firstName, String lastName, CreatorType creatorType, Long creatorId, List<ItemDto> items) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.creatorId = creatorId;
-		this.creatorType = creatorType;
-		this.items = items;
-	}
-	
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -54,14 +46,6 @@ public class CreatorDto {
 	
 	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
-	}
-	
-	public List<ItemDto> getItems(){
-		return this.items;
-	}
-	
-	public void setItems(List<ItemDto> items) {
-		this.items = items;
 	}
 	
 	public CreatorType getCreatorType() {
