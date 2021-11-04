@@ -164,11 +164,6 @@ public abstract class Item
 
     Creator existingCreator = creator;
     creator = aCreator;
-    if (existingCreator != null && !existingCreator.equals(aCreator))
-    {
-      existingCreator.removeItem(this);
-    }
-    creator.addItem(this);
     wasSet = true;
     return wasSet;
   }
@@ -181,12 +176,7 @@ public abstract class Item
     {
       placeholderLibraryApplicationSystem.removeItem(this);
     }
-    Creator placeholderCreator = creator;
     this.creator = null;
-    if(placeholderCreator != null)
-    {
-      placeholderCreator.removeItem(this);
-    }
   }
 
   public String toString()

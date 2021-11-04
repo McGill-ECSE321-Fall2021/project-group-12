@@ -8,6 +8,7 @@ public class Event
 
 	private String name;
 	private boolean isPrivate;
+	private boolean isAccepted;
 	private TimeSlot timeSlot;
 	private User user;
 	private LibraryApplicationSystem libraryApplicationSystem;
@@ -33,6 +34,11 @@ public class Event
 		isPrivate = aIsPrivate;
 		return true;
 	}
+	
+	public boolean setIsAccepted(boolean aIsAccepted) {
+		isAccepted = aIsAccepted;
+		return true;
+	}
 
 	public String getName() {
 		return name;
@@ -40,6 +46,10 @@ public class Event
 
 	public boolean getIsPrivate() {
 		return isPrivate;
+	}
+	
+	public boolean getIsAccepted() {
+		return isAccepted;
 	}
 	
 	@OneToOne
