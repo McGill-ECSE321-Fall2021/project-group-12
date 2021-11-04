@@ -50,7 +50,7 @@ public class Reservation
     return has;
   }
 
-  @OneToOne
+  @ManyToOne
   public User getUser()
   {
     return user;

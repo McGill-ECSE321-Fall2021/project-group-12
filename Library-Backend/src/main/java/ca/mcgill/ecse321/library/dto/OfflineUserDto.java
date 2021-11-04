@@ -6,7 +6,7 @@ import ca.mcgill.ecse321.library.model.Reservation;
 
 import java.util.List;
 
-public class OfflineUserDto {
+public class OfflineUserDto extends UserDto{
     private String firstName;
     private String lastName;
     private String address;

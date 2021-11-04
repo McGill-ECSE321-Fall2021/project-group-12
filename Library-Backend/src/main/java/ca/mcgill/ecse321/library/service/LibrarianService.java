@@ -18,6 +18,7 @@ import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
+import ca.mcgill.ecse321.library.model.Reservation;
 
 @Service
 public class LibrarianService {
@@ -35,6 +36,25 @@ public class LibrarianService {
 		
 		@Transactional
 		public Librarian createHeadLibrarian(String first, String last, String address, String email, String password, String username) {
+			if (first == null || first.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty first name.");
+			}
+			if (last == null || last.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty last name.");
+			}
+			if (address == null || address.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty address.");
+			}
+			if (username == null || username.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty username.");
+			}
+			if (password == null || password.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty password.");
+			}
+			if (email == null || email.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty email.");
+			}
+			
 			Librarian librarian = new Librarian();
 			librarian.setFirstName(first);
 			librarian.setLastName(last);
@@ -42,13 +62,37 @@ public class LibrarianService {
 			librarian.setAddress(address);
 			librarian.setEmail(email);
 			librarian.setPassword(password);
+			//so that head librarian has a unique username
+			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+			for (OnlineUser u : allOnlineUser) {
+				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
+			}
 			librarian.setUsername(username);
 			librarianRepository.save(librarian);
 			return librarian;
 		}
-		//adding normal librarian, only head librarian can do
+
 		@Transactional
-		public Librarian createLibrarian(Librarian headLibrarian, String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
+		public Librarian createLibrarian(String librarianUsename, String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
+			if (first == null || first.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty first name.");
+			}
+			if (last == null || last.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty last name.");
+			}
+			if (address == null || address.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty address.");
+			}
+			if (username == null || username.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty username.");
+			}
+			if (password == null || password.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty password.");
+			}
+			if (email == null || email.trim().length() == 0) {
+				throw new IllegalArgumentException("Librarian cannot have an empty email.");
+			}
+			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(username);
 			if (headLibrarian.getIsHead()) {
 				Librarian librarian = new Librarian();
 				librarian.setFirstName(first);
@@ -57,6 +101,10 @@ public class LibrarianService {
 				librarian.setAddress(address);
 				librarian.setEmail(email);
 				librarian.setPassword(password);
+				Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
+				}
 				librarian.setUsername(username);
 				librarianRepository.save(librarian);
 				return librarian;
@@ -70,12 +118,11 @@ public class LibrarianService {
 			return librarian;
 		}
 		
-		//if we're changing to use the lastname, first name we'll use this methoc
-//		@Transactional
-//		public Librarian getLibrarian(String name) {
-//			Librariran librarian = librarianRepository.findLibrarianByName(name);
-//			return librarian;
-//		}
+		@Transactional
+		public Librarian getLibrarian(String username) {
+			Librarian librarian = librarianRepository.findLibrarianByUsername(username);
+			return librarian;
+		}
 		
 		@Transactional
 		public Librarian getHeadLibrarian() {
@@ -184,6 +231,47 @@ public class LibrarianService {
 			return offlineUser;
 		}
 		
+		@Transactional
+		public Reservation createReservation() {
+			Reservation reservation = new Reservation();
+			//incomplete
+			return reservation;
+		}
+		
+		@Transactional
+		public List<Reservation> getReservationByUserId(Long id) throws IllegalArgumentException {
+			//will edit to remove redundant code
+			//might need to check if the code is correct - correct direction
+			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(id);
+			OfflineUser foundOfflineUser = null;
+			if (foundOnlineUser == null) {
+				foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(id);
+			} else {
+				return reservationRepository.findByUser(id);
+			}
+			if (foundOfflineUser == null) {
+				throw new IllegalArgumentException("User does not esist.");
+			} else {
+				return reservationRepository.findByUser(id);
+			}
+		}
+		
+		@Transactional
+		public List<Reservation> getReservationByUsername(String username) throws IllegalArgumentException {
+			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+			OfflineUser foundOfflineUser = null;
+			if (foundOnlineUser == null) {
+				foundOfflineUser = offlineUserRepository.findOfflineUserByUsername(username);
+			} else {
+				return reservationRepository.findByUser(foundOnlineUser.getUserId());
+			}
+			if (foundOfflineUser == null) {
+				throw new IllegalArgumentException("User does not esist.");
+			} else {
+				return reservationRepository.findByUser(foundOfflineUser.getUserId());
+			}
+		}
+		
 		private <T> List<T> toList(Iterable<T> iterable) {
 			List<T> resultList = new ArrayList<T>();
 			for (T t : iterable) {
@@ -191,12 +279,6 @@ public class LibrarianService {
 			}
 			return resultList;
 		}
-		
-//		@Transactional
-//		public List<Reservation> getReservationByUser(Long id) {
-//			//check if user exists
-//			
-//		}
 }
 
 /*
@@ -210,7 +292,7 @@ public class LibrarianService {
  * - librarian deletes item
  * - librarian updates item
  * 
- * - view times
+ * - view times (view existing timeslots taken by events)
  * - edit booking
  * - view bookings by person
  * - accept booking (do we have anything that implements this?)
