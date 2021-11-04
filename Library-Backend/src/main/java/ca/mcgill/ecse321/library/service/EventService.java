@@ -21,7 +21,7 @@ public class EventService {
 	EventRepository eventRepository;
 	
 	@Transactional
-	public Event createEvent(String name, TimeSlot timeSlot, Boolean isPrivate, User user) {
+	public Event createEvent(String name, TimeSlot timeSlot, Boolean isPrivate, Boolean isAccepted, User user) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("An Event cannot have an empty name.");
 		}
@@ -35,6 +35,7 @@ public class EventService {
 		event.setName(name);
 		event.setTimeSlot(timeSlot);
 		event.setIsPrivate(isPrivate);
+		event.setIsAccepted(isAccepted);
 		event.setUser(user);
 		eventRepository.save(event);
 		return event;
@@ -50,7 +51,7 @@ public class EventService {
 	}
 	
 	@Transactional
-	public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate, User user) {
+	public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate,Boolean isAccepted, User user) {
 		Event event = eventRepository.findEventByEventId(id);
 		if (event == null) {
 			throw new IllegalArgumentException("Event does not exist.");
@@ -68,6 +69,7 @@ public class EventService {
 		event.setName(name);
 		event.setTimeSlot(timeSlot);
 		event.setIsPrivate(isPrivate);
+		event.setIsAccepted(isAccepted);
 		event.setUser(user);
 		
 		return event;

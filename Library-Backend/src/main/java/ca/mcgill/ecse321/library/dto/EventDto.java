@@ -7,6 +7,7 @@ public class EventDto {
 	
 	private String name;
 	private Boolean isPrivate;
+	private Boolean isAccepted;
 	private TimeSlotDto timeSlot;
 	private UserDto user;
 	private Long eventId;
@@ -16,9 +17,10 @@ public class EventDto {
 	}
 	
 	
-	public EventDto(String name, Boolean isPrivate, TimeSlotDto timeSlotDto, UserDto user, Long eventId) {
+	public EventDto(String name, Boolean isPrivate, Boolean isAccepted, TimeSlotDto timeSlotDto, UserDto user, Long eventId) {
 		this.name = name;
 		this.isPrivate = isPrivate;
+		this.isAccepted = isAccepted;
 		this.timeSlot= timeSlot;
 		this.user = user;
 		this.eventId = eventId;
@@ -48,6 +50,14 @@ public class EventDto {
 	
 	public void setIsPrivate(Boolean isPrivate) {
 		this.isPrivate = isPrivate;
+	}
+	
+	public Boolean getIsAccepted() {
+		return this.isAccepted;
+	}
+	
+	public void setIsAccepted(Boolean isAccepted) {
+		this.isAccepted = isAccepted;
 	}
 	
 	public TimeSlotDto getTimeSlot() {

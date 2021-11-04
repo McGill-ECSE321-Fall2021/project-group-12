@@ -45,15 +45,15 @@ public class EventRestController {
 	
 	
 	@PostMapping(value = { "/event/create", "/event/create/" })
-	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="user") User user) throws IllegalArgumentException {
-		Event event = service.createEvent(name, timeSlot, isPrivate, user);
+	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+		Event event = service.createEvent(name, timeSlot, isPrivate, isAccepted, user);
 		return convertToDto(event);
 	}
 	
 	
 	@PutMapping(value = {"/event/update/{Id}", "/newspaper/update/{Id}/"})
-	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="user") User user) throws IllegalArgumentException {
-		return convertToDto(service.updateEvent(Id, name, timeSlot, isPrivate, user));
+	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+		return convertToDto(service.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
 	}
 	
 	
@@ -70,7 +70,7 @@ public class EventRestController {
 		if (event == null) {
 			throw new IllegalArgumentException("Event does not exist");
 		}
-		EventDto eventDto = new EventDto(event.getName(), event.getIsPrivate() , convertToDto(event.getTimeSlot()), convertToDto(event.getUser()), event.getEventId());
+		EventDto eventDto = new EventDto(event.getName(), event.getIsPrivate() , event.getIsAccepted(), convertToDto(event.getTimeSlot()), convertToDto(event.getUser()), event.getEventId());
 		return eventDto;
 	}
 	
