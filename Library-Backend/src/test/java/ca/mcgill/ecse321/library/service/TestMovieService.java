@@ -21,54 +21,54 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import ca.mcgill.ecse321.library.dao.AlbumRepository;
 import ca.mcgill.ecse321.library.dao.CreatorRepository;
-import ca.mcgill.ecse321.library.model.Album;
-import ca.mcgill.ecse321.library.model.Album.MusicGenre;
+import ca.mcgill.ecse321.library.dao.MovieRepository;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
+import ca.mcgill.ecse321.library.model.Movie;
+import ca.mcgill.ecse321.library.model.Movie.BMGenre;
 
 @ExtendWith(MockitoExtension.class)
-public class TestAlbumService {
+public class TestMovieService {
 	
 	@Mock
-	private AlbumRepository albumDao;
+	private MovieRepository movieDao;
 	
 	@Mock 
 	private CreatorRepository creatorRepository;
 	
 	@InjectMocks
-	private AlbumService albumService;
+	private MovieService movieService;
 	
 	private static final String TITLE = "Title";
 	private static final boolean IS_ARCHIVE = false;
 	private static final boolean IS_RESERVABLE = true;
 	private static final Date RELEASE_DATE = Date.valueOf("2021-10-31");
-	private static final int NUM_SONGS = 15;
+	private static final int DURATION = 150;
 	private static final boolean IS_AVAILABLE = true;
-	private static final MusicGenre GENRE = MusicGenre.Rock;
+	private static final BMGenre GENRE = BMGenre.Action;
 
-	private static final Long ALBUM_ID = 1L;
+	private static final Long MOVIE_ID = 1L;
 	
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(albumDao.findAlbumByItemId(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(ALBUM_ID)) {
-				Album album = new Album();
-				album.setTitle(TITLE);
-				album.setIsArchive(IS_ARCHIVE);
-				album.setIsReservable(IS_RESERVABLE);
-				album.setReleaseDate(RELEASE_DATE);
-				album.setNumSongs(NUM_SONGS);
-				album.setIsAvailable(IS_AVAILABLE);
-				album.setGenre(GENRE);
+		lenient().when(movieDao.findMovieByItemId(anyLong())).thenAnswer( (InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(MOVIE_ID)) {
+				Movie movie = new Movie();
+				movie.setTitle(TITLE);
+				movie.setIsArchive(IS_ARCHIVE);
+				movie.setIsReservable(IS_RESERVABLE);
+				movie.setReleaseDate(RELEASE_DATE);
+				movie.setDuration(DURATION);
+				movie.setIsAvailable(IS_AVAILABLE);
+				movie.setGenre(GENRE);
 				Creator creator = new Creator();
 				creator.setFirstName("First");
 				creator.setLastName("Last");
 				creator.setCreatorType(CreatorType.Author);
 				creator.setCreatorId(100L);
-				album.setCreator(creator);
-				return album;
+				movie.setCreator(creator);
+				return movie;
 			}else {
 				return null;
 			}
@@ -77,20 +77,20 @@ public class TestAlbumService {
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
-		lenient().when(albumDao.save(any(Album.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(movieDao.save(any(Movie.class))).thenAnswer(returnParameterAsAnswer);
 	}
 	
 	@Test
-	public void testCreateAlbum() {
-		assertEquals(0, albumService.getAllAlbums().size());
+	public void testCreateMovie() {
+		assertEquals(0, movieService.getAllMovies().size());
 		
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		
 		String firstName = "First";
@@ -102,36 +102,36 @@ public class TestAlbumService {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			fail();
 		}
 		
-		assertNotNull(album);
-		assertEquals(title, album.getTitle());
-		assertEquals(isArchive, album.getIsArchive());
-		assertEquals(isReservable, album.getIsReservable());
-		assertEquals(releaseDate, album.getReleaseDate());
-		assertEquals(numSongs, album.getNumSongs());
-		assertEquals(isAvailable, album.getIsAvailable());
-		assertEquals(genre, album.getGenre());
-		assertNotNull(album.getCreator());
-		assertEquals(100L, album.getCreator().getCreatorId());
+		assertNotNull(movie);
+		assertEquals(title, movie.getTitle());
+		assertEquals(isArchive, movie.getIsArchive());
+		assertEquals(isReservable, movie.getIsReservable());
+		assertEquals(releaseDate, movie.getReleaseDate());
+		assertEquals(duration, movie.getDuration());
+		assertEquals(isAvailable, movie.getIsAvailable());
+		assertEquals(genre, movie.getGenre());
+		assertNotNull(movie.getCreator());
+		assertEquals(100L, movie.getCreator().getCreatorId());
 	}
 	
 	@Test
-	public void testCreateAlbumNullTitle() {
+	public void testCreateMovieNullTitle() {
 
 		String title = null;
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -144,28 +144,28 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("Cannot create album with empty title.", error);
+		assertNull(movie);
+		assertEquals("Cannot create movie with empty title.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumEmptyTitle() {
+	public void testCreateMovieEmptyTitle() {
 
 		String title = "";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -178,28 +178,28 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("Cannot create album with empty title.", error);
+		assertNull(movie);
+		assertEquals("Cannot create movie with empty title.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumSpacesTitle() {
+	public void testCreateMovieSpacesTitle() {
 
-		String title = "       ";
+		String title = "        ";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -212,28 +212,28 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("Cannot create album with empty title.", error);
+		assertNull(movie);
+		assertEquals("Cannot create movie with empty title.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumNullDate() {
+	public void testCreateMovieNullDate() {
 
 		String title = "title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = null;
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -246,55 +246,55 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("Cannot create album with empty date.", error);
+		assertNull(movie);
+		assertEquals("Cannot create movie with empty date.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumNullCreator() {
+	public void testCreateMovieNullCreator() {
 
 		String title = "title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		Creator creator = null;
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("An album cannot have an empty creator.", error);
+		assertNull(movie);
+		assertEquals("A movie cannot have an empty creator.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumZeroSongs() {
+	public void testCreateMovieZeroDuration() {
 
 		String title = "title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 0;
+		int duration = 0;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -307,28 +307,28 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("An album cannot have number of songs less or equal to zero.", error);
+		assertNull(movie);
+		assertEquals("A movie cannot have a duration less or equal to zero.", error);
 	}
 	
 	@Test
-	public void testCreateAlbumNegSongs() {
+	public void testCreateMovieNegDuration() {
 
 		String title = "title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = -15;
+		int duration = -150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		String firstName = "First";
 		String lastName = "Last";
@@ -341,29 +341,29 @@ public class TestAlbumService {
 		
 		String error = "";
 		
-		Album album = null;
+		Movie movie = null;
 		
 		try {
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertNull(album);
-		assertEquals("An album cannot have number of songs less or equal to zero.", error);
+		assertNull(movie);
+		assertEquals("A movie cannot have a duration less or equal to zero.", error);
 	}
 	
 	@Test
-	public void testUpdateAlbum() {
-		assertEquals(0, albumService.getAllAlbums().size());
+	public void testUpdateMovie() {
+		assertEquals(0, movieService.getAllMovies().size());
 		
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		
 		String firstName = "First";
@@ -375,42 +375,42 @@ public class TestAlbumService {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		
-		Album album = null;
+		Movie movie = null;
 		
-		try {	
+		try {
 			isArchive = false;
 			isReservable = false;
 			isAvailable = false;
 			
-			album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
-			album = albumService.updateAlbum(ALBUM_ID, isArchive, isReservable, isAvailable);
+			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
+			movie = movieService.updateMovie(MOVIE_ID, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator);
 		}catch(IllegalArgumentException e) {
 			fail();
 		}
 		
-		assertNotNull(album);
-		assertEquals(title, album.getTitle());
-		assertEquals(isArchive, album.getIsArchive());
-		assertEquals(isReservable, album.getIsReservable());
-		assertEquals(releaseDate, album.getReleaseDate());
-		assertEquals(numSongs, album.getNumSongs());
-		assertEquals(isAvailable, album.getIsAvailable());
-		assertEquals(genre, album.getGenre());
-		assertNotNull(album.getCreator());
-		assertEquals(100L, album.getCreator().getCreatorId());
+		assertNotNull(movie);
+		assertEquals(title, movie.getTitle());
+		assertEquals(isArchive, movie.getIsArchive());
+		assertEquals(isReservable, movie.getIsReservable());
+		assertEquals(releaseDate, movie.getReleaseDate());
+		assertEquals(duration, movie.getDuration());
+		assertEquals(isAvailable, movie.getIsAvailable());
+		assertEquals(genre, movie.getGenre());
+		assertNotNull(movie.getCreator());
+		assertEquals(100L, movie.getCreator().getCreatorId());
 	}
 	
 	@Test
-	public void testGetAlbum() {
-		assertEquals(0, albumService.getAllAlbums().size());
+	public void testGetMovie() {
+		assertEquals(0, movieService.getAllMovies().size());
 		
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		
 		String firstName = "First";
@@ -422,39 +422,39 @@ public class TestAlbumService {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		
-		Album album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
-		assertNotNull(album); 
-		Album album2 = null;
+		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
+		assertNotNull(movie); 
+		Movie movie2 = null;
 		
 		try {	
-			album2 = albumService.getAlbum(ALBUM_ID);
+			movie2 = movieService.getMovie(MOVIE_ID);
 		}catch(IllegalArgumentException e) {
 			fail();
 		}
 		
-		assertNotNull(album2);
-		assertEquals(title, album2.getTitle());
-		assertEquals(isArchive, album2.getIsArchive());
-		assertEquals(isReservable, album2.getIsReservable());
-		assertEquals(releaseDate, album2.getReleaseDate());
-		assertEquals(numSongs, album2.getNumSongs());
-		assertEquals(isAvailable, album2.getIsAvailable());
-		assertEquals(genre, album2.getGenre());
-		assertNotNull(album2.getCreator());
-		assertEquals(100L, album2.getCreator().getCreatorId());
+		assertNotNull(movie2);
+		assertEquals(title, movie2.getTitle());
+		assertEquals(isArchive, movie2.getIsArchive());
+		assertEquals(isReservable, movie2.getIsReservable());
+		assertEquals(releaseDate, movie2.getReleaseDate());
+		assertEquals(duration, movie2.getDuration());
+		assertEquals(isAvailable, movie2.getIsAvailable());
+		assertEquals(genre, movie2.getGenre());
+		assertNotNull(movie2.getCreator());
+		assertEquals(100L, movie2.getCreator().getCreatorId());
 	}
 	
 	@Test
-	public void testDeleteAlbum() {
-		assertEquals(0, albumService.getAllAlbums().size());
+	public void testDeleteMovie() {
+		assertEquals(0, movieService.getAllMovies().size());
 		
 		String title = "Title";
 		boolean isArchive = false;
 		boolean isReservable = true;
 		Date releaseDate = Date.valueOf("2021-10-31");
-		int numSongs = 15;
+		int duration = 150;
 		boolean isAvailable = true;
-		MusicGenre genre = MusicGenre.Rock;
+		BMGenre genre = BMGenre.Action;
 		
 		
 		String firstName = "First";
@@ -466,16 +466,16 @@ public class TestAlbumService {
 		creator.setFirstName(firstName);
 		creator.setLastName(lastName);
 		
-		Album album = albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, isAvailable, genre, creator);
-		assertNotNull(album); 
+		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
+		assertNotNull(movie); 
 		
 		try {	
-			album = albumService.deleteAlbum(ALBUM_ID);
+			movie = movieService.deleteMovie(MOVIE_ID);
 		}catch(IllegalArgumentException e) {
 			fail();
 		}
-		
-		assertEquals(0, albumService.getAllAlbums().size());		
+		 
+		assertEquals(0, movieService.getAllMovies().size());		
 	}
 
 }

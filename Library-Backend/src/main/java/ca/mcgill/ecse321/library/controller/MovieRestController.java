@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,7 @@ public class MovieRestController {
 		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		return convertToDto(movie);
 	}
-	@PostMapping(value = {"/movie/update/{itemId}", "/movie/update/{itemId}/"})
+	@PutMapping(value = {"/movie/update/{itemId}", "/movie/update/{itemId}/"})
 	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(movieService.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));

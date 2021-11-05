@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.library.dao.MovieRepository;
+import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Movie.BMGenre;
@@ -23,16 +24,16 @@ public class MovieService {
 	public Movie createMovie(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, Creator creator) throws IllegalArgumentException {
 		Movie newMovie = new Movie();
 		if (title == null || title.trim().length() == 0) {
-			throw new IllegalArgumentException("A movie cannot have an empty title.");
+			throw new IllegalArgumentException("Cannot create movie with empty title.");
 		}
 		if (releaseDate == null) {
-			throw new IllegalArgumentException("A movie cannot have an empty release date.");
+			throw new IllegalArgumentException("Cannot create movie with empty date.");
 		}
 		if (creator == null) {
 			throw new IllegalArgumentException("A movie cannot have an empty creator.");
 		}
-		if (duration == 0) {
-			throw new IllegalArgumentException("A movie cannot have a duration of zero.");
+		if (duration <= 0) {
+			throw new IllegalArgumentException("A movie cannot have a duration less or equal to zero.");
 		}
 		newMovie.setTitle(title);
 		newMovie.setIsArchive(isArchive);
@@ -79,13 +80,13 @@ public class MovieService {
 		return movie;
 	}
 	@Transactional
-	public boolean deleteMovie(Long id) {
+	public Movie deleteMovie(Long id) {
 		Movie movie = movieRepository.findMovieByItemId(id);
 		if (movie == null) {
-			throw new IllegalArgumentException("Movie does not exist.");
+			throw new IllegalArgumentException("Book does not exist.");
 		}
 		movieRepository.delete(movie);
-		return true;
+		return movie;
 	}
 	
 	private <T> List<T> toList(Iterable<T> iterable) {

@@ -112,6 +112,7 @@ public class TestNewspaperService {
 
 	@Test
 	public void testCreateNewspaperNullTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = null;
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -141,6 +142,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testCreateNewspaperEmptyTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -170,6 +172,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testCreateNewspaperSpacesTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "    ";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -199,6 +202,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testCreateNewspaperNullReleaseDate() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "First";
 		boolean isArchive = false;
 		Date releaseDate = null;
@@ -228,6 +232,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testCreateNewspaperNullCreator() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "First";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -300,6 +305,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testUpdateNewspaperNullTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -352,6 +358,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testUpdateNewspaperEmptyTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -404,6 +411,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testUpdateNewspaperSpacesTitle() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -456,6 +464,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testUpdateNewspaperNullReleaseDate() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -508,6 +517,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testUpdateNewspaperNullCreator() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -552,6 +562,7 @@ public class TestNewspaperService {
 	
 	@Test
 	public void testGetNewspaper() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
 		String title = "Title";
 		boolean isArchive = false;
 		Date releaseDate = Date.valueOf("2021-10-31");
@@ -585,6 +596,35 @@ public class TestNewspaperService {
 		assertNotNull(newspaper.getCreator());
 		assertNotNull(newspaper2.getCreator());
 		assertEquals(newspaper.getCreator().getCreatorId(), newspaper2.getCreator().getCreatorId());
+	}
+	
+	@Test
+	public void testDeleteNewspaper() {
+		assertEquals(0, newspaperService.getAllNewspapers().size());
+		String title = "Title";
+		boolean isArchive = false;
+		Date releaseDate = Date.valueOf("2021-10-31");
+		
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType creatorType = CreatorType.Artist;
+		Creator creator = new Creator();
+		creator.setCreatorId(100L);
+		creator.setCreatorType(creatorType);
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		
+		// TESTED CREATION ABOVE
+		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
+		assertNotNull(newspaper); // To confirm newspaper exists
+		try {
+			newspaper = newspaperService.deleteNewspaper(NEWSPAPER_ID);
+		} catch (Exception e) {
+			fail();
+		}
+		
+		assertEquals(0, newspaperService.getAllNewspapers().size());
+		
 	}
 
 	

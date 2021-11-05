@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -284,6 +283,74 @@ public class TestBookService {
 		
 		assertNull(book);
 		assertEquals("A book cannot have an empty creator.", error);
+	}
+	
+	@Test
+	public void testCreateBookZeroPages() {
+
+		String title = "title";
+		boolean isArchive = false;
+		boolean isReservable = true;
+		Date releaseDate = Date.valueOf("2021-10-31");
+		int numPages = 0;
+		boolean isAvailable = true;
+		BMGenre genre = BMGenre.Action;
+		
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType creatorType = CreatorType.Artist;
+		Creator creator = new Creator();
+		creator.setCreatorId(100L);
+		creator.setCreatorType(creatorType);
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		
+		String error = "";
+		
+		Book book = null;
+		
+		try {
+			book = bookService.createBook(title, isArchive, isReservable, releaseDate, numPages, isAvailable, genre, creator);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(book);
+		assertEquals("A book cannot have a length less or equal to zero.", error);
+	}
+	
+	@Test
+	public void testCreateBookNegPages() {
+
+		String title = "title";
+		boolean isArchive = false;
+		boolean isReservable = true;
+		Date releaseDate = Date.valueOf("2021-10-31");
+		int numPages = -150;
+		boolean isAvailable = true;
+		BMGenre genre = BMGenre.Action;
+		
+		String firstName = "First";
+		String lastName = "Last";
+		CreatorType creatorType = CreatorType.Artist;
+		Creator creator = new Creator();
+		creator.setCreatorId(100L);
+		creator.setCreatorType(creatorType);
+		creator.setFirstName(firstName);
+		creator.setLastName(lastName);
+		
+		String error = "";
+		
+		Book book = null;
+		
+		try {
+			book = bookService.createBook(title, isArchive, isReservable, releaseDate, numPages, isAvailable, genre, creator);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(book);
+		assertEquals("A book cannot have a length less or equal to zero.", error);
 	}
 	
 	@Test

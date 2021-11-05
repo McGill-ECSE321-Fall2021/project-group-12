@@ -29,6 +29,9 @@ public class AlbumService {
 		if (title == null || title.trim().length() == 0) {
 			throw new IllegalArgumentException("Cannot create album with empty title.");
 		}
+		if (numSongs <= 0) {
+			throw new IllegalArgumentException("An album cannot have number of songs less or equal to zero.");
+		}
 		boolean valid = false;
 		for (int i=0; i<title.length();i++) {
 			if (title.charAt(i) != ' ') {

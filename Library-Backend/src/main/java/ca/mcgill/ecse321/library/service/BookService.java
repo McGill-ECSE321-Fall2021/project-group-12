@@ -27,6 +27,9 @@ public class BookService {
 		if (title == null || title.trim().length() == 0) {
 			throw new IllegalArgumentException("Cannot create book with empty title.");
 		}
+		if (numPages <= 0) {
+			throw new IllegalArgumentException("A book cannot have a length less or equal to zero.");
+		}
 		boolean valid = false;
 		for (int i=0; i<title.length();i++) {
 			if (title.charAt(i) != ' ') {
