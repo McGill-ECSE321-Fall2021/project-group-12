@@ -23,10 +23,10 @@ public class AlbumService {
 	
 	@Transactional
 	public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, Creator creator) throws IllegalArgumentException {
-		if (title == null || releaseDate == null) {
-			throw new IllegalArgumentException("Cannot create album with empty fields.");
+		if (releaseDate == null) {
+			throw new IllegalArgumentException("Cannot create album with empty date.");
 		}
-		if (title  == "") {
+		if (title == null || title.trim().length() == 0) {
 			throw new IllegalArgumentException("Cannot create album with empty title.");
 		}
 		boolean valid = false;
@@ -46,7 +46,7 @@ public class AlbumService {
 		}
 		
 		if (creator == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty creator.");
+			throw new IllegalArgumentException("An album cannot have an empty creator.");
 		}
 		
 		Album album = new Album();
@@ -66,7 +66,7 @@ public class AlbumService {
 	public Album updateAlbum(Long itemId, boolean isArchive, boolean isReservable, boolean available) throws IllegalArgumentException {
 		Album album = albumRepository.findAlbumByItemId(itemId);
 		if (album == null) {
-			throw new IllegalArgumentException("Newspaper does not exist.");
+			throw new IllegalArgumentException("Album does not exist.");
 		}
 		
 		album.setIsArchive(isArchive);
