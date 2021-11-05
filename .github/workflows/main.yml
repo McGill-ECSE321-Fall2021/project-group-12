@@ -26,7 +26,6 @@ jobs:
       working-directory: Library-Backend
     - name: Build with Gradle
       run: ./gradlew build
-      working-directory: Library-Backend
     - uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: "355b6d02-a534-4fc1-a3b5-9f1888ad59e6"
