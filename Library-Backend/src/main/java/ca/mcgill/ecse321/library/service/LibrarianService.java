@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.library.dao.EventRepository;
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Creator;
+import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
@@ -24,6 +26,8 @@ import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
+import ca.mcgill.ecse321.library.model.TimeSlot;
+import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.model.Book;
@@ -41,6 +45,8 @@ public class LibrarianService {
 		LibraryHourRepository libraryHourRepository;
 		@Autowired
 		ReservationRepository reservationRepository;
+		@Autowired
+		EventRepository eventRepository;
 		
 		@Autowired
 		AlbumService albumService;
@@ -50,6 +56,8 @@ public class LibrarianService {
 		MovieService movieService;
 		@Autowired
 		NewspaperService newspaperService;
+		@Autowired
+		EventService eventService;
 		
 		
 		@Transactional
@@ -326,20 +334,6 @@ public class LibrarianService {
 		public Newspaper deleteNewspaper(Long itemId) {
 			return newspaperService.deleteNewspaper(itemId);
 		}
-		
-		@Transactional
-		public Reservation createReservation() {
-			Reservation reservation = new Reservation();
-			//incomplete
-			return reservation;
-		}
-		
-		@Transactional
-		public Reservation editReservation(Long id) {
-			Reservation reservation = reservationRepository.findReservationByReservationId(id);
-			//incomplete
-			return reservation;
-		}
 
 		@Transactional
 		public boolean removeReservation(Long id) {
@@ -381,6 +375,58 @@ public class LibrarianService {
 				return reservationRepository.findByUser(foundOfflineUser.getUserId());
 			}
 		}
+		//do we want to sort?
+		@Transactional
+		public List<TimeSlot> getTimeSlotsWithEvent() {
+			List<TimeSlot> timeSlotsWithEvents = new ArrayList<>();
+			Iterable<Event> allEvents = eventRepository.findAll();
+			for (Event e : allEvents) {
+				if (e.getIsAccepted()) {
+					timeSlotsWithEvents.add(e.getTimeSlot());
+				}
+			}
+			return timeSlotsWithEvents;
+		}
+		
+		@Transactional
+		public List<Event> getAllEvents() {
+			return toList(eventRepository.findAll());
+		}
+		
+		@Transactional
+		public List<Event> getEventsByUser(Long id) {
+			List<Event> eventsByUser = new ArrayList<>();
+			Iterable<Event> allEvents = eventRepository.findAll();
+			for (Event e : allEvents) {
+				if (e.getUser().equals(onlineUserRepository.findOnlineUserByUserId(id))) {
+					eventsByUser.add(e);
+				} else if (e.getUser().equals(offlineUserRepository.findOfflineUserByUserId(id))) {
+					eventsByUser.add(e);
+				}
+			}
+			return eventsByUser;
+		}
+		
+		@Transactional
+		public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate,Boolean isAccepted, User user) {
+			return eventService.updateEvent(id, name, timeSlot, isPrivate, isAccepted, user);
+		}
+		
+		@Transactional
+		public Event acceptEvent(Long id) {
+			Event event = eventRepository.findEventByEventId(id);
+			event.setIsAccepted(true);
+			eventRepository.save(event);
+			return event;
+		}
+		
+		@Transactional
+		public Event rejectEvent(Long id) {
+			Event event = eventRepository.findEventByEventId(id);
+			event.setIsAccepted(false);
+			eventRepository.save(event);
+			return event;
+		}
 		
 		private <T> List<T> toList(Iterable<T> iterable) {
 			List<T> resultList = new ArrayList<T>();
@@ -390,33 +436,3 @@ public class LibrarianService {
 			return resultList;
 		}
 }
-
-/*
- * use cases for librarian:
- * - delete reservation (done)
- * - view person's reservation (done)
- * - librarian adds item (done)
- * - librarian deletes item (done)
- * - librarian updates item (done)
- * 
- * - view times 
- * - edit booking
- * - view bookings by person
- * - accept booking ()
- * - reject booking ()
- * 
- * - create offline account (done)
- * - create online account (done)
- * - set librarian account (done)
- * - change password (done)
- * - log in online account (??)
- * - edit personal information (done)
- * - log in offline account (??)
- * 
- * only head librarian
- * - add librarian (done)
- * - remove librarian (done)
- * - view schedule (done)
- * - create schedule (done)
- * - edit schedule (done)
- */
