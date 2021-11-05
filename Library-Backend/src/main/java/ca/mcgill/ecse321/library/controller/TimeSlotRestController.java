@@ -41,17 +41,15 @@ public TimeSlotDto getTimeSlot(@PathVariable("timeSlotId") Long timeSlotId) thro
 
 
 @PostMapping(value = { "/timeSlot/create", "/timeSlot/create/" })
-public TimeSlotDto createTimeSlot(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time endTime,
-		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date startdate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date endDate) throws IllegalArgumentException{
-	TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime, endTime, startdate, endDate);
+public TimeSlotDto createTimeSlot(@RequestParam(value = "startTime") String startTime,@RequestParam(value="endTime") String endTime, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) throws IllegalArgumentException{
+	TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime, endTime, startDate, endDate);
 	return convertToDto(timeSlot);
 }
 
 
 @PutMapping(value = { "/timeSlot/update/{timeSlotId}", "/timeSlot/update/{timeSlotId}/" })
-public TimeSlotDto updateTimeSlot(@PathVariable("timeSlotId") Long timeSlotId,@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time endTime,
-		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date startdate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date endDate) throws IllegalArgumentException{
-		TimeSlot timeSlot = timeSlotService.updateTimeSlot(timeSlotId, startTime, endTime, startdate, endDate);
+public TimeSlotDto updateTimeSlot(@PathVariable("timeSlotId") Long timeSlotId,@RequestParam(value = "startTime") String startTime,@RequestParam(value="endTime") String endTime, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) throws IllegalArgumentException{
+		TimeSlot timeSlot = timeSlotService.updateTimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
 		return convertToDto(timeSlot);
 }
 
@@ -70,7 +68,7 @@ private TimeSlotDto convertToDto(TimeSlot timeSlot) {
 		throw new IllegalArgumentException("Timeslot does not exist");
 	}
 	
-	TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate(), timeSlot.getTimeSlotId());
+	TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime().toString(), timeSlot.getEndTime().toString(), timeSlot.getStartDate().toString(), timeSlot.getEndDate().toString(), timeSlot.getTimeSlotId());
 	return timeSlotDto;
 }
 	
