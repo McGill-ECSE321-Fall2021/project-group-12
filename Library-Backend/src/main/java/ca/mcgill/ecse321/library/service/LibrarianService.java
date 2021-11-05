@@ -211,7 +211,7 @@ public class LibrarianService {
 		}
 //edit library hour / schedule
 		@Transactional
-		public LibraryHour editLibraryHour(String librarianUsername, String username, Long id, Time startTime, Time endTime, Day day) {
+		public LibraryHour updateLibraryHour(String librarianUsername, String username, Long id, Time startTime, Time endTime, Day day) {
 			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(librarianUsername);
 			if (headLibrarian == null) throw new IllegalArgumentException("Head Librarian username does not exist.");
 			if (headLibrarian.getIsHead()) {

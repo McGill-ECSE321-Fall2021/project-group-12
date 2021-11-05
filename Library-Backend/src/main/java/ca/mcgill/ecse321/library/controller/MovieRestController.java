@@ -51,7 +51,7 @@ public class MovieRestController {
 	}
 	
 	@DeleteMapping(value = { "/movie/delete/{itemId}", "/movie/delete/{itemId}/"})
-	public MovieDto deleteAlbum(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
+	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
 		Movie movie = movieService.getMovie(itemId);
 		movieService.deleteMovie(itemId);
 		return convertToDto(movie);
