@@ -86,10 +86,13 @@ public class LibrarianService {
 			librarian.setLastName(last);
 			librarian.setIsHead(true);
 			librarian.setAddress(address);
+			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+			for (OnlineUser u : allOnlineUser) {
+				if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
+			}
 			librarian.setEmail(email);
 			librarian.setPassword(password);
 			//head librarian has a unique username
-			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
 			}
@@ -97,7 +100,7 @@ public class LibrarianService {
 			librarianRepository.save(librarian);
 			return librarian;
 		}
-
+//add librarian
 		@Transactional
 		public Librarian createLibrarian(String librarianUsename, String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
 			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(username);
@@ -126,8 +129,11 @@ public class LibrarianService {
 				librarian.setIsHead(false);
 				librarian.setAddress(address);
 				librarian.setEmail(email);
-				librarian.setPassword(password);
 				Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
+				}
+				librarian.setPassword(password);
 				for (OnlineUser u : allOnlineUser) {
 					if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
 				}
@@ -159,14 +165,14 @@ public class LibrarianService {
 			return null;
 		}
 		
-		//if any librarian can access the list of all librarians
 		@Transactional
 		public List<Librarian> getAllLibrarians() {
 			return toList(librarianRepository.findAll());
 		}
-		
+//remove librarian
 		@Transactional
-		public boolean removeLibrarian(Librarian headLibrarian, Long id) throws IllegalArgumentException{
+		public boolean removeLibrarian(String librarianUsername, Long id) throws IllegalArgumentException{
+			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(librarianUsername);
 			if (headLibrarian.getIsHead()) {
 				Librarian librarian = librarianRepository.findLibrarianByUserId(id);
 				librarian.delete();
@@ -174,52 +180,61 @@ public class LibrarianService {
 			}
 			throw new IllegalArgumentException("Only the Head Librarian can remove a librarian account.");
 		}
-		
+//view schedule
 		@Transactional
-		public List<LibraryHour> getLibraryHour(Long id) {
+		public List<LibraryHour> getLibraryHourByLibrarianId(Long id) {
 			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
 			return librarian.getLibraryHours();
 		}
-		
+//create library hour / schedule
 		@Transactional
-		public LibraryHour createLibraryHour(String username, Long id, Time startTime, Time endTime, Day day) {
-			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
-			List<LibraryHour> libraryHours = librarian.getLibraryHours();
-			for (LibraryHour lh : libraryHours) {
-				if (lh.getDay().equals(day)) throw new IllegalArgumentException("Library hour for selected day already created.");
-			}
-			LibraryHour newLibraryHour = new LibraryHour();
-			newLibraryHour.setStartTime(startTime);
-			newLibraryHour.setEndTime(endTime);
-			newLibraryHour.setDay(day);
-			libraryHourRepository.save(newLibraryHour);
-			libraryHours.add(newLibraryHour);
-			librarian.setLibraryHours(libraryHours);
-			librarianRepository.save(librarian);
-			return newLibraryHour;
-			
-		}
-
-		@Transactional
-		public LibraryHour editLibraryHour(String username, Long id, Time startTime, Time endTime, Day day) {
-			LibraryHour editLibraryHour = new LibraryHour();
-			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
-			List<LibraryHour> libraryHours = librarian.getLibraryHours();
-			for (LibraryHour lh : libraryHours) {
-				if (lh.getDay().equals(day)) {
-					lh.delete();
-					editLibraryHour.setStartTime(startTime);
-					editLibraryHour.setEndTime(endTime);
-					editLibraryHour.setDay(day);
-					libraryHourRepository.save(editLibraryHour);
-					libraryHours.add(editLibraryHour);
-					librarian.setLibraryHours(libraryHours);
-					librarianRepository.save(librarian);
+		public LibraryHour createLibraryHour(String librarianUsername, String username, Long id, Time startTime, Time endTime, Day day) throws IllegalArgumentException{
+			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(librarianUsername);
+			if (headLibrarian == null) throw new IllegalArgumentException("Head Librarian username does not exist.");
+			if (headLibrarian.getIsHead()) {
+				Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+				if (librarian == null) throw new IllegalArgumentException("Librarian username does not exist.");
+				List<LibraryHour> libraryHours = librarian.getLibraryHours();
+				for (LibraryHour lh : libraryHours) {
+					if (lh.getDay().equals(day)) throw new IllegalArgumentException("Library hour for selected day already created.");
 				}
-			}
-			return editLibraryHour;
+				LibraryHour newLibraryHour = new LibraryHour();
+				newLibraryHour.setStartTime(startTime);
+				newLibraryHour.setEndTime(endTime);
+				newLibraryHour.setDay(day);
+				libraryHourRepository.save(newLibraryHour);
+				libraryHours.add(newLibraryHour);
+				librarian.setLibraryHours(libraryHours);
+				librarianRepository.save(librarian);
+				return newLibraryHour;
+			} throw new IllegalArgumentException("Only the Head Librarian can create a schedule.");
 		}
-		
+//edit library hour / schedule
+		@Transactional
+		public LibraryHour editLibraryHour(String librarianUsername, String username, Long id, Time startTime, Time endTime, Day day) {
+			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(librarianUsername);
+			if (headLibrarian == null) throw new IllegalArgumentException("Head Librarian username does not exist.");
+			if (headLibrarian.getIsHead()) {
+				LibraryHour editLibraryHour = new LibraryHour();
+				Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+				if (librarian == null) throw new IllegalArgumentException("Librarian username does not exist.");
+				List<LibraryHour> libraryHours = librarian.getLibraryHours();
+				for (LibraryHour lh : libraryHours) {
+					if (lh.getDay().equals(day)) {
+						lh.delete();
+						editLibraryHour.setStartTime(startTime);
+						editLibraryHour.setEndTime(endTime);
+						editLibraryHour.setDay(day);
+						libraryHourRepository.save(editLibraryHour);
+						libraryHours.add(editLibraryHour);
+						librarian.setLibraryHours(libraryHours);
+						librarianRepository.save(librarian);
+					}
+				}
+				return editLibraryHour;
+			} throw new IllegalArgumentException("Only the Head Librarian can create a schedule.");
+		}
+//create offline account		
 		@Transactional
 		public OfflineUser createOfflineUser(String first, String last, String address, boolean isLocal) {
 			OfflineUser offlineUser = new OfflineUser();
@@ -230,30 +245,39 @@ public class LibrarianService {
 			offlineUserRepository.save(offlineUser);
 			return offlineUser;
 		}
-		
+//create online account
 		@Transactional
-		public OnlineUser createOnlineUser(String first, String last, String address, boolean isLocal, String username, String password) {
+		public OnlineUser createOnlineUser(String first, String last, String address, boolean isLocal, String username, String password, String email) {
 			OnlineUser onlineUser = new OnlineUser();
 			onlineUser.setFirstName(first);
 			onlineUser.setLastName(last);
 			onlineUser.setAddress(address);
 			onlineUser.setIsLocal(isLocal);
+			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+			for (OnlineUser u : allOnlineUser) {
+				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
+			}
 			onlineUser.setUsername(username);
 			onlineUser.setPassword(password);
+			for (OnlineUser u : allOnlineUser) {
+				if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
+			}
+			onlineUser.setEmail(email);
 			onlineUserRepository.save(onlineUser);
 			return onlineUser;
 		}
-		
+//change password
 		@Transactional
-		public OnlineUser changePassword(OnlineUser onlineUser, String oldPassword, String newPassword) {
-			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(onlineUser.getUserId());
+		public OnlineUser changePassword(String username, String oldPassword, String newPassword) {
+			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+			if (foundOnlineUser == null) throw new IllegalArgumentException("User does not exist.");
 			if (oldPassword != foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password");
 			}
 			foundOnlineUser.setPassword(newPassword);
 			return foundOnlineUser;
 		}
-		
+//edit personal information
 		//if null then the information does not change
 		@Transactional
 		public OnlineUser editOnlineUserInformation(OnlineUser onlineUser, String password, String username, String address, boolean isLocal) {
@@ -274,7 +298,7 @@ public class LibrarianService {
 			foundOfflineUser.setIsLocal(isLocal);
 			return offlineUser;
 		}
-		
+//add / delete / update items
 		@Transactional
 		public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, Creator creator) {
 			return albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, available, genre, creator);
@@ -334,14 +358,14 @@ public class LibrarianService {
 		public Newspaper deleteNewspaper(Long itemId) {
 			return newspaperService.deleteNewspaper(itemId);
 		}
-
+//cancel reservation
 		@Transactional
 		public boolean removeReservation(Long id) {
 			Reservation reservation = reservationRepository.findReservationByReservationId(id);
 			reservation.delete();
 			return true;
 		}
-		
+//view reservation
 		@Transactional
 		public List<Reservation> getReservationByUserId(Long id) throws IllegalArgumentException {
 			//will edit to remove redundant code
@@ -375,6 +399,7 @@ public class LibrarianService {
 				return reservationRepository.findByUser(foundOfflineUser.getUserId());
 			}
 		}
+//view times
 		//do we want to sort?
 		@Transactional
 		public List<TimeSlot> getTimeSlotsWithEvent() {
@@ -387,7 +412,7 @@ public class LibrarianService {
 			}
 			return timeSlotsWithEvents;
 		}
-		
+//view bookings
 		@Transactional
 		public List<Event> getAllEvents() {
 			return toList(eventRepository.findAll());
@@ -406,12 +431,12 @@ public class LibrarianService {
 			}
 			return eventsByUser;
 		}
-		
+//edit bookings
 		@Transactional
 		public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate,Boolean isAccepted, User user) {
 			return eventService.updateEvent(id, name, timeSlot, isPrivate, isAccepted, user);
 		}
-		
+//accept / reject bookings
 		@Transactional
 		public Event acceptEvent(Long id) {
 			Event event = eventRepository.findEventByEventId(id);
