@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.library.service;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,19 @@ import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
+import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
+import ca.mcgill.ecse321.library.model.Movie.BMGenre;
+import ca.mcgill.ecse321.library.model.Movie;
+import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
+import ca.mcgill.ecse321.library.model.Album;
+import ca.mcgill.ecse321.library.model.Album.MusicGenre;
+import ca.mcgill.ecse321.library.model.Book;
 
 @Service
 public class LibrarianService {
@@ -33,6 +41,16 @@ public class LibrarianService {
 		LibraryHourRepository libraryHourRepository;
 		@Autowired
 		ReservationRepository reservationRepository;
+		
+		@Autowired
+		AlbumService albumService;
+		@Autowired
+		BookService bookService;
+		@Autowired
+		MovieService movieService;
+		@Autowired
+		NewspaperService newspaperService;
+		
 		
 		@Transactional
 		public Librarian createHeadLibrarian(String first, String last, String address, String email, String password, String username) {
@@ -62,7 +80,7 @@ public class LibrarianService {
 			librarian.setAddress(address);
 			librarian.setEmail(email);
 			librarian.setPassword(password);
-			//so that head librarian has a unique username
+			//head librarian has a unique username
 			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
@@ -74,26 +92,26 @@ public class LibrarianService {
 
 		@Transactional
 		public Librarian createLibrarian(String librarianUsename, String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
-			if (first == null || first.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty first name.");
-			}
-			if (last == null || last.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty last name.");
-			}
-			if (address == null || address.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty address.");
-			}
-			if (username == null || username.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty username.");
-			}
-			if (password == null || password.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty password.");
-			}
-			if (email == null || email.trim().length() == 0) {
-				throw new IllegalArgumentException("Librarian cannot have an empty email.");
-			}
 			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(username);
 			if (headLibrarian.getIsHead()) {
+				if (first == null || first.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty first name.");
+				}
+				if (last == null || last.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty last name.");
+				}
+				if (address == null || address.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty address.");
+				}
+				if (username == null || username.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty username.");
+				}
+				if (password == null || password.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty password.");
+				}
+				if (email == null || email.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty email.");
+				}
 				Librarian librarian = new Librarian();
 				librarian.setFirstName(first);
 				librarian.setLastName(last);
@@ -156,23 +174,41 @@ public class LibrarianService {
 		}
 		
 		@Transactional
-		public LibraryHour createLibraryHour(Long id, Time startTime, Time endTime, Day day) {
-			//make new library hour
-			//cannot allow if already existing (not implemented)
+		public LibraryHour createLibraryHour(String username, Long id, Time startTime, Time endTime, Day day) {
+			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+			List<LibraryHour> libraryHours = librarian.getLibraryHours();
+			for (LibraryHour lh : libraryHours) {
+				if (lh.getDay().equals(day)) throw new IllegalArgumentException("Library hour for selected day already created.");
+			}
 			LibraryHour newLibraryHour = new LibraryHour();
 			newLibraryHour.setStartTime(startTime);
 			newLibraryHour.setEndTime(endTime);
 			newLibraryHour.setDay(day);
 			libraryHourRepository.save(newLibraryHour);
-			//adding libraryhour method missing?
-			//needs to add the library hour to the librarian
+			libraryHours.add(newLibraryHour);
+			librarian.setLibraryHours(libraryHours);
+			librarianRepository.save(librarian);
 			return newLibraryHour;
 			
 		}
-		//incomplete -- need to check
+
 		@Transactional
-		public LibraryHour editLibraryHour() {
+		public LibraryHour editLibraryHour(String username, Long id, Time startTime, Time endTime, Day day) {
 			LibraryHour editLibraryHour = new LibraryHour();
+			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
+			List<LibraryHour> libraryHours = librarian.getLibraryHours();
+			for (LibraryHour lh : libraryHours) {
+				if (lh.getDay().equals(day)) {
+					lh.delete();
+					editLibraryHour.setStartTime(startTime);
+					editLibraryHour.setEndTime(endTime);
+					editLibraryHour.setDay(day);
+					libraryHourRepository.save(editLibraryHour);
+					libraryHours.add(editLibraryHour);
+					librarian.setLibraryHours(libraryHours);
+					librarianRepository.save(librarian);
+				}
+			}
 			return editLibraryHour;
 		}
 		
@@ -232,10 +268,84 @@ public class LibrarianService {
 		}
 		
 		@Transactional
+		public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, Creator creator) {
+			return albumService.createAlbum(title, isArchive, isReservable, releaseDate, numSongs, available, genre, creator);
+		}
+		
+		@Transactional
+		public Album updateAlbum(Long itemId, boolean isArchive, boolean isReservable, boolean available) {
+			return albumService.updateAlbum(itemId, isArchive, isReservable, available);
+		}
+		
+		@Transactional
+		public Album deleteAlbum(Long albumId) {
+			return albumService.deleteAlbum(albumId);
+		}
+		
+		@Transactional
+		public Book createBook(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, Book.BMGenre genre, Creator creator) {
+			return bookService.createBook(title, isArchive, isReservable, releaseDate, numPages, available, genre, creator);
+		}
+		
+		@Transactional
+		public Book updateBook(Long itemId, boolean isArchive, boolean isReservable, boolean available) {
+			return bookService.updateBook(itemId, isArchive, isReservable, available);
+		}
+		
+		@Transactional
+		public Book deleteBook(Long bookId) {
+			return bookService.deleteBook(bookId);
+		}
+		
+		@Transactional
+		public Movie createMovie(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, Movie.BMGenre genre, Creator creator) {
+			return movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
+		}
+		
+		@Transactional 
+		public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre, Creator newCreator) {
+			return movieService.updateMovie(id, newTitle, newIsArchive, newIsReservable, newReleaseDate, newIsAvailable, newDuration, newGenre, newCreator);
+		}
+		
+		@Transactional
+		public boolean deleteMovie(Long movieId) {
+			return movieService.deleteMovie(movieId);
+		}
+		
+		@Transactional
+		public Newspaper createNewspaper(String title, boolean isArchive, Date releaseDate, Creator creator) {
+			return newspaperService.createNewspaper(title, isArchive, releaseDate, creator);
+		}
+		
+		@Transactional
+		public Newspaper updateNewspaper(Long itemId, String title, boolean isArchive, Date releaseDate, Creator creator) {
+			return newspaperService.updateNewspaper(itemId, title, isArchive, releaseDate, creator);
+		}
+		
+		@Transactional
+		public Newspaper deleteNewspaper(Long itemId) {
+			return newspaperService.deleteNewspaper(itemId);
+		}
+		
+		@Transactional
 		public Reservation createReservation() {
 			Reservation reservation = new Reservation();
 			//incomplete
 			return reservation;
+		}
+		
+		@Transactional
+		public Reservation editReservation(Long id) {
+			Reservation reservation = reservationRepository.findReservationByReservationId(id);
+			//incomplete
+			return reservation;
+		}
+
+		@Transactional
+		public boolean removeReservation(Long id) {
+			Reservation reservation = reservationRepository.findReservationByReservationId(id);
+			reservation.delete();
+			return true;
 		}
 		
 		@Transactional
@@ -283,25 +393,22 @@ public class LibrarianService {
 
 /*
  * use cases for librarian:
- * !!! how to determine if it's the head librarian that does the action?
- * !!! how to do the log-in services??
+ * - delete reservation (done)
+ * - view person's reservation (done)
+ * - librarian adds item (done)
+ * - librarian deletes item (done)
+ * - librarian updates item (done)
  * 
- * - librarian accepting reservation (do we have anything that implements this?)
- * - view person's reservation
- * - librarian adds item
- * - librarian deletes item
- * - librarian updates item
- * 
- * - view times (view existing timeslots taken by events)
+ * - view times 
  * - edit booking
  * - view bookings by person
- * - accept booking (do we have anything that implements this?)
- * - reject booking (do we have anything that implements this?)
+ * - accept booking ()
+ * - reject booking ()
  * 
- * - create offline account (done - need input checks)
- * - create online account (done - needs input checks)
- * - set librarian account (done - needs input checks)
- * - change password (done - need input checks)
+ * - create offline account (done)
+ * - create online account (done)
+ * - set librarian account (done)
+ * - change password (done)
  * - log in online account (??)
  * - edit personal information (done)
  * - log in offline account (??)
@@ -310,8 +417,6 @@ public class LibrarianService {
  * - add librarian (done)
  * - remove librarian (done)
  * - view schedule (done)
- * libraryhour, missing methods in java code? adding libraryhour
- * libraryhour, unidirectional but in wrong direction?
- * - create schedule (incomplete)
- * - edit schedule (incomplete)
+ * - create schedule (done)
+ * - edit schedule (done)
  */
