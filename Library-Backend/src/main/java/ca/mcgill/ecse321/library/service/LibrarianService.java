@@ -275,29 +275,30 @@ public class LibrarianService {
 				throw new IllegalArgumentException("Incorrect password");
 			}
 			foundOnlineUser.setPassword(newPassword);
+			onlineUserRepository.save(foundOnlineUser);
 			return foundOnlineUser;
 		}
 //edit personal information
 		//if null then the information does not change
 		@Transactional
-		public OnlineUser editOnlineUserInformation(OnlineUser onlineUser, String password, String username, String address, boolean isLocal) {
-			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(onlineUser.getUserId());
+		public OfflineUser updateOfflineUserInformation(Long userId, String address, boolean isLocal) {
+			OfflineUser foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(userId);
+			if (address != null) foundOfflineUser.setAddress(address);
+			foundOfflineUser.setIsLocal(isLocal);
+			return foundOfflineUser;
+		}
+		@Transactional
+		public OnlineUser updateOnlineUserInformation(Long userId, String password, String username, String address, boolean isLocal) {
+			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
 			if (password != foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password, unable to make requested changes");
 			}
 			if (username != null) foundOnlineUser.setUsername(username);
 			if (address != null) foundOnlineUser.setAddress(address);
 			foundOnlineUser.setIsLocal(isLocal);
-			return onlineUser;
+			return foundOnlineUser;
 		}
-		
-		@Transactional
-		public OfflineUser editOfflineUserInformation(OfflineUser offlineUser, String address, boolean isLocal) {
-			OfflineUser foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(offlineUser.getUserId());
-			if (address != null) foundOfflineUser.setAddress(address);
-			foundOfflineUser.setIsLocal(isLocal);
-			return offlineUser;
-		}
+
 //add / delete / update items
 		@Transactional
 		public Album createAlbum(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, Creator creator) {

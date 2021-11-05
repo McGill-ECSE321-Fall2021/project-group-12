@@ -16,14 +16,19 @@ import ca.mcgill.ecse321.library.dto.EventDto;
 import ca.mcgill.ecse321.library.dto.MovieDto;
 import ca.mcgill.ecse321.library.dto.NewspaperDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
+import ca.mcgill.ecse321.library.dto.OnlineUserDto;
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.dto.UserDto;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Event;
+import ca.mcgill.ecse321.library.model.LibraryApplicationSystem;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Newspaper;
+import ca.mcgill.ecse321.library.model.OfflineUser;
+import ca.mcgill.ecse321.library.model.OnlineUser;
+import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
@@ -31,8 +36,12 @@ import ca.mcgill.ecse321.library.service.CreatorService;
 import ca.mcgill.ecse321.library.service.MovieService;
 import ca.mcgill.ecse321.library.service.NewspaperService;
 import ca.mcgill.ecse321.library.service.LibrarianService;
+import ca.mcgill.ecse321.library.service.EventService;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,105 +67,180 @@ public class LibrarianRestController {
 //	@DeleteMapping(value = { "/librarian/delete/{id}", "/librarian/delete/{id}/"})
 //
 //	@GetMapping(value = {"/librarian/schedule", "/librarian/schedule/"})
-//	@PostMapping(value = {"/librarian/create/schedule", "/librarian/create/schedule/"})
-//	@PostMapping(value = {"/librarian/update/schedule", "/librarian/update/schedule/"})
-//	@PostMapping(value = {"/librarian/create/offline", "/librarian/create/offline/"})
-//	@PostMapping(value = {"/librarian/create/online", "/librarian/create/online/"})
-//	@PostMapping(value = {"/librarian/change-password", "/librarian/change-password/"})
-//	@PostMapping(value = {"/librarian/update/online", "/librarian/update/online/"})
-//	@PostMapping(value = {"/librarian/update/offline", "/librarian/update/offline/"})
+//	@PostMapping(value = {"/librarian/schedule/create", "/librarian/schedule/create/"})
+//	@PostMapping(value = {"/librarian/schedule/update", "/librarian/schedule/update/"})
 	
-	@PostMapping(value = {"/librarian/create/album", "/librarian/create/album/"})
+	@PostMapping(value = {"/librarian/offline/create", "/librarian/offline/create/"})
+	public OfflineUserDto createOfflineUser(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
+		OfflineUser offlineUser = librarianService.createOfflineUser(firstName, lastName, address, isLocal);
+		return convertToDto(offlineUser);
+	}
+	@PostMapping(value = {"/librarian/online/create", "/librarian/online/create/"})
+	public OnlineUserDto createOnlineUser(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal, @RequestParam(value="username") String username, @RequestParam(value="password") String password, @RequestParam(value="email") String email) {
+		OnlineUser onlineUser = librarianService.createOnlineUser(firstName, lastName, address, isLocal, username, password, email);
+		return convertToDto(onlineUser);
+	}
+	@PostMapping(value = {"/librarian/change-password", "/librarian/change-password/"})
+	public OnlineUserDto changePassword(@RequestParam(value="useranme") String username, @RequestParam(value="oldPassword") String oldPassword, @RequestParam(value="newPassword") String newPassword) {
+		OnlineUser onlineUser = librarianService.changePassword(username, oldPassword, newPassword);
+		return convertToDto(onlineUser);
+	}
+//make optional requests?
+	@PostMapping(value = {"/librarian/offline/update/{id}", "/librarian/offline/update/{id}/"})
+	public OfflineUserDto updateOfflineUser(@PathVariable("id") Long id, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
+		OfflineUser offlineUser = librarianService.updateOfflineUserInformation(id, address, isLocal);
+		return convertToDto(offlineUser);
+	}
+	@PostMapping(value = {"/librarian/online/update/{id}", "/librarian/online/update/{id}/"})
+	public OnlineUserDto updateOnlineUser(@PathVariable("id") Long id, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
+		OnlineUser onlineUser = librarianService.updateOnlineUserInformation(id, password, username, address, isLocal);
+		return convertToDto(onlineUser);
+	}
+	
+	@PostMapping(value = {"/librarian/album/create", "/librarian/album/create/"})
 	public AlbumDto createAlbum(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numSongs") int numSongs, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") MusicGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		Date date = Date.valueOf(releaseDate);
 		Album album = librarianService.createAlbum(title, isArchive, isReservable, date, numSongs, available, genre, creator);
 		return convertToDto(album);
 	}
-	@PostMapping(value = {"/librarian/update/album/{itemId}", "/librarian/update/album/{itemId}/"})
+	@PostMapping(value = {"/librarian/album/update/{itemId}", "/librarian/album/update/{itemId}/"})
 	public AlbumDto updateAlbum(@PathVariable("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(librarianService.updateAlbum(itemId, isArchive, isReservable, available));
 	}
-	@DeleteMapping(value = {"/librarian/delete/album/{itemId}", "/librarian/delete/album/{itemId}/"})
+	@DeleteMapping(value = {"/librarian/ablum/delete/{itemId}", "/librarian/album/delete/{itemId}/"})
 	public AlbumDto deleteAlbum(@PathVariable("itemId") Long albumId) throws IllegalArgumentException {
 		Album album = librarianService.deleteAlbum(albumId);
 		return convertToDto(album);
 	}
 	
-	@PostMapping(value = {"/librarian/create/book", "/librarian/create/book/"})
+	@PostMapping(value = {"/librarian/book/create", "/librarian/book/create/"})
 	public BookDto createBook(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numPages") int numPages, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") Book.BMGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		Date date = Date.valueOf(releaseDate);
 		Book book = librarianService.createBook(title, isArchive, isReservable, date, numPages, available, genre, creator);
 		return convertToDto(book);
 	}
-	@PostMapping(value = {"/librarian/update/book/{itemId}", "/librarian/update/book/{itemId}/"})
+	@PostMapping(value = {"/librarian/book/update/{itemId}", "/librarian/book/update/{itemId}/"})
 	public BookDto updateBook(@PathVariable("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(librarianService.updateBook(itemId, isArchive, isReservable, available));
 	}
-	@DeleteMapping(value = {"/librarian/delete/book/{itemId}", "/librarian/delete/book/{itemId}/"})
+	@DeleteMapping(value = {"/librarian/book/delete/{itemId}", "/librarian/book/delete/{itemId}/"})
 	public BookDto deleteBook(@PathVariable("itemId") Long bookId) throws IllegalArgumentException {
 		Book book = librarianService.deleteBook(bookId);
 		return convertToDto(book);
 	}
 	
-	@PostMapping(value = {"/librarian/create/movie", "/librarian/create/movie/"})
+	@PostMapping(value = {"/librarian/movie/create", "/librarian/movie/create/"})
 	public MovieDto createMovie(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
 		Movie movie = librarianService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		return convertToDto(movie);
 	}
-	@PostMapping(value = {"/librarian/update/movie/{itemId}", "/librarian/update/movie/{itemId}/"})
+	@PostMapping(value = {"/librarian/movie/update/{itemId}", "/librarian/movie/update/{itemId}/"})
 	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(librarianService.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));
 	}
-	@DeleteMapping(value = {"/librarian/delete/movie/{itemId}", "/librarian/delete/movie/{itemId}/"})
+	@DeleteMapping(value = {"/librarian/movie/delete/{itemId}", "/librarian/movie/delete/{itemId}/"})
 	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
 		Movie movie = movieService.getMovie(itemId);
 		librarianService.deleteMovie(itemId);
 		return convertToDto(movie);
 	}
 	
-	@PostMapping(value = {"/librarian/create/newspaper", "/librarian/create/newspaper/"})
+	@PostMapping(value = {"/librarian/newspaper/create", "/librarian/newspaper/create/"})
 	public NewspaperDto createNewspaper(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(librarianService.createNewspaper(title, isArchive, releaseDate, creator));
 	}
-	@PostMapping(value = {"/librarian/update/newspaper/{itemId}", "/librarian/update/newspaper/{itemId}/"})
+	@PostMapping(value = {"/librarian/newspaper/update/{itemId}", "/librarian/newspaper/update/{itemId}/"})
 	public NewspaperDto updateNewspaper(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(librarianService.updateNewspaper(itemId, title, isArchive, releaseDate, creator));
 	}
-	@DeleteMapping(value = {"/librarian/delete/newspaper/{itemId}", "/librarian/delete/newspaper/{itemId}/"})
+	@DeleteMapping(value = {"/librarian/newspaper/delete/{itemId}", "/librarian/newspaper/delete/{itemId}/"})
 	public NewspaperDto deleteNewspaper(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
 		Newspaper newspaper = newspaperService.getNewspaper(itemId);
 		NewspaperDto  newspaperDto = convertToDto(newspaper);
 		librarianService.deleteNewspaper(itemId);
 		return newspaperDto;
 	}
-//	@DeleteMapping(value = { "/librarian/delete/reservation/{id}", "/librarian/delete/reservation/{id}/"})
-//	@GetMapping(value = {"/librarian/reservation/{id}", "/librarian/reservation/{id}/"})
-//	@GetMapping(value = {"/librarian/reservation/{first}/{last}", "/librarian/reservation/{first}/{last}/"})
-//
-//	@GetMapping(value = {"/librarian/event-times", "/librarian/event-times/"})
-//	@GetMapping(value = {"/librarian/event", "/librarian/event/"})
-//	@GetMapping(value = {"/librarian/event/{userId}", "/librarian/event/{userId}/"})
+//commented out until reservation service and dto have been implemented
 	
-	@PostMapping(value = {"/librarian/update/event/{eventId}", "/librarian/update/event/{eventId}/"})
+//	@DeleteMapping(value = { "/librarian/reservation/delete/{id}", "/librarian/reservation/delete/{id}/"})
+//	public ReservationDto deleteReservation(@PathVariable("id") Long id) {
+//		ReservationDto reservationDto = convertToDto(reservationService.getReservation(id));
+//		librarianService.removeReservation(id);
+//		return reservationDto;
+//	}
+//	@GetMapping(value = {"/librarian/reservation/{id}", "/librarian/reservation/{id}/"})
+//	public ReservationDto getReservationById(@PathVariable("id") Long id) {
+//		return convertToDto(librarianService.getReservationByUserId(id));
+//	}
+//	@GetMapping(value = {"/librarian/reservation/{first}/{last}", "/librarian/reservation/{first}/{last}/"})
+//	public ReservationDto getReservationByFirstNameAndLastName(@PathVariable("first") String firstName, @PathVariable("last") String lastName) {
+//			return convertToDto(librarianService.getReservationByFirstNameAndLastName(firstName, lastName));
+//	}
+
+	@GetMapping(value = {"/librarian/event-times", "/librarian/event-times/"})
+	public List<TimeSlotDto> getTimeSlotWithEvent() {
+		return convertToDtoTSList(librarianService.getTimeSlotsWithEvent());
+	}
+	@GetMapping(value = {"/librarian/events", "/librarian/events/"})
+	public List<EventDto> getEvents() {
+		return convertToDtoEList(librarianService.getAllEvents());
+	}
+	@GetMapping(value = {"/librarian/events/{userId}", "/librarian/events/{userId}/"})
+	public List<EventDto> getEventsByUser(@PathVariable("userId") Long userId) {
+		return convertToDtoEList(librarianService.getEventsByUser(userId));
+	}
+	
+	@PostMapping(value = {"/librarian/event/update/{eventId}", "/librarian/event/update/{eventId}/"})
 	public EventDto updateEvent(@PathVariable("eventId") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
 		return convertToDto(librarianService.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
 	}
-	@PostMapping(value = {"/librarian/accept/event/{eventId}", "/librarian/accept/event/{eventId}/"})
+	@PostMapping(value = {"/librarian/event/accept/{eventId}", "/librarian/event/accept/{eventId}/"})
 	public EventDto acceptEvent(@PathVariable("eventId") Long eventId) {
 		return convertToDto(librarianService.acceptEvent(eventId));
 	}
-	@PostMapping(value = {"/librarian/reject/event/{eventId}", "/librarian/reject/event/{eventId}/"})
+	@PostMapping(value = {"/librarian/event/reject/{eventId}", "/librarian/event/reject/{eventId}/"})
 	public EventDto rejectEvent(@PathVariable("eventId") Long eventId) {
 		return convertToDto(librarianService.rejectEvent(eventId));
 	}
-	
-	
+//requires edits	
+    private OfflineUserDto convertToDto(OfflineUser offlineUser) throws IllegalArgumentException {
+        if (offlineUser == null) {
+            throw new IllegalArgumentException("Offline user does not exist");
+        }
+
+        List<Event> eventList = offlineUser.getEvents();
+        List<Reservation> reservationList = offlineUser.getReservations();
+        LibraryApplicationSystem libraryApplicationSystem = offlineUser.getLibraryApplicationSystem();
+
+        return new OfflineUserDto(
+                offlineUser.getFirstName(),
+                offlineUser.getLastName(),
+                offlineUser.getAddress(),
+                offlineUser.getIsLocal(),
+                offlineUser.getUserId(),
+                eventList,
+                reservationList,
+                libraryApplicationSystem);
+    }
+    private OnlineUserDto convertToDto(OnlineUser onlineUser) throws IllegalArgumentException {
+        if (onlineUser == null) {
+            throw new IllegalArgumentException("Online user does not exist");
+        }
+        return new OnlineUserDto(
+                onlineUser.getFirstName(),
+                onlineUser.getLastName(),
+                onlineUser.getAddress(),
+                onlineUser.getIsLocal(),
+                onlineUser.getUsername(),
+                onlineUser.getPassword(),
+                onlineUser.getEmail());
+    }
 	private AlbumDto convertToDto(Album album) {
 		if (album == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
@@ -207,10 +291,24 @@ public class LibrarianRestController {
 		if (timeSlot == null) {
 			throw new IllegalArgumentException("TimeSlot does not exist");
 		}
-		TimeSlotDto timeSlotDto = new TimeSlotDto();
+		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate(), timeSlot.getTimeSlotId());
 		return timeSlotDto;
 	}
-	//should check
+	private List<TimeSlotDto> convertToDtoTSList(List<TimeSlot> listTimeSlots) {
+		List<TimeSlotDto> timeSlotDtoList = new ArrayList<>();
+		for (TimeSlot ts : listTimeSlots) {
+			timeSlotDtoList.add(convertToDto(ts));
+		}
+		return timeSlotDtoList;
+	}
+	private List<EventDto> convertToDtoEList(List<Event> listEvents) {
+		List<EventDto> eventDtoList = new ArrayList<>();
+		for (Event e : listEvents) {
+			eventDtoList.add(convertToDto(e));
+		}
+		return eventDtoList;
+	}
+//should check
 	private UserDto convertToDto(User user) {
 		if (user == null) {
 			throw new IllegalArgumentException("User does not exist");
