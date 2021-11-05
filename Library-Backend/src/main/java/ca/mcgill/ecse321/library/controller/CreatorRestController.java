@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,15 +54,27 @@ public class CreatorRestController {
 	}
 		
 	
+//	@PostMapping(value = { "/creator/create", "/creator/create/" })
+//	public CreatorDto createCreator(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="creatorType") CreatorType creatorType) throws IllegalArgumentException {
+//		Creator creator = service.createCreator(firstName, lastName, creatorType);
+//		return convertToDto(creator);
+//	}
+	
 	@PostMapping(value = { "/creator/create", "/creator/create/" })
-	public CreatorDto createCreator(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="creatorType") CreatorType creatorType) throws IllegalArgumentException {
-		Creator creator = service.createCreator(firstName, lastName, creatorType);
+	public CreatorDto createCreator(@RequestBody CreatorDto creatorDto) throws IllegalArgumentException {
+		Creator creator = service.createCreator(creatorDto.getFirstName(), creatorDto.getLastName(), creatorDto.getCreatorType());
 		return convertToDto(creator);
 	}
 	
+//	@PutMapping(value = { "/creator/update/{creatorId}", "/creator/update/{creatorId}/" })
+//	public CreatorDto updateCreator(@PathVariable("creatorId") Long creatorId, @RequestParam(value="firstName") String newFirstName, @RequestParam(value="lastName") String newLastName, @RequestParam(value="creatorType") CreatorType newCreatorType) throws IllegalArgumentException {
+//		Creator creator = service.updateCreator(creatorId, newFirstName, newLastName, newCreatorType);
+//		return convertToDto(creator);
+//	}
+	
 	@PutMapping(value = { "/creator/update/{creatorId}", "/creator/update/{creatorId}/" })
-	public CreatorDto updateCreator(@PathVariable("creatorId") Long creatorId, @RequestParam(value="firstName") String newFirstName, @RequestParam(value="lastName") String newLastName, @RequestParam(value="creatorType") CreatorType newCreatorType) throws IllegalArgumentException {
-		Creator creator = service.updateCreator(creatorId, newFirstName, newLastName, newCreatorType);
+	public CreatorDto updateCreator(@PathVariable("creatorId") Long creatorId, @RequestBody CreatorDto creatorDto) throws IllegalArgumentException {
+		Creator creator = service.updateCreator(creatorId, creatorDto.getFirstName(), creatorDto.getLastName(), creatorDto.getCreatorType());
 		return convertToDto(creator);
 	}
 	
