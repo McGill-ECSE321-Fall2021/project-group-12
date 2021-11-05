@@ -13,6 +13,7 @@ import ca.mcgill.ecse321.library.dto.AlbumDto;
 import ca.mcgill.ecse321.library.dto.BookDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
 import ca.mcgill.ecse321.library.dto.EventDto;
+import ca.mcgill.ecse321.library.dto.LibrarianDto;
 import ca.mcgill.ecse321.library.dto.MovieDto;
 import ca.mcgill.ecse321.library.dto.NewspaperDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
@@ -23,7 +24,9 @@ import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Event;
+import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryApplicationSystem;
+import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
@@ -39,6 +42,7 @@ import ca.mcgill.ecse321.library.service.LibrarianService;
 import ca.mcgill.ecse321.library.service.EventService;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,17 +62,47 @@ public class LibrarianRestController {
 	@Autowired
 	private NewspaperService newspaperService;
 	
-//	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
-//	@PostMapping(value = {"/librarian/create", "/librarian/create/"})
-//	@GetMapping(value = {"/librarian/{itemId}", "/librarian/{itemId}/"})
-//	@GetMapping(value = {"/librarian/{username}", "/librarian/{username}/"})
-//	@GetMapping(value = {"/librarian/head", "/librarian/head/"})
-//	@GetMapping(value = {"/librarian", "/librarian/"})
-//	@DeleteMapping(value = { "/librarian/delete/{id}", "/librarian/delete/{id}/"})
-//
-//	@GetMapping(value = {"/librarian/schedule", "/librarian/schedule/"})
-//	@PostMapping(value = {"/librarian/schedule/create", "/librarian/schedule/create/"})
-//	@PostMapping(value = {"/librarian/schedule/update", "/librarian/schedule/update/"})
+	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
+	public LibrarianDto createHeadLibrarian(@RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
+		return convertToDto(librarianService.createHeadLibrarian(first, last, address, email, password, username));
+	}
+	@PostMapping(value = {"/librarian/create", "/librarian/create/"})
+	public LibrarianDto createLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
+		return convertToDto(librarianService.createLibrarian(librarianUsername, first, last, address, email, password, username));
+	}
+	@GetMapping(value = {"/librarian/{id}", "/librarian/{id}/"})
+	public LibrarianDto getLibrarianById(@PathVariable("id") Long id) {
+		return convertToDto(librarianService.getLibrarian(id));
+	}
+	@GetMapping(value = {"/librarian/{username}", "/librarian/{username}/"})
+	public LibrarianDto getLibrarianByUsername(@PathVariable("username") String username) {
+		return convertToDto(librarianService.getLibrarian(username));
+	}
+	@GetMapping(value = {"/librarian/head", "/librarian/head/"})
+	public LibrarianDto getHeadLibrarian() {
+		return convertToDto(librarianService.getHeadLibrarian());
+	}
+	@GetMapping(value = {"/librarian", "/librarian/"})
+	public List<LibrarianDto> getAllLibrarian() {
+		return librarianService.getAllLibrarians().stream().map(p -> convertToDto(p)).collect(Collectors.toList());	
+	}
+	@DeleteMapping(value = { "/librarian/delete/{id}", "/librarian/delete/{id}/"})
+	public LibrarianDto deleteLibrarian(@PathVariable("id") Long id, @RequestParam(value="librarianUsername") String librarianUsername) {
+		return convertToDto(librarianService.removeLibrarian(librarianUsername, id));
+	}
+
+//	@GetMapping(value = {"/librarian/schedules/{id}", "/librarian/schedules/{id}/"})
+//	public List<LibraryHourDto> getLibraryHourByLibrarianId(@PathVariable("id") Long id) {
+//		return convertToDto(librarianService.getLibraryHourByLibrarianId(id));
+//	}
+//	@PostMapping(value = {"/librarian/schedule/create/{id}", "/librarian/schedule/create/{id}/"})
+//	public LibraryHourDto createLibraryHour(@PathVariable("id") Long id, @RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="username") String username, @RequestParam(value="startTime") Time startTime, @RequestParam(value="endTime") Time endTime, @RequestParam(value="day") Day day) {
+//		return convertToDto(librarianService.createLibraryHour(librarianUsername, username, id, startTime, endTime, day));
+//	}
+//	@PostMapping(value = {"/librarian/schedule/update/{id}/{day}", "/librarian/schedule/update/{id}/{day}/"})
+//	public LibraryHourDto updateLibraryHour(@PathVariable("id") Long id, @PathVariable("day") Day day, @RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="username") String username, @RequestParam(value="startTime") Time startTime, @RequestParam(value="endTime") Time endTime) {
+//		return convertToDto(librarianService.updateLibraryHour(librarianUsername, username, id, startTime, endTime, day));
+//	}
 	
 	@PostMapping(value = {"/librarian/offline/create", "/librarian/offline/create/"})
 	public OfflineUserDto createOfflineUser(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
@@ -207,6 +241,14 @@ public class LibrarianRestController {
 	@PostMapping(value = {"/librarian/event/reject/{eventId}", "/librarian/event/reject/{eventId}/"})
 	public EventDto rejectEvent(@PathVariable("eventId") Long eventId) {
 		return convertToDto(librarianService.rejectEvent(eventId));
+	}
+	
+	private LibrarianDto convertToDto(Librarian librarian) throws IllegalArgumentException {
+		if (librarian == null) {
+			throw new IllegalArgumentException("Librarian does not exist.");
+		}
+		LibrarianDto librarianDto = new LibrarianDto(librarian.getFirstName(), librarian.getLastName(), librarian.getAddress(), librarian.getIsLocal(), librarian.getUsername(), librarian.getPassword(), librarian.getEmail(), librarian.getIsHead());
+		return librarianDto;
 	}
 //requires edits	
     private OfflineUserDto convertToDto(OfflineUser offlineUser) throws IllegalArgumentException {

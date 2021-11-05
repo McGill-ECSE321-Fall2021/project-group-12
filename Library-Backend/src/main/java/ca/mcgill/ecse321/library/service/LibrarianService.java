@@ -171,12 +171,12 @@ public class LibrarianService {
 		}
 //remove librarian
 		@Transactional
-		public boolean removeLibrarian(String librarianUsername, Long id) throws IllegalArgumentException{
+		public Librarian removeLibrarian(String librarianUsername, Long id) throws IllegalArgumentException{
 			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(librarianUsername);
 			if (headLibrarian.getIsHead()) {
 				Librarian librarian = librarianRepository.findLibrarianByUserId(id);
 				librarian.delete();
-				return true;
+				return headLibrarian;
 			}
 			throw new IllegalArgumentException("Only the Head Librarian can remove a librarian account.");
 		}
