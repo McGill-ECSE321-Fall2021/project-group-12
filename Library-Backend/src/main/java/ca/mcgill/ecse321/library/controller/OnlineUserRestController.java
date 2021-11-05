@@ -91,10 +91,6 @@ public class OnlineUserRestController {
                 onlineUser.getIsLocal(),
                 onlineUser.getUsername(),
                 onlineUser.getPassword(),
-                onlineUser.getEmail(),
-                onlineUser.getUserId(),
-                eventList,
-                reservationList,
-                libraryApplicationSystem);
+                onlineUser.getEmail());
     }
 }

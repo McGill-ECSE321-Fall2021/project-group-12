@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.library.dto.EventDto;
+import ca.mcgill.ecse321.library.dto.OfflineUserDto;
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.dto.UserDto;
 import ca.mcgill.ecse321.library.model.Event;
@@ -86,7 +87,8 @@ public class EventRestController {
 		if (user == null) {
 			throw new IllegalArgumentException("TimeSlot does not exist");
 		}
-		UserDto userDto = new UserDto();
+		//UserDto userDto = new UserDto();
+		OfflineUserDto userDto = new OfflineUserDto();
 		return userDto;
 	}
 
