@@ -367,16 +367,16 @@ public class LibrarianService {
 		}
 		
 		@Transactional
-		public List<Reservation> getReservationByUsername(String username) throws IllegalArgumentException {
-			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+		public List<Reservation> getReservationByFirstNameAndLastName(String firstname, String lastname) throws IllegalArgumentException {
 			OfflineUser foundOfflineUser = null;
-			if (foundOnlineUser == null) {
-				foundOfflineUser = offlineUserRepository.findOfflineUserByUsername(username);
-			} else {
-				return reservationRepository.findByUser(foundOnlineUser.getUserId());
-			}
+			OnlineUser foundOnlineUser = null;
+			foundOfflineUser = offlineUserRepository.findOfflineUserByFirstNameAndLastName(firstname, lastname);
 			if (foundOfflineUser == null) {
-				throw new IllegalArgumentException("User does not esist.");
+				foundOnlineUser = onlineUserRepository.findOnlineUserByFirstNameAndLastName(firstname, lastname);
+				if (foundOnlineUser == null) {
+					throw new IllegalArgumentException("User does not esist.");
+				}
+				return reservationRepository.findByUser(foundOnlineUser.getUserId());
 			} else {
 				return reservationRepository.findByUser(foundOfflineUser.getUserId());
 			}
