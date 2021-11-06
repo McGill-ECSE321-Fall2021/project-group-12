@@ -41,6 +41,19 @@ public class OnlineUserService {
     
     @Autowired
     MovieRepository movieRepository;
+    
+    // Basic login method
+    @Transactional
+    public OnlineUser login(String username, String password) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	if (!password.equals(onlineUser.getPassword())) {
+    		throw new IllegalArgumentException("Incorrect password.");
+    	}
+    	return onlineUser;
+    }
 
     //This method getting all the online user details and save it to the database
     @Transactional
@@ -53,23 +66,26 @@ public class OnlineUserService {
                                        String email) {
         OnlineUser onlineUser = new OnlineUser();
         if (firstName == null || firstName.trim().length() == 0) {
-            throw new IllegalArgumentException("the first name cannot have an empty first name.");
+            throw new IllegalArgumentException("An online user cannot have an empty first name.");
         }
         if (lastName == null || lastName.trim().length() == 0) {
-            throw new IllegalArgumentException("the last name cannot have an empty last name.");
+            throw new IllegalArgumentException("An online user cannot have an empty last name.");
         }
         if (address == null || address.trim().length() == 0) {
-            throw new IllegalArgumentException("the address cannot have an empty address.");
+            throw new IllegalArgumentException("An online user cannot have an empty address.");
         }
         if (username == null || username.trim().length() == 0) {
-            throw new IllegalArgumentException("the username cannot have an empty username.");
+            throw new IllegalArgumentException("An online user cannot have an empty username.");
         }
+        isValidUsername(username);
         if (password == null || password.trim().length() == 0) {
-            throw new IllegalArgumentException("the password cannot have an empty password.");
+            throw new IllegalArgumentException("An online user cannot have an empty password.");
         }
+        isValidPassword(password);
         if (email == null || email.trim().length() == 0) {
-            throw new IllegalArgumentException("the email cannot have an empty email.");
+            throw new IllegalArgumentException("An online user cannot have an empty email.");
         }
+        isValidEmail(email);
         // confirm username and email are unique
         Iterable<OnlineUser> iterable = onlineUserRepository.findAll();
         for (OnlineUser user:iterable) {
@@ -79,10 +95,6 @@ public class OnlineUserService {
         		throw new IllegalArgumentException("A user with that email already exists.");
         	}
         }
-        // confirm email is of valid form.
-        if (!isEmail(email)) {
-        	throw new IllegalArgumentException("Provided email is invalid.");
-        }
         onlineUser.setFirstName(firstName);
         onlineUser.setLastName(lastName);
         onlineUser.setAddress(address);
@@ -90,6 +102,35 @@ public class OnlineUserService {
         onlineUser.setUsername(username);
         onlineUser.setPassword(password);
         onlineUser.setEmail(email);
+        onlineUserRepository.save(onlineUser);
+        return onlineUser;
+    }
+    
+    public OnlineUser changeUsername(String username, String password, String newUsername) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	isValidUsername(newUsername);
+    	// confirm username is unique
+        Iterable<OnlineUser> iterable = onlineUserRepository.findAll();
+        for (OnlineUser user:iterable) {
+        	if (user.getUsername() == username ) {
+        		throw new IllegalArgumentException("A user with that username already exists.");
+        	} 
+        }
+        onlineUser.setUsername(newUsername);
+        onlineUserRepository.save(onlineUser);
+        return onlineUser;
+    }
+    
+    public OnlineUser changePassword(String username, String password, String newPassword) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	isValidPassword(password);
+        onlineUser.setPassword(newPassword);
         onlineUserRepository.save(onlineUser);
         return onlineUser;
     }
@@ -117,12 +158,15 @@ public class OnlineUserService {
         if (username == null || username.trim().length() == 0) {
             throw new IllegalArgumentException("the username cannot have an empty username.");
         }
+        isValidUsername(username);
         if (password == null || password.trim().length() == 0) {
             throw new IllegalArgumentException("the password cannot have an empty password.");
         }
+        isValidPassword(password);
         if (email == null || email.trim().length() == 0) {
             throw new IllegalArgumentException("the email cannot have an empty email.");
         }
+        isValidEmail(email);
         // confirm username and email are unique
         Iterable<OnlineUser> iterable = onlineUserRepository.findAll();
         for (OnlineUser user:iterable) {
@@ -131,10 +175,6 @@ public class OnlineUserService {
         	} else if (user.getUserId() != id && user.getEmail() == email) {
         		throw new IllegalArgumentException("A user with that email already exists.");
         	}
-        }
-        // confirm email is of valid form.
-        if (!isEmail(email)) {
-        	throw new IllegalArgumentException("Provided email is invalid.");
         }
         onlineUser.setFirstName(firstName);
         onlineUser.setLastName(lastName);
@@ -536,9 +576,12 @@ public class OnlineUserService {
     }
     
     // Confirm that user email is correct in format: email@email.com
-    private boolean isEmail(String email) {
+    private boolean isValidEmail(String email) {
     	String[] emailStrings = email.split("@");
-    	return emailStrings.length == 2 && emailStrings[1].contains(".");
+    	if (!(emailStrings.length == 2 && emailStrings[1].contains("."))) {
+    		throw new IllegalArgumentException("Provided email is invalid.");
+    	}
+    	return true;
     }
     
     private Long getUserIdFromUsername(String username) {
@@ -547,5 +590,57 @@ public class OnlineUserService {
         	throw new IllegalArgumentException("Online user does not exist.");
     	}
     	return onlineUser.getUserId();
+    }
+    
+    private boolean isValidUsername(String username) throws IllegalArgumentException {
+    	if (username.contains(" ")) {
+    		throw new IllegalArgumentException("A username cannot contain spaces.");
+    	}
+    	return true;
+    }
+    
+    private boolean isValidPassword(String password) throws IllegalArgumentException {
+    	if (password.contains(" ")) {
+    		throw new IllegalArgumentException("A password cannot contain spaces. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+    	}
+    	if (password.length() < 8) {
+    		throw new IllegalArgumentException("A password must be at least 8 characters. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+    	}
+    	boolean uppercase = false;
+    	boolean specialChar = false;
+    	boolean invalid = false;
+    	for (int i=0;i<password.length();i++) {
+    		if (password.charAt(i) > 64 && password.charAt(i) < 91) {
+    			uppercase = true;
+    		} else if (password.charAt(i) == 33 
+    				|| password.charAt(i) == 35 
+    				|| password.charAt(i) == 36
+    				|| password.charAt(i) == 37
+    				|| password.charAt(i) == 38
+    				|| password.charAt(i) == 42
+    				|| password.charAt(i) == 43
+    				|| password.charAt(i) == 45
+    				|| password.charAt(i) == 61
+    				|| password.charAt(i) == 63
+    				|| password.charAt(i) == 64
+    				|| password.charAt(i) == 94
+    				|| password.charAt(i) == 95
+    				) {
+    			// special characters: !, #, $, %, &, *, +, -, =, ?, @, ^, _
+    			specialChar = true;
+    		} else if (!(password.charAt(i) > 96 && password.charAt(i) < 123)) {
+    			invalid = true; // may be invalid if character at i is not uppercase or one of the designated special characters.
+    		}
+    	}
+    	if (invalid) {
+    		throw new IllegalArgumentException("Password contains illegal characters. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+    	}
+    	if (!uppercase) {
+    		throw new IllegalArgumentException("Password does not contain an upper case letter. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+    	}
+    	if (!specialChar) {
+    		throw new IllegalArgumentException("Password does not contain a special character letter. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+    	}
+    	return true;
     }
 }
