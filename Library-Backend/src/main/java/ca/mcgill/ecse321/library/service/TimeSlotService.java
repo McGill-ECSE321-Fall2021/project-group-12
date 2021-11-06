@@ -49,7 +49,6 @@ public class TimeSlotService {
 		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
 		if (timeSlot == null) {
 			throw new IllegalArgumentException("TimeSlot does not exist");
-			
 		}
 		if (startTime == null || startTime.trim().length()==0) {
 			throw new IllegalArgumentException("A TimeSlot cannot have an empty start time.");

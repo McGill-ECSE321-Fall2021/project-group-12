@@ -72,7 +72,7 @@ private TimeSlotDto convertToDto(TimeSlot timeSlot) {
 		throw new IllegalArgumentException("Timeslot does not exist");
 	}
 	
-	TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime().toString(), timeSlot.getEndTime().toString(), timeSlot.getStartDate().toString(), timeSlot.getEndDate().toString(), timeSlot.getTimeSlotId());
+	TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate(), timeSlot.getTimeSlotId());
 	return timeSlotDto;
 }
 	

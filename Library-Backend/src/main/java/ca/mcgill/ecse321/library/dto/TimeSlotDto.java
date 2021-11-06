@@ -16,11 +16,11 @@ public class TimeSlotDto {
 		
 	}
 	
-	public TimeSlotDto(String startTime, String endTime, String startDate,String endDate, Long timeSlotId) {
-		this.startTime=Time.valueOf(startTime);
-		this.endTime = Time.valueOf(endTime);
-		this.startDate=Date.valueOf(startDate);
-		this.endDate=Date.valueOf(endDate);
+	public TimeSlotDto(Time startTime, Time endTime, Date startDate,Date endDate, Long timeSlotId) {
+		this.startTime=startTime;
+		this.endTime = endTime;
+		this.startDate=startDate;
+		this.endDate=endDate;
 		this.timeSlotId = timeSlotId;
 	}
 	
