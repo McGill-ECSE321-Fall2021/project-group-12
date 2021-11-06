@@ -82,10 +82,10 @@ public class TestTimeSlotService {
 			fail();
 		}
 		assertNotNull(timeSlot);
-		assertEquals(start, timeSlot.getStartTime());
-		assertEquals(end, timeSlot.getEndTime());
-		assertEquals(startD, timeSlot.getStartDate());
-		assertEquals(endD, timeSlot.getEndDate());
+		assertEquals(Time.valueOf(start), timeSlot.getStartTime());
+		assertEquals(Time.valueOf(end), timeSlot.getEndTime());
+		assertEquals(Date.valueOf(startD), timeSlot.getStartDate());
+		assertEquals(Date.valueOf(endD), timeSlot.getEndDate());
 		
 	}
 	
