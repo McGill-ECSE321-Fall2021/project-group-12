@@ -1,11 +1,5 @@
 package ca.mcgill.ecse321.library.dto;
 
-import ca.mcgill.ecse321.library.model.Event;
-import ca.mcgill.ecse321.library.model.LibraryApplicationSystem;
-import ca.mcgill.ecse321.library.model.Reservation;
-
-import java.util.List;
-
 public class OnlineUserDto {
     private String firstName;
     private String lastName;
@@ -15,11 +9,10 @@ public class OnlineUserDto {
     private String password;
     private String email;
     private Long userId;
-    private List<Event> events;
-    private List<Reservation> reservations;
-    private LibraryApplicationSystem libraryApplicationSystem;
+    
+    public OnlineUserDto() {}
 
-    public OnlineUserDto(String firstName, String lastName, String address, boolean isLocal, String username, String password, String email, Long userId, List<Event> events, List<Reservation> reservations, LibraryApplicationSystem libraryApplicationSystem) {
+    public OnlineUserDto(String firstName, String lastName, String address, boolean isLocal, String username, String password, String email, Long userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -27,13 +20,6 @@ public class OnlineUserDto {
         this.username = username;
         this.password = password;
         this.email = email;
-    }
-
-    public OnlineUserDto(Long userId, List<Event> events, List<Reservation> reservations, LibraryApplicationSystem libraryApplicationSystem) {
-        this.userId = userId;
-        this.events = events;
-        this.reservations = reservations;
-        this.libraryApplicationSystem = libraryApplicationSystem;
     }
 
 
@@ -101,27 +87,5 @@ public class OnlineUserDto {
         this.userId = userId;
     }
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public LibraryApplicationSystem getLibraryApplicationSystem() {
-        return libraryApplicationSystem;
-    }
-
-    public void setLibraryApplicationSystem(LibraryApplicationSystem libraryApplicationSystem) {
-        this.libraryApplicationSystem = libraryApplicationSystem;
-    }
+   
 }

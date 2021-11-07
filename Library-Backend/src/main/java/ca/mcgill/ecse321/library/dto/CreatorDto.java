@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.library.dto;
 
-import java.util.Collections;
-import java.util.List;
-
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
 public class CreatorDto {
@@ -10,18 +7,15 @@ public class CreatorDto {
 	private String firstName;
 	private String lastName;
 	private Long creatorId;
-	private List<ItemDto> items;
 	private CreatorType creatorType;
 	
 	public CreatorDto() {}
 	
-	@SuppressWarnings("unchecked")
 	public CreatorDto(String firstName, String lastName, CreatorType creatorType, Long creatorId) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.creatorType = creatorType;
 		this.creatorId = creatorId;
-		this.items = Collections.EMPTY_LIST;
 	}
 	
 	public String getFirstName() {

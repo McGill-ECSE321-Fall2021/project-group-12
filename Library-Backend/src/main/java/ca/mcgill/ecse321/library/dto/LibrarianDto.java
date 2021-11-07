@@ -6,8 +6,8 @@ public class LibrarianDto extends OnlineUserDto{
 	
 	public LibrarianDto() {}
 	
-	public LibrarianDto(String firstname, String lastname, String address, boolean isLocal, String username, String password, String email, boolean isHead) {
-		super(firstname, lastname, address, isLocal, username, password, email);
+	public LibrarianDto(String firstname, String lastname, String address, boolean isLocal, String username, String password, String email, boolean isHead, Long id) {
+		super(firstname, lastname, address, isLocal, username, password, email, id);
 		this.isHead = isHead;
 	}
 	

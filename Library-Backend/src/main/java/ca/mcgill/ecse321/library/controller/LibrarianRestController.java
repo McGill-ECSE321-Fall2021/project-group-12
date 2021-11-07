@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,6 +70,10 @@ public class LibrarianRestController {
 	@PostMapping(value = {"/librarian/create", "/librarian/create/"})
 	public LibrarianDto createLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createLibrarian(librarianUsername, first, last, address, email, password, username));
+	}
+	@PutMapping(value = {"/librarian/update", "/librarian/update/"})
+	public LibrarianDto updateLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
+		return convertToDto(librarianService.updateLibrarian(librarianUsername, first, last, address, email, password, username));
 	}
 	@GetMapping(value = {"/librarian/{id}", "/librarian/{id}/"})
 	public LibrarianDto getLibrarianById(@PathVariable("id") Long id) {
@@ -247,7 +252,7 @@ public class LibrarianRestController {
 		if (librarian == null) {
 			throw new IllegalArgumentException("Librarian does not exist.");
 		}
-		LibrarianDto librarianDto = new LibrarianDto(librarian.getFirstName(), librarian.getLastName(), librarian.getAddress(), librarian.getIsLocal(), librarian.getUsername(), librarian.getPassword(), librarian.getEmail(), librarian.getIsHead());
+		LibrarianDto librarianDto = new LibrarianDto(librarian.getFirstName(), librarian.getLastName(), librarian.getAddress(), librarian.getIsLocal(), librarian.getUsername(), librarian.getPassword(), librarian.getEmail(), librarian.getIsHead(), librarian.getUserId());
 		return librarianDto;
 	}
 //requires edits	
@@ -281,7 +286,8 @@ public class LibrarianRestController {
                 onlineUser.getIsLocal(),
                 onlineUser.getUsername(),
                 onlineUser.getPassword(),
-                onlineUser.getEmail());
+                onlineUser.getEmail(),
+                onlineUser.getUserId()); 		
     }
 	private AlbumDto convertToDto(Album album) {
 		if (album == null) {

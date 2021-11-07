@@ -40,56 +40,56 @@ public class OnlineUserRestController {
         return convertToDto(onlineUserService.getOnlineUser(id));
     }
 
-    @PostMapping(value = {"/user/onlineusers/create/reservation","/user/onlineusers/create/reservation"})
-    public OnlineUserDto createReservation(long userId, boolean isLocal, Reservation reservation){
-        OnlineUser onlineUser = onlineUserService.createReservation(userId,isLocal,reservation);
-        return convertToDto(onlineUser);
-    }
-
-    @PostMapping(value = {"/user/onlineusers/update/password","/user/onlineusers/update/password/"})
-    public OnlineUserDto changePassword(long userId,String password){
-        OnlineUser onlineUser = onlineUserService.changePassword(userId,password);
-        return convertToDto(onlineUser);
-    }
-
-    @PostMapping(value = {"/user/onlineusers/remove/reservation","/user/onlineusers/remove/reservation/"})
-    public OnlineUserDto removeReservation(long userId,long reservationId){
-        OnlineUser onlineUser = onlineUserService.removeReservation(userId,reservationId);
-        return convertToDto(onlineUser);
-    }
-
-    @PostMapping(value = {"/user/onlineusers/create/event","/user/onlineusers/create/event"})
-    public OnlineUserDto createEvent(long userId, String name, boolean isPrivate,TimeSlot timeSlot){
-        OnlineUser onlineUser = onlineUserService.createEvent(userId,name,isPrivate, timeSlot);
-        return convertToDto(onlineUser);
-    }
-
-    @PostMapping(value = {"/user/onlineusers/remove/event","/user/onlineusers/remove/event"})
-    public OnlineUserDto createEvent(long userId, long eventId){
-        OnlineUser onlineUser = onlineUserService.removeEvent(userId,eventId);
-        return convertToDto(onlineUser);
-    }
-
-    //creating new user
-    @PostMapping(value = {"/users/onlineusers/create", "/users/onlineusers/create/"})
-    public OnlineUserDto createRestOnlineUser(@RequestParam("firstname") String firstname,
-                                              @RequestParam("lastname") String lastname,
-                                              @RequestParam("address") String address,
-                                              @RequestParam("isLocal") boolean isLocal,
-                                              @RequestParam("username") String username,
-                                              @RequestParam("password") String password,
-                                              @RequestParam("email") String email) {
-        OnlineUser onlineUser = onlineUserService.createOnlineUser(firstname, lastname, address, isLocal, username, password, email);
-        return convertToDto(onlineUser);
-    }
-
-    //online user login
-    @PostMapping(value = {"/user/onlineusers/login", "/user/onlineusers/login/"})
-    public OnlineUserDto login(@RequestParam("email") String email,
-                               @RequestParam("password") String password) {
-        OnlineUser onlineUser = onlineUserService.loginUser(email, password);
-        return convertToDto(onlineUser);
-    }
+//    @PostMapping(value = {"/user/onlineusers/create/reservation","/user/onlineusers/create/reservation"})
+//    public OnlineUserDto createReservation(long userId, boolean isLocal, Reservation reservation){
+//        OnlineUser onlineUser = onlineUserService.reserveItems(userId,isLocal,reservation);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    @PostMapping(value = {"/user/onlineusers/update/password","/user/onlineusers/update/password/"})
+//    public OnlineUserDto changePassword(long userId,String password){
+//        OnlineUser onlineUser = onlineUserService.changePassword(userId,password);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    @PostMapping(value = {"/user/onlineusers/remove/reservation","/user/onlineusers/remove/reservation/"})
+//    public OnlineUserDto removeReservation(long userId,long reservationId){
+//        OnlineUser onlineUser = onlineUserService.removeReservation(userId,reservationId);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    @PostMapping(value = {"/user/onlineusers/create/event","/user/onlineusers/create/event"})
+//    public OnlineUserDto createEvent(long userId, String name, boolean isPrivate,TimeSlot timeSlot){
+//        OnlineUser onlineUser = onlineUserService.createEvent(userId,name,isPrivate, timeSlot);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    @PostMapping(value = {"/user/onlineusers/remove/event","/user/onlineusers/remove/event"})
+//    public OnlineUserDto createEvent(long userId, long eventId){
+//        OnlineUser onlineUser = onlineUserService.removeEvent(userId,eventId);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    //creating new user
+//    @PostMapping(value = {"/users/onlineusers/create", "/users/onlineusers/create/"})
+//    public OnlineUserDto createRestOnlineUser(@RequestParam("firstname") String firstname,
+//                                              @RequestParam("lastname") String lastname,
+//                                              @RequestParam("address") String address,
+//                                              @RequestParam("isLocal") boolean isLocal,
+//                                              @RequestParam("username") String username,
+//                                              @RequestParam("password") String password,
+//                                              @RequestParam("email") String email) {
+//        OnlineUser onlineUser = onlineUserService.createOnlineUser(firstname, lastname, address, isLocal, username, password, email);
+//        return convertToDto(onlineUser);
+//    }
+//
+//    //online user login
+//    @PostMapping(value = {"/user/onlineusers/login", "/user/onlineusers/login/"})
+//    public OnlineUserDto login(@RequestParam("email") String email,
+//                               @RequestParam("password") String password) {
+//        OnlineUser onlineUser = onlineUserService.loginUser(email, password);
+//        return convertToDto(onlineUser);
+//    }
 
     //updating exist user
     @PostMapping(value = {"/users/onlineusers/update/{id}", "/users/onlineusers/update/{id}/"})
@@ -119,10 +119,6 @@ public class OnlineUserRestController {
             throw new IllegalArgumentException("Online user does not exist");
         }
 
-        List<Event> eventList = onlineUser.getEvents();
-        List<Reservation> reservationList = onlineUser.getReservations();
-        LibraryApplicationSystem libraryApplicationSystem = onlineUser.getLibraryApplicationSystem();
-
         return new OnlineUserDto(
                 onlineUser.getFirstName(),
                 onlineUser.getLastName(),
@@ -131,9 +127,6 @@ public class OnlineUserRestController {
                 onlineUser.getUsername(),
                 onlineUser.getPassword(),
                 onlineUser.getEmail(),
-                onlineUser.getUserId(),
-                eventList,
-                reservationList,
-                libraryApplicationSystem);
+                onlineUser.getUserId());
     }
 }
