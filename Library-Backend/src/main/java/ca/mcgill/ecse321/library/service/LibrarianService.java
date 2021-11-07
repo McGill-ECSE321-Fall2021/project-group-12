@@ -59,7 +59,6 @@ public class LibrarianService {
 		@Autowired
 		EventService eventService;
 		
-		
 		@Transactional
 		public Librarian createHeadLibrarian(String first, String last, String address, String email, String password, String username) {
 			if (first == null || first.trim().length() == 0) {
