@@ -126,8 +126,8 @@ public class LibrarianRestController {
 		return convertToDto(offlineUser);
 	}
 	@PostMapping(value = {"/librarian/online/update/{id}", "/librarian/online/update/{id}/"})
-	public OnlineUserDto updateOnlineUser(@PathVariable("id") Long id, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
-		OnlineUser onlineUser = librarianService.updateOnlineUserInformation(id, password, username, address, isLocal);
+	public OnlineUserDto updateOnlineUser(@PathVariable("id") Long id, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="email") String email, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
+		OnlineUser onlineUser = librarianService.updateOnlineUserInformation(id, password, username, email, address, isLocal);
 		return convertToDto(onlineUser);
 	}
 	

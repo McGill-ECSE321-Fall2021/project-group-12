@@ -90,13 +90,13 @@ public class LibrarianService {
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
 			}
-			librarian.setEmail(email);
-			librarian.setPassword(password);
+			if (isValidEmail(email)) librarian.setEmail(email);
+			if (isValidPassword(password)) librarian.setPassword(password);
 			//head librarian has a unique username
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
 			}
-			librarian.setUsername(username);
+			if (isValidUsername(username)) librarian.setUsername(username);
 			librarianRepository.save(librarian);
 			return librarian;
 		}
@@ -128,16 +128,16 @@ public class LibrarianService {
 				librarian.setLastName(last);
 				librarian.setIsHead(false);
 				librarian.setAddress(address);
-				librarian.setEmail(email);
 				Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
 				for (OnlineUser u : allOnlineUser) {
 					if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
 				}
-				librarian.setPassword(password);
+				if (isValidEmail(email)) librarian.setEmail(email);
+				if (isValidPassword(password)) librarian.setPassword(password);
 				for (OnlineUser u : allOnlineUser) {
 					if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
 				}
-				librarian.setUsername(username);
+				if (isValidUsername(username)) librarian.setUsername(username);
 				librarianRepository.save(librarian);
 				return librarian;
 			}
@@ -257,12 +257,12 @@ public class LibrarianService {
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
 			}
-			onlineUser.setUsername(username);
-			onlineUser.setPassword(password);
+			if (isValidUsername(username)) onlineUser.setUsername(username);
+			if (isValidPassword(password)) onlineUser.setPassword(password);
 			for (OnlineUser u : allOnlineUser) {
 				if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
 			}
-			onlineUser.setEmail(email);
+			if (isValidEmail(email)) onlineUser.setEmail(email);
 			onlineUserRepository.save(onlineUser);
 			return onlineUser;
 		}
@@ -274,7 +274,7 @@ public class LibrarianService {
 			if (oldPassword != foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password");
 			}
-			foundOnlineUser.setPassword(newPassword);
+			if (isValidPassword(newPassword)) foundOnlineUser.setPassword(newPassword);
 			onlineUserRepository.save(foundOnlineUser);
 			return foundOnlineUser;
 		}
@@ -285,17 +285,31 @@ public class LibrarianService {
 			OfflineUser foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(userId);
 			if (address != null) foundOfflineUser.setAddress(address);
 			foundOfflineUser.setIsLocal(isLocal);
+			offlineUserRepository.save(foundOfflineUser);
 			return foundOfflineUser;
 		}
 		@Transactional
-		public OnlineUser updateOnlineUserInformation(Long userId, String password, String username, String address, boolean isLocal) {
+		public OnlineUser updateOnlineUserInformation(Long userId, String password, String newUsername, String newEmail, String newAddress, boolean isLocal) {
 			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
 			if (password != foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password, unable to make requested changes");
 			}
-			if (username != null) foundOnlineUser.setUsername(username);
-			if (address != null) foundOnlineUser.setAddress(address);
+			Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+			if (newUsername != null) {
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getUsername().equals(newUsername)) throw new IllegalArgumentException("Username already taken.");
+				}
+				if (isValidUsername(newUsername)) foundOnlineUser.setUsername(newUsername);
+			}
+			if (newEmail != null) foundOnlineUser.setEmail(newEmail); {
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getEmail().equals(newEmail)) throw new IllegalArgumentException("Email already in use.");
+				}
+				if (isValidEmail(newEmail)) foundOnlineUser.setEmail(newEmail);
+			}
+			if (newAddress != null) foundOnlineUser.setAddress(newAddress);
 			foundOnlineUser.setIsLocal(isLocal);
+			onlineUserRepository.save(foundOnlineUser);
 			return foundOnlineUser;
 		}
 
@@ -461,4 +475,62 @@ public class LibrarianService {
 			}
 			return resultList;
 		}
+		 private boolean isValidEmail(String email) {
+		    	String[] emailStrings = email.split("@");
+		    	if (!(emailStrings.length == 2 && emailStrings[1].contains("."))) {
+		    		throw new IllegalArgumentException("Provided email is invalid.");
+		    	}
+		    	return true;
+		 }
+		 private boolean isValidUsername(String username) throws IllegalArgumentException {
+		    	if (username.contains(" ")) {
+		    		throw new IllegalArgumentException("A username cannot contain spaces.");
+		    	}
+		    	return true;
+		 }
+		    
+		 private boolean isValidPassword(String password) throws IllegalArgumentException {
+		    	if (password.contains(" ")) {
+		    		throw new IllegalArgumentException("A password cannot contain spaces. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+		    	}
+		    	if (password.length() < 8) {
+		    		throw new IllegalArgumentException("A password must be at least 8 characters. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+		    	}
+		    	boolean uppercase = false;
+		    	boolean specialChar = false;
+		    	boolean invalid = false;
+		    	for (int i=0;i<password.length();i++) {
+		    		if (password.charAt(i) > 64 && password.charAt(i) < 91) {
+		    			uppercase = true;
+		    		} else if (password.charAt(i) == 33 
+		    				|| password.charAt(i) == 35 
+		    				|| password.charAt(i) == 36
+		    				|| password.charAt(i) == 37
+		    				|| password.charAt(i) == 38
+		    				|| password.charAt(i) == 42
+		    				|| password.charAt(i) == 43
+		    				|| password.charAt(i) == 45
+		    				|| password.charAt(i) == 61
+		    				|| password.charAt(i) == 63
+		    				|| password.charAt(i) == 64
+		    				|| password.charAt(i) == 94
+		    				|| password.charAt(i) == 95
+		    				) {
+		    			// special characters: !, #, $, %, &, *, +, -, =, ?, @, ^, _
+		    			specialChar = true;
+		    		} else if (!(password.charAt(i) > 96 && password.charAt(i) < 123)) {
+		    			invalid = true; // may be invalid if character at i is not uppercase or one of the designated special characters.
+		    		}
+		    	}
+		    	if (invalid) {
+		    		throw new IllegalArgumentException("Password contains illegal characters. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+		    	}
+		    	if (!uppercase) {
+		    		throw new IllegalArgumentException("Password does not contain an upper case letter. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+		    	}
+		    	if (!specialChar) {
+		    		throw new IllegalArgumentException("Password does not contain a special character letter. Passwords must contain at least 1 upper case letter and one of the following special characters: \'!\', \'#\', \'$\', \'%\', \'&\', \'*\', \'+\', \'-\', \'=\', \'?\', \'@\', \'^\', \'_\'.");
+		    	}
+		    	return true;
+		 }
 }
