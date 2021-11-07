@@ -21,11 +21,14 @@ public class BookService {
 	
 	@Transactional
 	public Book createBook(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, BMGenre genre, Creator creator) throws IllegalArgumentException {
-		if (title == null || releaseDate == null) {
-			throw new IllegalArgumentException("Cannot create book with empty fields.");
+		if (releaseDate == null) {
+			throw new IllegalArgumentException("Cannot create book with empty date.");
 		}
-		if (title  == "") {
+		if (title == null || title.trim().length() == 0) {
 			throw new IllegalArgumentException("Cannot create book with empty title.");
+		}
+		if (numPages <= 0) {
+			throw new IllegalArgumentException("A book cannot have a length less or equal to zero.");
 		}
 		boolean valid = false;
 		for (int i=0; i<title.length();i++) {
@@ -36,7 +39,7 @@ public class BookService {
 		}
 		
 		if (creator == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty creator.");
+			throw new IllegalArgumentException("A book cannot have an empty creator.");
 		}
 		
 		if(numPages == 0) {
@@ -65,7 +68,7 @@ public class BookService {
 	public Book updateBook(Long itemId, boolean isArchive, boolean isReservable, boolean available) throws IllegalArgumentException {
 		Book book = bookRepository.findBookByItemId(itemId);
 		if (book == null) {
-			throw new IllegalArgumentException("Newspaper does not exist.");
+			throw new IllegalArgumentException("Book does not exist.");
 		}
 		
 		book.setIsArchive(isArchive);

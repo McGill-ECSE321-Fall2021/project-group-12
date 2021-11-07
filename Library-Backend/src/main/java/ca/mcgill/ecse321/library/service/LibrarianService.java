@@ -355,7 +355,7 @@ public class LibrarianService {
 		}
 		
 		@Transactional
-		public boolean deleteMovie(Long movieId) {
+		public Movie deleteMovie(Long movieId) {
 			return movieService.deleteMovie(movieId);
 		}
 		

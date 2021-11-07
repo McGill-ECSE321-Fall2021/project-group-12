@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: Windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -23,7 +23,12 @@ jobs:
       uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      working-directory: Library-Backend
     - name: Build with Gradle
       run: ./gradlew build
-      working-directory: Library-Backend
+    - uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: "355b6d02-a534-4fc1-a3b5-9f1888ad59e6"
+        heroku_app_name: "library-backend-group-12"
+        heroku_email: "aaronmills123@hotmail.com"
+
+

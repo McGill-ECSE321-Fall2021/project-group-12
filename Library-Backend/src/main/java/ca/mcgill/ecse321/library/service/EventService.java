@@ -13,6 +13,7 @@ import ca.mcgill.ecse321.library.dao.EventRepository;
 import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
+
 @Service
 public class EventService {
 	
@@ -26,10 +27,10 @@ public class EventService {
 			throw new IllegalArgumentException("An Event cannot have an empty name.");
 		}
 		if (timeSlot == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty timeSlot.");
+			throw new IllegalArgumentException("An Event cannot have an empty timeSlot.");
 		}
 		if (user == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty user.");
+			throw new IllegalArgumentException("An Event cannot have an empty user.");
 		}
 		Event event = new Event();
 		event.setName(name);
@@ -51,7 +52,8 @@ public class EventService {
 	}
 	
 	@Transactional
-	public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate,Boolean isAccepted, User user) {
+
+	public Event updateEvent(Long id, String name, TimeSlot timeSlot, Boolean isPrivate, Boolean isAccepted, User user) {
 		Event event = eventRepository.findEventByEventId(id);
 		if (event == null) {
 			throw new IllegalArgumentException("Event does not exist.");
@@ -60,10 +62,10 @@ public class EventService {
 			throw new IllegalArgumentException("An Event cannot have an empty name.");
 		}
 		if (timeSlot == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty timeSlot.");
+			throw new IllegalArgumentException("An Event cannot have an empty timeSlot.");
 		}
 		if (user == null) {
-			throw new IllegalArgumentException("A newspaper cannot have an empty user.");
+			throw new IllegalArgumentException("An Event cannot have an empty user.");
 		}
 		
 		event.setName(name);
