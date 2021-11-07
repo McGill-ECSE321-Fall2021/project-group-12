@@ -267,7 +267,7 @@ public class TestEventService {
 	@Test
 	public void testCreateEventNullUser() {
 		
-		String eventName = " ";
+		String eventName = "Name";
 		Boolean isPrivate = false;
 		Boolean isAccepted = false;
 		
@@ -379,8 +379,8 @@ public class TestEventService {
 		assertEquals("Name", event.getName());
 		assertNotNull(timeSlot);
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(isPrivate, event.getIsPrivate());
-		assertEquals(isAccepted, event.getIsAccepted());
+		assertEquals(!isPrivate, event.getIsPrivate());
+		assertEquals(!isAccepted, event.getIsAccepted());
 		assertNotNull(user);
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty name.");
@@ -425,8 +425,8 @@ public class TestEventService {
 		assertEquals("Name", event.getName());
 		assertNotNull(timeSlot);
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(isPrivate, event.getIsPrivate());
-		assertEquals(isAccepted, event.getIsAccepted());
+		assertEquals(!isPrivate, event.getIsPrivate());
+		assertEquals(!isAccepted, event.getIsAccepted());
 		assertNotNull(user);
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty name.");
@@ -472,8 +472,8 @@ public class TestEventService {
 		assertEquals("Name", event.getName());
 		assertNotNull(timeSlot);
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(isPrivate, event.getIsPrivate());
-		assertEquals(isAccepted, event.getIsAccepted());
+		assertEquals(!isPrivate, event.getIsPrivate());
+		assertEquals(!isAccepted, event.getIsAccepted());
 		assertNotNull(user);
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty name.");
@@ -518,8 +518,8 @@ public class TestEventService {
 		assertNotNull(event);
 		assertEquals("Name", event.getName());
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(isPrivate, event.getIsPrivate());
-		assertEquals(isAccepted, event.getIsAccepted());
+		assertEquals(!isPrivate, event.getIsPrivate());
+		assertEquals(!isAccepted, event.getIsAccepted());
 		assertNotNull(user);
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty timeSlot.");
@@ -565,8 +565,8 @@ public class TestEventService {
 		assertEquals("Name", event.getName());
 		assertNotNull(timeSlot);
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(isPrivate, event.getIsPrivate());
-		assertEquals(isAccepted, event.getIsAccepted());
+		assertEquals(!isPrivate, event.getIsPrivate());
+		assertEquals(!isAccepted, event.getIsAccepted());
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty user.");
 	}
@@ -605,11 +605,11 @@ public class TestEventService {
 		assertNotNull(event2);
 		assertEquals(event2.getName(), event.getName());
 		assertNotNull(timeSlot);
-		assertEquals(event2.getTimeSlot(),event.getTimeSlot());
+		assertEquals(timeSlot.getTimeSlotId(),event2.getTimeSlot().getTimeSlotId());
 		assertEquals(event2.getIsPrivate(), event.getIsPrivate());
 		assertEquals(event2.getIsAccepted(), event.getIsAccepted());
 		assertNotNull(user);
-		assertEquals(event2.getUser(), event.getUser());
+		assertEquals(user.getUserId(), event2.getUser().getUserId());
 		
 	}
 	
