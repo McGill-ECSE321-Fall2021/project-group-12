@@ -34,12 +34,12 @@ public class Event
 		isPrivate = aIsPrivate;
 		return true;
 	}
-	
+
 	public boolean setIsAccepted(boolean aIsAccepted) {
 		isAccepted = aIsAccepted;
 		return true;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -131,7 +131,7 @@ public class Event
 	{
 		return super.toString() + "["+
 				"name" + ":" + getName()+ "," +
-				"isPrivate" + ":" + getIsPrivate()+ "]" + System.getProperties().getProperty("line.separator") +
+				"isPrivate" + ":" + getIsPrivate()+  "," + "isAccepted" + ":" + getIsAccepted()+"]" + System.getProperties().getProperty("line.separator") +
 				"  " + "timeSlot = "+(getTimeSlot()!=null?Integer.toHexString(System.identityHashCode(getTimeSlot())):"null") + System.getProperties().getProperty("line.separator") +
 				"  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
 				"  " + "libraryApplicationSystem = "+(getLibraryApplicationSystem()!=null?Integer.toHexString(System.identityHashCode(getLibraryApplicationSystem())):"null");
