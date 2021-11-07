@@ -144,6 +144,54 @@ public class LibrarianService {
 		}
 		
 		@Transactional
+		public Librarian updateLibrarian(String librarianUsername, String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
+			Librarian librarian = librarianRepository.findLibrarianByUsername(librarianUsername);
+			
+			if(librarian == null) {
+				throw new IllegalArgumentException("Librarian does not exist.");
+			}
+			
+			Librarian headLibrarian = librarianRepository.findLibrarianByUsername(username);
+			if (headLibrarian.getIsHead()) {
+				if (first == null || first.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty first name.");
+				}
+				if (last == null || last.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty last name.");
+				}
+				if (address == null || address.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty address.");
+				}
+				if (username == null || username.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty username.");
+				}
+				if (password == null || password.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty password.");
+				}
+				if (email == null || email.trim().length() == 0) {
+					throw new IllegalArgumentException("Librarian cannot have an empty email.");
+				}
+				librarian.setFirstName(first);
+				librarian.setLastName(last);
+				librarian.setIsHead(false);
+				librarian.setAddress(address);
+				Iterable<OnlineUser> allOnlineUser = onlineUserRepository.findAll();
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getEmail().equals(email)) throw new IllegalArgumentException("Email already in use.");
+				}
+				if (isValidEmail(email)) librarian.setEmail(email);
+				if (isValidPassword(password)) librarian.setPassword(password);
+				for (OnlineUser u : allOnlineUser) {
+					if (u.getUsername().equals(username)) throw new IllegalArgumentException("Username already taken.");
+				}
+				if (isValidUsername(username)) librarian.setUsername(username);
+				librarianRepository.save(librarian);
+				return librarian;
+			}
+			throw new IllegalArgumentException("Only the Head Librarian can create a librarian account.");
+		}
+		
+		@Transactional
 		public Librarian getLibrarian(Long id) {
 			Librarian librarian = librarianRepository.findLibrarianByUserId(id);
 			return librarian;
