@@ -58,7 +58,7 @@ public class EventRestController {
 	}
 	
 	
-	@DeleteMapping(value = {"/newspaper/delete/{Id}", "/newspaper/delete/{Id}/"})
+	@DeleteMapping(value = {"/event/delete/{Id}", "/event/delete/{Id}/"})
 	public EventDto deleteEvent(@PathVariable("Id") Long Id) throws IllegalArgumentException {
 		Event event = service.getEvent(Id);
 		EventDto  eventDto = convertToDto(event);
