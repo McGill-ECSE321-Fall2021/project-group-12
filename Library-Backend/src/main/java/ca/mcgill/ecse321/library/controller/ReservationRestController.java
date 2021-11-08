@@ -216,7 +216,7 @@ public class ReservationRestController {
 		onUser.setEmail(thisUser.getEmail());
 		onUser.setFirstName(thisUser.getFirstName());
 		onUser.setLastName(thisUser.getLastName());
-		onUser.setLocal(thisUser.getIsLocal());
+		onUser.setIsLocal(thisUser.getIsLocal());
 		onUser.setPassword(thisUser.getPassword());
 		onUser.setUserId(thisUser.getUserId());
 		onUser.setUsername(thisUser.getUsername());
@@ -235,7 +235,7 @@ public class ReservationRestController {
 		librarianDto.setFirstName(thisUser.getFirstName());
 		librarianDto.setLastName(thisUser.getLastName());
 		librarianDto.setIsHead(thisUser.getIsHead());
-		librarianDto.setLocal(thisUser.getIsLocal());
+		librarianDto.setIsLocal(thisUser.getIsLocal());
 		librarianDto.setPassword(thisUser.getPassword());
 		librarianDto.setUserId(thisUser.getUserId());
 		librarianDto.setUsername(thisUser.getUsername());
