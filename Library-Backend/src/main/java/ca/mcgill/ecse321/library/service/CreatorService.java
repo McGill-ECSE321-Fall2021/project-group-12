@@ -85,6 +85,10 @@ public class CreatorService {
 		if (creator == null) {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
+		List<Item> items = getItemsByCreator(creatorId);
+		if (items.size() > 0) {
+			throw new IllegalArgumentException("Cannot delete creator that has items.");
+		}
 		creatorRepository.delete(creator);
 		return creator;
 
