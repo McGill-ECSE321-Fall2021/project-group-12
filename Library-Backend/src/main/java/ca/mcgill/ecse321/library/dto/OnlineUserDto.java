@@ -1,10 +1,7 @@
 package ca.mcgill.ecse321.library.dto;
 
-public class OnlineUserDto {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private boolean isLocal;
+public class OnlineUserDto extends UserDto{
+
     private String username;
     private String password;
     private String email;
@@ -13,46 +10,13 @@ public class OnlineUserDto {
     public OnlineUserDto() {}
 
     public OnlineUserDto(String firstName, String lastName, String address, boolean isLocal, String username, String password, String email, Long userId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.isLocal = isLocal;
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setAddress(address);
+        this.setIsLocal(isLocal);
         this.username = username;
         this.password = password;
         this.email = email;
-    }
-
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public boolean isLocal() {
-        return isLocal;
-    }
-
-    public void setLocal(boolean local) {
-        isLocal = local;
     }
 
     public String getUsername() {

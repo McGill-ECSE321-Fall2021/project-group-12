@@ -26,13 +26,10 @@ import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.Librarian;
-import ca.mcgill.ecse321.library.model.LibraryApplicationSystem;
-import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
-import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
@@ -40,10 +37,8 @@ import ca.mcgill.ecse321.library.service.CreatorService;
 import ca.mcgill.ecse321.library.service.MovieService;
 import ca.mcgill.ecse321.library.service.NewspaperService;
 import ca.mcgill.ecse321.library.service.LibrarianService;
-import ca.mcgill.ecse321.library.service.EventService;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -260,20 +255,12 @@ public class LibrarianRestController {
         if (offlineUser == null) {
             throw new IllegalArgumentException("Offline user does not exist");
         }
-
-        List<Event> eventList = offlineUser.getEvents();
-        List<Reservation> reservationList = offlineUser.getReservations();
-        LibraryApplicationSystem libraryApplicationSystem = offlineUser.getLibraryApplicationSystem();
-
         return new OfflineUserDto(
                 offlineUser.getFirstName(),
                 offlineUser.getLastName(),
                 offlineUser.getAddress(),
                 offlineUser.getIsLocal(),
-                offlineUser.getUserId(),
-                eventList,
-                reservationList,
-                libraryApplicationSystem);
+                offlineUser.getUserId());
     }
     private OnlineUserDto convertToDto(OnlineUser onlineUser) throws IllegalArgumentException {
         if (onlineUser == null) {

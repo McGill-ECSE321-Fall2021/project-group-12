@@ -1,12 +1,7 @@
 package ca.mcgill.ecse321.library.controller;
 
-
-import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
-import ca.mcgill.ecse321.library.model.Event;
-import ca.mcgill.ecse321.library.model.LibraryApplicationSystem;
 import ca.mcgill.ecse321.library.model.OfflineUser;
-import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.service.OfflineUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +20,6 @@ import java.util.stream.Collectors;
 public class OfflineUserRestController {
 
     @Autowired
-    private OfflineUserRepository offlineUserRepository;
     private OfflineUserService offlineUserService;
 
     //get all online users
@@ -35,13 +29,13 @@ public class OfflineUserRestController {
     }
 
     //get one user by id
-    @GetMapping(value = {"/users/offlineUsers/{id}", "/users/offlineUsers/{id}/"})
+    @GetMapping(value = {"/users/offlineUser/{id}", "/users/offlineUser/{id}/"})
     public OfflineUserDto getOfflineUser(@PathVariable("id") Long id) {
         return convertToDto(offlineUserService.getOfflineUser(id));
     }
 
     //creating new user
-    @PostMapping(value = {"/users/offlineUsers/create", "/users/offlineUsers/create/"})
+    @PostMapping(value = {"/users/offlineUsers/create", "/users/offlineUser/create/"})
     public OfflineUserDto createRestOfflineUser(@RequestParam("firstname") String firstname,
                                               @RequestParam("lastname") String lastname,
                                               @RequestParam("address") String address,
@@ -51,7 +45,7 @@ public class OfflineUserRestController {
     }
 
     //updating exist user
-    @PostMapping(value = {"/users/offlineUsers/update/{id}", "/users/offlineUsers/update/{id}/"})
+    @PostMapping(value = {"/users/offlineUser/update/{id}", "/users/offlineUser/update/{id}/"})
     public OfflineUserDto updateRestOfflineUser(@PathVariable("id") long id,
                                               @RequestParam("firstname") String firstname,
                                               @RequestParam("lastname") String lastname,
@@ -62,7 +56,7 @@ public class OfflineUserRestController {
     }
 
     //deleting user by id
-    @DeleteMapping(value = { "/users/offlineUsers/delete/{id}", "/users/offlineUsers/delete/{id}/"})
+    @DeleteMapping(value = { "/users/offlineUser/delete/{id}", "/users/offlineUser/delete/{id}/"})
     public OfflineUserDto deleteRestOfflineUser(@PathVariable("id") Long id) throws IllegalArgumentException {
         OfflineUser offlineUser = offlineUserService.getOfflineUser(id);
         offlineUserService.deleteOfflineUser(id);
@@ -75,18 +69,11 @@ public class OfflineUserRestController {
             throw new IllegalArgumentException("Offline user does not exist");
         }
 
-        List<Event> eventList = offlineUser.getEvents();
-        List<Reservation> reservationList = offlineUser.getReservations();
-        LibraryApplicationSystem libraryApplicationSystem = offlineUser.getLibraryApplicationSystem();
-
         return new OfflineUserDto(
                 offlineUser.getFirstName(),
                 offlineUser.getLastName(),
                 offlineUser.getAddress(),
                 offlineUser.getIsLocal(),
-                offlineUser.getUserId(),
-                eventList,
-                reservationList,
-                libraryApplicationSystem);
+                offlineUser.getUserId());
     }
 }

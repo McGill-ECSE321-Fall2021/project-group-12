@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.library.dao.AlbumRepository;
 import ca.mcgill.ecse321.library.dao.BookRepository;
 import ca.mcgill.ecse321.library.dao.EventRepository;
 import ca.mcgill.ecse321.library.dao.MovieRepository;
+import ca.mcgill.ecse321.library.dao.NewspaperRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Album;
@@ -11,6 +12,7 @@ import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Movie;
+import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
@@ -41,6 +43,9 @@ public class OnlineUserService {
     
     @Autowired
     MovieRepository movieRepository;
+    
+    @Autowired
+    NewspaperRepository newspaperRepository;
     
     // Basic login method
     @Transactional
@@ -564,6 +569,67 @@ public class OnlineUserService {
     		eventRepository.delete(event);
     	}
     	return true;
+    }
+    
+    @Transactional
+    public List<Item> getItemsByTitle(String title) {
+    	if (title == null || title.trim().length() == 0) {
+    		throw new IllegalArgumentException("Title cannot be empty");
+    	}
+    	List<Item> items = new ArrayList<Item>();
+    	List<Album> albums = getAlbumsByTitle(title);
+    	List<Book> books = getBooksByTitle(title);
+    	List<Movie> movies = getMoviesByTitle(title);
+    	List<Newspaper> newspapers = getNewspapersByTitle(title);
+    	if (albums != null) {
+    		items.addAll(albums);
+    	}
+    	if (books != null) {
+    		items.addAll(books);
+    	}
+    	if (movies != null) {
+    		items.addAll(movies);
+    	}
+    	if (newspapers != null) {
+    		items.addAll(newspapers);
+    	}
+    	return items;
+    }
+    
+    @Transactional
+    public List<Album> getAlbumsByTitle(String title) {
+    	if (title == null || title.trim().length() == 0) {
+    		throw new IllegalArgumentException("Title cannot be empty");
+    	}
+    	List<Album> albums = albumRepository.findAlbumByTitle(title);
+    	return albums;
+    }
+    
+    @Transactional
+    public List<Book> getBooksByTitle(String title) {
+    	if (title == null || title.trim().length() == 0) {
+    		throw new IllegalArgumentException("Title cannot be empty");
+    	}
+    	List<Book> books = bookRepository.findBookByTitle(title);
+    	return books;
+    }
+    
+    @Transactional
+    public List<Movie> getMoviesByTitle(String title) {
+    	if (title == null || title.trim().length() == 0) {
+    		throw new IllegalArgumentException("Title cannot be empty");
+    	}
+    	List<Movie> movies = movieRepository.findMovieByTitle(title);
+    	return movies;
+    }
+    
+    @Transactional
+    public List<Newspaper> getNewspapersByTitle(String title) {
+    	if (title == null || title.trim().length() == 0) {
+    		throw new IllegalArgumentException("Title cannot be empty");
+    	}
+    	List<Newspaper> newspapers = newspaperRepository.findNewspaperByTitle(title);
+    	return newspapers;
     }
     
     //this is method to loop and collect online users data, and also other data because its generic
