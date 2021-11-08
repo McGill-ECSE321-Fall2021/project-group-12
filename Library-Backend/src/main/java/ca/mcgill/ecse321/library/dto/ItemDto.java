@@ -8,6 +8,11 @@ public abstract class ItemDto {
 	private boolean isArchive;
 	private Date releaseDate;
 	private CreatorDto creator;
+	private Long itemId;
+	
+	public Long getItemId() {
+		return this.itemId;
+	}
 	
 	public String getTitle() {
 		return this.title;
