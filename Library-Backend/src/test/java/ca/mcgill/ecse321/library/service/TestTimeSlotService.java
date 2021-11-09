@@ -37,7 +37,7 @@ public class TestTimeSlotService {
 	private static final Time START_TIME = Time.valueOf("08:00:00");
 	private static final Time END_TIME = Time.valueOf("20:00:00");
 	private static final Date START_DATE = Date.valueOf("2021-12-12");
-	private static final Date END_DATE = Date.valueOf("2021-12-13");
+	private static final Date END_DATE = Date.valueOf("2022-01-01");
 	private static final Long TIMESLOT_KEY = 0L;
 	
 	
@@ -739,12 +739,13 @@ public class TestTimeSlotService {
 	
 	@Test
 	public void testGetTimeSlot() {
-		String start = "08:00:00";
-		String end = "20:00:00";
-		String startD = "2021-12-12";
-		String endD = "2022-01-01";
+		assertEquals(0, service.getAllTimeSlots().size());
+		String startTime = "08:00:00";
+		String endTime = "20:00:00";
+		String startDate = "2021-12-12";
+		String endDate = "2022-01-01";
 		TimeSlot timeSlot = null;
-		timeSlot = service.createTimeSlot(start, end, startD, endD);
+		timeSlot = service.createTimeSlot(startTime, endTime, startDate, endDate);
 		assertNotNull(timeSlot);
 		TimeSlot timeSlot2 = null;
 		try {
@@ -752,13 +753,11 @@ public class TestTimeSlotService {
 		} catch (Exception e) {
 			fail();
 		}
-		
 		assertNotNull(timeSlot2);
-		assertEquals(timeSlot.getStartTime(), timeSlot2.getStartTime());
-		assertEquals(timeSlot.getEndTime(),timeSlot2.getEndTime());
-		assertEquals(timeSlot.getStartDate(), timeSlot2.getStartDate());
-		assertEquals(timeSlot.getEndDate(), timeSlot2.getEndDate());
-		
+		assertEquals(Time.valueOf(startTime), timeSlot2.getStartTime());
+		assertEquals(Time.valueOf(endTime),timeSlot2.getEndTime());
+		assertEquals(Date.valueOf(startDate), timeSlot2.getStartDate());
+		assertEquals(Date.valueOf(endDate), timeSlot2.getEndDate());
 	}
 	
 	
