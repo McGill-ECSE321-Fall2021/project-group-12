@@ -7,11 +7,13 @@ import ca.mcgill.ecse321.library.dao.MovieRepository;
 import ca.mcgill.ecse321.library.dao.NewspaperRepository;
 import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
+import ca.mcgill.ecse321.library.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Movie;
+import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
@@ -46,6 +48,9 @@ public class OfflineUserService {
     
     @Autowired
     NewspaperRepository newspaperRepository;
+    
+    @Autowired
+    TimeSlotRepository timeSlotRepository;
     
     // librarian logs in offline user
     public OfflineUser login(Long id) {
@@ -131,14 +136,16 @@ public class OfflineUserService {
     }
     
     @Transactional
-    public Reservation reserveItems(Long id, List<Item> items, TimeSlot timeSlot) {
+    public Reservation reserveItems(Long id, List<Long> itemIds, Long timeSlotId) {
         OfflineUser offlineUser = offlineUserRepository.findOfflineUserByUserId(id);
         if (offlineUser == null) {
         	throw new IllegalArgumentException("Offline user does not exist.");
         }
+        List<Item> items = getItemsFromItemIds(itemIds);
         if (items == null || items.size() == 0) {
         	throw new IllegalArgumentException("Items cannot be empty.");
         }
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
         if (timeSlot == null) {
         	throw new IllegalArgumentException("TimeSlot cannot be empry.");
         }
@@ -191,7 +198,6 @@ public class OfflineUserService {
     	throw new IllegalArgumentException("Item does not exist");
     }
     
-    @Transactional
     public boolean addItem(Long userId, Long reservationId, Item item) {
     	OfflineUser offlineUser = offlineUserRepository.findOfflineUserByUserId(userId);
     	if (offlineUser == null) {
@@ -240,7 +246,7 @@ public class OfflineUserService {
     }
     
     @Transactional
-    public Event requestBooking(Long id, String name, boolean isPrivate, TimeSlot timeSlot) {
+    public Event requestBooking(Long id, String name, boolean isPrivate, Long timeSlotId) {
     	OfflineUser offlineUser = offlineUserRepository.findOfflineUserByUserId(id);
         if (offlineUser == null) {
         	throw new IllegalArgumentException("Offline user does not exist.");
@@ -248,6 +254,9 @@ public class OfflineUserService {
         if (name == null || name.trim().length() == 0) {
         	throw new IllegalArgumentException("The name of an event cannot be empty.");
         }
+        
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
+        
         if (timeSlot == null) {
         	throw new IllegalArgumentException("TimeSlot cannot be empry.");
         }
@@ -317,5 +326,32 @@ public class OfflineUserService {
         }
         return resultList;
     }
+    
+    private List<Item> getItemsFromItemIds(List<Long> itemIds) throws IllegalArgumentException {
+    	if (itemIds == null) {
+    		throw new IllegalArgumentException("List of item ids cannot be null");
+    	}
+    	List<Item> items = new ArrayList<Item>();
+    	for (Long itemId:itemIds) {
+    		if (albumRepository.existsById(itemId)) {
+    			Album album = albumRepository.findAlbumByItemId(itemId);
+    			items.add(album);
+    		} else if(bookRepository.existsById(itemId)) {
+    			Book book = bookRepository.findBookByItemId(itemId);
+    			items.add(book);
+    		} else if (movieRepository.existsById(itemId)) {
+    			Movie movie = movieRepository.findMovieByItemId(itemId);
+    			items.add(movie);
+    		} else if (newspaperRepository.existsById(itemId)) {
+    			Newspaper newspaper = newspaperRepository.findByItemId(itemId);
+    			items.add(newspaper);
+    		} else {
+    			throw new IllegalArgumentException("Invalid item id");
+    		}
+    	}
+    	return items;
+    }
 
 }
+
+
