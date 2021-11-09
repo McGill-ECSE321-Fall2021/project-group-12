@@ -38,9 +38,14 @@ public class MovieRestController {
 		return movieService.getAllMovies().stream().map(p -> convertToDto(p)).collect(Collectors.toList());	
 	}
 	
-	@GetMapping(value = {"/movie/{itemId}", "/movie/{itemId}/"})
-	public MovieDto getMovie(@PathVariable("itemId") Long itemId) {
+	@GetMapping(value = {"/movie", "/movie/"})
+	public MovieDto getMovie(@RequestParam("itemId") Long itemId) {
 		return convertToDto(movieService.getMovie(itemId));
+	}
+	
+	@GetMapping(value = {"/movie/creator", "/movie/creator/"})
+	public CreatorDto getMovieCreator(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		return convertToDto(movieService.getMovie(itemId)).getCreator();
 	}
 	
 	@PostMapping(value = {"/movie/create", "/movie/create/"})
@@ -51,14 +56,13 @@ public class MovieRestController {
 		return convertToDto(movie);
 	}
 	
-	@PutMapping(value = {"/movie/update/{itemId}", "/movie/update/{itemId}/"})
-	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
-		Creator creator = creatorService.getCreator(creatorId);
-		return convertToDto(movieService.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));
+	@PutMapping(value = {"/movie/update", "/movie/update/"})
+	public MovieDto updateMovie(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable) {
+		return convertToDto(movieService.updateMovie(itemId, isArchive, isReservable, isAvailable));
 	}
 	
-	@DeleteMapping(value = { "/movie/delete/{itemId}", "/movie/delete/{itemId}/"})
-	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
+	@DeleteMapping(value = { "/movie/delete", "/movie/delete/"})
+	public MovieDto deleteMovie(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		Movie movie = movieService.getMovie(itemId);
 		movieService.deleteMovie(itemId);
 		return convertToDto(movie);

@@ -42,8 +42,8 @@ public class BookRestController {
 		return convertToDto(bookService.getBook(bookId));
 	}
 	
-	@GetMapping(value = {"/book/creator/{itemId}", "/book/creator/{itemId}/"})
-	public CreatorDto getBookCreator(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
+	@GetMapping(value = {"/book/creator", "/book/creator/"})
+	public CreatorDto getBookCreator(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		return convertToDto(bookService.getBook(itemId)).getCreator();
 	}
 	
@@ -56,13 +56,13 @@ public class BookRestController {
 		return convertToDto(book);
 	}
 	
-	@PutMapping(value = {"/book/update/{itemId}", "/book/update/{itemId}/"})
-	public BookDto updateBook(@PathVariable("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
+	@PutMapping(value = {"/book/update", "/book/update/"})
+	public BookDto updateBook(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(bookService.updateBook(itemId, isArchive, isReservable, available));
 	}
 	
 	@DeleteMapping(value = { "/book/delete", "/book/delete/" })
-	public BookDto deleteBook(@PathVariable("bookId") Long bookId) throws IllegalArgumentException {
+	public BookDto deleteBook(@RequestParam("bookId") Long bookId) throws IllegalArgumentException {
 		Book book = bookService.deleteBook(bookId);
 		return convertToDto(book);
 	}

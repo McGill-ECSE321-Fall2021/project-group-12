@@ -174,7 +174,7 @@ public class LibrarianRestController {
 	@PostMapping(value = {"/librarian/movie/update/{itemId}", "/librarian/movie/update/{itemId}/"})
 	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
-		return convertToDto(librarianService.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));
+		return convertToDto(librarianService.updateMovie(itemId, isArchive, isReservable, isAvailable));
 	}
 	@DeleteMapping(value = {"/librarian/movie/delete/{itemId}", "/librarian/movie/delete/{itemId}/"})
 	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {

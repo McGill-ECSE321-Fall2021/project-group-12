@@ -383,7 +383,7 @@ public class TestMovieService {
 			isAvailable = false;
 			
 			movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
-			movie = movieService.updateMovie(MOVIE_ID, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator);
+			movie = movieService.updateMovie(MOVIE_ID, isArchive, isReservable, isAvailable);
 		}catch(IllegalArgumentException e) {
 			fail();
 		}
