@@ -89,19 +89,19 @@ public class CreatorRestController {
 		for (Item i: items) {
 			if (i instanceof Movie) {
 				Movie movie = (Movie)i;
-				MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto);
+				MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto, movie.getItemId());
 				itemDtos.add(movieDto);
 			} else if (i instanceof Album) {
 				Album album = (Album)i;
-				AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), creatorDto);
+				AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), creatorDto, album.getItemId());
 				itemDtos.add(albumDto);
 			} else if (i instanceof Book) {
 				Book book = (Book)i;
-				BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), creatorDto);
+				BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), creatorDto, book.getItemId());
 				itemDtos.add(bookDto);
 			} else {
 				Newspaper newspaper = (Newspaper)i;
-				NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), creatorDto);
+				NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), creatorDto, newspaper.getItemId());
 				itemDtos.add(newspaperDto);
 			}
 		}

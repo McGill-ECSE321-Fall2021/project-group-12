@@ -13,7 +13,7 @@ public class AlbumDto extends ItemDto {
 	
 	public AlbumDto() {}
 	
-	public AlbumDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, CreatorDto creator) {
+	public AlbumDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numSongs, boolean available, MusicGenre genre, CreatorDto creator, Long itemId) {
 		this.setTitle(title);
 		this.setIsArchive(isArchive);
 		this.isReservable = isReservable;
@@ -22,6 +22,7 @@ public class AlbumDto extends ItemDto {
 		this.available = available;
 		this.genre = genre;
 		this.setCreator(creator);
+		this.setItemId(itemId);
 	}
 	
 	public boolean getIsReservable() {

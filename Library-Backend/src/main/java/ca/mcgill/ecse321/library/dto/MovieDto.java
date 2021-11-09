@@ -13,7 +13,7 @@ public class MovieDto extends ItemDto {
 	
 	public MovieDto() {}
 	
-	public MovieDto(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, CreatorDto creator) {
+	public MovieDto(String title, boolean isArchive, boolean isReservable, boolean isAvailable, Date releaseDate, int duration, BMGenre genre, CreatorDto creator, Long itemId) {
 		this.setTitle(title);
 		this.setIsArchive(isArchive);
 		this.isReservable = isReservable;
@@ -22,6 +22,8 @@ public class MovieDto extends ItemDto {
 		this.duration = duration;
 		this.genre = genre;
 		this.setCreator(creator);
+		this.setItemId(itemId);
+
 	}
 	public boolean getIsReservable() {
 		return isReservable;

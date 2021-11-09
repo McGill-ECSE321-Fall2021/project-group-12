@@ -13,7 +13,7 @@ public class BookDto extends ItemDto {
 
 	public BookDto() {}
 
-	public BookDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, BMGenre genre, CreatorDto creator) {
+	public BookDto(String title, boolean isArchive, boolean isReservable, Date releaseDate, int numPages, boolean available, BMGenre genre, CreatorDto creator, Long itemId) {
 		this.setTitle(title);
 		this.setIsArchive(isArchive);
 		this.isReservable = isReservable;
@@ -22,6 +22,7 @@ public class BookDto extends ItemDto {
 		this.available = available;
 		this.genre = genre;
 		this.setCreator(creator);
+		this.setItemId(itemId);
 	}
 
 	public boolean getIsReservable() {

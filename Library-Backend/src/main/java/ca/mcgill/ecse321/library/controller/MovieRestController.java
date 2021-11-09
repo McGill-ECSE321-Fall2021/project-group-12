@@ -29,22 +29,28 @@ public class MovieRestController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
 	private CreatorService creatorService;
 	
 	@GetMapping(value = {"/movies", "/movies/"})
 	public List<MovieDto> getAllMovies() {
 		return movieService.getAllMovies().stream().map(p -> convertToDto(p)).collect(Collectors.toList());	
 	}
+	
 	@GetMapping(value = {"/movie/{itemId}", "/movie/{itemId}/"})
 	public MovieDto getMovie(@PathVariable("itemId") Long itemId) {
 		return convertToDto(movieService.getMovie(itemId));
 	}
+	
 	@PostMapping(value = {"/movie/create", "/movie/create/"})
-	public MovieDto createMovie(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
+	public MovieDto createMovie(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") String releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
-		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
+		Date date = Date.valueOf(releaseDate);
+		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, date, duration, genre, creator);
 		return convertToDto(movie);
 	}
+	
 	@PutMapping(value = {"/movie/update/{itemId}", "/movie/update/{itemId}/"})
 	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
@@ -58,12 +64,21 @@ public class MovieRestController {
 		return convertToDto(movie);
 	}
 	
-	private MovieDto convertToDto(Movie movie) throws IllegalArgumentException {
+	private MovieDto convertToDto(Movie movie) {
 		if (movie == null) {
-			throw new IllegalArgumentException("Movie does not exist");
+			throw new IllegalArgumentException("Creator does not exist.");
 		}
-		CreatorDto creatorDto = new CreatorDto(movie.getCreator().getFirstName(), movie.getCreator().getLastName(), movie.getCreator().getCreatorType(), movie.getCreator().getCreatorId());
-		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto);
+		
+		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), convertToDto(movie.getCreator()), movie.getItemId());
 		return movieDto;
+	}
+	
+	private CreatorDto convertToDto(Creator creator) {
+		if (creator == null) {
+			throw new IllegalArgumentException("Creator does not exist.");
+		}
+		
+		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId());
+		return creatorDto;
 	}
 }

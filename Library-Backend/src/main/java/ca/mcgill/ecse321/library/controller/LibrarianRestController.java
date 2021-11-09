@@ -281,7 +281,7 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()));
+		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()), album.getItemId());
 		return albumDto;
 	}
 	private BookDto convertToDto(Book book) {
@@ -289,7 +289,7 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), convertToDto(book.getCreator()));
+		BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), convertToDto(book.getCreator()), book.getItemId());
 		return bookDto;
 	}
 	private MovieDto convertToDto(Movie movie) throws IllegalArgumentException {
@@ -297,14 +297,14 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Movie does not exist");
 		}
 		CreatorDto creatorDto = new CreatorDto(movie.getCreator().getFirstName(), movie.getCreator().getLastName(), movie.getCreator().getCreatorType(), movie.getCreator().getCreatorId());
-		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto);
+		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto, movie.getItemId());
 		return movieDto;
 	}
 	public NewspaperDto convertToDto(Newspaper newspaper) {
 		if (newspaper == null) {
 			throw new IllegalArgumentException("Newspaper does not exist.");
 		}
-		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()));
+		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()), newspaper.getItemId());
 		return newspaperDto;
 	}
 	private CreatorDto convertToDto(Creator creator) {

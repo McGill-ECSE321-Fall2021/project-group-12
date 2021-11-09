@@ -23,7 +23,6 @@ import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.service.AlbumService;
 import ca.mcgill.ecse321.library.service.CreatorService;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 public class AlbumRestController {
@@ -74,7 +73,7 @@ public class AlbumRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()));
+		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()), album.getItemId());
 		return albumDto;
 	}
 	

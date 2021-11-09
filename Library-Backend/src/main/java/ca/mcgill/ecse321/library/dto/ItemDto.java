@@ -14,6 +14,10 @@ public abstract class ItemDto {
 		return this.itemId;
 	}
 	
+	public Long setItemId(Long itemId) {
+		return this.itemId = itemId;
+	}
+	
 	public String getTitle() {
 		return this.title;
 	}
