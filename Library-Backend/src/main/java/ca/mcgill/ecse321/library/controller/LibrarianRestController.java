@@ -96,8 +96,8 @@ public class LibrarianRestController {
 		return convertToDto(librarianService.createLibrarian(librarianUsername, first, last, address, email, password, username));
 	}
 	@PutMapping(value = {"/librarian/update", "/librarian/update/"})
-	public LibrarianDto updateLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
-		return convertToDto(librarianService.updateLibrarian(librarianUsername, first, last, address, email, password, username));
+	public LibrarianDto updateLibrarian(@PathVariable("oldUsername") String oldUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="isHead") boolean isHead) {
+		return convertToDto(librarianService.updateLibrarian(oldUsername, first, last, address, email, password, username, isHead));
 	}
 	@GetMapping(value = {"/librarian/{id}", "/librarian/{id}/"})
 	public LibrarianDto getLibrarianById(@PathVariable("id") Long id) {
