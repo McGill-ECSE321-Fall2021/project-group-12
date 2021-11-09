@@ -41,7 +41,10 @@ public class Librarian extends OnlineUser {
 	public boolean setIsHead(boolean aIsHead) {
 		
 		if(aIsHead) {
-			
+			if (this.getLibraryApplicationSystem() == null) {
+				LibraryApplicationSystem system = new LibraryApplicationSystem();
+				this.setLibraryApplicationSystem(system);
+			}
 			List<User> users = this.getLibraryApplicationSystem().getUsers();
 			
 			for(User u:users) {

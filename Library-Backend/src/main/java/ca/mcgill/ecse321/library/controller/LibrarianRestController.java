@@ -10,32 +10,44 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.library.dao.AlbumRepository;
+import ca.mcgill.ecse321.library.dao.BookRepository;
+import ca.mcgill.ecse321.library.dao.LibrarianRepository;
+import ca.mcgill.ecse321.library.dao.MovieRepository;
+import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
+import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
+import ca.mcgill.ecse321.library.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.library.dto.AlbumDto;
 import ca.mcgill.ecse321.library.dto.BookDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
 import ca.mcgill.ecse321.library.dto.EventDto;
+import ca.mcgill.ecse321.library.dto.ItemDto;
 import ca.mcgill.ecse321.library.dto.LibrarianDto;
 import ca.mcgill.ecse321.library.dto.MovieDto;
 import ca.mcgill.ecse321.library.dto.NewspaperDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
 import ca.mcgill.ecse321.library.dto.OnlineUserDto;
+import ca.mcgill.ecse321.library.dto.ReservationDto;
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.dto.UserDto;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Event;
+import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
+import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.service.CreatorService;
 import ca.mcgill.ecse321.library.service.MovieService;
 import ca.mcgill.ecse321.library.service.NewspaperService;
+import ca.mcgill.ecse321.library.service.ReservationService;
 import ca.mcgill.ecse321.library.service.LibrarianService;
 
 import java.sql.Date;
@@ -57,6 +69,23 @@ public class LibrarianRestController {
 	private MovieService movieService;
 	@Autowired
 	private NewspaperService newspaperService;
+	@Autowired
+	private ReservationService reservationService;
+	@Autowired
+	OnlineUserRepository onlineUserRepository;
+	@Autowired
+	OfflineUserRepository offlineUserRepository;
+	@Autowired
+	LibrarianRepository librarianRepository;
+	@Autowired
+	TimeSlotRepository timeSlotRepository;
+	@Autowired
+	AlbumRepository albumRepository;
+	@Autowired
+	BookRepository bookRepository;
+	@Autowired
+	MovieRepository movieRepository;
+	
 	
 	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
 	public LibrarianDto createHeadLibrarian(@RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
@@ -200,22 +229,21 @@ public class LibrarianRestController {
 		librarianService.deleteNewspaper(itemId);
 		return newspaperDto;
 	}
-//commented out until reservation service and dto have been implemented
 	
-//	@DeleteMapping(value = { "/librarian/reservation/delete/{id}", "/librarian/reservation/delete/{id}/"})
-//	public ReservationDto deleteReservation(@PathVariable("id") Long id) {
-//		ReservationDto reservationDto = convertToDto(reservationService.getReservation(id));
-//		librarianService.removeReservation(id);
-//		return reservationDto;
-//	}
-//	@GetMapping(value = {"/librarian/reservation/{id}", "/librarian/reservation/{id}/"})
-//	public ReservationDto getReservationById(@PathVariable("id") Long id) {
-//		return convertToDto(librarianService.getReservationByUserId(id));
-//	}
-//	@GetMapping(value = {"/librarian/reservation/{first}/{last}", "/librarian/reservation/{first}/{last}/"})
-//	public ReservationDto getReservationByFirstNameAndLastName(@PathVariable("first") String firstName, @PathVariable("last") String lastName) {
-//			return convertToDto(librarianService.getReservationByFirstNameAndLastName(firstName, lastName));
-//	}
+	@DeleteMapping(value = { "/librarian/reservation/delete/{id}", "/librarian/reservation/delete/{id}/"})
+	public ReservationDto deleteReservation(@PathVariable("id") Long id) {
+		ReservationDto reservationDto = convertToDto(reservationService.getReservation(id));
+		librarianService.removeReservation(id);
+		return reservationDto;
+	}
+	@GetMapping(value = {"/librarian/reservation/{id}", "/librarian/reservation/{id}/"})
+	public List<ReservationDto> getReservationById(@PathVariable("id") Long id) {
+		return convertToDtoRList(librarianService.getReservationByUserId(id));
+	}
+	@GetMapping(value = {"/librarian/reservation/{first}/{last}", "/librarian/reservation/{first}/{last}/"})
+	public List<ReservationDto> getReservationByFirstNameAndLastName(@PathVariable("first") String firstName, @PathVariable("last") String lastName) {
+			return convertToDtoRList(librarianService.getReservationByFirstNameAndLastName(firstName, lastName));
+	}
 
 	@GetMapping(value = {"/librarian/event-times", "/librarian/event-times/"})
 	public List<TimeSlotDto> getTimeSlotWithEvent() {
@@ -314,6 +342,69 @@ public class LibrarianRestController {
 		
 		CreatorDto creatorDto = new CreatorDto(creator.getFirstName(), creator.getLastName(), creator.getCreatorType(), creator.getCreatorId());
 		return creatorDto;
+	}
+	private ReservationDto convertToDto(Reservation reservation) throws IllegalArgumentException {
+		if(reservation == null) {
+			throw new IllegalArgumentException("Input reservation is null.");
+		}
+		ReservationDto reservationDto = new ReservationDto();
+		reservationDto.setReservationId(reservation.getReservationId());
+		reservationDto.setTimeSlot(convertToDto(reservation.getTimeSlot()));
+		reservationDto.setItems(convertToDto(reservation.getItems()));
+		User user = reservation.getUser();
+		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
+			reservationDto.setOfflineUser(convertToDto((OfflineUser) user));
+		} else {
+			if(librarianRepository.findLibrarianByUserId(user.getUserId()) != null) {
+				reservationDto.setLibrarian(convertToDto((Librarian) user));
+			} else {
+				reservationDto.setOnlineUser(convertToDto((OnlineUser) user));
+			}
+		}
+		return reservationDto;
+	}
+	private List<ReservationDto> convertToDtoRList(List<Reservation> reservations) throws IllegalArgumentException {
+		List<ReservationDto> reservationDtoList = new ArrayList<>();
+		for (Reservation r : reservations) {
+			reservationDtoList.add(convertToDto(r));
+		}
+		return reservationDtoList;
+	}
+	private ItemDto convertToDto(Item item) throws IllegalArgumentException {
+		if(item == null) {
+			throw new IllegalArgumentException("Input user is null.");
+		}
+		ItemDto itemDto = new AlbumDto();
+		if(albumRepository.findAlbumByItemId(item.getItemId()) != null) {
+			Album album = albumRepository.findAlbumByItemId(item.getItemId());
+			itemDto.setCreator(convertToDto(album.getCreator()));
+			itemDto.setIsArchive(album.getIsArchive());
+			itemDto.setReleaseDate(album.getReleaseDate());
+			itemDto.setTitle(album.getTitle());
+		} else if(bookRepository.findBookByItemId(item.getItemId()) != null) {
+			Book book = bookRepository.findBookByItemId(item.getItemId());
+			itemDto.setCreator(convertToDto(book.getCreator()));
+			itemDto.setIsArchive(book.getIsArchive());
+			itemDto.setReleaseDate(book.getReleaseDate());
+			itemDto.setTitle(book.getTitle());
+		} else {
+			Movie movie = movieRepository.findMovieByItemId(item.getItemId());
+			itemDto.setCreator(convertToDto(movie.getCreator()));
+			itemDto.setIsArchive(movie.getIsArchive());
+			itemDto.setReleaseDate(movie.getReleaseDate());
+			itemDto.setTitle(movie.getTitle());
+		}
+		return itemDto;
+	}
+	private List<ItemDto> convertToDto(List<Item> items) throws IllegalArgumentException {
+		if(items == null) {
+			throw new IllegalArgumentException("Input items is null.");
+		}
+		List<ItemDto> itemsDto = new ArrayList<>();
+		for(Item item: items) {
+			itemsDto.add(convertToDto(item));
+		}
+		return itemsDto;
 	}
 	private EventDto convertToDto(Event event) {
 		if (event == null) {
