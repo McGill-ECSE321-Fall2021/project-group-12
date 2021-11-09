@@ -1,25 +1,29 @@
 package ca.mcgill.ecse321.library.controller;
 
 import java.sql.Date;
+
 import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.service.TimeSlotService;
 
 
-
+@CrossOrigin(origins = "*")
+@RestController
 public class TimeSlotRestController {
 
 	
@@ -41,17 +45,15 @@ public TimeSlotDto getTimeSlot(@PathVariable("timeSlotId") Long timeSlotId) thro
 
 
 @PostMapping(value = { "/timeSlot/create", "/timeSlot/create/" })
-public TimeSlotDto createTimeSlot(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time endTime,
-		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date startdate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date endDate) throws IllegalArgumentException{
-	TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime, endTime, startdate, endDate);
+public TimeSlotDto createTimeSlot(@RequestParam(value = "startTime") String startTime,@RequestParam(value="endTime") String endTime, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) throws IllegalArgumentException{
+	TimeSlot timeSlot = timeSlotService.createTimeSlot(startTime, endTime, startDate, endDate);
 	return convertToDto(timeSlot);
 }
 
 
 @PutMapping(value = { "/timeSlot/update/{timeSlotId}", "/timeSlot/update/{timeSlotId}/" })
-public TimeSlotDto updateTimeSlot(@PathVariable("timeSlotId") Long timeSlotId,@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") Time endTime,
-		@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date startdate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") Date endDate) throws IllegalArgumentException{
-		TimeSlot timeSlot = timeSlotService.updateTimeSlot(timeSlotId, startTime, endTime, startdate, endDate);
+public TimeSlotDto updateTimeSlot(@PathVariable("timeSlotId") Long timeSlotId,@RequestParam(value = "startTime") String startTime,@RequestParam(value="endTime") String endTime, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) throws IllegalArgumentException{
+		TimeSlot timeSlot = timeSlotService.updateTimeSlot(timeSlotId, startTime, endTime, startDate, endDate);
 		return convertToDto(timeSlot);
 }
 
