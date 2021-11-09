@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.library.dao.MovieRepository;
 import ca.mcgill.ecse321.library.dao.NewspaperRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
+import ca.mcgill.ecse321.library.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Event;
@@ -47,6 +48,8 @@ public class OnlineUserService {
     @Autowired
     NewspaperRepository newspaperRepository;
     
+    @Autowired
+    TimeSlotRepository timeSlotRepository;
     // Basic login method
     @Transactional
     public OnlineUser login(String username, String password) {
@@ -227,7 +230,7 @@ public class OnlineUserService {
 
     // delete user from database by the id
     @Transactional
-    public boolean deleteOnlineUser(Long id) {
+    public boolean deleteOnlineUserByUserId(Long id) {
         OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(id);
         if (onlineUser == null) {
             throw new IllegalArgumentException("Online user does not exist.");
@@ -237,11 +240,36 @@ public class OnlineUserService {
     }
     
     @Transactional
-    public Reservation reserveItems(Long id, List<Item> items, TimeSlot timeSlot) {
+    public boolean deleteOnlineUserByUsername(String username) {
+        OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+        if (onlineUser == null) {
+            throw new IllegalArgumentException("Online user does not exist.");
+        }
+        onlineUserRepository.delete(onlineUser);
+        return true;
+    }
+    
+    @Transactional
+    public boolean deleteOnlineUserByEmail(String email) {
+        OnlineUser onlineUser = onlineUserRepository.findOnlineUserByEmail(email);
+        if (onlineUser == null) {
+            throw new IllegalArgumentException("Online user does not exist.");
+        }
+        onlineUserRepository.delete(onlineUser);
+        return true;
+    }
+    
+    @Transactional
+    public Reservation reserveItems(Long id, List<Long> itemIds, Long timeSlotId) {
         OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(id);
         if (onlineUser == null) {
         	throw new IllegalArgumentException("Online user does not exist.");
         }
+        List<Item> items = getItemsFromItemIds(itemIds);
+        if (items == null) {
+        	throw new IllegalArgumentException("Items cannot be null");
+        }
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
         if (items == null || items.size() == 0) {
         	throw new IllegalArgumentException("Items cannot be empty.");
         }
@@ -257,16 +285,24 @@ public class OnlineUserService {
     }
     
     @Transactional
-    public Reservation reserveItems(String username, List<Item> items, TimeSlot timeSlot) {
+    public Reservation reserveItems(String username, List<Long> itemIds, Long timeSlotId) {
         OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
         if (onlineUser == null) {
         	throw new IllegalArgumentException("Online user does not exist.");
         }
+        List<Item> items = getItemsFromItemIds(itemIds);
+        if (items == null) {
+        	throw new IllegalArgumentException("Items cannot be null");
+        }
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
         if (items == null || items.size() == 0) {
         	throw new IllegalArgumentException("Items cannot be empty.");
         }
         if (timeSlot == null) {
         	throw new IllegalArgumentException("TimeSlot cannot be empry.");
+        }
+        if (items == null || items.size() == 0) {
+        	throw new IllegalArgumentException("Items cannot be empty.");
         }
     	Reservation reservation = new Reservation();
     	reservation.setUser(onlineUser);
@@ -359,36 +395,7 @@ public class OnlineUserService {
     	}
     	throw new IllegalArgumentException("Item does not exist");
     }
-    
-    @Transactional
-    public boolean addItem(Long userId, Long reservationId, Item item) {
-    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
-    	if (onlineUser == null) {
-    		throw new IllegalArgumentException("Online user does not exist.");
-    	}
-    	Reservation reservation = reservationRepository.findReservationByReservationId(reservationId);
-    	if (reservation == null) {
-    		throw new IllegalArgumentException("Reservation does not exist.");
-    	}
-    	if (item == null) {
-    		throw new IllegalArgumentException("Item does not exist.");
-    	}
-    	if (reservation.getUser() != null && reservation.getUser().getUserId() == userId) {
-    		if (reservation.getItems() == null) {
-    			reservation.setItems(new ArrayList<Item>());
-    		}
-    		for (Item i: reservation.getItems()) {
-    			if (i.getItemId() == item.getItemId()) {
-    				// Item is already in the reservation
-    				return true;
-    			}
-    		}
-    		reservation.addItem(item);
-    		return true;
-    	}
-    	return false;
-    }
-    
+   
     @Transactional
     public boolean cancelReservation(Long userId, Long reservationId) {
     	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
@@ -429,7 +436,7 @@ public class OnlineUserService {
     }
     
     @Transactional
-    public Event requestBooking(Long id, String name, boolean isPrivate, TimeSlot timeSlot) {
+    public Event requestBooking(Long id, String name, boolean isPrivate, Long timeSlotId) {
     	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(id);
         if (onlineUser == null) {
         	throw new IllegalArgumentException("Online user does not exist.");
@@ -437,6 +444,7 @@ public class OnlineUserService {
         if (name == null || name.trim().length() == 0) {
         	throw new IllegalArgumentException("The name of an event cannot be empty.");
         }
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
         if (timeSlot == null) {
         	throw new IllegalArgumentException("TimeSlot cannot be empry.");
         }
@@ -451,7 +459,7 @@ public class OnlineUserService {
     }
     
     @Transactional
-    public Event requestBooking(String username, String name, boolean isPrivate, TimeSlot timeSlot) {
+    public Event requestBooking(String username, String name, boolean isPrivate, Long timeSlotId) {
     	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
         if (onlineUser == null) {
         	throw new IllegalArgumentException("Online user does not exist.");
@@ -459,6 +467,7 @@ public class OnlineUserService {
         if (name == null || name.trim().length() == 0) {
         	throw new IllegalArgumentException("The name of an event cannot be empty.");
         }
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
         if (timeSlot == null) {
         	throw new IllegalArgumentException("TimeSlot cannot be empry.");
         }
@@ -709,4 +718,80 @@ public class OnlineUserService {
     	}
     	return true;
     }
+    
+//    private Item getItemFromItemId(Long itemId) throws IllegalArgumentException {
+//    	if (itemId ==  null) {
+//    		throw new IllegalArgumentException("Item id cannot be empty");
+//    	}
+//    	if (albumRepository.existsById(itemId)) {
+//			Album album = albumRepository.findAlbumByItemId(itemId);
+//			return album;
+//		} else if(bookRepository.existsById(itemId)) {
+//			Book book = bookRepository.findBookByItemId(itemId);
+//			return book;
+//		} else if (movieRepository.existsById(itemId)) {
+//			Movie movie = movieRepository.findMovieByItemId(itemId);
+//			return movie;
+//		} else if (newspaperRepository.existsById(itemId)) {
+//			Newspaper newspaper = newspaperRepository.findByItemId(itemId);
+//			return newspaper;
+//		} else {
+//			throw new IllegalArgumentException("Invalid item id");
+//		}
+//    	
+//    }
+    
+    private List<Item> getItemsFromItemIds(List<Long> itemIds) throws IllegalArgumentException {
+    	if (itemIds == null) {
+    		throw new IllegalArgumentException("List of item ids cannot be null");
+    	}
+    	List<Item> items = new ArrayList<Item>();
+    	for (Long itemId:itemIds) {
+    		if (albumRepository.existsById(itemId)) {
+    			Album album = albumRepository.findAlbumByItemId(itemId);
+    			items.add(album);
+    		} else if(bookRepository.existsById(itemId)) {
+    			Book book = bookRepository.findBookByItemId(itemId);
+    			items.add(book);
+    		} else if (movieRepository.existsById(itemId)) {
+    			Movie movie = movieRepository.findMovieByItemId(itemId);
+    			items.add(movie);
+    		} else if (newspaperRepository.existsById(itemId)) {
+    			Newspaper newspaper = newspaperRepository.findByItemId(itemId);
+    			items.add(newspaper);
+    		} else {
+    			throw new IllegalArgumentException("Invalid item id");
+    		}
+    	}
+    	return items;
+    }
+    
+    private boolean addItem(Long userId, Long reservationId, Item item) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	Reservation reservation = reservationRepository.findReservationByReservationId(reservationId);
+    	if (reservation == null) {
+    		throw new IllegalArgumentException("Reservation does not exist.");
+    	}
+    	if (item == null) {
+    		throw new IllegalArgumentException("Item does not exist.");
+    	}
+    	if (reservation.getUser() != null && reservation.getUser().getUserId() == userId) {
+    		if (reservation.getItems() == null) {
+    			reservation.setItems(new ArrayList<Item>());
+    		}
+    		for (Item i: reservation.getItems()) {
+    			if (i.getItemId() == item.getItemId()) {
+    				// Item is already in the reservation
+    				return true;
+    			}
+    		}
+    		reservation.addItem(item);
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
