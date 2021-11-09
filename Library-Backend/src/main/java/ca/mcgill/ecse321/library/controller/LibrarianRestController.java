@@ -353,12 +353,12 @@ public class LibrarianRestController {
 		reservationDto.setItems(convertToDto(reservation.getItems()));
 		User user = reservation.getUser();
 		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
-			reservationDto.setOfflineUser(convertToDto((OfflineUser) user));
+			reservationDto.setUserDto(convertToDto(user));
 		} else {
 			if(librarianRepository.findLibrarianByUserId(user.getUserId()) != null) {
-				reservationDto.setLibrarian(convertToDto((Librarian) user));
+				reservationDto.setUserDto(convertToDto(user));
 			} else {
-				reservationDto.setOnlineUser(convertToDto((OnlineUser) user));
+				reservationDto.setUserDto(convertToDto(user));
 			}
 		}
 		return reservationDto;
