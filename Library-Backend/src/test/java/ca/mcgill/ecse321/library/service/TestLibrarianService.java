@@ -66,7 +66,7 @@ public class TestLibrarianService {
 		    LibraryHour libraryHour = new LibraryHour();
 			libraryHour.setLibraryHourId(3L);
 			libraryHour.setStartTime(Time.valueOf("08:00:00"));
-			libraryHour.setEndTime(Time.valueOf("20.00.00"));
+			libraryHour.setEndTime(Time.valueOf("20:00:00"));
 			libraryHour.setDay(Day.Monday);
 			List<LibraryHour> libraryHours = new ArrayList<>();
 			libraryHours.add(libraryHour);
@@ -617,11 +617,13 @@ public class TestLibrarianService {
 
 		Librarian librarian = null;
 		
-		try {
-			librarian = librarianService.getLibrarian(LIBRARIAN_ID);
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
+		librarian = librarianService.getLibrarian(LIBRARIAN_ID);
+
+//		try {
+//			librarian = librarianService.getLibrarian(LIBRARIAN_ID);
+//		} catch (IllegalArgumentException e) {
+//			fail();
+//		}
 		
 		assertNotNull(librarian);
 		assertEquals(LIBRARIAN_FIRSTNAME, librarian.getFirstName());
@@ -674,19 +676,18 @@ public class TestLibrarianService {
 		assertEquals(LIBRARIAN_PASSWORD, librarian.getPassword());
 		assertEquals(true, librarian.getIsHead());
 	}
-//	@Test
-//	public void testDeleteLibrarian() {
-//		assertEquals(2, librarianService.getAllLibrarians().size());
-//		
-//		Librarian librarian = null;
-//		
-//		try {
-//			librarian = librarianService.removeLibrarian(LIBRARIAN_USERNAME_HEAD, 1L);
-//		} catch (IllegalArgumentException e) {
-//			fail();
-//		}
-//		
-//		assertEquals(1, librarianService.getAllLibrarians().size());
-//		assertEquals(true, librarian.getIsHead());
-//	}
+	@Test
+	public void testDeleteLibrarian() {
+		assertEquals(2, librarianService.getAllLibrarians().size());
+		
+		Librarian headLibrarian = null;
+		
+		try {
+			headLibrarian = librarianService.removeLibrarian(LIBRARIAN_USERNAME_HEAD, LIBRARIAN_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		assertEquals(true, headLibrarian.getIsHead());
+	}
 }

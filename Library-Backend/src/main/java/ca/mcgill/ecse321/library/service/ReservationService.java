@@ -75,7 +75,8 @@ public class ReservationService {
 				albumRepository.save((Album) i);
 			}
 		}
-		user.addReservation(reservation);
+//		user.addReservation(reservation);
+		reservation.setUser(user);
 		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
 			offlineUserRepository.save((OfflineUser) user);
 		} else if (onlineUserRepository.findOnlineUserByUserId(user.getUserId()) != null) {
@@ -138,7 +139,7 @@ public class ReservationService {
 		User user = reservation.getUser();
 		TimeSlot timeSlot = reservation.getTimeSlot();
 		List<Item> items = reservation.getItems();
-		user.getReservations().remove(reservation);
+//		user.getReservations().remove(reservation);
 		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
 			offlineUserRepository.save((OfflineUser) user);
 		} else if(onlineUserRepository.findOnlineUserByUserId(user.getUserId()) != null) {

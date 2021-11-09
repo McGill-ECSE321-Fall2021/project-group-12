@@ -106,14 +106,7 @@ public class Reservation
     {
       return wasSet;
     }
-
-    User existingUser = user;
     user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
-    {
-      existingUser.removeReservation(this);
-    }
-    user.addReservation(this);
     wasSet = true;
     return wasSet;
   }
@@ -154,12 +147,6 @@ public class Reservation
     {
       Item aItem = items.get(i - 1);
       aItem.delete();
-    }
-    User placeholderUser = user;
-    this.user = null;
-    if(placeholderUser != null)
-    {
-      placeholderUser.removeReservation(this);
     }
     timeSlot = null;
     LibraryApplicationSystem placeholderLibraryApplicationSystem = libraryApplicationSystem;

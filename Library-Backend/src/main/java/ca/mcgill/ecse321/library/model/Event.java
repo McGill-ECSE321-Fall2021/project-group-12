@@ -87,13 +87,7 @@ public class Event
 			return false;
 		}
 
-		User existingUser = user;
 		user = aUser;
-		if (existingUser != null && !existingUser.equals(aUser))
-		{
-			existingUser.removeEvent(this);
-		}
-		user.addEvent(this);
 		return true;
 	}
 
@@ -118,12 +112,7 @@ public class Event
 	public void delete()
 	{
 		timeSlot = null;
-		User placeholderUser = user;
 		this.user = null;
-		if(placeholderUser != null)
-		{
-			placeholderUser.removeEvent(this);
-		}
 	}
 
 
