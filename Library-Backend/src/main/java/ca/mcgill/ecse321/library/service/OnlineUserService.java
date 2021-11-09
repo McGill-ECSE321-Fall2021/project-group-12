@@ -396,7 +396,6 @@ public class OnlineUserService {
     	throw new IllegalArgumentException("Item does not exist");
     }
    
-    
     @Transactional
     public boolean cancelReservation(Long userId, Long reservationId) {
     	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
