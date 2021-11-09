@@ -2,16 +2,6 @@ package ca.mcgill.ecse321.library.dto;
 
 import java.util.List;
 
-import ca.mcgill.ecse321.library.model.Album;
-import ca.mcgill.ecse321.library.model.Book;
-import ca.mcgill.ecse321.library.model.Item;
-import ca.mcgill.ecse321.library.model.Librarian;
-import ca.mcgill.ecse321.library.model.Movie;
-import ca.mcgill.ecse321.library.model.OfflineUser;
-import ca.mcgill.ecse321.library.model.OnlineUser;
-import ca.mcgill.ecse321.library.model.TimeSlot;
-import ca.mcgill.ecse321.library.model.User;
-
 public class ReservationDto {
 	
 	private Long reservationId;
@@ -19,24 +9,16 @@ public class ReservationDto {
 	private List<BookDto> books;
 	private List<AlbumDto> albums;
 	private List<MovieDto> movies;
-	private OfflineUserDto offUser;
-	private OnlineUserDto onUser;
-	private LibrarianDto librarian;
+	private UserDto user;
 	private TimeSlotDto timeSlot;
 	
 	public ReservationDto() {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ReservationDto(List<ItemDto> items, List<BookDto> books, List<AlbumDto> albums, List<MovieDto> movies, OfflineUserDto offUser, OnlineUserDto onUser, LibrarianDto librarian, TimeSlotDto timeSlot, Long reservationId) {
+	public ReservationDto(List<ItemDto> items, UserDto user, TimeSlotDto timeSlot, Long reservationId) {
 		this.items = items;
-		this.books = books;
-		this.albums = albums;
-		this.movies = movies;
-		this.offUser = offUser;
-		this.onUser = onUser;
-		this.librarian = librarian;
+		this.user = user;
 		this.timeSlot = timeSlot;
 		this.reservationId = reservationId;
 	}
@@ -89,28 +71,11 @@ public class ReservationDto {
 		this.reservationId = Id;
 	}
 	
-	public OnlineUserDto getOnlineUser() {
-		return this.onUser;
+	public UserDto getUser() {
+		return this.user;
 	}
 	
-	public void setOnlineUser(OnlineUserDto onUser) {
-		this.onUser = onUser;
+	public void setUserDto(UserDto user) {
+		this.user = user;
 	}
-	
-	public OfflineUserDto getOfflineUser() {
-		return this.offUser;
-	}
-	
-	public void setOfflineUser(OfflineUserDto offUser) {
-		this.offUser = offUser;
-	}
-	
-	public LibrarianDto getLibrarian() {
-		return this.librarian;
-	}
-	
-	public void setLibrarian(LibrarianDto librarian) {
-		this.librarian = librarian;
-	}
-
 }

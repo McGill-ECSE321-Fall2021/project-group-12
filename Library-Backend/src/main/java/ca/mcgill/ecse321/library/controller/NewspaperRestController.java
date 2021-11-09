@@ -70,7 +70,7 @@ public class NewspaperRestController {
 		if (newspaper == null) {
 			throw new IllegalArgumentException("Newspaper does not exist.");
 		}
-		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()));
+		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()), newspaper.getItemId());
 		return newspaperDto;
 	}
 	

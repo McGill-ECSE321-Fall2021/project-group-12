@@ -203,7 +203,7 @@ public class LibrarianRestController {
 	@PostMapping(value = {"/librarian/movie/update/{itemId}", "/librarian/movie/update/{itemId}/"})
 	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
-		return convertToDto(librarianService.updateMovie(itemId, title, isArchive, isReservable, releaseDate, isAvailable, duration, genre, creator));
+		return convertToDto(librarianService.updateMovie(itemId, isArchive, isReservable, isAvailable));
 	}
 	@DeleteMapping(value = {"/librarian/movie/delete/{itemId}", "/librarian/movie/delete/{itemId}/"})
 	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
@@ -309,7 +309,7 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()));
+		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()), album.getItemId());
 		return albumDto;
 	}
 	private BookDto convertToDto(Book book) {
@@ -317,7 +317,7 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), convertToDto(book.getCreator()));
+		BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), convertToDto(book.getCreator()), book.getItemId());
 		return bookDto;
 	}
 	private MovieDto convertToDto(Movie movie) throws IllegalArgumentException {
@@ -325,14 +325,14 @@ public class LibrarianRestController {
 			throw new IllegalArgumentException("Movie does not exist");
 		}
 		CreatorDto creatorDto = new CreatorDto(movie.getCreator().getFirstName(), movie.getCreator().getLastName(), movie.getCreator().getCreatorType(), movie.getCreator().getCreatorId());
-		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto);
+		MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), creatorDto, movie.getItemId());
 		return movieDto;
 	}
 	public NewspaperDto convertToDto(Newspaper newspaper) {
 		if (newspaper == null) {
 			throw new IllegalArgumentException("Newspaper does not exist.");
 		}
-		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()));
+		NewspaperDto newspaperDto = new NewspaperDto(newspaper.getTitle(), newspaper.getIsArchive(), newspaper.getReleaseDate(), convertToDto(newspaper.getCreator()), newspaper.getItemId());
 		return newspaperDto;
 	}
 	private CreatorDto convertToDto(Creator creator) {

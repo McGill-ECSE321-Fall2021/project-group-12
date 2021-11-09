@@ -23,7 +23,6 @@ import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.service.AlbumService;
 import ca.mcgill.ecse321.library.service.CreatorService;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 public class AlbumRestController {
@@ -44,8 +43,8 @@ public class AlbumRestController {
 		return convertToDto(albumService.getAlbum(albumId));
 	}
 	
-	@GetMapping(value = {"/album/creator/{itemId}", "/album/creator/{itemId}/"})
-	public CreatorDto getAlbumCreator(@PathVariable("itemId") Long itemId) throws IllegalArgumentException {
+	@GetMapping(value = {"/album/creator", "/album/creator/"})
+	public CreatorDto getAlbumCreator(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		return convertToDto(albumService.getAlbum(itemId)).getCreator();
 	}
 	
@@ -58,13 +57,13 @@ public class AlbumRestController {
 		return convertToDto(album);
 	}
 	
-	@PutMapping(value = {"/album/update/{itemId}", "/album/update/{itemId}/"})
-	public AlbumDto updateAlbum(@PathVariable("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
+	@PutMapping(value = {"/album/update", "/album/update/"})
+	public AlbumDto updateAlbum(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(albumService.updateAlbum(itemId, isArchive, isReservable, available));
 	}
 	
 	@DeleteMapping(value = { "/album/delete", "/album/delete/" })
-	public AlbumDto deleteAlbum(@PathVariable("albumId") Long albumId) throws IllegalArgumentException {
+	public AlbumDto deleteAlbum(@RequestParam("albumId") Long albumId) throws IllegalArgumentException {
 		Album album = albumService.deleteAlbum(albumId);
 		return convertToDto(album);
 	}
@@ -74,7 +73,7 @@ public class AlbumRestController {
 			throw new IllegalArgumentException("Creator does not exist.");
 		}
 		
-		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()));
+		AlbumDto albumDto = new AlbumDto(album.getTitle(), album.getIsArchive(), album.getIsReservable(), album.getReleaseDate(), album.getNumSongs(), album.getIsAvailable(), album.getGenre(), convertToDto(album.getCreator()), album.getItemId());
 		return albumDto;
 	}
 	

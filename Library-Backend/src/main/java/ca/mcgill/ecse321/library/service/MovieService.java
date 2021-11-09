@@ -47,20 +47,10 @@ public class MovieService {
 		return newMovie;
 	}
 	@Transactional 
-	public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre, Creator newCreator) throws IllegalArgumentException {
+	public Movie updateMovie(Long id, boolean newIsArchive, boolean newIsReservable, boolean newIsAvailable) throws IllegalArgumentException {
 		Movie movie = movieRepository.findMovieByItemId(id);
 		//if the title, release date, or duration are null then don't change, remains the same
 		//if the duration is zero
-		if (newTitle != null) movie.setTitle(newTitle);
-		if (newReleaseDate != null) movie.setReleaseDate(newReleaseDate);
-		if (newDuration != 0) {
-			movie.setDuration(newDuration);
-		} else {
-			//if the duration is zero
-			throw new IllegalArgumentException("Invalid Input: The duration of a movie cannot be zero.");
-		}
-		if (newGenre != null) movie.setGenre(newGenre);
-		if (newCreator != null) movie.setCreator(newCreator);
 		movie.setIsArchive(newIsArchive);
 		movie.setIsAvailable(newIsAvailable);
 		movie.setIsReservable(newIsReservable);

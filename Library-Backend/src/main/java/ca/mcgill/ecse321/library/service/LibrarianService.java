@@ -402,8 +402,8 @@ public class LibrarianService {
 		}
 		
 		@Transactional 
-		public Movie updateMovie(Long id, String newTitle, boolean newIsArchive, boolean newIsReservable, Date newReleaseDate, boolean newIsAvailable, int newDuration, BMGenre newGenre, Creator newCreator) {
-			return movieService.updateMovie(id, newTitle, newIsArchive, newIsReservable, newReleaseDate, newIsAvailable, newDuration, newGenre, newCreator);
+		public Movie updateMovie(Long id, boolean newIsArchive, boolean newIsReservable, boolean newIsAvailable) {
+			return movieService.updateMovie(id, newIsArchive, newIsReservable, newIsAvailable);
 		}
 		
 		@Transactional

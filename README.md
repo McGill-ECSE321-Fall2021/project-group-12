@@ -39,7 +39,7 @@ Design an application for a library to assist it in providing its services. Such
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills |
+| Aaron Mills | <ul><li>Business Methods:<br><ul><li>Creator</li><li>OnlineUser</li><li>OfflineUser</li><li>Newspaper</li></ul></li><li>DTOs:<br><ul><li>Creator</li><li>Item</li><li>Newspaper</li></ul></li><li>Controller:<br><ul><li>Creator</li><li>OnlineUser</li><li>Newspaper</li></ul></li><li>Unit Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Integration Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul></ul> | 37 |
 | Ann Trinh |
 | Chirag Sood |
 | Lucca Di Lullo |
