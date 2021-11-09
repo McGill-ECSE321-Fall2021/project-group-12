@@ -288,8 +288,8 @@ public class OfflineUserService {
     
     @Transactional
     public List<Event> getEvents(Long id) {
-    	OfflineUser onlineUser = offlineUserRepository.findOfflineUserByUserId(id);
-    	if (onlineUser == null) {
+    	OfflineUser offlineUser = offlineUserRepository.findOfflineUserByUserId(id);
+    	if (offlineUser == null) {
         	throw new IllegalArgumentException("Offline user does not exist.");
     	}
     	List<Event> events = toList(eventRepository.findAll());
@@ -306,7 +306,7 @@ public class OfflineUserService {
     public boolean cancelEvent(Long userId, Long eventId) {
     	OfflineUser offlineUser = offlineUserRepository.findOfflineUserByUserId(userId);
     	if (offlineUser == null) {
-        	throw new IllegalArgumentException("Online user does not exist.");
+        	throw new IllegalArgumentException("Offline user does not exist.");
     	}
     	Event event = eventRepository.findEventByEventId(eventId);
     	if (event == null) {

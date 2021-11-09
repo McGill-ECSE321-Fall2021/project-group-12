@@ -18,7 +18,6 @@ import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
-import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
@@ -44,7 +43,7 @@ public class OfflineUserRestController {
     @Autowired
     private OfflineUserService service;
 
-    //get all online users
+    //get all offline users
     @GetMapping(value = {"/offlineusers", "/offlineusers/"})
 	public List<OfflineUserDto> getAllOfflineUsers(){
 		return service.getAllOfflineUsers().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
@@ -57,7 +56,7 @@ public class OfflineUserRestController {
 	}
     
     @PostMapping(value = {"/offlineuser/login", "/offlineuser/login/"})
-	public OfflineUserDto loginOnlineUser(@RequestParam("id") Long id) throws IllegalArgumentException {
+	public OfflineUserDto loginOfflineUser(@RequestParam("id") Long id) throws IllegalArgumentException {
 		return convertToDto(service.login(id));
 	}
     
@@ -116,7 +115,7 @@ public class OfflineUserRestController {
 		return convertToDtoListOfEvents(service.getEvents(userId));
 	}
     
-    @PostMapping(value = {"/onlineuser/cancelevent/{userId}", "/onlineuser/cancelevent/{userId}/"})
+    @PostMapping(value = {"/offlineuser/cancelevent/{userId}", "/offlineuser/cancelevent/{userId}/"})
 	public boolean cancelEvent(@PathVariable("userId") Long userId, @RequestParam("eventId") Long eventId) throws IllegalArgumentException {
 		return service.cancelEvent(userId, eventId);
 	}
@@ -125,8 +124,8 @@ public class OfflineUserRestController {
 		if (event == null) {
 			throw new IllegalArgumentException("Event does not exist");
 		}
-		if (!(event.getUser() instanceof OnlineUser)) {
-			throw new IllegalArgumentException("User is not an OnlineUser");
+		if (!(event.getUser() instanceof OfflineUser)) {
+			throw new IllegalArgumentException("User is not an OfflineUser");
 		}
 		EventDto eventDto = new EventDto(event.getName(), event.getIsPrivate() , event.getIsAccepted(), convertToDto(event.getTimeSlot()), convertToDto((OfflineUser)event.getUser()), event.getEventId());
 		return eventDto;
@@ -139,8 +138,8 @@ public class OfflineUserRestController {
 		List<ItemDto> itemDtos = convertToDto(reservation.getItems());
 		TimeSlotDto timeSlotDto = convertToDto(reservation.getTimeSlot());
 		User user = reservation.getUser();
-		if (!(user instanceof OnlineUser)) {
-			throw new IllegalArgumentException("User is not an Online User");
+		if (!(user instanceof OfflineUser)) {
+			throw new IllegalArgumentException("User is not an Offline User");
 		}
 		OfflineUserDto offlineUserDto = convertToDto((OfflineUser)user);
 		ReservationDto reservationDto = new ReservationDto(itemDtos, offlineUserDto, timeSlotDto, reservation.getReservationId());
