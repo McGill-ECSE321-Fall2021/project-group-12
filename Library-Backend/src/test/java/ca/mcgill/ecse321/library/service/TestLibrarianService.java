@@ -319,7 +319,7 @@ public class TestLibrarianService {
 				timeSlot.setEndDate(Date.valueOf("2021-12-13"));
 				timeSlot.setTimeSlotId(100L);
 				event.setTimeSlot(timeSlot);
-				OfflineUser user = new OfflineUser();
+				OnlineUser user = new OnlineUser();
 				user.setUserId(ONLINE_ID);
 				event.setUser(user);
 				return event;
@@ -1367,6 +1367,19 @@ public class TestLibrarianService {
 		assertEquals(true, events.get(0).getIsPrivate());
 		assertEquals(true, events.get(0).getIsAccepted());
 	}
+	@Test
+	public void testGetEventsByUserNoUser() {
+		List<Event> events = null;
+		String error = null;
+		try {
+			events = librarianService.getEventsByUser(100L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(events);
+		assertEquals("User does not exist.", error);
+	}
 	
 	@Test
 	public void testAcceptEvent() {
@@ -1376,6 +1389,20 @@ public class TestLibrarianService {
 		assertNotNull(event);
 		assertTrue(event.getIsAccepted());
 	}
+	@Test
+	public void testAcceptEventNoEvent() {
+		Event event = null;
+		String error = null;
+		
+		try {
+			event = librarianService.acceptEvent(100L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(event);
+		assertEquals("Event does not exist.", error);	
+	}
 	
 	@Test
 	public void testRejectEvent() {
@@ -1384,6 +1411,20 @@ public class TestLibrarianService {
 		
 		assertNotNull(event);
 		assertFalse(event.getIsAccepted());
+	}
+	@Test
+	public void testRejectEventNoEvent() {
+		Event event = null;
+		String error = null;
+		
+		try {
+			event = librarianService.rejectEvent(100L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(event);
+		assertEquals("Event does not exist.", error);	
 	}
 	
 }

@@ -114,7 +114,7 @@ public class LibrarianRestController {
 	public LibrarianDto getHeadLibrarian() {
 		return convertToDto(librarianService.getHeadLibrarian());
 	}
-	@GetMapping(value = {"/librarian", "/librarian/"})
+	@GetMapping(value = {"/librarians", "/librarians/"})
 	public List<LibrarianDto> getAllLibrarian() {
 		return librarianService.getAllLibrarians().stream().map(p -> convertToDto(p)).collect(Collectors.toList());	
 	}

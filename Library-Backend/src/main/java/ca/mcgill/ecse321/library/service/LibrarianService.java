@@ -15,22 +15,14 @@ import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
-import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Event;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
-import ca.mcgill.ecse321.library.model.Movie.BMGenre;
-import ca.mcgill.ecse321.library.model.Movie;
-import ca.mcgill.ecse321.library.model.Newspaper;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
-import ca.mcgill.ecse321.library.model.User;
-import ca.mcgill.ecse321.library.model.Album;
-import ca.mcgill.ecse321.library.model.Album.MusicGenre;
-import ca.mcgill.ecse321.library.model.Book;
 
 @Service
 public class LibrarianService {
@@ -47,17 +39,6 @@ public class LibrarianService {
 		ReservationRepository reservationRepository;
 		@Autowired
 		EventRepository eventRepository;
-		
-		@Autowired
-		AlbumService albumService;
-		@Autowired
-		BookService bookService;
-		@Autowired
-		MovieService movieService;
-		@Autowired
-		NewspaperService newspaperService;
-		@Autowired
-		EventService eventService;
 		
 		@Transactional
 		public Librarian createHeadLibrarian(String first, String last, String address, String email, String password, String username) throws IllegalArgumentException {
@@ -328,7 +309,12 @@ public class LibrarianService {
 		}
 //view bookings
 		@Transactional
-		public List<Event> getEventsByUser(Long id) {
+		public List<Event> getEventsByUser(Long id) throws IllegalArgumentException {
+			if (offlineUserRepository.findOfflineUserByUserId(id) == null) {
+				if (onlineUserRepository.findOnlineUserByUserId(id) == null) {
+					throw new IllegalArgumentException("User does not exist.");
+				}
+			}
 			List<Event> eventsByUser = new ArrayList<>();
 			Iterable<Event> allEvents = eventRepository.findAll();
 			for (Event e : allEvents) {
@@ -340,16 +326,18 @@ public class LibrarianService {
 		}
 //accept / reject bookings
 		@Transactional
-		public Event acceptEvent(Long id) {
+		public Event acceptEvent(Long id) throws IllegalArgumentException {
 			Event event = eventRepository.findEventByEventId(id);
+			if (event == null) throw new IllegalArgumentException("Event does not exist.");
 			event.setIsAccepted(true);
 			eventRepository.save(event);
 			return event;
 		}
 		
 		@Transactional
-		public Event rejectEvent(Long id) {
+		public Event rejectEvent(Long id) throws IllegalArgumentException {
 			Event event = eventRepository.findEventByEventId(id);
+			if (event == null) throw new IllegalArgumentException("Event does not exist.");
 			event.setIsAccepted(false);
 			eventRepository.save(event);
 			return event;
@@ -363,7 +351,7 @@ public class LibrarianService {
 			return resultList;
 		}
 
-		private void isLibrarian(String username) {
+		public void isLibrarian(String username) {
 			if (librarianRepository.findLibrarianByUsername(username) == null) throw new IllegalArgumentException("Librarian does not exist.");
 		}
 		
