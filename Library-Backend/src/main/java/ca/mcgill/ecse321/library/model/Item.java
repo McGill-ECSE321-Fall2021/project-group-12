@@ -110,6 +110,10 @@ public abstract class Item
     wasSet = true;
     return wasSet;
   }
+  
+  public void removeReservation() {
+	  this.reservation = null;
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

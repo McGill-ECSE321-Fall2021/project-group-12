@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.library.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +13,11 @@ import ca.mcgill.ecse321.library.dao.MovieRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
-import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Item;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
-import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
 @Service
 public class ReservationService {
@@ -41,9 +38,15 @@ public class ReservationService {
 		if(items == null || items.isEmpty() == true || user == null || timeSlot == null) {
 			throw new IllegalArgumentException("Cannot create reservation with empty arguments.");
 		}
+		if(timeSlot.getEndDate() == null || timeSlot.getEndTime() == null || timeSlot.getStartDate() == null || timeSlot.getStartTime() == null) {
+			throw new IllegalArgumentException("Cannot create reservation with missing info in timeSlot.");
+		}
+		if(!timeSlot.getEndDate().after(timeSlot.getStartDate())) {
+			throw new IllegalArgumentException("Cannot create reservation with endDate before or equal to startDate.");
+		}
 		for(Item i : items) {
-			if(i.getIsReservable() == false) {
-				throw new IllegalArgumentException("At least one item selected is not reseverable");
+			if(i.getIsReservable() == false || i.getIsAvailable() == false || i.getIsArchive() == true) {
+				throw new IllegalArgumentException("At least one item selected is not reseverable.");
 			}
 		}
 		Reservation reservation = new Reservation();
@@ -80,31 +83,41 @@ public class ReservationService {
 		if(items == null || items.isEmpty() == true || reservation == null || timeSlot == null) {
 			throw new IllegalArgumentException("Cannot update reservation with empty arguments.");
 		}
-		for(Item i : items) {
-			if(i.getIsReservable() == false) {
-				throw new IllegalArgumentException("At least one item selected is not reseverable");
-			}
+		if(timeSlot.getEndDate() == null || timeSlot.getEndTime() == null || timeSlot.getStartDate() == null || timeSlot.getStartTime() == null) {
+			throw new IllegalArgumentException("Cannot create reservation with missing info in timeSlot.");
+		}
+		if(!timeSlot.getEndDate().after(timeSlot.getStartDate())) {
+			throw new IllegalArgumentException("Cannot create reservation with endDate before or equal to startDate.");
+		}
+		TimeSlot oldTimeSlot = reservation.getTimeSlot();
+		if(timeSlot.getStartDate().before(oldTimeSlot.getEndDate())) {
+			throw new IllegalArgumentException("Cannot update reservation with newStartDate before oldEndDate.");
 		}
 		List<Item> preItems = reservation.getItems();
 		for(Item i : preItems) {
 			if(i instanceof Book) {
 				Book book = (Book) i;
-				book.setReservation(null);
+				book.removeReservation();
 				book.setIsAvailable(true);
 				book.setIsReservable(true);
 				bookRepository.save(book);
 			} else if(i instanceof Movie) {
 				Movie movie = (Movie) i;
-				movie.setReservation(null);
+				movie.removeReservation();
 				movie.setIsAvailable(true);
 				movie.setIsReservable(true);
 				movieRepository.save(movie);
 			} else {
 				Album album = (Album) i;
-				album.setReservation(null);
+				album.removeReservation();
 				album.setIsAvailable(true);
 				album.setIsReservable(true);
 				albumRepository.save(album);
+			}
+		}
+		for(Item i : items) {
+			if(i.getIsReservable() == false) {
+				throw new IllegalArgumentException("At least one item selected is not reseverable");
 			}
 		}
 		reservation.setItems(items);
@@ -143,25 +156,26 @@ public class ReservationService {
 		for(Item i : items) {
 			if(i instanceof Book) {
 				Book book = (Book) i;
-				book.setReservation(null);
+				book.removeReservation();
 				book.setIsAvailable(true);
 				book.setIsReservable(true);
 				bookRepository.save(book);
 			} else if(i instanceof Movie) {
 				Movie movie = (Movie) i;
-				movie.setReservation(null);
+				movie.removeReservation();
 				movie.setIsAvailable(true);
 				movie.setIsReservable(true);
 				movieRepository.save(movie);
 			} else {
 				Album album = (Album) i;
-				album.setReservation(null);
+				album.removeReservation();
 				album.setIsAvailable(true);
 				album.setIsReservable(true);
 				albumRepository.save(album);
 			}
 		}
 		reservationRepository.delete(reservation);
+		reservation.removeReservation();
 	}
 	
 	
