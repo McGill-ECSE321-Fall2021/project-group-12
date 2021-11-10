@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.library.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,36 +10,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.library.dao.AlbumRepository;
 import ca.mcgill.ecse321.library.dao.BookRepository;
-import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.MovieRepository;
-import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
-import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.ReservationRepository;
-import ca.mcgill.ecse321.library.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.library.model.Album;
 import ca.mcgill.ecse321.library.model.Book;
+import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Item;
-import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.Movie;
-import ca.mcgill.ecse321.library.model.OfflineUser;
-import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
+import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 
 @Service
 public class ReservationService {
 	
 	@Autowired
 	ReservationRepository reservationRepository;
-	@Autowired
-	TimeSlotRepository timeSlotRepository;
-	@Autowired
-	OnlineUserRepository onlineUserRepository;
-	@Autowired
-	OfflineUserRepository offlineUserRepository;
-	@Autowired
-	LibrarianRepository librarianRepository;
 	@Autowired
 	BookRepository bookRepository;
 	@Autowired
@@ -62,27 +50,26 @@ public class ReservationService {
 		reservation.setItems(items);
 		reservation.setUser(user);
 		reservation.setTimeSlot(timeSlot);
-		timeSlotRepository.save(timeSlot);
 		for(Item i : items) {
-			i.setReservation(reservation);
-			i.setIsAvailable(false);
-			i.setIsReservable(false);
-			if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				bookRepository.save((Book) i);
-			} else if(movieRepository.findMovieByItemId(i.getItemId()) != null) {
-				movieRepository.save((Movie) i);
+			if(i instanceof Book) {
+				Book book = (Book) i;
+				book.setReservation(reservation);
+				book.setIsAvailable(false);
+				book.setIsReservable(false);
+				bookRepository.save(book);
+			} else if(i instanceof Movie) {
+				Movie movie = (Movie) i;
+				movie.setReservation(reservation);
+				movie.setIsAvailable(false);
+				movie.setIsReservable(false);
+				movieRepository.save(movie);
 			} else {
-				albumRepository.save((Album) i);
+				Album album = (Album) i;
+				album.setReservation(reservation);
+				album.setIsAvailable(false);
+				album.setIsReservable(false);
+				albumRepository.save(album);
 			}
-		}
-//		user.addReservation(reservation);
-		reservation.setUser(user);
-		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
-			offlineUserRepository.save((OfflineUser) user);
-		} else if (onlineUserRepository.findOnlineUserByUserId(user.getUserId()) != null) {
-			onlineUserRepository.save((OnlineUser) user);
-		} else {
-			librarianRepository.save((Librarian) user);
 		}
 		reservationRepository.save(reservation);
 		return reservation;	
@@ -100,31 +87,47 @@ public class ReservationService {
 		}
 		List<Item> preItems = reservation.getItems();
 		for(Item i : preItems) {
-			i.setReservation(null);
-			i.setIsAvailable(true);
-			i.setIsReservable(true);
-			if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				bookRepository.save((Book) i);
-			} else if(movieRepository.findMovieByItemId(i.getItemId()) != null) {
-				movieRepository.save((Movie) i);
+			if(i instanceof Book) {
+				Book book = (Book) i;
+				book.setReservation(null);
+				book.setIsAvailable(true);
+				book.setIsReservable(true);
+				bookRepository.save(book);
+			} else if(i instanceof Movie) {
+				Movie movie = (Movie) i;
+				movie.setReservation(null);
+				movie.setIsAvailable(true);
+				movie.setIsReservable(true);
+				movieRepository.save(movie);
 			} else {
-				albumRepository.save((Album) i);
+				Album album = (Album) i;
+				album.setReservation(null);
+				album.setIsAvailable(true);
+				album.setIsReservable(true);
+				albumRepository.save(album);
 			}
 		}
-		timeSlotRepository.delete(reservation.getTimeSlot());
-		timeSlotRepository.save(timeSlot);
 		reservation.setItems(items);
 		reservation.setTimeSlot(timeSlot);
 		for(Item i : items) {
-			i.setReservation(reservation);
-			i.setIsAvailable(false);
-			i.setIsReservable(false);
-			if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				bookRepository.save((Book) i);
-			} else if(movieRepository.findMovieByItemId(i.getItemId()) != null) {
-				movieRepository.save((Movie) i);
+			if(i instanceof Book) {
+				Book book = (Book) i;
+				book.setReservation(reservation);
+				book.setIsAvailable(false);
+				book.setIsReservable(false);
+				bookRepository.save(book);
+			} else if(i instanceof Movie) {
+				Movie movie = (Movie) i;
+				movie.setReservation(reservation);
+				movie.setIsAvailable(false);
+				movie.setIsReservable(false);
+				movieRepository.save(movie);
 			} else {
-				albumRepository.save((Album) i);
+				Album album = (Album) i;
+				album.setReservation(reservation);
+				album.setIsAvailable(false);
+				album.setIsReservable(false);
+				albumRepository.save(album);
 			}
 		}
 		reservationRepository.save(reservation);
@@ -136,28 +139,26 @@ public class ReservationService {
 		if(reservation == null) {
 			throw new IllegalArgumentException("The input is empty.");
 		}
-		User user = reservation.getUser();
-		TimeSlot timeSlot = reservation.getTimeSlot();
 		List<Item> items = reservation.getItems();
-//		user.getReservations().remove(reservation);
-		if(offlineUserRepository.findOfflineUserByUserId(user.getUserId()) != null) {
-			offlineUserRepository.save((OfflineUser) user);
-		} else if(onlineUserRepository.findOnlineUserByUserId(user.getUserId()) != null) {
-			onlineUserRepository.save((OnlineUser) user);
-		} else {
-			librarianRepository.save((Librarian) user);
-		}
-		timeSlotRepository.delete(timeSlot);
 		for(Item i : items) {
-			i.setReservation(null);
-			i.setIsAvailable(true);
-			i.setIsReservable(true);
-			if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				bookRepository.save((Book) i);
-			} else if(movieRepository.findMovieByItemId(i.getItemId()) != null) {
-				movieRepository.save((Movie) i);
+			if(i instanceof Book) {
+				Book book = (Book) i;
+				book.setReservation(null);
+				book.setIsAvailable(true);
+				book.setIsReservable(true);
+				bookRepository.save(book);
+			} else if(i instanceof Movie) {
+				Movie movie = (Movie) i;
+				movie.setReservation(null);
+				movie.setIsAvailable(true);
+				movie.setIsReservable(true);
+				movieRepository.save(movie);
 			} else {
-				albumRepository.save((Album) i);
+				Album album = (Album) i;
+				album.setReservation(null);
+				album.setIsAvailable(true);
+				album.setIsReservable(true);
+				albumRepository.save(album);
 			}
 		}
 		reservationRepository.delete(reservation);
