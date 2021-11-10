@@ -6,8 +6,17 @@ public abstract class UserDto {
 	private String lastName;
 	private String address;
 	private boolean isLocal;
+	private Long userId;
 	
-    public String getFirstName() {
+    public Long getUserId() {
+    	return userId;
+    }
+    public boolean setUserId(Long userId) {
+    	this.userId = userId;
+    	return true;
+    }
+	
+	public String getFirstName() {
         return firstname;
     }
 

@@ -5,7 +5,6 @@ public class OnlineUserDto extends UserDto{
     private String username;
     private String password;
     private String email;
-    private Long userId;
     
     public OnlineUserDto() {}
 
@@ -17,6 +16,7 @@ public class OnlineUserDto extends UserDto{
         this.username = username;
         this.password = password;
         this.email = email;
+        this.setUserId(userId);
     }
 
     public String getUsername() {
@@ -42,14 +42,5 @@ public class OnlineUserDto extends UserDto{
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
    
 }
