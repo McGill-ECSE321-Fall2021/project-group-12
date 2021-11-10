@@ -21,6 +21,14 @@ public class Reservation
 	  return true;
   }
   
+  public void removeReservation() {
+	  this.items = null;
+	  this.user = null;
+	  this.timeSlot = null;
+	  this.reservationId = null;
+	  this.libraryApplicationSystem = null;
+  }
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getReservationId() {

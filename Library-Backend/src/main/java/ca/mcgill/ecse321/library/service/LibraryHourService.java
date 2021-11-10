@@ -49,7 +49,9 @@ public class LibraryHourService {
 		if(!librarian.getLibraryHours().contains(libraryHour)) {
 			throw new IllegalArgumentException("Targeting librarian does not have such libraryHour.");
 		}
-		librarian.getLibraryHours().remove(libraryHour);
+		List<LibraryHour> updatedLibraryHours = librarian.getLibraryHours();
+		updatedLibraryHours.remove(libraryHour);
+		librarian.setLibraryHours(updatedLibraryHours);
 		librarianRepository.save(librarian);
 		libraryHourRepository.delete(libraryHour);
 		return libraryHour;

@@ -6,9 +6,6 @@ public class ReservationDto {
 	
 	private Long reservationId;
 	private List<ItemDto> items;
-	private List<BookDto> books;
-	private List<AlbumDto> albums;
-	private List<MovieDto> movies;
 	private UserDto user;
 	private TimeSlotDto timeSlot;
 	
@@ -29,30 +26,6 @@ public class ReservationDto {
 	
 	public void setItems(List<ItemDto> items) {
 		this.items = items;
-	}
-	
-	public List<BookDto> getBooks() {
-		return this.books;
-	}
-	
-	public void setBooks(List<BookDto> books) {
-		this.books = books;
-	}
-	
-	public List<AlbumDto> getAlbums() {
-		return this.albums;
-	}
-	
-	public void setAlbums(List<AlbumDto> albums) {
-		this.albums = albums;
-	}
-	
-	public List<MovieDto> getMobies() {
-		return this.movies;
-	}
-	
-	public void setMovies(List<MovieDto> movies) {
-		this.movies = movies;
 	}
 	
 	public TimeSlotDto getTimeSlot() {
