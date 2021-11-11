@@ -53,7 +53,10 @@ import ca.mcgill.ecse321.library.service.CreatorService;
 import ca.mcgill.ecse321.library.service.EventService;
 import ca.mcgill.ecse321.library.service.MovieService;
 import ca.mcgill.ecse321.library.service.NewspaperService;
+import ca.mcgill.ecse321.library.service.OfflineUserService;
+import ca.mcgill.ecse321.library.service.OnlineUserService;
 import ca.mcgill.ecse321.library.service.ReservationService;
+import ca.mcgill.ecse321.library.service.TimeSlotService;
 import ca.mcgill.ecse321.library.service.LibrarianService;
 
 import java.sql.Date;
@@ -85,6 +88,12 @@ public class LibrarianRestController {
 	@Autowired
 	private EventService eventService;
 	@Autowired
+	private TimeSlotService timeSlotService;
+	@Autowired
+	private OnlineUserService onlineUserService;
+	@Autowired
+	private OfflineUserService offlineUserService;
+	@Autowired
 	OnlineUserRepository onlineUserRepository;
 	@Autowired
 	OfflineUserRepository offlineUserRepository;
@@ -99,17 +108,14 @@ public class LibrarianRestController {
 	@Autowired
 	MovieRepository movieRepository;
 	
-	//done
 	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
 	public LibrarianDto createHeadLibrarian(@RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createHeadLibrarian(first, last, address, email, password, username));
 	}
-	//done
 	@PostMapping(value = {"/librarian/create", "/librarian/create/"})
 	public LibrarianDto createLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createLibrarian(librarianUsername, first, last, address, email, password, username));
 	}
-	//done
 	@PutMapping(value = {"/librarian/update/{oldUsername}", "/librarian/update/{oldUsername}"})
 	public LibrarianDto updateLibrarian(@PathVariable("oldUsername") String oldUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="isHead") boolean isHead) {
 		return convertToDto(librarianService.updateLibrarian(oldUsername, first, last, address, email, password, username, isHead));
@@ -123,7 +129,6 @@ public class LibrarianRestController {
 	public LibrarianDto getLibrarianByUsername(@PathVariable("username") String username) {
 		return convertToDto(librarianService.getLibrarian(username));
 	}
-	//done
 	@GetMapping(value = {"/librarian/head", "/librarian/head/"})
 	public LibrarianDto getHeadLibrarian() {
 		return convertToDto(librarianService.getHeadLibrarian());
@@ -165,7 +170,6 @@ public class LibrarianRestController {
 		OnlineUser onlineUser = librarianService.changePassword(username, oldPassword, newPassword);
 		return convertToDto(onlineUser);
 	}
-//make optional requests?
 	@PutMapping(value = {"/librarian/offline/update/{id}", "/librarian/offline/update/{id}/"})
 	public OfflineUserDto updateOfflineUser(@PathVariable("id") Long id, @RequestParam(value="address") String address, @RequestParam(value="isLocal") boolean isLocal) {
 		OfflineUser offlineUser = librarianService.updateOfflineUserInformation(id, address, isLocal);
@@ -280,8 +284,17 @@ public class LibrarianRestController {
 	}
 	
 	@PutMapping(value = {"/librarian/event/update/{eventId}", "/librarian/event/update/{eventId}/"})
-	public EventDto updateEvent(@PathVariable("eventId") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
-		return convertToDto(eventService.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
+	public EventDto updateEvent(@PathVariable("eventId") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
+		User user;
+		if (offlineUserService.getOfflineUser(userId)!=null) {
+			user = offlineUserService.getOfflineUser(userId);
+			
+		} else if (onlineUserService.getOnlineUser(userId)!= null){
+			user = onlineUserService.getOnlineUser(userId);
+		} else {
+			user = librarianService.getLibrarian(userId);
+		}
+		return convertToDto(eventService.updateEvent(Id, name, timeSlotService.getTimeSlot(timeSlot), isPrivate, isAccepted, user));
 	}
 	@PutMapping(value = {"/librarian/event/accept/{eventId}", "/librarian/event/accept/{eventId}/"})
 	public EventDto acceptEvent(@PathVariable("eventId") Long eventId) {
