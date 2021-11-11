@@ -37,6 +37,7 @@ import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
+import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
@@ -266,21 +267,6 @@ public class TestLibrarianService {
 		    offlineUser.setUserId(ONLINE_ID);
 			reservation.setUser(offlineUser);
 			return reservation;
-		} else {
-			return null;
-		}
-	});
-		lenient().when(reservationDao.findByUser(anyLong()))
-		.thenAnswer( (InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(ONLINE_ID)) {
-		    Reservation reservation = new Reservation();
-		    reservation.setReservationId(RESERVATION_ID);
-		    OfflineUser offlineUser = new OfflineUser();
-		    offlineUser.setUserId(ONLINE_ID);
-			reservation.setUser(offlineUser);
-			List<Reservation> reservations = new ArrayList<>();
-			reservations.add(reservation);
-			return reservations;
 		} else {
 			return null;
 		}
