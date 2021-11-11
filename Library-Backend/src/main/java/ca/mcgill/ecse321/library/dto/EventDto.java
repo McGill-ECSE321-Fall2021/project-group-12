@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.library.dto;
 
-import ca.mcgill.ecse321.library.model.TimeSlot;
-import ca.mcgill.ecse321.library.model.User;
-
 public class EventDto { 
 	
 	private String name;

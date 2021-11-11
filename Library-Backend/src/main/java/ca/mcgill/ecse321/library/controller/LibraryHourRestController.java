@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.library.dto.LibraryHourDto;
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dto.LibrarianDto;
-import ca.mcgill.ecse321.library.dto.ReservationDto;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
-import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.service.LibraryHourService;
 
 @CrossOrigin(origins = "*")

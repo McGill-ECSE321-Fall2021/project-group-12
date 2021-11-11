@@ -472,8 +472,8 @@ public class TestEventService {
 		assertEquals("Name", event.getName());
 		assertNotNull(timeSlot);
 		assertEquals(100L, event.getTimeSlot().getTimeSlotId());
-		assertEquals(!isPrivate, event.getIsPrivate());
-		assertEquals(!isAccepted, event.getIsAccepted());
+		assertEquals(false, event.getIsPrivate());
+		assertEquals(false, event.getIsAccepted());
 		assertNotNull(user);
 		assertEquals(200L, event.getUser().getUserId());
 		assertEquals(error, "An Event cannot have an empty name.");

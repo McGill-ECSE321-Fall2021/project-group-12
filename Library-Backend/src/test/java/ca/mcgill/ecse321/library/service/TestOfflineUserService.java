@@ -10,11 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -117,33 +114,6 @@ public class TestOfflineUserService {
                     }
                 });
 
-        lenient().when(bookRepository.findBookByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-                        Book book = new Book();
-                        book.setNumPages(1);
-                        book.setGenre(Book.BMGenre.Action);
-
-                        return book;
-                    }
-                    else{
-                        return null;
-                    }
-                });
-
-        lenient().when(movieRepository.findMovieByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-                        Movie movie = new Movie();
-                        movie.setDuration(1);
-                        movie.setGenre(Movie.BMGenre.Action);
-                        return movie;
-                    }
-                    else {
-                        return null;
-                    }
-                });
-
         lenient().when(eventRepository.findEventByEventId(anyLong()))
                 .thenAnswer((InvocationOnMock invocation) -> {
                     if(invocation.getArgument(0).equals(EVENT_ID)) {
@@ -160,34 +130,6 @@ public class TestOfflineUserService {
                         return event;
                     } else {
                         return null;
-                    }
-                });
-
-        lenient().when(newspaperRepository.findByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-
-                        Reservation reservation = new Reservation();
-                        Newspaper newspaper = new Newspaper();
-
-                        newspaper.setReservation(reservation);
-                        return newspaper;
-                    } else {
-                        return null;
-                    }
-                });
-
-
-        Answer<?> returningAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
-
-        lenient().when(albumRepository.existsById(any()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-                        return true;
-                    } else {
-                        return false;
                     }
                 });
 
@@ -228,11 +170,6 @@ public class TestOfflineUserService {
                         return null;
                     }
                 });
-
-
-        lenient().when(offlineUserRepository.save(any(OfflineUser.class))).thenAnswer(returningAnswer);
-        lenient().when(reservationRepository.save(any())).thenAnswer(returningAnswer);
-        lenient().when(eventRepository.save(any(Event.class))).thenAnswer(returningAnswer);
 
     }
 
@@ -375,35 +312,35 @@ public class TestOfflineUserService {
     @Test
     public void testUpdateOfflineUserWithNotNullFields() {
         assertEquals(0, offlineUserService.getAllOfflineUsers().size());
-        OfflineUser testOfflineeUser = new OfflineUser();
+        OfflineUser testOfflineUser = new OfflineUser();
         String firstName = "testFirstName";
         String lastName = "testLastName";
         String address = "testAddress";
         boolean isLocal = true;
 
-        testOfflineeUser.setFirstName(firstName);
-        testOfflineeUser.setLastName(lastName);
-        testOfflineeUser.setAddress(address);
-        testOfflineeUser.setIsLocal(isLocal);
+        testOfflineUser.setFirstName(firstName);
+        testOfflineUser.setLastName(lastName);
+        testOfflineUser.setAddress(address);
+        testOfflineUser.setIsLocal(isLocal);
 
-        testOfflineeUser = offlineUserService.createOfflineUser(firstName, lastName, address, isLocal);
-        testOfflineeUser.setUserId(OFFLINE_USER_ID);
+        testOfflineUser = offlineUserService.createOfflineUser(firstName, lastName, address, isLocal);
+        testOfflineUser.setUserId(OFFLINE_USER_ID);
         firstName = "testFirstName1";
         lastName = "testLastName1";
         address = "testAddress1";
         isLocal = false;
 
         try {
-            testOfflineeUser = offlineUserService.updateOfflineUser(OFFLINE_USER_ID, firstName, lastName, address, isLocal);
+            testOfflineUser = offlineUserService.updateOfflineUser(OFFLINE_USER_ID, firstName, lastName, address, isLocal);
         } catch (IllegalArgumentException e) {
             fail();
         }
 
-        assertNotNull(testOfflineeUser);
-        assertEquals(firstName, testOfflineeUser.getFirstName());
-        assertEquals(lastName, testOfflineeUser.getLastName());
-        assertEquals(isLocal, testOfflineeUser.getIsLocal());
-        assertEquals(address, testOfflineeUser.getAddress());
+        assertNotNull(testOfflineUser);
+        assertEquals(firstName, testOfflineUser.getFirstName());
+        assertEquals(lastName, testOfflineUser.getLastName());
+        assertEquals(isLocal, testOfflineUser.getIsLocal());
+        assertEquals(address, testOfflineUser.getAddress());
 
     }
 
@@ -433,28 +370,29 @@ public class TestOfflineUserService {
     @Test
     public void testGetOfflineUserWithException() {
         assertEquals(0, offlineUserService.getAllOfflineUsers().size());
-        OfflineUser testOfflineeUser = new OfflineUser();
+        OfflineUser testOfflineUser = new OfflineUser();
         String firstName = "testFirstName";
         String lastName = "testLastName";
         String address = "testAddress";
         boolean isLocal = true;
         String exception = "";
 
-        testOfflineeUser.setFirstName(firstName);
-        testOfflineeUser.setLastName(lastName);
-        testOfflineeUser.setAddress(address);
-        testOfflineeUser.setIsLocal(isLocal);
+        testOfflineUser.setFirstName(firstName);
+        testOfflineUser.setLastName(lastName);
+        testOfflineUser.setAddress(address);
+        testOfflineUser.setIsLocal(isLocal);
 
-        testOfflineeUser = offlineUserService.createOfflineUser(firstName, lastName, address, isLocal);
-
+        testOfflineUser = offlineUserService.createOfflineUser(firstName, lastName, address, isLocal);
+        Long id = testOfflineUser.getUserId();
+        testOfflineUser = null;
         try {
-            OfflineUser testOfflineeUser2 = offlineUserService.getOfflineUser(testOfflineeUser.getUserId());
+            testOfflineUser = offlineUserService.getOfflineUser(id);
         } catch (IllegalArgumentException e) {
             exception = e.getMessage();
-            testOfflineeUser = null;
+            testOfflineUser = null;
         }
 
-        assertNull(testOfflineeUser);
+        assertNull(testOfflineUser);
         assertEquals("Offline user does not exist.", exception);
     }
 
@@ -550,14 +488,12 @@ public class TestOfflineUserService {
 
         List<Long> items = new ArrayList<>();
         items.add(ITEM_ID);
-        Reservation reservation;
-        String exception = "";
+        Reservation reservation = null;
 
         try {
             reservation = offlineUserService.reserveItems(OFFLINE_USER_ID, items, TIMESLOT_ID);
         } catch (IllegalArgumentException e) {
-            reservation = null;
-            exception = e.getMessage();
+        	fail();
         }
 
         assertNotNull(reservation);
@@ -621,18 +557,16 @@ public class TestOfflineUserService {
         reservations.add(reservation2);
         lenient().when(reservationRepository.findAll()).thenReturn(reservations);
 
-        List<Reservation> reservation;
-        String exception = "";
+        reservations = null;
 
         try {
-            reservation = offlineUserService.getReservations(OFFLINE_USER_ID);
+            reservations = offlineUserService.getReservations(OFFLINE_USER_ID);
         } catch (IllegalArgumentException e) {
-            reservation = null;
-            exception = e.getMessage();
+            reservations = null;
         }
 
-        assertNotNull(reservation);
-        assertEquals(2, reservation.size());
+        assertNotNull(reservations);
+        assertEquals(2, reservations.size());
     }
 
 
@@ -1004,13 +938,11 @@ public class TestOfflineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(events);
 
         List<Event> actualEvents;
-        String exception = "";
 
         try {
             actualEvents = offlineUserService.getRequests(OFFLINE_USER_ID);
         } catch (IllegalArgumentException e) {
             actualEvents = null;
-            exception = e.getMessage();
         }
 
         assertNotNull(actualEvents);
@@ -1074,13 +1006,11 @@ public class TestOfflineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(events);
 
         List<Event> actualEvents;
-        String exception = "";
 
         try {
             actualEvents = offlineUserService.getEvents(OFFLINE_USER_ID);
         } catch (IllegalArgumentException e) {
             actualEvents = null;
-            exception = e.getMessage();
         }
 
         assertNotNull(actualEvents);

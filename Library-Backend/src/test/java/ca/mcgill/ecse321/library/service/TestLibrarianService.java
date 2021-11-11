@@ -14,7 +14,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -37,7 +36,6 @@ import ca.mcgill.ecse321.library.dao.ReservationRepository;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
-import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;

@@ -2,9 +2,6 @@ package ca.mcgill.ecse321.library.model;
 
 import javax.persistence.*;
 
-
-import java.util.*;
-
 @Entity
 @Table(name = "Users")
 @Inheritance(strategy=InheritanceType.JOINED)

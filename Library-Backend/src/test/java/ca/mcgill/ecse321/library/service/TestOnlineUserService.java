@@ -33,7 +33,6 @@ public class TestOnlineUserService {
     private static final Long TIMESLOT_ID = 333L;
     private static final Long RESERVATION_ID = 444L;
     private static final Long EVENT_ID = 555L;
-    private static final String TITLE_STRING = "TestTitle";
 
     @Mock
     private OnlineUserRepository onlineUserRepository;
@@ -129,117 +128,6 @@ public class TestOnlineUserService {
                         return album;
                     }
                     else {
-                        return null;
-                    }
-                });
-
-        lenient().when(bookRepository.findBookByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-                        Book book = new Book();
-                        book.setNumPages(1);
-                        book.setGenre(Book.BMGenre.Action);
-                        book.setItemId(ITEM_ID);
-                        return book;
-                    } else {
-                        return null;
-                    }
-                });
-
-        lenient().when(movieRepository.findMovieByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(ITEM_ID)) {
-                        Movie movie = new Movie();
-                        movie.setDuration(1);
-                        movie.setGenre(Movie.BMGenre.Action);
-                        movie.setItemId(ITEM_ID);
-                        return movie;
-                    } else {
-                        return null;
-                    }
-                });
-
-        lenient().when(newspaperRepository.findByItemId(anyLong()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                   if(invocation.getArgument(0).equals(ITEM_ID)) {
-                       Newspaper newspaper = new Newspaper();
-                       newspaper.setItemId(ITEM_ID);
-
-                       return newspaper;
-                   } else {
-                       return null;
-                   }
-                });
-
-        lenient().when(albumRepository.findAlbumByTitle(anyString()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(TITLE_STRING)) {
-
-                        List<Album> albums = new ArrayList<>();
-                        Album album = new Album();
-                        album.setNumSongs(1);
-                        album.setGenre(Album.MusicGenre.Classical);
-                        album.setTitle(TITLE_STRING);
-                        album.setItemId(ITEM_ID);
-
-                        albums.add(album);
-                        return albums;
-                    }
-                    else {
-                        return null;
-                    }
-                });
-
-        lenient().when(bookRepository.findBookByTitle(anyString()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(TITLE_STRING)) {
-                        List<Book> books = new ArrayList<>();
-
-                        Book book = new Book();
-                        book.setNumPages(1);
-                        book.setTitle(TITLE_STRING);
-                        book.setGenre(Book.BMGenre.Action);
-                        book.setItemId(ITEM_ID);
-
-                        books.add(book);
-                        return books;
-                    } else {
-                        return null;
-                    }
-                });
-
-        lenient().when(movieRepository.findMovieByTitle(anyString()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(TITLE_STRING)) {
-                        List<Movie> movies = new ArrayList<>();
-
-                        Movie movie = new Movie();
-                        movie.setDuration(1);
-                        movie.setTitle(TITLE_STRING);
-                        movie.setGenre(Movie.BMGenre.Action);
-                        movie.setItemId(ITEM_ID);
-
-                        movies.add(movie);
-
-                        return movies;
-                    } else {
-                        return null;
-                    }
-                });
-
-        lenient().when(newspaperRepository.findNewspaperByTitle(anyString()))
-                .thenAnswer((InvocationOnMock invocation) -> {
-                    if(invocation.getArgument(0).equals(TITLE_STRING)) {
-                        List<Newspaper> newspapers = new ArrayList<>();
-
-                        Newspaper newspaper = new Newspaper();
-                        newspaper.setItemId(ITEM_ID);
-                        newspaper.setTitle(TITLE_STRING);
-
-                        newspapers.add(newspaper);
-
-                        return newspapers;
-                    } else {
                         return null;
                     }
                 });
@@ -463,7 +351,6 @@ public class TestOnlineUserService {
         String address = "testAddress";
         String userName = "testUsername";
         boolean isLocal = true;
-        String password = "testPassword";
         String email = "test@testemail.com";
 
         OnlineUser user = null;
@@ -574,13 +461,11 @@ public class TestOnlineUserService {
         String email = "test@testemail.com";
         String username = "testUsername";
         OnlineUser actualOnlineUser = null;
-        String exception = "";
 
         try {
             actualOnlineUser = onlineUserService.createOnlineUser(firstName, lastName, address, isLocal, username, password, email);
         } catch (IllegalArgumentException e) {
             testOnlineUser = null;
-            exception = e.getMessage();
         }
 
         assertNotNull(actualOnlineUser);
@@ -1214,7 +1099,6 @@ public class TestOnlineUserService {
         assertEquals(0, onlineUserService.getAllOnlineUsers().size());
 
         Long userId = 1L;
-        List<Long> itemIds = null;
 
         Long timeSlotId = 333L;
 
@@ -1791,13 +1675,12 @@ public class TestOnlineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(expectedEvents);
         Long userId = ONLINE_USER_ID;
 
-        String exception = "";
         List<Event> events = null;
 
         try {
             events = onlineUserService.getRequests(userId);
         } catch(IllegalArgumentException e) {
-            exception = e.getMessage();
+        	fail();
         }
 
         assertNotNull(events);
@@ -1827,13 +1710,12 @@ public class TestOnlineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(expectedEvents);
         String username = ONLINE_USER_USERNAME;
 
-        String exception = "";
         List<Event> events = null;
 
         try {
             events = onlineUserService.getRequests(username);
         } catch(IllegalArgumentException e) {
-            exception = e.getMessage();
+        	fail();
         }
 
         assertNotNull(events);
@@ -1864,13 +1746,12 @@ public class TestOnlineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(expectedEvents);
         Long userId = ONLINE_USER_ID;
 
-        String exception = "";
         List<Event> events = null;
 
         try {
             events = onlineUserService.getEvents(userId);
         } catch(IllegalArgumentException e) {
-            exception = e.getMessage();
+        	fail();
         }
 
         assertNotNull(events);
@@ -1901,13 +1782,12 @@ public class TestOnlineUserService {
         lenient().when(eventRepository.findAll()).thenReturn(expectedEvents);
         String username = ONLINE_USER_USERNAME;
 
-        String exception = "";
         List<Event> events = null;
 
         try {
             events = onlineUserService.getEvents(username);
         } catch(IllegalArgumentException e) {
-            exception = e.getMessage();
+        	fail();
         }
 
         assertNotNull(events);

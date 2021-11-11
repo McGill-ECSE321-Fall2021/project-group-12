@@ -166,7 +166,6 @@ public abstract class Item
       return wasSet;
     }
 
-    Creator existingCreator = creator;
     creator = aCreator;
     wasSet = true;
     return wasSet;

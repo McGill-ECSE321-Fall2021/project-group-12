@@ -112,12 +112,11 @@ public class CreatorService {
 
 	@Transactional
 	public List<Item> getItemsByCreator(Long creatorId){
-		Creator creator = creatorRepository.findCreatorByCreatorId(creatorId);
 		List<Item> items = new ArrayList<Item>();
 		if (movieRepository != null) {
 			List<Movie> movies = toList(movieRepository.findAll());
 			for (Movie m:movies) {
-				if (m.getCreator().equals(creator)) {
+				if (m.getCreator()!=null && m.getCreator().getCreatorId().equals(creatorId)) {
 					items.add(m);
 				}
 			}
@@ -125,7 +124,7 @@ public class CreatorService {
 		if (albumRepository != null) {
 			List<Album> albums = toList(albumRepository.findAll());
 			for (Album a:albums) {
-				if (a.getCreator().equals(creator)) {
+				if (a.getCreator() != null && a.getCreator().getCreatorId().equals(creatorId)) {
 					items.add(a);
 				}
 			}
@@ -133,7 +132,7 @@ public class CreatorService {
 		if (bookRepository != null) {
 			List<Book> books = toList(bookRepository.findAll());
 			for (Book b:books) {
-				if (b.getCreator().equals(creator)) {
+				if (b.getCreator() != null && b.getCreator().getCreatorId().equals(creatorId)) {
 					items.add(b);
 				}
 			}
@@ -141,7 +140,7 @@ public class CreatorService {
 		if (newspaperRepository != null) {
 			List<Newspaper> newspapers = toList(newspaperRepository.findAll());
 			for (Newspaper n:newspapers) {
-				if (n.getCreator().equals(creator)) {
+				if (n.getCreator() != null && n.getCreator().getCreatorId().equals(creatorId)) {
 					items.add(n);
 				}
 			}

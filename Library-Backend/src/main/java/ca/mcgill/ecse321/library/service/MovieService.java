@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.library.dao.MovieRepository;
-import ca.mcgill.ecse321.library.model.Book;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Movie;
 import ca.mcgill.ecse321.library.model.Movie.BMGenre;

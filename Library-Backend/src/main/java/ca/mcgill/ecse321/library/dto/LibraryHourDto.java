@@ -15,7 +15,6 @@ public class LibraryHourDto {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public LibraryHourDto(Time startTime, Time endTime, Day day, Long libraryHourId) {
 		this.startTime = startTime;
 		this.endTime = endTime;
