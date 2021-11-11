@@ -10,9 +10,7 @@ import ca.mcgill.ecse321.library.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReservationRepository extends CrudRepository<Reservation, User>{
+public interface ReservationRepository extends CrudRepository<Reservation, Long>{
 	
-	Reservation findReservationByReservationId(Long reservationId);
-	List<Reservation> findByUser(User user);
-	
+	Reservation findReservationByReservationId(Long reservationId);	
 }

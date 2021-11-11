@@ -238,7 +238,7 @@ public class LibrarianService {
 		public OnlineUser changePassword(String username, String oldPassword, String newPassword) throws IllegalArgumentException {
 			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUsername(username);
 			if (foundOnlineUser == null) throw new IllegalArgumentException("User does not exist.");
-			if (oldPassword == foundOnlineUser.getPassword()) {
+			if (!oldPassword.equals(foundOnlineUser.getPassword())) {
 				throw new IllegalArgumentException("Incorrect password.");
 			}
 			if (isValidPassword(newPassword)) foundOnlineUser.setPassword(newPassword);
@@ -282,17 +282,27 @@ public class LibrarianService {
 //view reservation
 		@Transactional
 		public List<Reservation> getReservationByUserId(Long id) throws IllegalArgumentException {
+			List<Reservation> result = new ArrayList<>();
+			Iterable<Reservation> reservations = reservationRepository.findAll();
 			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUserId(id);
 			OfflineUser foundOfflineUser = null;
 			if (foundOnlineUser == null) {
 				foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(id);
 			} else {
-				return reservationRepository.findByUser(foundOnlineUser);
+				for (Reservation r :reservations) {
+					if (r.getUser().getUserId() == id)
+						result.add(r);
+				}
+				return result;
 			}
 			if (foundOfflineUser == null) {
 				throw new IllegalArgumentException("User does not exist.");
 			} else {
-				return reservationRepository.findByUser(foundOfflineUser);
+				for (Reservation r :reservations) {
+					if (r.getUser().getUserId() == id)
+						result.add(r);
+				}
+				return result;
 			}
 		}
 //view times

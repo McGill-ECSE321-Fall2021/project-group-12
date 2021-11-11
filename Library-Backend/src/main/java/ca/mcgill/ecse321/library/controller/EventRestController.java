@@ -20,12 +20,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.library.dto.EventDto;
+import ca.mcgill.ecse321.library.dto.LibrarianDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
+import ca.mcgill.ecse321.library.dto.OnlineUserDto;
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.dto.UserDto;
 import ca.mcgill.ecse321.library.model.Event;
+import ca.mcgill.ecse321.library.model.Librarian;
+import ca.mcgill.ecse321.library.model.OfflineUser;
+import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
+import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
+import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -36,6 +44,10 @@ public class EventRestController {
 	private EventService service;
 	@Autowired
 	private TimeSlotService timeSlotService;
+	@Autowired
+	OfflineUserRepository offlineUserRepository;
+	@Autowired
+	OnlineUserRepository onlineUserRepository;
 	
 	
 	@GetMapping(value = { "/events", "/events/" })
@@ -84,15 +96,48 @@ public class EventRestController {
 		if (timeSlot == null) {
 			throw new IllegalArgumentException("TimeSlot does not exist");
 		}
-		TimeSlotDto timeSlotDto = new TimeSlotDto();
+		TimeSlotDto timeSlotDto = new TimeSlotDto(timeSlot.getStartTime(), timeSlot.getEndTime(), timeSlot.getStartDate(), timeSlot.getEndDate(), timeSlot.getTimeSlotId());
 		return timeSlotDto;
 	}
 	
 	private UserDto convertToDto(User user) {
 		if (user == null) {
-			throw new IllegalArgumentException("TimeSlot does not exist");
+			throw new IllegalArgumentException("User does not exist");
 		}
-		//UserDto userDto = new UserDto();
+		if (user instanceof Librarian) {
+			Librarian librarian = (Librarian) user;
+			LibrarianDto userDto = new LibrarianDto(librarian.getFirstName(),
+					librarian.getLastName(),
+					librarian.getAddress(),
+					librarian.getIsLocal(),
+					librarian.getUsername(),
+					librarian.getPassword(),
+					librarian.getEmail(),
+					librarian.getIsHead(),
+					librarian.getUserId());
+			return userDto;
+		}
+		if (user instanceof OnlineUser) {
+			OnlineUser onlineUser = (OnlineUser) user;
+			OnlineUserDto userDto = new OnlineUserDto(onlineUser.getFirstName(), 
+					onlineUser.getLastName(),
+					onlineUser.getAddress(),
+					onlineUser.getIsLocal(),
+					onlineUser.getUsername(),
+					onlineUser.getPassword(),
+					onlineUser.getEmail(),
+					onlineUser.getUserId());
+			return userDto;
+		}
+		if (user instanceof OfflineUser) {
+			OfflineUser offlineUser = (OfflineUser) user;
+			OfflineUserDto userDto = new OfflineUserDto(offlineUser.getFirstName(), 
+					offlineUser.getLastName(),
+					offlineUser.getAddress(),
+					offlineUser.getIsLocal(),
+					offlineUser.getUserId());
+			return userDto;
+		}		
 		OfflineUserDto userDto = new OfflineUserDto();
 		return userDto;
 	}
