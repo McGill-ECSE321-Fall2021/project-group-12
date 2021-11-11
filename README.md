@@ -39,7 +39,7 @@ Design an application for a library to assist it in providing its services. Such
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills | <ul><li>Business Methods:<br><ul><li>Creator</li><li>OnlineUser</li><li>OfflineUser</li><li>Newspaper</li></ul></li><li>DTOs:<br><ul><li>Creator</li><li>Item</li><li>Newspaper</li></ul></li><li>Controller:<br><ul><li>Creator</li><li>OnlineUser</li><li>Newspaper</li></ul></li><li>Unit Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Integration Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul></ul> | 37 |
+| Aaron Mills | <ul><li>Business Methods:<br><ul><li>Creator</li><li>OnlineUser</li><li>OfflineUser</li><li>Newspaper</li></ul></li><li>DTOs:<br><ul><li>Creator</li><li>Item</li><li>Newspaper</li></ul></li><li>Controller:<br><ul><li>Creator</li><li>OnlineUser</li><li>Newspaper</li></ul></li><li>Unit Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Integration Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Code Coverage:<br><ul><li>Clean up code</li></ul></li></ul> | 39 |
 | Ann Trinh |
 | Chirag Sood |
 | Lucca Di Lullo | <ul><li>Business Methods:<br><ul><li>Album</li><li>Book</li></ul></li><li>DTOs:<br><ul><li>Album</li><li>Book</li></ul></li><li>Controller:<br><ul><li>Album</li><li>Book</li><li>Movie</li><li>OfflineUser</li></ul></li><li>Unit Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul><li>Integration Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul></ul> | 33 |
