@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.service.EventService;
-import ca.mcgill.ecse321.library.service.LibrarianService;
-import ca.mcgill.ecse321.library.service.OfflineUserService;
-import ca.mcgill.ecse321.library.service.OnlineUserService;
 import ca.mcgill.ecse321.library.service.TimeSlotService;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,11 +46,11 @@ public class EventRestController {
 	private TimeSlotService timeSlotService;
 	
 	@Autowired
-	private OnlineUserService onlineUserService;
+	private OnlineUserRepository onlineUserRepository;
 	@Autowired
-	private OfflineUserService offlineUserService;
+	private OfflineUserRepository offlineUserRepository;
 	@Autowired
-	private LibrarianService librarianService;
+	private LibrarianRepository librarianRepository;
 	
 	
 	@GetMapping(value = { "/events", "/events/" })
@@ -71,13 +68,13 @@ public class EventRestController {
 	@PostMapping(value = { "/event/create", "/event/create/" })
 	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
 		User user;
-		if (offlineUserService.getOfflineUser(userId)!=null) {
-			user = offlineUserService.getOfflineUser(userId);
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
+			user = offlineUserRepository.findOfflineUserByUserId(userId);
 			
-		} else if (onlineUserService.getOnlineUser(userId)!= null){
-			user = onlineUserService.getOnlineUser(userId);
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
 		} else {
-			user = librarianService.getLibrarian(userId);
+			user = librarianRepository.findLibrarianByUserId(userId);
 		}
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		Event event = service.createEvent(name, timeSlot, isPrivate, isAccepted, user);
@@ -88,13 +85,13 @@ public class EventRestController {
 	@PutMapping(value = {"/event/update/{Id}", "/newspaper/update/{Id}/"})
 	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
 		User user;
-		if (offlineUserService.getOfflineUser(userId)!=null) {
-			user = offlineUserService.getOfflineUser(userId);
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
+			user = offlineUserRepository.findOfflineUserByUserId(userId);
 			
-		} else if (onlineUserService.getOnlineUser(userId)!= null){
-			user = onlineUserService.getOnlineUser(userId);
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
 		} else {
-			user = librarianService.getLibrarian(userId);
+			user = librarianRepository.findLibrarianByUserId(userId);
 		}
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		return convertToDto(service.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
