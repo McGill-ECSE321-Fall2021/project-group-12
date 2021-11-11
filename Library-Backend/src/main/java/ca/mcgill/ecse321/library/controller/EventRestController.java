@@ -36,6 +36,7 @@ import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 public class EventRestController {
