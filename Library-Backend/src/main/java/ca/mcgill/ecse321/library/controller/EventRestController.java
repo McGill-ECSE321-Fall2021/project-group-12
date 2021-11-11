@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.service.EventService;
+import ca.mcgill.ecse321.library.service.TimeSlotService;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +36,10 @@ public class EventRestController {
 	private EventService service;
 	
 	
+	@Autowired
+	private TimeSlotService timeSlotService;
+	
+	
 	@GetMapping(value = { "/events", "/events/" })
 	public List<EventDto> getAllEvents(){
 		return service.getAllEvents().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
@@ -47,14 +53,16 @@ public class EventRestController {
 	
 	
 	@PostMapping(value = { "/event/create", "/event/create/" })
-	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotid, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotid);
 		Event event = service.createEvent(name, timeSlot, isPrivate, isAccepted, user);
 		return convertToDto(event);
 	}
 	
 	
 	@PutMapping(value = {"/event/update/{Id}", "/newspaper/update/{Id}/"})
-	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlot") TimeSlot timeSlot, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		return convertToDto(service.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
 	}
 	
