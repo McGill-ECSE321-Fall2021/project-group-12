@@ -89,8 +89,8 @@ public class ReservationRestController {
 	
 	@PostMapping(value = { "/reservation/create/{userId}", "/reservation/create/{userId}/" })
 	public ReservationDto createReservation(@PathVariable("userId") Long userId,
-	@RequestParam(name = "timeSlot") TimeSlotDto timeSlotDto,
-	@RequestParam(name = "items") List<ItemDto> itemsDto)
+	@RequestParam(name = "timeSlotId") Long timeSlotId,
+	@RequestParam(name = "items") List<Long> itemsDto)
 	throws IllegalArgumentException {
 		User user;
 		if(offlineUserRepository.findOfflineUserByUserId(userId) != null) {
@@ -104,16 +104,16 @@ public class ReservationRestController {
 		}
 
 		List<Item> items = new ArrayList<>();
-		for(ItemDto i: itemsDto) {
-			if(albumRepository.findAlbumByItemId(i.getItemId()) != null) {
-				items.add(albumRepository.findAlbumByItemId(i.getItemId()));
-			} else if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				items.add(bookRepository.findBookByItemId(i.getItemId()));
+		for(Long i: itemsDto) {
+			if(albumRepository.findAlbumByItemId(i) != null) {
+				items.add(albumRepository.findAlbumByItemId(i));
+			} else if(bookRepository.findBookByItemId(i) != null) {
+				items.add(bookRepository.findBookByItemId(i));
 			} else {
-				items.add(movieRepository.findMovieByItemId(i.getItemId()));
+				items.add(movieRepository.findMovieByItemId(i));
 			}
 		}
-		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotDto.getTimeSlotId());
+		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
 		Reservation reservation = service.createReservation(items, user, timeSlot);
 		ReservationDto reservationDto = convertToDto(reservation);
 		return reservationDto;

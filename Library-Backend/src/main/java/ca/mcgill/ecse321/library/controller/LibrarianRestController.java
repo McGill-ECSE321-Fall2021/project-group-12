@@ -99,27 +99,31 @@ public class LibrarianRestController {
 	@Autowired
 	MovieRepository movieRepository;
 	
-	
+	//done
 	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
 	public LibrarianDto createHeadLibrarian(@RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createHeadLibrarian(first, last, address, email, password, username));
 	}
+	//done
 	@PostMapping(value = {"/librarian/create", "/librarian/create/"})
 	public LibrarianDto createLibrarian(@RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createLibrarian(librarianUsername, first, last, address, email, password, username));
 	}
-	@PutMapping(value = {"/librarian/update", "/librarian/update/"})
+	//done
+	@PutMapping(value = {"/librarian/update/{oldUsername}", "/librarian/update/{oldUsername}"})
 	public LibrarianDto updateLibrarian(@PathVariable("oldUsername") String oldUsername, @RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username, @RequestParam(value="isHead") boolean isHead) {
 		return convertToDto(librarianService.updateLibrarian(oldUsername, first, last, address, email, password, username, isHead));
 	}
-	@GetMapping(value = {"/librarian/{id}", "/librarian/{id}/"})
-	public LibrarianDto getLibrarianById(@PathVariable("id") Long id) {
+	
+	@GetMapping(value = {"/librarian", "/librarian/"})
+	public LibrarianDto getLibrarianById(@RequestParam(value="id") Long id) {
 		return convertToDto(librarianService.getLibrarian(id));
 	}
 	@GetMapping(value = {"/librarian/{username}", "/librarian/{username}/"})
 	public LibrarianDto getLibrarianByUsername(@PathVariable("username") String username) {
 		return convertToDto(librarianService.getLibrarian(username));
 	}
+	//done
 	@GetMapping(value = {"/librarian/head", "/librarian/head/"})
 	public LibrarianDto getHeadLibrarian() {
 		return convertToDto(librarianService.getHeadLibrarian());
@@ -141,8 +145,8 @@ public class LibrarianRestController {
 	public LibraryHourDto createLibraryHour(@PathVariable("id") Long id, @RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="username") String username, @RequestParam(value="startTime") Time startTime, @RequestParam(value="endTime") Time endTime, @RequestParam(value="day") Day day) {
 		return convertToDto(librarianService.createLibraryHour(librarianUsername, username, startTime, endTime, day));
 	}
-	@PostMapping(value = {"/librarian/schedule/update/{id}/{day}", "/librarian/schedule/update/{id}/{day}/"})
-	public LibraryHourDto updateLibraryHour(@PathVariable("id") Long id, @PathVariable("day") Day day, @RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="username") String username, @RequestParam(value="startTime") Time startTime, @RequestParam(value="endTime") Time endTime) {
+	@PostMapping(value = {"/librarian/schedule/update/", "/librarian/schedule/update/"})
+	public LibraryHourDto updateLibraryHour(@RequestParam(value="day") Day day, @RequestParam(value="librarianUsername") String librarianUsername, @RequestParam(value="username") String username, @RequestParam(value="startTime") Time startTime, @RequestParam(value="endTime") Time endTime) {
 		return convertToDto(librarianService.updateLibraryHour(librarianUsername, username, startTime, endTime, day));
 	}
 	
@@ -257,8 +261,8 @@ public class LibrarianRestController {
 		librarianService.removeReservation(id);
 		return reservationDto;
 	}
-	@GetMapping(value = {"/librarian/reservation/{id}", "/librarian/reservation/{id}/"})
-	public List<ReservationDto> getReservationById(@PathVariable("id") Long id) {
+	@GetMapping(value = {"/librarian/reservation", "/librarian/reservation/"})
+	public List<ReservationDto> getReservationById(@RequestParam(value="id") Long id) {
 		return convertToDtoRList(librarianService.getReservationByUserId(id));
 	}
 

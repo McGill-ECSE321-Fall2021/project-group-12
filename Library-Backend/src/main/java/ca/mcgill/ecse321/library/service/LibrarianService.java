@@ -183,7 +183,7 @@ public class LibrarianService {
 				List<LibraryHour> libraryHours = librarian.getLibraryHours();
 				for (LibraryHour lh : libraryHours) {
 					if (lh.getDay().equals(day)) {
-						libraryHourRepository.delete(lh);
+						//libraryHourRepository.delete(lh);
 						editLibraryHour.setStartTime(startTime);
 						editLibraryHour.setEndTime(endTime);
 						editLibraryHour.setDay(day);
@@ -238,7 +238,7 @@ public class LibrarianService {
 		public OnlineUser changePassword(String username, String oldPassword, String newPassword) throws IllegalArgumentException {
 			OnlineUser foundOnlineUser = onlineUserRepository.findOnlineUserByUsername(username);
 			if (foundOnlineUser == null) throw new IllegalArgumentException("User does not exist.");
-			if (oldPassword != foundOnlineUser.getPassword()) {
+			if (oldPassword == foundOnlineUser.getPassword()) {
 				throw new IllegalArgumentException("Incorrect password.");
 			}
 			if (isValidPassword(newPassword)) foundOnlineUser.setPassword(newPassword);
@@ -287,12 +287,12 @@ public class LibrarianService {
 			if (foundOnlineUser == null) {
 				foundOfflineUser = offlineUserRepository.findOfflineUserByUserId(id);
 			} else {
-				return reservationRepository.findByUser(id);
+				return reservationRepository.findByUser(foundOnlineUser);
 			}
 			if (foundOfflineUser == null) {
 				throw new IllegalArgumentException("User does not exist.");
 			} else {
-				return reservationRepository.findByUser(id);
+				return reservationRepository.findByUser(foundOfflineUser);
 			}
 		}
 //view times
