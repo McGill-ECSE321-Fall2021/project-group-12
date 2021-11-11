@@ -232,6 +232,10 @@ public class ReservationService {
 				albumRepository.save(album);
 			}
 		}
+		List<Item> emptyItems = new ArrayList<>();
+		reservation.setItems(emptyItems);
+		reservation.removeTimeSlot();
+		reservation.removeUser();
 		reservationRepository.delete(reservation);
 		reservation.removeReservation();
 	}

@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.library.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import ca.mcgill.ecse321.library.dto.AlbumDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
 import ca.mcgill.ecse321.library.dto.ItemDto;
 import ca.mcgill.ecse321.library.dto.LibrarianDto;
+import ca.mcgill.ecse321.library.dto.MovieDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
 import ca.mcgill.ecse321.library.dto.OnlineUserDto;
 import ca.mcgill.ecse321.library.dto.ReservationDto;
@@ -39,6 +41,7 @@ import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
+import ca.mcgill.ecse321.library.model.Album.MusicGenre;
 import ca.mcgill.ecse321.library.service.ReservationService;
 
 @CrossOrigin(origins = "*")
@@ -71,9 +74,17 @@ public class ReservationRestController {
 		return reservations;
 	}
 	
-	@GetMapping(value = { "/reservations/{user}", "/reservations/{user}/" })
-	public List<ReservationDto> getReservationsByUser(@PathVariable("user") User user) throws IllegalArgumentException {
+	@GetMapping(value = { "/reservations/{userId}", "/reservations/{userId}/" })
+	public List<ReservationDto> getReservationsByUserId(@PathVariable("userId") Long userId) throws IllegalArgumentException {
 		List<ReservationDto> userReservations = new ArrayList<>();
+		User user;
+		if(offlineUserRepository.findOfflineUserByUserId(userId) != null) {
+			user = offlineUserRepository.findOfflineUserByUserId(userId);
+		} else if(librarianRepository.findLibrarianByUserId(userId) != null) {
+			user = librarianRepository.findLibrarianByUserId(userId);
+		} else {
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
+		}
 		for(Reservation reservation: service.getReservationsByUser(user)) {
 			userReservations.add(convertToDto(reservation));
 		}
@@ -89,27 +100,38 @@ public class ReservationRestController {
 	@PostMapping(value = { "/reservation/create/{userId}", "/reservation/create/{userId}/" })
 	public ReservationDto createReservation(@PathVariable("userId") Long userId,
 	@RequestParam(name = "timeSlotId") Long timeSlotId,
-	@RequestParam(name = "items") List<Long> itemsDto)
+	@RequestParam(name = "itemId1") Long itemId1,
+	@RequestParam(name = "itemId2") Long itemId2,
+	@RequestParam(name = "itemId3") Long itemId3,
+	@RequestParam(name = "itemId4") Long itemId4,
+	@RequestParam(name = "itemId5") Long itemId5)
 	throws IllegalArgumentException {
 		User user;
 		if(offlineUserRepository.findOfflineUserByUserId(userId) != null) {
 			user = offlineUserRepository.findOfflineUserByUserId(userId);
+		} else if(librarianRepository.findLibrarianByUserId(userId) != null) {
+			user = librarianRepository.findLibrarianByUserId(userId);
 		} else {
-			if(librarianRepository.findLibrarianByUserId(userId) != null) {
-				user = librarianRepository.findLibrarianByUserId(userId);
-			} else {
-				user = onlineUserRepository.findOnlineUserByUserId(userId);
-			}
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
 		}
-
+		List<Long> itemsId = new ArrayList<>();
 		List<Item> items = new ArrayList<>();
-		for(Long i: itemsDto) {
+		
+		itemsId.add(itemId5);
+		itemsId.add(itemId4);
+		itemsId.add(itemId3);
+		itemsId.add(itemId2);
+		itemsId.add(itemId1);
+		
+		for(Long i: itemsId) {
 			if(albumRepository.findAlbumByItemId(i) != null) {
 				items.add(albumRepository.findAlbumByItemId(i));
 			} else if(bookRepository.findBookByItemId(i) != null) {
 				items.add(bookRepository.findBookByItemId(i));
-			} else {
+			} else if(movieRepository.findMovieByItemId(i) != null) {
 				items.add(movieRepository.findMovieByItemId(i));
+			} else {
+				
 			}
 		}
 		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
@@ -120,20 +142,34 @@ public class ReservationRestController {
 	
 	@PutMapping(value = { "/reservation/update/{reservationId}", "/reservation/update/{reservationId}/" })
 	public ReservationDto updateReservation(@PathVariable("reservationId") Long reservationId,
-	@RequestParam(name = "timeSlot") TimeSlotDto timeSlotDto,
-	@RequestParam(name = "items") List<ItemDto> itemsDto)
+	@RequestParam(name = "timeSlotId") Long timeSlotId,
+	@RequestParam(name = "itemId1") Long itemId1,
+	@RequestParam(name = "itemId2") Long itemId2,
+	@RequestParam(name = "itemId3") Long itemId3,
+	@RequestParam(name = "itemId4") Long itemId4,
+	@RequestParam(name = "itemId5") Long itemId5)
 	throws IllegalArgumentException {
+		List<Long> itemsId = new ArrayList<>();
 		List<Item> items = new ArrayList<>();
-		for(ItemDto i: itemsDto) {
-			if(albumRepository.findAlbumByItemId(i.getItemId()) != null) {
-				items.add(albumRepository.findAlbumByItemId(i.getItemId()));
-			} else if(bookRepository.findBookByItemId(i.getItemId()) != null) {
-				items.add(bookRepository.findBookByItemId(i.getItemId()));
+		
+		itemsId.add(itemId5);
+		itemsId.add(itemId4);
+		itemsId.add(itemId3);
+		itemsId.add(itemId2);
+		itemsId.add(itemId1);
+		
+		for(Long i: itemsId) {
+			if(albumRepository.findAlbumByItemId(i) != null) {
+				items.add(albumRepository.findAlbumByItemId(i));
+			} else if(bookRepository.findBookByItemId(i) != null) {
+				items.add(bookRepository.findBookByItemId(i));
+			} else if(movieRepository.findMovieByItemId(i) != null) {
+				items.add(movieRepository.findMovieByItemId(i));
 			} else {
-				items.add(movieRepository.findMovieByItemId(i.getItemId()));
+				
 			}
 		}
-		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotDto.getTimeSlotId());
+		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
 		Reservation reservation = service.getReservation(reservationId);
 		Reservation updatedReservation = service.updateReservation(items, reservation, timeSlot);
 		ReservationDto updatedReservationDto = convertToDto(updatedReservation);
@@ -173,25 +209,28 @@ public class ReservationRestController {
 		if(item == null) {
 			throw new IllegalArgumentException("Input user is null.");
 		}
-		ItemDto itemDto = new AlbumDto();
+		ItemDto itemDto;
 		if(albumRepository.findAlbumByItemId(item.getItemId()) != null) {
 			Album album = albumRepository.findAlbumByItemId(item.getItemId());
-			itemDto.setCreator(convertToDto(album.getCreator()));
-			itemDto.setIsArchive(album.getIsArchive());
-			itemDto.setReleaseDate(album.getReleaseDate());
-			itemDto.setTitle(album.getTitle());
+			Creator creator = album.getCreator();
+			MusicGenre genre = album.getGenre();
+			Boolean isArchive = album.getIsArchive();
+			Boolean isAvailable = album.getIsAvailable();
+			Boolean isReservable = album.getIsReservable();
+			Long itemId = album.getItemId();
+			int numSongs = album.getNumSongs();
+			Date date = album.getReleaseDate();
+			String title = album.getTitle();
+			AlbumDto albumDto = new AlbumDto(title, isArchive, isReservable, date, numSongs, isAvailable, genre, convertToDto(creator), itemId);
+			itemDto = albumDto;
 		} else if(bookRepository.findBookByItemId(item.getItemId()) != null) {
 			Book book = bookRepository.findBookByItemId(item.getItemId());
-			itemDto.setCreator(convertToDto(book.getCreator()));
-			itemDto.setIsArchive(book.getIsArchive());
-			itemDto.setReleaseDate(book.getReleaseDate());
-			itemDto.setTitle(book.getTitle());
+			BookDto bookDto = new BookDto(book.getTitle(), book.getIsArchive(), book.getIsReservable(), book.getReleaseDate(), book.getNumPages(), book.getIsAvailable(), book.getGenre(), convertToDto(book.getCreator()), book.getItemId());
+			itemDto = bookDto;
 		} else {
 			Movie movie = movieRepository.findMovieByItemId(item.getItemId());
-			itemDto.setCreator(convertToDto(movie.getCreator()));
-			itemDto.setIsArchive(movie.getIsArchive());
-			itemDto.setReleaseDate(movie.getReleaseDate());
-			itemDto.setTitle(movie.getTitle());
+			MovieDto movieDto = new MovieDto(movie.getTitle(), movie.getIsArchive(), movie.getIsReservable(), movie.getIsAvailable(), movie.getReleaseDate(), movie.getDuration(), movie.getGenre(), convertToDto(movie.getCreator()), movie.getItemId());
+			itemDto = movieDto;
 		}
 		return itemDto;
 	}

@@ -59,8 +59,6 @@ public class TestReservationService {
 	private OnlineUserRepository onlineUserDao;
 	@Mock
 	private CreatorRepository creatorDao;
-	@Mock
-	private BookService bookService;
 	
 	@InjectMocks
 	private ReservationService service;

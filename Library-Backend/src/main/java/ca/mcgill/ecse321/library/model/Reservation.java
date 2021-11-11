@@ -164,5 +164,13 @@ public class Reservation
       placeholderLibraryApplicationSystem.removeReservation(this);
     }
   }
+  
+  public void removeUser() {
+	  this.user = null;
+  }
+  
+  public void removeTimeSlot() {
+	  this.timeSlot = null;
+  }
 
 }
