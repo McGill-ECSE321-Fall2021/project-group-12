@@ -44,10 +44,17 @@ public class ReservationService {
 		if(!timeSlot.getEndDate().after(timeSlot.getStartDate())) {
 			throw new IllegalArgumentException("Cannot create reservation with endDate before or equal to startDate.");
 		}
+		List<Long> itemId = new ArrayList<>();
 		for(Item i : items) {
 			if(i.getIsReservable() == false || i.getIsAvailable() == false || i.getIsArchive() == true) {
 				throw new IllegalArgumentException("At least one item selected is not reseverable.");
 			}
+			for(Long id : itemId) {
+				if(id.compareTo(i.getItemId()) == 0) {
+					throw new IllegalArgumentException("Cannot create reservation with identical items.");
+				}
+			}
+			itemId.add(i.getItemId());
 		}
 		Reservation reservation = new Reservation();
 		reservation.setItems(items);
@@ -84,10 +91,10 @@ public class ReservationService {
 			throw new IllegalArgumentException("Cannot update reservation with empty arguments.");
 		}
 		if(timeSlot.getEndDate() == null || timeSlot.getEndTime() == null || timeSlot.getStartDate() == null || timeSlot.getStartTime() == null) {
-			throw new IllegalArgumentException("Cannot create reservation with missing info in timeSlot.");
+			throw new IllegalArgumentException("Cannot update reservation with missing info in timeSlot.");
 		}
 		if(!timeSlot.getEndDate().after(timeSlot.getStartDate())) {
-			throw new IllegalArgumentException("Cannot create reservation with endDate before or equal to startDate.");
+			throw new IllegalArgumentException("Cannot update reservation with endDate before or equal to startDate.");
 		}
 		TimeSlot oldTimeSlot = reservation.getTimeSlot();
 		if(timeSlot.getStartDate().before(oldTimeSlot.getEndDate())) {
@@ -115,10 +122,61 @@ public class ReservationService {
 				albumRepository.save(album);
 			}
 		}
+		List<Long> itemId = new ArrayList<>();
 		for(Item i : items) {
-			if(i.getIsReservable() == false) {
+			if(i.getIsReservable() == false || i.getIsAvailable() == false || i.getIsArchive() == true) {
+				for(Item j : preItems) {
+					if(j instanceof Book) {
+						Book book = (Book) j;
+						book.setReservation(reservation);
+						book.setIsAvailable(false);
+						book.setIsReservable(false);
+						bookRepository.save(book);
+					} else if(j instanceof Movie) {
+						Movie movie = (Movie) j;
+						movie.setReservation(reservation);
+						movie.setIsAvailable(false);
+						movie.setIsReservable(false);
+						movieRepository.save(movie);
+					} else {
+						Album album = (Album) j;
+						album.setReservation(reservation);
+						album.setIsAvailable(false);
+						album.setIsReservable(false);
+						albumRepository.save(album);
+					}
+				}
 				throw new IllegalArgumentException("At least one item selected is not reseverable");
 			}
+		}
+		for(Item i : items) {
+			for(Long id : itemId) {
+				if(id.compareTo(i.getItemId()) == 0) {
+					for(Item j : preItems) {
+						if(j instanceof Book) {
+							Book book = (Book) j;
+							book.setReservation(reservation);
+							book.setIsAvailable(false);
+							book.setIsReservable(false);
+							bookRepository.save(book);
+						} else if(j instanceof Movie) {
+							Movie movie = (Movie) j;
+							movie.setReservation(reservation);
+							movie.setIsAvailable(false);
+							movie.setIsReservable(false);
+							movieRepository.save(movie);
+						} else {
+							Album album = (Album) j;
+							album.setReservation(reservation);
+							album.setIsAvailable(false);
+							album.setIsReservable(false);
+							albumRepository.save(album);
+						}
+					}
+					throw new IllegalArgumentException("Cannot update reservation with identical items.");
+				}
+			}
+			itemId.add(i.getItemId());
 		}
 		reservation.setItems(items);
 		reservation.setTimeSlot(timeSlot);
@@ -196,7 +254,7 @@ public class ReservationService {
 		List<Reservation> result = new ArrayList<>();
 		List<Reservation> allReservation = (List<Reservation>) reservationRepository.findAll();
 		for(Reservation r: allReservation) {
-			if(r.getUser().getUserId() == user.getUserId()) {
+			if(r.getUser().getUserId().compareTo(user.getUserId()) == 0) {
 				result.add(r);
 			}
 		}
