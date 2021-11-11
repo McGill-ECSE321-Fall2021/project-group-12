@@ -351,7 +351,7 @@ public class LibrarianService {
 			return resultList;
 		}
 
-		public void isLibrarian(String username) {
+		public void isLibrarian(String username) throws IllegalArgumentException {
 			if (librarianRepository.findLibrarianByUsername(username) == null) throw new IllegalArgumentException("Librarian does not exist.");
 		}
 		
