@@ -112,7 +112,7 @@ public abstract class Item
   }
   
   public void removeReservation() {
-	  this.reservation = null;
+	    reservation = null;
   }
 
   @Id

@@ -37,13 +37,10 @@ import ca.mcgill.ecse321.library.model.Book.BMGenre;
 import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Creator.CreatorType;
 import ca.mcgill.ecse321.library.model.Item;
-import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.Movie;
-import ca.mcgill.ecse321.library.model.OfflineUser;
 import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.TimeSlot;
-import ca.mcgill.ecse321.library.model.User;
 
 @ExtendWith(MockitoExtension.class)
 public class TestReservationService {
@@ -62,8 +59,6 @@ public class TestReservationService {
 	private OnlineUserRepository onlineUserDao;
 	@Mock
 	private CreatorRepository creatorDao;
-	@Mock
-	private BookService bookService;
 	
 	@InjectMocks
 	private ReservationService service;

@@ -27,7 +27,7 @@ public class LibraryHourService {
 		if(startTime == null || endTime == null || day == null) {
 			throw new IllegalArgumentException("Cannot create LibraryHour with empty arguments.");
 		}
-		if(day != Day.Monday || day != Day.Tuesday || day != Day.Wednesday || day != Day.Thursday || day != Day.Friday || day != Day.Saturday || day != Day.Sunday) {
+		if(!(day == Day.Friday || day == Day.Thursday || day == Day.Wednesday || day == Day.Tuesday || day == Day.Monday || day == Day.Sunday || day == Day.Saturday)) {
 			throw new IllegalArgumentException("Entry of day is invalid.");
 		}
 		if(startTime.after(endTime)) {
@@ -64,7 +64,7 @@ public class LibraryHourService {
 		}
 		LibraryHour libraryHour = libraryHourRepository.findLibraryHourByLibraryHourId(libraryHourId);
 		if (libraryHour == null) {
-			throw new IllegalArgumentException("Cannot find such libraryHour");
+			throw new IllegalArgumentException("Cannot find such libraryHour.");
 		}
 		return libraryHour;
 	}
@@ -72,9 +72,9 @@ public class LibraryHourService {
 	@Transactional
 	public List<LibraryHour> getLibraryHoursOfLibrarian(Librarian librarian) throws IllegalArgumentException {
 		if(librarian == null) {
-			throw new IllegalArgumentException("Argument cannot be null");
+			throw new IllegalArgumentException("Argument cannot be null.");
 		}
-		if(librarianRepository.findById(librarian.getUserId()) == null) {
+		if(librarianRepository.findLibrarianByUserId(librarian.getUserId()) == null) {
 			throw new IllegalArgumentException("Such librarian does not exist.");
 		}
 		List<LibraryHour> libraryHours = librarian.getLibraryHours();
