@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.library.controller;
 
 import java.util.List;
 
+
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.mcgill.ecse321.library.dao.LibrarianRepository;
+import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
+import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dto.EventDto;
 import ca.mcgill.ecse321.library.dto.OfflineUserDto;
 import ca.mcgill.ecse321.library.dto.TimeSlotDto;
 import ca.mcgill.ecse321.library.dto.UserDto;
 import ca.mcgill.ecse321.library.model.Event;
+import ca.mcgill.ecse321.library.model.OfflineUser;
+import ca.mcgill.ecse321.library.model.OnlineUser;
 import ca.mcgill.ecse321.library.model.TimeSlot;
 import ca.mcgill.ecse321.library.model.User;
 
@@ -39,6 +45,13 @@ public class EventRestController {
 	@Autowired
 	private TimeSlotService timeSlotService;
 	
+	@Autowired
+	private OnlineUserRepository onlineUserRepository;
+	@Autowired
+	private OfflineUserRepository offlineUserRepository;
+	@Autowired
+	private LibrarianRepository librarianRepository;
+	
 	
 	@GetMapping(value = { "/events", "/events/" })
 	public List<EventDto> getAllEvents(){
@@ -53,15 +66,33 @@ public class EventRestController {
 	
 	
 	@PostMapping(value = { "/event/create", "/event/create/" })
-	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotid, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
-		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotid);
+	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
+		User user;
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
+			user = offlineUserRepository.findOfflineUserByUserId(userId);
+			
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
+		} else {
+			user = librarianRepository.findLibrarianByUserId(userId);
+		}
+		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		Event event = service.createEvent(name, timeSlot, isPrivate, isAccepted, user);
 		return convertToDto(event);
 	}
 	
 	
 	@PutMapping(value = {"/event/update/{Id}", "/newspaper/update/{Id}/"})
-	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="user") User user) throws IllegalArgumentException {
+	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
+		User user;
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
+			user = offlineUserRepository.findOfflineUserByUserId(userId);
+			
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
+			user = onlineUserRepository.findOnlineUserByUserId(userId);
+		} else {
+			user = librarianRepository.findLibrarianByUserId(userId);
+		}
 		TimeSlot timeSlot = timeSlotService.getTimeSlot(timeSlotId);
 		return convertToDto(service.updateEvent(Id, name, timeSlot, isPrivate, isAccepted, user));
 	}
