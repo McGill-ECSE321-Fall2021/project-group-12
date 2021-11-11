@@ -44,7 +44,7 @@ Design an application for a library to assist it in providing its services. Such
 | Chirag Sood |
 | Lucca Di Lullo | <ul><li>Business Methods:<br><ul><li>Album</li><li>Book</li></ul></li><li>DTOs:<br><ul><li>Album</li><li>Book</li></ul></li><li>Controller:<br><ul><li>Album</li><li>Book</li><li>Movie</li><li>OfflineUser</li></ul></li><li>Unit Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul><li>Integration Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul></ul> | 33 |
 | Mia Stevanovic |
-| Yuyan Shi |
+| Yuyan Shi | <ul><li>Business Methods:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>DTOs:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>Controller:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>Unit Tests:<br><ul><li>Reservation</li><li>LibraryHour</li></ul><li>Integration Tests:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></ul> |  |
 
 ## Sprint 3
 
