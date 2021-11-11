@@ -17,11 +17,11 @@ public class TimeSlotDto {
 	}
 	
 	public TimeSlotDto(Time startTime, Time endTime, Date startDate,Date endDate, Long timeSlotId) {
-		this.startTime=startTime;
-		this.endTime = endTime;
-		this.startDate=startDate;
-		this.endDate=endDate;
-		this.timeSlotId = timeSlotId;
+		this.setStartTime(startTime);
+		this.setEndTime(endTime);
+		this.setStartDate(startDate);
+		this.setEndDate(endDate);
+		this.setTimeSlotId(timeSlotId);
 	}
 	
 	public Time getStartTime() {

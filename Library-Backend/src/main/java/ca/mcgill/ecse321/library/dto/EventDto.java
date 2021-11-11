@@ -21,7 +21,7 @@ public class EventDto {
 		this.name = name;
 		this.isPrivate = isPrivate;
 		this.isAccepted = isAccepted;
-		this.timeSlot= timeSlot;
+		this.timeSlot= timeSlotDto;
 		this.user = user;
 		this.eventId = eventId;
 	}
