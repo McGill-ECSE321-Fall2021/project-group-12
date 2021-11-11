@@ -22,6 +22,7 @@ import ca.mcgill.ecse321.library.dao.OfflineUserRepository;
 import ca.mcgill.ecse321.library.dao.OnlineUserRepository;
 import ca.mcgill.ecse321.library.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.library.dto.AlbumDto;
+import ca.mcgill.ecse321.library.dto.BookDto;
 import ca.mcgill.ecse321.library.dto.CreatorDto;
 import ca.mcgill.ecse321.library.dto.ItemDto;
 import ca.mcgill.ecse321.library.dto.LibrarianDto;
