@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.dto.LibraryHourDto;
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dto.LibrarianDto;
+import ca.mcgill.ecse321.library.dto.ReservationDto;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
+import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.service.LibraryHourService;
 
 @CrossOrigin(origins = "*")
@@ -41,16 +44,16 @@ public class LibraryHourRestController {
 		return libraryHours;
 	}
 	
-	@GetMapping(value = { "/libraryHour{libraryHourId}", "/ibraryHour/{libraryHourId}/" })
+	@GetMapping(value = { "/libraryHour/{libraryHourId}", "/ibraryHour/{libraryHourId}/" })
 	public LibraryHourDto getLibraryHourById(@PathVariable("libraryHourId") Long libraryHourId) throws IllegalArgumentException {
 		LibraryHourDto libraryHour = convertToDto(service.getLibraryHour(libraryHourId));
 		return libraryHour;
 	}
 	
-	@GetMapping(value = { "/libraryHours/{librarian}", "/libraryHours/{librarian}/" })
-	public List<LibraryHourDto> getLibraryHoursOfLibrarian(@PathVariable("librarian") LibrarianDto librarianDto) throws IllegalArgumentException {
+	@GetMapping(value = { "/libraryHours/{librarianId}", "/libraryHours/{librarianId}/" })
+	public List<LibraryHourDto> getLibraryHoursOfLibrarian(@PathVariable("librarianId") Long librarianId) throws IllegalArgumentException {
 		List<LibraryHourDto> libraryHoursOfLibrarian = new ArrayList<>();
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianDto.getUserId());
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 		List<LibraryHour> libraryHours = librarian.getLibraryHours();
 		for(LibraryHour libraryHour: libraryHours) {
 			libraryHoursOfLibrarian.add(convertToDto(libraryHour));
@@ -58,23 +61,31 @@ public class LibraryHourRestController {
 		return libraryHoursOfLibrarian;
 	}
 	
+	
+	
+	@PutMapping(value = { "/libraryHours/assign", "libraryHours/assign/" })
+	public LibraryHourDto assignLibraryHour(@RequestParam(value="libraryHourId") Long libraryHourId, @RequestParam(value="librarianId") Long librarianId) throws IllegalArgumentException {
+		LibraryHour libraryHour = service.assignLibraryHour(librarianRepository.findLibrarianByUserId(librarianId), service.getLibraryHour(libraryHourId));
+		return convertToDto(libraryHour);
+	}
+	
+	
+	
+	
 	@PostMapping(value = { "/libraryHour/create", "/libraryHour/create/" })
 	public LibraryHourDto createLibraryHour(@RequestParam(name = "day") Day day,
-	@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-	@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime endTime)
+	@RequestParam(value="startTime") String startTime,
+	@RequestParam(value="endTime") String endTime)
 	throws IllegalArgumentException {
-		LibraryHourDto libraryHourDto = new LibraryHourDto();
-		libraryHourDto.setDay(day);
-		libraryHourDto.setStartTime(Time.valueOf(startTime));
-		libraryHourDto.setEndTime(Time.valueOf(endTime));
-		return libraryHourDto;
+		LibraryHour libraryHour = service.createLibraryHour(Time.valueOf(startTime), Time.valueOf(endTime), day);
+		return convertToDto(libraryHour);
 	}
 	
 	@DeleteMapping(value = { "/libraryHour/delete/{libraryHourId}", "/libraryHour/delete/{libraryHourId}/" })
 	public LibraryHourDto deleteLibraryHour(@PathVariable("libraryHourId") Long libraryHourId,
-	@RequestParam(name = "librarian") LibrarianDto librarianDto)
+	@RequestParam(name = "librarianId") Long librarianId)
 	throws IllegalArgumentException {
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianDto.getUserId());
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 		LibraryHour libraryHour = service.getLibraryHour(libraryHourId);
 		service.deleteLibraryHour(librarian, libraryHour);
 		LibraryHourDto libraryHourDto = convertToDto(libraryHour);

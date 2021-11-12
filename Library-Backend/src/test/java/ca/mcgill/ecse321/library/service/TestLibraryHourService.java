@@ -24,6 +24,7 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
+import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
@@ -536,5 +537,109 @@ public class TestLibraryHourService {
 		assertEquals("Targeting librarian does not have such libraryHour.", error);
 	}
 	
+	@Test
+	public void assignLibraryHour() {
+		List<LibraryHour> emptyHours = new ArrayList<>();
+		Librarian librarian = new Librarian();
+		librarian.setAddress("3445 Durocher");
+		librarian.setEmail("123@gmail.com");
+		librarian.setFirstName("Peter");
+		librarian.setIsHead(false);
+		librarian.setIsLocal(true);
+		librarian.setLastName("Parker");
+		librarian.setPassword("123#qwER");
+		librarian.setUsername("Spiderman");
+		librarian.setUserId(LIBRARIAN_A_ID);
+		librarian.setLibraryHours(emptyHours);
+		
+		LibraryHour libraryHour1 = new LibraryHour();
+		libraryHour1.setDay(Day.Monday);
+		libraryHour1.setStartTime(Time.valueOf("08:00:00"));
+		libraryHour1.setEndTime(Time.valueOf("18:00:00"));
+		libraryHour1.setLibraryHourId(LIBRARYHOUR_MONDAY_ID);
+		
+		LibraryHour assignedHour = null;
+		try {
+			assignedHour = service.assignLibraryHour(librarian, libraryHour1);
+		} catch (Exception e) {
+			fail();
+		}
+		assertNotNull(assignedHour);
+		assertEquals(librarian.getLibraryHours().size(), 1);
+		assertEquals(librarian.getLibraryHours(0).getLibraryHourId(), libraryHour1.getLibraryHourId());
+	}
+	
+	@Test
+	public void assignLibraryHourInvalidInput() {
+		List<LibraryHour> emptyHours = new ArrayList<>();
+		Librarian librarian = new Librarian();
+		librarian.setAddress("3445 Durocher");
+		librarian.setEmail("123@gmail.com");
+		librarian.setFirstName("Peter");
+		librarian.setIsHead(false);
+		librarian.setIsLocal(true);
+		librarian.setLastName("Parker");
+		librarian.setPassword("123#qwER");
+		librarian.setUsername("Spiderman");
+		librarian.setUserId(LIBRARIAN_A_ID);
+		librarian.setLibraryHours(emptyHours);
+		
+		LibraryHour libraryHour1 = new LibraryHour();
+		libraryHour1.setDay(Day.Monday);
+		libraryHour1.setStartTime(Time.valueOf("08:00:00"));
+		libraryHour1.setEndTime(Time.valueOf("18:00:00"));
+		libraryHour1.setLibraryHourId(LIBRARYHOUR_MONDAY_ID);
+		
+		LibraryHour assignedHour = null;
+		String error = "";
+		try {
+			assignedHour = service.assignLibraryHour(null, libraryHour1);
+		} catch (Exception e) {
+			error = e.getMessage();
+		}
+		assertNull(assignedHour);
+		assertEquals("Cannot delete LibraryHour with empty arguments.", error);
+		
+		try {
+			assignedHour = service.assignLibraryHour(librarian, null);
+		} catch (Exception e) {
+			error = e.getMessage();
+		}
+		assertNull(assignedHour);
+		assertEquals("Cannot delete LibraryHour with empty arguments.", error);
+	}
+	
+	@Test
+	public void assignLibraryHourExistedHour() {
+		List<LibraryHour> libraryHours = new ArrayList<>();
+		Librarian librarian = new Librarian();
+		librarian.setAddress("3445 Durocher");
+		librarian.setEmail("123@gmail.com");
+		librarian.setFirstName("Peter");
+		librarian.setIsHead(false);
+		librarian.setIsLocal(true);
+		librarian.setLastName("Parker");
+		librarian.setPassword("123#qwER");
+		librarian.setUsername("Spiderman");
+		librarian.setUserId(LIBRARIAN_A_ID);
+		
+		LibraryHour libraryHour1 = new LibraryHour();
+		libraryHour1.setDay(Day.Monday);
+		libraryHour1.setStartTime(Time.valueOf("08:00:00"));
+		libraryHour1.setEndTime(Time.valueOf("18:00:00"));
+		libraryHour1.setLibraryHourId(LIBRARYHOUR_MONDAY_ID);
+		libraryHours.add(libraryHour1);
+		librarian.setLibraryHours(libraryHours);
+		
+		LibraryHour assignedHour = null;
+		String error = "";
+		try {
+			assignedHour = service.assignLibraryHour(librarian, libraryHour1);
+		} catch (Exception e) {
+			error = e.getMessage();
+		}
+		assertNull(assignedHour);
+		assertEquals(error, "Targeting librarian already have such libraryHour.");
+	}
 	
 }

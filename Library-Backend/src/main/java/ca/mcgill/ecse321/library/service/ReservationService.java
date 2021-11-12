@@ -86,8 +86,8 @@ public class ReservationService {
 	}
 	
 	@Transactional
-	public Reservation updateReservation(List<Item> items, Reservation reservation, TimeSlot timeSlot) throws IllegalArgumentException {
-		if(items == null || items.isEmpty() == true || reservation == null || timeSlot == null) {
+	public Reservation updateReservation(Reservation reservation, TimeSlot timeSlot) throws IllegalArgumentException {
+		if(reservation == null || timeSlot == null) {
 			throw new IllegalArgumentException("Cannot update reservation with empty arguments.");
 		}
 		if(timeSlot.getEndDate() == null || timeSlot.getEndTime() == null || timeSlot.getStartDate() == null || timeSlot.getStartTime() == null) {
@@ -100,108 +100,7 @@ public class ReservationService {
 		if(timeSlot.getStartDate().before(oldTimeSlot.getEndDate())) {
 			throw new IllegalArgumentException("Cannot update reservation with newStartDate before oldEndDate.");
 		}
-		List<Item> preItems = reservation.getItems();
-		for(Item i : preItems) {
-			if(i instanceof Book) {
-				Book book = (Book) i;
-				book.removeReservation();
-				book.setIsAvailable(true);
-				book.setIsReservable(true);
-				bookRepository.save(book);
-			} else if(i instanceof Movie) {
-				Movie movie = (Movie) i;
-				movie.removeReservation();
-				movie.setIsAvailable(true);
-				movie.setIsReservable(true);
-				movieRepository.save(movie);
-			} else {
-				Album album = (Album) i;
-				album.removeReservation();
-				album.setIsAvailable(true);
-				album.setIsReservable(true);
-				albumRepository.save(album);
-			}
-		}
-		List<Long> itemId = new ArrayList<>();
-		for(Item i : items) {
-			if(i.getIsReservable() == false || i.getIsAvailable() == false || i.getIsArchive() == true) {
-				for(Item j : preItems) {
-					if(j instanceof Book) {
-						Book book = (Book) j;
-						book.setReservation(reservation);
-						book.setIsAvailable(false);
-						book.setIsReservable(false);
-						bookRepository.save(book);
-					} else if(j instanceof Movie) {
-						Movie movie = (Movie) j;
-						movie.setReservation(reservation);
-						movie.setIsAvailable(false);
-						movie.setIsReservable(false);
-						movieRepository.save(movie);
-					} else {
-						Album album = (Album) j;
-						album.setReservation(reservation);
-						album.setIsAvailable(false);
-						album.setIsReservable(false);
-						albumRepository.save(album);
-					}
-				}
-				throw new IllegalArgumentException("At least one item selected is not reseverable");
-			}
-		}
-		for(Item i : items) {
-			for(Long id : itemId) {
-				if(id.compareTo(i.getItemId()) == 0) {
-					for(Item j : preItems) {
-						if(j instanceof Book) {
-							Book book = (Book) j;
-							book.setReservation(reservation);
-							book.setIsAvailable(false);
-							book.setIsReservable(false);
-							bookRepository.save(book);
-						} else if(j instanceof Movie) {
-							Movie movie = (Movie) j;
-							movie.setReservation(reservation);
-							movie.setIsAvailable(false);
-							movie.setIsReservable(false);
-							movieRepository.save(movie);
-						} else {
-							Album album = (Album) j;
-							album.setReservation(reservation);
-							album.setIsAvailable(false);
-							album.setIsReservable(false);
-							albumRepository.save(album);
-						}
-					}
-					throw new IllegalArgumentException("Cannot update reservation with identical items.");
-				}
-			}
-			itemId.add(i.getItemId());
-		}
-		reservation.setItems(items);
 		reservation.setTimeSlot(timeSlot);
-		for(Item i : items) {
-			if(i instanceof Book) {
-				Book book = (Book) i;
-				book.setReservation(reservation);
-				book.setIsAvailable(false);
-				book.setIsReservable(false);
-				bookRepository.save(book);
-			} else if(i instanceof Movie) {
-				Movie movie = (Movie) i;
-				movie.setReservation(reservation);
-				movie.setIsAvailable(false);
-				movie.setIsReservable(false);
-				movieRepository.save(movie);
-			} else {
-				Album album = (Album) i;
-				album.setReservation(reservation);
-				album.setIsAvailable(false);
-				album.setIsReservable(false);
-				albumRepository.save(album);
-			}
-		}
-		reservationRepository.save(reservation);
 		return reservation;
 	}
 	
@@ -210,36 +109,67 @@ public class ReservationService {
 		if(reservation == null) {
 			throw new IllegalArgumentException("The input is empty.");
 		}
+		
 		List<Item> items = reservation.getItems();
+		Book newBook = new Book();
+		Movie newMovie = new Movie();
+		Album newAlbum = new Album();
+		List<Book> newBooks = new ArrayList<>();
+		List<Movie> newMovies = new ArrayList<>();
+		List<Album> newAlbums = new ArrayList<>();
+		
 		for(Item i : items) {
 			if(i instanceof Book) {
 				Book book = (Book) i;
-				book.removeReservation();
-				book.setIsAvailable(true);
-				book.setIsReservable(true);
-				bookRepository.save(book);
+				newBook.setCreator(book.getCreator());
+				newBook.setGenre(book.getGenre());
+				newBook.setIsArchive(book.getIsArchive());
+				newBook.setIsAvailable(true);
+				newBook.setIsReservable(true);
+				newBook.setItemId(i.getItemId());
+				newBook.setNumPages(book.getNumPages());
+				newBook.setReleaseDate(book.getReleaseDate());
+				newBook.setTitle(book.getTitle());
+				newBooks.add(newBook);
 			} else if(i instanceof Movie) {
 				Movie movie = (Movie) i;
-				movie.removeReservation();
-				movie.setIsAvailable(true);
-				movie.setIsReservable(true);
-				movieRepository.save(movie);
-			} else {
+				newMovie.setCreator(movie.getCreator());
+				newMovie.setDuration(movie.getDuration());
+				newMovie.setGenre(movie.getGenre());
+				newMovie.setIsArchive(movie.getIsArchive());
+				newMovie.setIsAvailable(true);
+				newMovie.setIsReservable(true);
+				newMovie.setItemId(movie.getItemId());
+				newMovie.setReleaseDate(movie.getReleaseDate());
+				newMovie.setTitle(movie.getTitle());
+				newMovies.add(newMovie);
+			} else if(i instanceof Album) {
 				Album album = (Album) i;
-				album.removeReservation();
-				album.setIsAvailable(true);
-				album.setIsReservable(true);
-				albumRepository.save(album);
+				newAlbum.setCreator(album.getCreator());
+				newAlbum.setGenre(album.getGenre());
+				newAlbum.setIsArchive(album.getIsArchive());
+				newAlbum.setIsAvailable(true);
+				newAlbum.setIsReservable(true);
+				newAlbum.setItemId(album.getItemId());
+				newAlbum.setNumSongs(album.getNumSongs());
+				newAlbum.setReleaseDate(album.getReleaseDate());
+				newAlbum.setTitle(album.getTitle());
+				newAlbums.add(newAlbum);
+			} else {
+				
 			}
 		}
-		List<Item> emptyItems = new ArrayList<>();
-		reservation.setItems(emptyItems);
-		reservation.removeTimeSlot();
-		reservation.removeUser();
 		reservationRepository.delete(reservation);
-		reservation.removeReservation();
+		for(Book b : newBooks) {
+			bookRepository.save(b);
+		}
+		for(Movie m : newMovies) {
+			movieRepository.save(m);
+		}
+		for(Album a : newAlbums) {
+			albumRepository.save(a);
+		}
 	}
-	
 	
 	@Transactional
 	public Reservation getReservation(Long reservationId) throws IllegalArgumentException {

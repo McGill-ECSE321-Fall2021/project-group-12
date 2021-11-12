@@ -143,36 +143,11 @@ public class ReservationRestController {
 	
 	@PutMapping(value = { "/reservation/update/{reservationId}", "/reservation/update/{reservationId}/" })
 	public ReservationDto updateReservation(@PathVariable("reservationId") Long reservationId,
-	@RequestParam(name = "timeSlotId") Long timeSlotId,
-	@RequestParam(name = "itemId1") Long itemId1,
-	@RequestParam(name = "itemId2") Long itemId2,
-	@RequestParam(name = "itemId3") Long itemId3,
-	@RequestParam(name = "itemId4") Long itemId4,
-	@RequestParam(name = "itemId5") Long itemId5)
+	@RequestParam(name = "timeSlotId") Long timeSlotId)
 	throws IllegalArgumentException {
-		List<Long> itemsId = new ArrayList<>();
-		List<Item> items = new ArrayList<>();
-		
-		itemsId.add(itemId5);
-		itemsId.add(itemId4);
-		itemsId.add(itemId3);
-		itemsId.add(itemId2);
-		itemsId.add(itemId1);
-		
-		for(Long i: itemsId) {
-			if(albumRepository.findAlbumByItemId(i) != null) {
-				items.add(albumRepository.findAlbumByItemId(i));
-			} else if(bookRepository.findBookByItemId(i) != null) {
-				items.add(bookRepository.findBookByItemId(i));
-			} else if(movieRepository.findMovieByItemId(i) != null) {
-				items.add(movieRepository.findMovieByItemId(i));
-			} else {
-				
-			}
-		}
 		TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotId(timeSlotId);
 		Reservation reservation = service.getReservation(reservationId);
-		Reservation updatedReservation = service.updateReservation(items, reservation, timeSlot);
+		Reservation updatedReservation = service.updateReservation(reservation, timeSlot);
 		ReservationDto updatedReservationDto = convertToDto(updatedReservation);
 		return updatedReservationDto;
 	}
@@ -180,8 +155,8 @@ public class ReservationRestController {
 	@DeleteMapping(value = { "/reservation/delete/{reservationId}", "/reservation/delete/{reservationId}/" })
 	public ReservationDto deleteReservation(@PathVariable("reservationId") Long reservationId) throws IllegalArgumentException {
 		Reservation reservation = service.getReservation(reservationId);
-		service.deleteReservation(reservation);
 		ReservationDto reservationDto = convertToDto(reservation);
+		service.deleteReservation(reservation);
 		return reservationDto;
 	}
 	

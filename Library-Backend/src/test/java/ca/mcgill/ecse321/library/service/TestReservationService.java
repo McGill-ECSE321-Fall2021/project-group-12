@@ -848,6 +848,7 @@ public class TestReservationService {
 		assertNull(book.getReservation());
 	}
 	
+	
 	@Test
 	public void testUpdateReservation() {
 		OnlineUser onlineUser = new OnlineUser();
@@ -901,42 +902,10 @@ public class TestReservationService {
 		movie.setTitle("MovieTitle");
 		movie.setCreator(movieCreator);
 		
-		Creator albumCreator = new Creator();
-		albumCreator.setFirstName("AlbumCreator");
-		albumCreator.setLastName("AlbumArtist");
-		albumCreator.setCreatorType(CreatorType.Artist);
-		albumCreator.setCreatorId(105L);
-		Album album = new Album();
-		album.setGenre(MusicGenre.Classical);
-		album.setIsArchive(false);
-		album.setIsAvailable(true);
-		album.setIsReservable(true);
-		album.setItemId(104L);
-		album.setNumSongs(10);
-		album.setReleaseDate(Date.valueOf("2000-01-03"));
-		album.setTitle("AlbumTitle");
-		album.setCreator(albumCreator);
-		
 		items.add(movie);
-		items.add(album);
 		items.add(book);
 		Reservation reservation = null;
 		reservation = service.createReservation(items, onlineUser, timeSlot);
-		
-		Book bookNew = new Book();
-		bookNew.setGenre(BMGenre.Classic);
-		bookNew.setIsArchive(false);
-		bookNew.setIsAvailable(true);
-		bookNew.setIsReservable(true);
-		bookNew.setNumPages(120);
-		bookNew.setReleaseDate(Date.valueOf("2000-02-02"));
-		bookNew.setTitle("NewBookTitle");
-		bookNew.setItemId(200L);
-		bookNew.setCreator(bookCreator);
-		
-		List<Item> newItems = new ArrayList<>();
-		newItems.add(bookNew);
-		newItems.add(movie);
 		
 		TimeSlot timeSlotNew = new TimeSlot();
 		timeSlotNew.setStartDate(Date.valueOf("2021-11-19"));
@@ -947,24 +916,18 @@ public class TestReservationService {
 		
 		Reservation updatedReservation = null;
 		try {
-			updatedReservation = service.updateReservation(newItems, reservation, timeSlotNew);
+			updatedReservation = service.updateReservation(reservation, timeSlotNew);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		assertNotNull(updatedReservation);
-		assertEquals(newItems, updatedReservation.getItems());
-		assertEquals(onlineUser, updatedReservation.getUser());
-		assertEquals(timeSlotNew, updatedReservation.getTimeSlot());
-		for(Item i: updatedReservation.getItems()) {
-			assertEquals(false, i.getIsAvailable());
-			assertEquals(false, i.getIsReservable());
-			assertEquals(updatedReservation, i.getReservation());
-		}
-		assertEquals(true, book.getIsReservable());
-		assertEquals(true, album.getIsReservable());
-		assertEquals(null, book.getReservation());
-		assertEquals(null, album.getReservation());
+		assertEquals(updatedReservation.getTimeSlot().getTimeSlotId(), timeSlotNew.getTimeSlotId());
+		assertEquals(updatedReservation.getUser().getUserId(), onlineUser.getUserId());
+		assertEquals(updatedReservation.getItems().size(), 2);
+		assertEquals(updatedReservation.getItems().get(0).getItemId(), movie.getItemId());
+		assertEquals(updatedReservation.getItems().get(1).getItemId(), book.getItemId());
 	}
+	
 	
 	@Test
 	public void testUpdateReservationIllegalTimeSlot() {
@@ -1017,7 +980,7 @@ public class TestReservationService {
 		Reservation newReservation = null;
 		String error = "";
 		try {
-			newReservation = service.updateReservation(items, reservation, timeSlotNew);
+			newReservation = service.updateReservation(reservation, timeSlotNew);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -1029,7 +992,7 @@ public class TestReservationService {
 		
 		TimeSlot timeSlotNull = null;
 		try {
-			newReservation = service.updateReservation(items, reservation, timeSlotNull);
+			newReservation = service.updateReservation(reservation, timeSlotNull);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -1041,7 +1004,7 @@ public class TestReservationService {
 		
 		TimeSlot timeSlotEmpty = new TimeSlot();
 		try {
-			newReservation = service.updateReservation(items, reservation, timeSlotEmpty);
+			newReservation = service.updateReservation(reservation, timeSlotEmpty);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -1050,134 +1013,6 @@ public class TestReservationService {
 		assertEquals(false, book.getIsAvailable());
 		assertEquals(false, book.getIsReservable());
 		assertEquals(reservation, book.getReservation());
-	}
-	
-	@Test
-	public void testUpdateReservationIllegalItems() {
-		OnlineUser onlineUser = new OnlineUser();
-		onlineUser.setAddress("3455 Durocher");
-		onlineUser.setEmail("123@gmail.com");
-		onlineUser.setFirstName("Parker");
-		onlineUser.setLastName("Peter");
-		onlineUser.setIsLocal(true);
-		onlineUser.setPassword("12345");
-		onlineUser.setUsername("SpiderMan");
-		onlineUser.setUserId(2L);
-		
-		TimeSlot timeSlot = new TimeSlot();
-		timeSlot.setStartDate(Date.valueOf("2021-11-18"));
-		timeSlot.setEndDate(Date.valueOf("2021-11-19"));
-		timeSlot.setStartTime(Time.valueOf("10:00:00"));
-		timeSlot.setEndTime(Time.valueOf("11:00:00"));
-		timeSlot.setTimeSlotId(3L);
-		
-		Creator bookCreator = new Creator();
-		bookCreator.setFirstName("BookCreator");
-		bookCreator.setLastName("BookAuthor");
-		bookCreator.setCreatorType(CreatorType.Author);
-		bookCreator.setCreatorId(101L);
-		Book book = new Book();
-		book.setGenre(BMGenre.Action);
-		book.setIsArchive(false);
-		book.setIsAvailable(true);
-		book.setIsReservable(true);
-		book.setNumPages(100);
-		book.setReleaseDate(Date.valueOf("2000-01-01"));
-		book.setTitle("BookTitle");
-		book.setItemId(100L);
-		book.setCreator(bookCreator);
-		
-		TimeSlot timeSlotNew = new TimeSlot();
-		timeSlotNew.setStartDate(Date.valueOf("2021-11-19"));
-		timeSlotNew.setEndDate(Date.valueOf("2021-11-20"));
-		timeSlotNew.setStartTime(Time.valueOf("10:00:00"));
-		timeSlotNew.setEndTime(Time.valueOf("11:00:00"));
-		timeSlotNew.setTimeSlotId(5L);
-		
-		Book bookNew = new Book();
-		bookNew.setGenre(BMGenre.Classic);
-		bookNew.setIsArchive(false);
-		bookNew.setIsAvailable(false);
-		bookNew.setIsReservable(true);
-		bookNew.setNumPages(120);
-		bookNew.setReleaseDate(Date.valueOf("2000-02-02"));
-		bookNew.setTitle("NewBookTitle");
-		bookNew.setItemId(200L);
-		bookNew.setCreator(bookCreator);
-		
-		List<Item> items = new ArrayList<>();
-		items.add(book);
-		Reservation reservation = null;
-		reservation = service.createReservation(items, onlineUser, timeSlot);
-		String error = "";
-		Reservation updatedReservation = null;
-		
-		List<Item> nullItems = null;
-		
-		try {
-			updatedReservation = service.updateReservation(nullItems, reservation, timeSlotNew);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertNull(updatedReservation);
-		assertEquals("Cannot update reservation with empty arguments.", error);
-		assertEquals(false, book.getIsAvailable());
-		assertEquals(false, book.getIsReservable());
-		assertEquals(reservation, book.getReservation());
-		assertEquals(reservation.getTimeSlot(), timeSlot);
-		assertEquals(reservation.getItems(), items);
-		
-		List<Item> emptyItems = new ArrayList<>();
-		try {
-			updatedReservation = service.updateReservation(emptyItems, reservation, timeSlotNew);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertNull(updatedReservation);
-		assertEquals("Cannot update reservation with empty arguments.", error);
-		assertEquals(false, book.getIsAvailable());
-		assertEquals(false, book.getIsReservable());
-		assertEquals(reservation, book.getReservation());
-		assertEquals(reservation.getTimeSlot(), timeSlot);
-		assertEquals(reservation.getItems(), items);
-		
-		List<Item> newItems = new ArrayList<>();
-		newItems.add(bookNew);
-		try {
-			updatedReservation = service.updateReservation(newItems, reservation, timeSlotNew);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertNull(updatedReservation);
-		assertEquals("At least one item selected is not reseverable", error);
-		assertEquals(false, book.getIsAvailable());
-		assertEquals(false, book.getIsReservable());
-		assertEquals(reservation, book.getReservation());
-		assertEquals(false, bookNew.getIsAvailable());
-		assertEquals(true, bookNew.getIsReservable());
-		assertNull(bookNew.getReservation());
-		assertEquals(reservation.getTimeSlot(), timeSlot);
-		assertEquals(reservation.getItems(), items);
-		
-		bookNew.setIsAvailable(true);
-		newItems.clear();
-		newItems.add(bookNew);
-		newItems.add(bookNew);
-		try {
-			updatedReservation = service.updateReservation(newItems, reservation, timeSlotNew);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertNull(updatedReservation);
-		assertEquals("Cannot update reservation with identical items.", error);
-		assertEquals(false, book.getIsAvailable());
-		assertEquals(false, book.getIsReservable());
-		assertEquals(reservation, book.getReservation());
-		assertEquals(true, bookNew.getIsAvailable());
-		assertEquals(true, bookNew.getIsReservable());
-		assertNull(bookNew.getReservation());
-		assertEquals(reservation.getTimeSlot(), timeSlot);
-		assertEquals(reservation.getItems(), items);
 	}
 	
 	@Test
@@ -1259,20 +1094,15 @@ public class TestReservationService {
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		assertEquals(true, book.getIsReservable());
-		assertEquals(true, movie.getIsReservable());
-		assertEquals(true, album.getIsReservable());
-		assertEquals(true, book.getIsAvailable());
-		assertEquals(true, movie.getIsAvailable());
-		assertEquals(true, album.getIsAvailable());
-		assertNull(book.getReservation());
-		assertNull(movie.getReservation());
-		assertNull(album.getReservation());
-		assertNull(reservation.getUser());
-		assertNull(reservation.getItems());
-		assertNull(reservation.getTimeSlot());
-		assertNull(reservation.getReservationId());
-		assertNull(reservation.getLibraryApplicationSystem());
+		assertNotNull(reservation);
+		assertEquals(false, book.getIsReservable());
+		assertEquals(false, movie.getIsReservable());
+		assertEquals(false, album.getIsReservable());
+		assertEquals(false, book.getIsAvailable());
+		assertEquals(false, movie.getIsAvailable());
+		assertEquals(false, album.getIsAvailable());
+		assertEquals(timeSlot.getTimeSlotId(), reservation.getTimeSlot().getTimeSlotId());
+		assertEquals(onlineUser.getUserId(), reservation.getUser().getUserId());
 	}
 	
 	@Test

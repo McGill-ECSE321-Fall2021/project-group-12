@@ -11,6 +11,7 @@ import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
+import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 
 @Service
@@ -39,6 +40,28 @@ public class LibraryHourService {
 		libraryHourRepository.save(libraryHour);
 		return libraryHour;
 	}
+	
+	
+	
+	
+	@Transactional
+	public LibraryHour assignLibraryHour(Librarian librarian, LibraryHour libraryHour) throws IllegalArgumentException {
+		if(librarian == null || libraryHour == null) {
+			throw new IllegalArgumentException("Cannot delete LibraryHour with empty arguments.");
+		}
+		if(librarian.getLibraryHours().contains(libraryHour)) {
+			throw new IllegalArgumentException("Targeting librarian already have such libraryHour.");
+		}
+		List<LibraryHour> updatedLibraryHours = librarian.getLibraryHours();
+		updatedLibraryHours.add(libraryHour);
+		librarian.setLibraryHours(updatedLibraryHours);
+		librarianRepository.save(librarian);
+		return libraryHour;
+	}
+	
+	
+	
+	
 	
 	@Transactional
 	public LibraryHour deleteLibraryHour(Librarian librarian, LibraryHour libraryHour) throws IllegalArgumentException {
