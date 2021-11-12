@@ -40,7 +40,7 @@ Design an application for a library to assist it in providing its services. Such
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
 | Aaron Mills | <ul><li>Business Methods:<br><ul><li>Creator</li><li>OnlineUser</li><li>OfflineUser</li><li>Newspaper</li></ul></li><li>DTOs:<br><ul><li>Creator</li><li>Item</li><li>Newspaper</li></ul></li><li>Controller:<br><ul><li>Creator</li><li>OnlineUser</li><li>Newspaper</li></ul></li><li>Unit Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Integration Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Code Coverage:<br><ul><li>Clean up code</li></ul></li></ul> | 39 |
-| Ann Trinh |
+| Ann Trinh | <ul><li>Buisiness Methods:<br><ul><li>Movie</li><li>Librarian</li></ul></li><li>DTOs:<br><ul><li>User</li><li>Librarian</li></ul></li><li>Controller:<br><ul><li>Movie</li><li>Librarian</li></ul></li><li>Unit Tests:<br><ul><li>Librarian</li></ul></li><li>Integration Tests:<br><ul><li>Librarian</li></ul></li><li>Documentation lead | 34 |
 | Chirag Sood |
 | Lucca Di Lullo | <ul><li>Business Methods:<br><ul><li>Album</li><li>Book</li></ul></li><li>DTOs:<br><ul><li>Album</li><li>Book</li></ul></li><li>Controller:<br><ul><li>Album</li><li>Book</li><li>Movie</li><li>OfflineUser</li></ul></li><li>Unit Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul><li>Integration Tests:<br><ul><li>Album</li><li>Book</li><li>Movie</li></ul></ul> | 33 |
 | Mia Stevanovic | <ul><li>Business Methods:<br><ul><li>TimeSlot</li><li>Event</li></ul></li><li>DTOs:<br><ul><li>TimeSlot</li><li>Event</li></ul></li><li>Controller:<br><ul><li>TimeSlot</li><li>Event</li></ul></li><li>Unit Tests:<br><ul><li>TimeSlot</li><li>Event</li></ul><li>Integration Tests:<br><ul><li>TimeSlot</li><li>Event</li></ul></ul> |  |
