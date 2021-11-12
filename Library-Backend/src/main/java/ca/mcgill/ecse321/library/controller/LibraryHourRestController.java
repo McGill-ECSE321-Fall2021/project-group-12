@@ -1,12 +1,10 @@
 package ca.mcgill.ecse321.library.controller;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.library.dto.LibraryHourDto;
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
-import ca.mcgill.ecse321.library.dto.LibrarianDto;
-import ca.mcgill.ecse321.library.dto.ReservationDto;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
-import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.service.LibraryHourService;
 
 @CrossOrigin(origins = "*")

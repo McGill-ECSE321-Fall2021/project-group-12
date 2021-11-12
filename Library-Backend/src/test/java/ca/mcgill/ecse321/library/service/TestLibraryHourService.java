@@ -24,7 +24,6 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
-import ca.mcgill.ecse321.library.model.Creator;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
@@ -59,48 +58,6 @@ public class TestLibraryHourService {
 				libraryHour1.setEndTime(Time.valueOf("18:00:00"));
 				libraryHour1.setLibraryHourId(LIBRARYHOUR_MONDAY_ID);
 				return libraryHour1;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_TUESDAY_ID)) {
-				LibraryHour libraryHour2 = new LibraryHour();
-				libraryHour2.setDay(Day.Tuesday);
-				libraryHour2.setStartTime(Time.valueOf("09:00:00"));
-				libraryHour2.setEndTime(Time.valueOf("19:00:00"));
-				libraryHour2.setLibraryHourId(LIBRARYHOUR_TUESDAY_ID);
-				return libraryHour2;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_WEDNESDAY_ID)) {
-				LibraryHour libraryHour3 = new LibraryHour();
-				libraryHour3.setDay(Day.Wednesday);
-				libraryHour3.setStartTime(Time.valueOf("10:00:00"));
-				libraryHour3.setEndTime(Time.valueOf("20:00:00"));
-				libraryHour3.setLibraryHourId(LIBRARYHOUR_WEDNESDAY_ID);
-				return libraryHour3;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_THURSDAY_ID)) {
-				LibraryHour libraryHour4 = new LibraryHour();
-				libraryHour4.setDay(Day.Thursday);
-				libraryHour4.setStartTime(Time.valueOf("11:00:00"));
-				libraryHour4.setEndTime(Time.valueOf("21:00:00"));
-				libraryHour4.setLibraryHourId(LIBRARYHOUR_THURSDAY_ID);
-				return libraryHour4;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_FRIDAY_ID)) {
-				LibraryHour libraryHour5 = new LibraryHour();
-				libraryHour5.setDay(Day.Friday);
-				libraryHour5.setStartTime(Time.valueOf("12:00:00"));
-				libraryHour5.setEndTime(Time.valueOf("22:00:00"));
-				libraryHour5.setLibraryHourId(LIBRARYHOUR_FRIDAY_ID);
-				return libraryHour5;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_SATURDAY_ID)) {
-				LibraryHour libraryHour6 = new LibraryHour();
-				libraryHour6.setDay(Day.Saturday);
-				libraryHour6.setStartTime(Time.valueOf("09:00:00"));
-				libraryHour6.setEndTime(Time.valueOf("12:00:00"));
-				libraryHour6.setLibraryHourId(LIBRARYHOUR_SATURDAY_ID);
-				return libraryHour6;
-			} else if(invocation.getArgument(0).equals(LIBRARYHOUR_SUNDAY_ID)) {
-				LibraryHour libraryHour7 = new LibraryHour();
-				libraryHour7.setDay(Day.Sunday);
-				libraryHour7.setStartTime(Time.valueOf("00:00:00"));
-				libraryHour7.setEndTime(Time.valueOf("00:00:00"));
-				libraryHour7.setLibraryHourId(LIBRARYHOUR_SUNDAY_ID);
-				return libraryHour7;
 			} else {
 				return null;
 			}
