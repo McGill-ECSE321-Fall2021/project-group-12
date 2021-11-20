@@ -28,7 +28,14 @@ export default {
 
     methods: {
         loginUser: function (username, password) {
-
+            const loginDto = new LoginDto(username, password)
+            AXIOS.post('/onlineuser/login/', loginDto)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(e => {
+                this.error = e;
+            })
         },
 
         gotoSignUp: function() {
