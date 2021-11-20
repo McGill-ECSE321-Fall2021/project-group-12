@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Login from '@/components/Login.vue'
+import SignUp from '@/components/SignUp.vue'
 
 
 Vue.use(Router)
@@ -17,6 +18,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: require('../components/Login.vue').default
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: require('../components/SignUp.vue').default
     }
   ]
 })
