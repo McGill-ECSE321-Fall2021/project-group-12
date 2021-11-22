@@ -10,11 +10,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 });
 
-function LoginDto (username, password) {
-    this.username = username
-    this.password = password
-}
-
 export default {
     name: "login",
     data(){
@@ -28,12 +23,15 @@ export default {
 
     methods: {
         loginUser: function (username, password) {
-            const loginDto = new LoginDto(username, password)
-            AXIOS.post('/onlineuser/login/', loginDto)
+            console.log('username: ' + username)
+            console.log('password: ' + password)
+            AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
             .then(response => {
-                console.log(response.data);
+                this.response = response.data;
             })
             .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
                 this.error = e;
             })
         },
