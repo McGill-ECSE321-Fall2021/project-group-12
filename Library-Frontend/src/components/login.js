@@ -28,6 +28,7 @@ export default {
             AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
             .then(response => {
                 this.response = response.data;
+                localStorage.setItem('username', username);
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
