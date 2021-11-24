@@ -49,13 +49,12 @@ export default {
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);
+                gottoOnlineUserView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
                 console.log('\nbackend url:' + backendUrl)
                 this.error = e;
-                console.log(e.response)
-                console.log(e.response.data)
             })
         },
 
