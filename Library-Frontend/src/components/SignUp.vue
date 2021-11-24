@@ -19,6 +19,7 @@
             <input class="text-field" type="text" v-model="email" placeholder="Email">
             <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpUser(firstName, lastName, address, isLocal, username, password, email)" class="btn">Signup</button>
           </div>
+          <h2>Sign Up Librarian</h2>
           <div2 class="card-body mt-3 mb-3">
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
@@ -27,7 +28,7 @@
             <input class="text-field" type="text" v-model="username" placeholder="Username">
             <input class="text-field" type="text" v-model="password" placeholder="Password">
             <input class="text-field" type="text" v-model="email" placeholder="Email">
-            <label>Local:</label><input type="checkbox" class="text-field" v-model="isHead">
+            <label>isHead:</label><input type="checkbox" class="text-field" v-model="isHead">
             <input class="text-field" type="text" v-model="email" placeholder="id">
             <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, isLocal, username, password, email, isHead, id)" class="btn">Signup</button>
           </div2>

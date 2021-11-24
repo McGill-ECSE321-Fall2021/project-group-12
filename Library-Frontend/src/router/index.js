@@ -29,6 +29,11 @@ export default new Router({
       path: '/onlineuser',
       name: 'OnlineUser',
       component: require('../components/OnlineUser.vue').default
+    },
+    {
+      path: '/librarian',
+      name: 'Librarian',
+      component: require('../components/Librarian.vue').default
     }
   ]
 })

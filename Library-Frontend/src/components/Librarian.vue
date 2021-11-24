@@ -1,39 +1,6 @@
 <template>
-  <div id="login">
-    <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
-      <div class="container-fluid">
-        <a class="navbar-header">Library</a>
-      </div>
-    </nav>
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-5 mt-5 mr-5">
-            <input class="text-field" type="text" v-model="item_query" placeholder="Search Item...">
-            <i class="bi-search search-icon" v-bind:diabled="!item_query" @click="searchItem(item_query)"></i>
-            <li v-for="item in item_response" :key="item.title">
-                {{item.title}}
-                <button @click="toggleReserved(item)" class="btn">Reserve</button>
-            </li>
-            <br>
-            <button @click="getReservedItems()" class="btn">Reserved Items</button>
-            <li v-for="item in reserved_response.items" :key="item.title">
-                {{item.title}}
-                <button @click="toggleReserved(item)" class="btn">Reserve</button>
-            </li>
-        </div>
-        <div class="col-md-5 mt-5 ml-5">
-          
-        </div>
-      </div>  
-      <div class="row">
-        <div class="col-xl-12 mt-3 mb-3">
-            <button @click="logout()" class="btn">Logout</button>
-        </div>
-    </div>          
-   </div>
-    <p>
-      <span v-if="error" style="color:red">{{ error }}</span>
-    </p>
+  <div id="librarian">
+    <h2>Librarian</h2>
   </div>    
 </template>
 
