@@ -432,7 +432,7 @@ public class LibrarianService {
 						|| password.charAt(i) == 95) {
 					// special characters: !, #, $, %, &, *, +, -, =, ?, @, ^, _
 					specialChar = true;
-				} else if (!(password.charAt(i) > 96 && password.charAt(i) < 123)||!(password.charAt(i) > 47 && password.charAt(i) < 58)) {
+				} else if (!(password.charAt(i) > 96 && password.charAt(i) < 123)&&!(password.charAt(i) > 47 && password.charAt(i) < 58)) {
 					invalid = true; // may be invalid if character at i is not uppercase or one of the designated
 									// special characters.
 				}
