@@ -8,7 +8,8 @@
    <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
-          <div class="card-body mt-5 mb-5">
+          <h1>Sign Up</h1>
+          <div class="card-body mt-3 mb-3">
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
             <input class="text-field" type="text" v-model="address" placeholder="Address">
@@ -43,7 +44,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 100vh;
+    height: 120vh;
   }
   .navbar-main {
     font-family: var(--font);

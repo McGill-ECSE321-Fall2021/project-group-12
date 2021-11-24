@@ -11,7 +11,6 @@ import ca.mcgill.ecse321.library.dao.LibrarianRepository;
 import ca.mcgill.ecse321.library.dao.LibraryHourRepository;
 import ca.mcgill.ecse321.library.model.Librarian;
 import ca.mcgill.ecse321.library.model.LibraryHour;
-import ca.mcgill.ecse321.library.model.Reservation;
 import ca.mcgill.ecse321.library.model.LibraryHour.Day;
 
 @Service
