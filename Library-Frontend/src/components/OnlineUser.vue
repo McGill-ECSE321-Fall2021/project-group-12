@@ -10,15 +10,21 @@
         <div class="col-md-5 mt-5 mr-5">
             <input class="text-field" type="text" v-model="item_query" placeholder="Search Item...">
             <i class="bi-search search-icon" v-bind:diabled="!item_query" @click="searchItem(item_query)"></i>
-            <li v-for="item in item_response" :key="item.title">
-                {{item.title}}
-                <button @click="toggleReserved(item)" class="btn">Reserve</button>
+            <li class="left-align" v-for="item in item_response" :key="item.itemId">
+                <b>{{item.title}}</b><br>
+                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
             <br>
             <button @click="getReservedItems()" class="btn">Reserved Items</button>
-            <li v-for="item in reserved_response.items" :key="item.title">
-                {{item.title}}
-                <button @click="toggleReserved(item)" class="btn">Reserve</button>
+            <li v-for="item in reserved_response.items" :key="item.itemId">
+                <b>{{item.title}}</b><br>
+                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                <button @click="removeItem(item)" class="btn">Remove</button>
             </li>
         </div>
         <div class="col-md-5 mt-5 ml-5">
@@ -118,5 +124,9 @@
     color: var(--light-color);
     transition: 0.3s;
     cursor:pointer;
+}
+
+.left-align {
+  text-align: left;
 }
 </style>

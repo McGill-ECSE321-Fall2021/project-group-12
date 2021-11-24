@@ -37,6 +37,13 @@ export default {
     },
 
     methods: {
+        gotoOnlineUserView: function() {
+            Router.push({
+                path: "/onlineuser",
+                name: "OnlineUser",
+            });
+        },
+
         signUpUser: function (firstName, lastName, address, isLocal, username, password, email) {
             console.log('first name: ' + firstName)
             console.log('last name: ' + lastName)
@@ -49,7 +56,7 @@ export default {
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);
-                gottoOnlineUserView();
+                this.gotoOnlineUserView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -62,13 +69,6 @@ export default {
             Router.push({
                 path: "/login",
                 name: "Login",
-            });
-        },
-
-        gottoOnlineUserView: function() {
-            Router.push({
-                path: "/onlineuser",
-                name: "OnlineUser",
             });
         },
     },

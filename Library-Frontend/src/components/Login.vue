@@ -12,7 +12,8 @@
           <div class="card-body mt-3 mb-3">
               <input class="text-field" type="text" v-model="username" placeholder="Username">
               <input class="text-field" type="text" v-model="password" placeholder="Password">
-              <button v-bind:diabled="!username||!password" @click="loginUser(username, password)" class="btn">Login</button>
+              <label>Librarian:</label><input type="checkbox" class="text-field" v-model="isLibrarian">
+              <button v-bind:diabled="!username||!password" @click="loginUser(username, password, isLibrarian)" class="btn">Login</button>
           </div>
           <br>
           <a class="regular-text">Don't have an account?</a>
