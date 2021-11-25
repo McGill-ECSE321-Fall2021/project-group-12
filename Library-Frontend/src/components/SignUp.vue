@@ -19,6 +19,7 @@
             <input class="text-field" type="text" v-model="email" placeholder="Email">
             <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpUser(firstName, lastName, address, isLocal, username, password, email)" class="btn">Signup</button>
           </div>
+          <br>
           <h2>Sign Up Librarian</h2>
           <div2 class="card-body mt-3 mb-3">
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">

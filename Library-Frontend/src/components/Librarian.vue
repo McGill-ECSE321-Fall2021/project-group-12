@@ -1,6 +1,20 @@
 <template>
   <div id="librarian">
-    <h2>Librarian</h2>
+     <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
+      <div class="container-fluid">
+        <a class="navbar-header">Library</a>
+      </div>
+    </nav>
+   <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-3 mt-5">
+          <h1>Librarian</h1>
+        </div>
+      </div>            
+   </div>
+    <p>
+      <span v-if="error" style="color:red">{{ error }}</span>
+    </p>
   </div>    
 </template>
 
