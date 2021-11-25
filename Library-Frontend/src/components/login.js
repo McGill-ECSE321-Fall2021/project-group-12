@@ -29,6 +29,7 @@ export default {
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);
+                gottoOnlineUserView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -44,6 +45,7 @@ export default {
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);
+                gotoLibrarianView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -56,6 +58,20 @@ export default {
             Router.push({
                 path: "/signup",
                 name: "SignUp",
+            });
+        },
+
+        gotoLibrarianView: function() {
+            Router.push({
+                path: "/librarian",
+                name: "Librarian",
+            });
+        },
+
+        gottoOnlineUserView: function() {
+            Router.push({
+                path: "/onlineuser",
+                name: "OnlineUser",
             });
         },
     },
