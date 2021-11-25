@@ -67,14 +67,14 @@ public class OfflineUserRestController {
     }
 
     //updating exist user
-    @PutMapping(value = {"/offlineuser/update/{id}", "/offlineuser/update/{id}/"})
-    public OfflineUserDto updateRestOfflineUser(@PathVariable("id") long id, @RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
+    @PutMapping(value = {"/offlineuser/update", "/offlineuser/update/"})
+    public OfflineUserDto updateRestOfflineUser(@RequestParam("id") long id, @RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
         return convertToDto(service.updateOfflineUser(id,firstname,lastname,address,isLocal));
     }
     
     //deleting user by id
-    @DeleteMapping(value = { "/offlineuser/delete/{id}", "/offlineuser/delete/{id}/"})
-    public OfflineUserDto deleteRestOfflineUser(@PathVariable("id") Long id) throws IllegalArgumentException {
+    @DeleteMapping(value = { "/offlineuser/delete", "/offlineuser/delete/"})
+    public OfflineUserDto deleteRestOfflineUser(@RequestParam("id") Long id) throws IllegalArgumentException {
         OfflineUser offlineUser = service.getOfflineUser(id);
         service.deleteOfflineUser(id);
         return convertToDto(offlineUser);
