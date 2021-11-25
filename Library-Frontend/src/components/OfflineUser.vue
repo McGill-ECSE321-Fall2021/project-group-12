@@ -9,8 +9,14 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
         <br>
-          <h1>Offline User</h1>
-          <br>
+          <h1>Create Offline Account</h1>
+           <div class="card-body mt-3 mb-3">
+            <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
+            <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
+            <input class="text-field" type="text" v-model="address" placeholder="Address">
+            <label>Local:</label><input type="checkbox" class="text-field" v-model="isLocal">
+            <button v-bind:diabled="!firstName||!lastName||!address" @click="signUpUser(firstName, lastName, address, isLocal)" class="btn">Register</button>
+          </div>
           <button class="btn mt-3 mb-5" @click="gotoLibrarianView()">Back</button>
         </div>
       </div>            

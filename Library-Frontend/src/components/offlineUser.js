@@ -25,6 +25,23 @@ export default {
 
     methods: {
         
+        signUpOffline: function (firstName, lastName, address, isLocal) {
+            console.log('first name: ' + firstName)
+            console.log('last name: ' + lastName)
+            console.log('address: ' + address)
+            console.log('isLocal: ' + isLocal)
+            AXIOS.post('offlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('username', username);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
         gotoLibrarianView: function() {
             Router.push({
                 path: "/librarian",

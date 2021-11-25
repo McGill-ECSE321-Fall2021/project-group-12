@@ -11,7 +11,7 @@
         <br>
           <h1>Librarian</h1>
           <br>
-          <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Register Offline User</button>
+          <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Offline User Services</button>
         </div>
       </div>            
    </div>

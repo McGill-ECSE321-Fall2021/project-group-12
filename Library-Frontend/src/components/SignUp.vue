@@ -31,7 +31,7 @@
             <input class="text-field" type="text" v-model="email" placeholder="Email">
             <label>isHead:</label><input type="checkbox" class="text-field" v-model="isHead">
             <input class="text-field" type="text" v-model="email" placeholder="id">
-            <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, isLocal, username, password, email, isHead, id)" class="btn">Signup</button>
+            <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email||!id" @click="signUpLibrarian(firstName, lastName, address, isLocal, username, password, email, isHead, id)" class="btn">Signup</button>
           </div2>
           <br>
           <a class="regular-text">Already have an account?</a>
