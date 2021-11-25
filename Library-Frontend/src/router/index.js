@@ -34,6 +34,11 @@ export default new Router({
       path: '/librarian',
       name: 'Librarian',
       component: require('../components/Librarian.vue').default
+    },
+    {
+      path: '/offlineuser',
+      name: 'OfflineUser',
+      component: require('../components/OfflineUser.vue').default
     }
   ]
 })

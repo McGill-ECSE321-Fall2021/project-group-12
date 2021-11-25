@@ -11,7 +11,7 @@ var AXIOS = axios.create({
 });
 
 export default {
-    name: "librarian",
+    name: "offlineuser",
     data(){
         return {
             username: localStorage.getItem('username'),
@@ -25,10 +25,10 @@ export default {
 
     methods: {
         
-        gotoOfflineUserView: function() {
+        gotoLibrarianView: function() {
             Router.push({
-                path: "/offlineuser",
-                name: "OfflineUser",
+                path: "/librarian",
+                name: "Librarian",
             });
         },
         

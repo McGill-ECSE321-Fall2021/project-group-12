@@ -1,5 +1,5 @@
 <template>
-  <div id="librarian">
+  <div id="offlineuser">
      <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-header">Library</a>
@@ -9,9 +9,9 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
         <br>
-          <h1>Librarian</h1>
+          <h1>Offline User</h1>
           <br>
-          <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Register Offline User</button>
+          <button class="btn mt-3 mb-5" @click="gotoLibrarianView()">Back</button>
         </div>
       </div>            
    </div>
@@ -21,7 +21,7 @@
   </div>    
 </template>
 
-<script src="./librarian.js"></script>
+<script src="./offlineUser.js"></script>
 <style>
   :root {
     --primary-color: #ED1B2F;
@@ -30,7 +30,7 @@
     --dark-secondary: #414141;
     --font: "Roboto"
   }
-  #librarian {
+  #offlineuser {
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
