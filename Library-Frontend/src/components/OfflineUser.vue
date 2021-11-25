@@ -56,7 +56,6 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 100vh;
   }
   .navbar-main {
     font-family: var(--font);
