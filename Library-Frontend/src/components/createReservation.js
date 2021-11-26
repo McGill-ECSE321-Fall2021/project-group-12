@@ -22,18 +22,41 @@ export default {
             all_newspapers: [],
             item_query: '',
             item_response: [],
-            reserved_response: [],
+            reserved_items: [],
             current_item: null,
             current_reservation: null,
             year: '',
             month: '',
             day: '',
             error: '',
-            response: ''
+            response: '',
+            alert: ''
         }
     },
 
     methods: {
+
+        reserveItem: function(item) {
+            if (item === null){
+                this.error = "";
+                return
+            }
+            if (this.current_timeslot === null){
+                this.error = "Please select a return date before selecting your items."
+                return
+            }
+            if (this.current_reservation === null){
+                var reservation_items = [item.itemId]
+                AXIOS.post('onlineuser/reserve/username/'+this.username, reservation_items, this.current_timeslot.timeSlotId)
+            } else {
+                AXIOS.post('onlineuser/additem/username/'+this.username, this.current_reservation.reservationId, item.itemId)
+            }
+            this.reserved_items.add(item)
+        },
+
+        removeItem: function(item) {
+
+        },
 
         createTimeSlot: function(year, month, day) {
             var date = new Date();
@@ -50,13 +73,11 @@ export default {
                     this.year = '';
                     this.month = '';
                     this.day = '';
+                    this.alert = "Return Date Selected!"
             }).catch(e => {
                 console.log(e)
                 this.error = e;
             })
-
-            AXIOS.post('')
-
         },
 
         getAllMovies: function() {
@@ -141,39 +162,6 @@ export default {
             })
         },
 
-        reserveItem: function(item) {
-            if (item === null){
-                this.error = "";
-                return
-            }
-            if (time)
-            console.log("item: "+item)  
-            console.log('reservation: '+localStorage.getItem('reservation'))
-            console.log('userId: '+localStorage.getItem('userId'))
-            if (localStorage.getItem('reservation') === null){
-                Router.push({
-                    path: "/createreservation",
-                    name: "CreateReservation",
-                });
-                AXIOS.post('/onlineuser/reserve/username/'+localStorage.getItem('username'))
-                .then(response => {
-                    console.log(response)
-                    localStorage.setItem('reservation', response.data.reservationId) // save reservation id
-                    console.log('new reservation: '+localStorage.getItem('reservation'))
-                })
-            }
-            var reservationId = localStorage.getItem('reservation')
-            console.log('reservationId: '+reservationId)
-            AXIOS.post('onlineuser/additem/userId/'+localStorage.getItem('userId')+'?reservationId='+localStorage.getItem('reservation')+'&itemId='+item)
-            .then(response => {
-                console.log(response)
-            })
-        },
-
-        removeItem: function(item) {
-
-        },
-
 
         logout: function() {
             localStorage.clear();
@@ -190,8 +178,8 @@ export default {
             }
             AXIOS.get('/onlineuser/reservations/username/'+localStorage.getItem('username'))
             .then(response => {
-                this.reserved_response = response.data;
-                console.log(this.reserved_response);
+                this.reserved_items = response.data;
+                console.log(this.reserved_items);
             })
         },
 

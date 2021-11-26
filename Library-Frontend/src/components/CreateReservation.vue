@@ -22,9 +22,9 @@
             <i class="bi-search search-icon" v-bind:diabled="!item_query" @click="searchItem(item_query)"></i>
             <li class="left-align" v-for="item in item_response" :key="item.itemId">
                 <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                &emsp;&emsp;<b><i>ID:</i></b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b><i>Creator:</i></b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b><i>Release Date:</i></b> &ensp;{{item.releaseDate}}<br>
                 <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
         </div>
@@ -33,9 +33,9 @@
             <button @click="getAllAlbums()" class="btn">Browse Albums</button>
             <li class="left-align" v-for="item in all_albums" :key="item.itemId">
                 <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                &emsp;&emsp;<b><i>ID:</i></b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b><i>Creator:</i></b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b><i>Release Date:</i></b> &ensp;{{item.releaseDate}}<br>
                 <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
         </div>
@@ -43,9 +43,9 @@
             <button @click="getAllBooks()" class="btn">Browse Books</button>
             <li class="left-align" v-for="item in all_books" :key="item.itemId">
                 <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                &emsp;&emsp;<b><i>ID:</i></b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b><i>Creator:</i></b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b><i>Release Date:</i></b> &ensp;{{item.releaseDate}}<br>
                 <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
         </div>
@@ -53,9 +53,9 @@
             <button @click="getAllMovies()" class="btn">Browse Movies</button>
             <li class="left-align" v-for="item in all_movies" :key="item.itemId">
                 <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                &emsp;&emsp;<b><i>ID:</i></b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b><i>Creator:</i></b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b><i>Release Date:</i></b> &ensp;{{item.releaseDate}}<br>
                 <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
         </div>
@@ -63,9 +63,9 @@
             <button @click="getAllNewspapers()" class="btn">Browse Newspapers</button>
             <li class="left-align" v-for="item in all_newspapers" :key="item.itemId">
                 <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
+                &emsp;&emsp;<b><i>ID:</i></b> &ensp;{{item.itemId}}<br>
+                &emsp;&emsp;<b><i>Creator:</i></b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
+                &emsp;&emsp;<b><i>Release Date:</i></b> &ensp;{{item.releaseDate}}<br>
                 <button @click="reserveItem(item)" class="btn">Reserve</button>
             </li>
         </div>
@@ -74,7 +74,7 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-3">
            <button @click="getReservedItems()" class="btn">Reserved Items</button>
-            <li v-for="item in reserved_response.items" :key="item.itemId">
+            <li v-for="item in reserved_items" :key="item.itemId">
                 <b>{{item.title}}</b><br>
                 &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
                 &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
@@ -84,6 +84,11 @@
         </div>
       </div>
       <div class="row d-flex justify-content-center">
+        <div class="col-xl-12 mt-3">
+            <button @click="gotoOnlineUser()" class="btn"><i class="bi bi-arrow-left"></i></button>
+        </div>
+    </div>  
+      <div class="row d-flex justify-content-center">
         <div class="col-xl-12 mt-3 mb-3">
             <button @click="logout()" class="btn">Logout</button>
         </div>
@@ -92,6 +97,9 @@
     <p>
       <span v-if="error" style="color:red">{{ error }}</span>
     </p>
+    <p>
+      <span v-if="alert" style="color:green">{{ alert }}</span>
+    </p> 
   </div>    
 </template>
 <script src="./createReservation.js"></script>
@@ -180,5 +188,9 @@
 
 .left-align {
   text-align: left;
+}
+
+.bi {
+  font-size: 18px;
 }
 </style>
