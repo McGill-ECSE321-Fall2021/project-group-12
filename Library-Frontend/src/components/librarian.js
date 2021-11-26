@@ -25,6 +25,203 @@ export default {
 
     methods: {
         
+        createAlbum: function (title, isArchive, isReservable, releaseDate, numSongs, available, genre, creatorId) {
+            console.log('title: ' + title)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('release date: ' + releaseDate)
+            console.log('num songs: ' + numSongs)
+            console.log('available: ' + available)
+            console.log('genre: ' + genre)
+            console.log('creator id: ' + creatorId)
+            AXIOS.post('librarian/album/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numSongs='+numSongs+'&available='+available+'&genre='+genre+'&creatorId='+creatorId)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('title', title);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        deleteAlbum: function (id) {
+            console.log('id: ' + id)
+            AXIOS.delete('/librarian/ablum/delete?id='+id)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        updateAlbum: function (id, isArchive, isReservable, available) {
+            console.log('id: ' + id)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('available: ' + available)
+            AXIOS.put('librarian/album/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+available)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        createBook: function (title, isArchive, isReservable, releaseDate, numPages, available, genre, creatorId) {
+            console.log('title: ' + title)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('release date: ' + releaseDate)
+            console.log('num pages: ' + numPages)
+            console.log('available: ' + available)
+            console.log('genre: ' + genre)
+            console.log('creator id: ' + creatorId)
+            AXIOS.post('librarian/book/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numPages='+numPages+'&available='+available+'&genre='+genre+'&creatorId='+creatorId)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('title', title);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        deleteBook: function (id) {
+            console.log('id: ' + id)
+            AXIOS.delete('/librarian/book/delete?id='+id)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        updateBook: function (id, isArchive, isReservable, available) {
+            console.log('id: ' + id)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('available: ' + available)
+            AXIOS.put('librarian/book/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+available)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        createMovie: function (title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creatorId) {
+            console.log('title: ' + title)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('is available: ' + isAvailable)
+            console.log('release date: ' + releaseDate)
+            console.log('duration: ' + duration)
+            console.log('genre: ' + genre)
+            console.log('creator id: ' + creatorId)
+            AXIOS.post('librarian/book/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+isAvailable+'&releaseDate='+releaseDate+'&duration='+duration+'&genre='+genre+'&creatorId='+creatorId)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('title', title);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        deleteMovie: function (id) {
+            console.log('id: ' + id)
+            AXIOS.delete('/librarian/movie/delete?id='+id)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        updateMovie: function (id, isArchive, isReservable, isAvailable) {
+            console.log('id: ' + id)
+            console.log('is archive: ' + isArchive)
+            console.log('is reservable: ' + isReservable)
+            console.log('is available: ' + isAvailable)
+            AXIOS.put('librarian/movie/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+isAvailable)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        createNewspaper: function (title, isArchive, releaseDate, creatorId) {
+            console.log('title: ' + title)
+            console.log('is archive: ' + isArchive)
+            console.log('release date: ' + releaseDate)
+            console.log('creator id: ' + creatorId)
+            AXIOS.post('librarian/newspaper/create?title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('title', title);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        deleteNewspaper: function (id) {
+            console.log('id: ' + id)
+            AXIOS.delete('/librarian/newspaper/delete?id='+id)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        updateNewspaper: function (id, title, isArchive, releaseDate, creatorId) {
+            console.log('id: ' + id)
+            console.log('title: ' + title)
+            console.log('is archive: ' + isArchive)
+            console.log('release date: ' + releaseDate)
+            console.log('creator id: ' + creatorId)
+            AXIOS.put('librarian/newspaper/update?id='+id+'&title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
+            .then(response => {
+                this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
         gotoOfflineUserView: function() {
             Router.push({
                 path: "/offlineuser",

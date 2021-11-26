@@ -44,7 +44,7 @@ export default {
 
         deleteOffline: function (id) {
             console.log('id: ' + id)
-            AXIOS.post('/offlineuser/delete?id='+id)
+            AXIOS.delete('/offlineuser/delete?id='+id)
             .then(response => {
                 this.response = response.data;
             })
@@ -61,7 +61,7 @@ export default {
             console.log('last name: ' + lastName)
             console.log('address: ' + address)
             console.log('isLocal: ' + isLocal)
-            AXIOS.post('offlineuser/update?id='+id+'&firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal)
+            AXIOS.put('offlineuser/update?id='+id+'&firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal)
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);

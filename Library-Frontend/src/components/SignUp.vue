@@ -13,7 +13,10 @@
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
             <input class="text-field" type="text" v-model="address" placeholder="Address">
-            <label>Local:</label><input type="checkbox" class="text-field" v-model="isLocal">
+            <br>
+            <label>Local:</label>
+            <br>
+            <input type="checkbox" class="text-field" v-model="isLocal">
             <input class="text-field" type="text" v-model="username" placeholder="Username">
             <input class="text-field" type="text" v-model="password" placeholder="Password">
             <input class="text-field" type="text" v-model="email" placeholder="Email">
@@ -25,14 +28,21 @@
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
             <input class="text-field" type="text" v-model="address" placeholder="Address">
-            <label>Local:</label><input type="checkbox" class="text-field" v-model="isLocal">
+            <br>
+            <label>Local:</label>
+            <br>
+            <input type="checkbox" class="text-field" v-model="isLocal">
             <input class="text-field" type="text" v-model="username" placeholder="Username">
             <input class="text-field" type="text" v-model="password" placeholder="Password">
             <input class="text-field" type="text" v-model="email" placeholder="Email">
-            <label>isHead:</label><input type="checkbox" class="text-field" v-model="isHead">
+            <br>
+            <label>isHead:</label>
+            <br>
+            <input type="checkbox" class="text-field" v-model="isHead">
             <input class="text-field" type="text" v-model="email" placeholder="id">
             <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, isLocal, username, password, email, isHead, id)" class="btn">Signup</button>
           </div2>
+          <br>
           <br>
           <a class="regular-text">Already have an account?</a>
           <br>
