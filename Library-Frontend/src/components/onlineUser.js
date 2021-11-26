@@ -19,57 +19,20 @@ export default {
             item_query: '',
             item_response: [],
             reserved_response: [],
+            current_item: null,
             error: '',
             response: ''
         }
     },
 
     methods: {
-        searchItem: function (query) {
-            if (query === null || query === ""){
-                this.error = "";
-                return
-            }
-            console.log('item query: ' + query);
-            AXIOS.get('items/getbytitle/'+query)
-            .then(response => {
-                console.log(response)
-                this.item_response = response.data;
-                this.item_query = '';
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl);
-                console.log('\nbackend url:' + backendUrl);
-                this.error = e;
-            })
+
+        gotoCreateReservation: function() {
+            Router.push({
+                path: "/createreservation",
+                name: "CreateReservation",
+            });
         },
-
-        reserveItem: function(item) {
-            if (item === null){
-                this.error = "";
-                return
-            }
-            console.log("item: "+item)
-            console.log('reservation'+reservation)
-            console.log('userId'+userId)
-            if (localStorage.getItem('reservation') === null){
-                AXIOS.post('/reservation/create/'+localStorage.getItem('userId'))
-                .then(response => {
-                    console.log(response)
-                    localStorage.setItem('reservation', response.data.reservationId) // save reservation id
-                })
-            }
-            var reservationId = localStorage.getItem('reservation')
-            AXIOS.post('onlineuser/additem/userId/'+localStorage.getItem('userId')+'?reservationId='+localStorage.getItem('reservation')+'&itemId='+item.data.itemId)
-            .then(response => {
-                console.log(response)
-            })
-        },
-
-        removeItem: function(item) {
-
-        },
-
 
         logout: function() {
             localStorage.clear();
@@ -89,6 +52,16 @@ export default {
                 this.reserved_response = response.data;
                 console.log(this.reserved_response);
             })
+        },
+
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem('username'))
+            if (localStorage.getItem('username') === null){
+                this.logout();
+            }
         }
+    },
+    beforeMount() {
+        this.checkLoggedIn();
     },
 };

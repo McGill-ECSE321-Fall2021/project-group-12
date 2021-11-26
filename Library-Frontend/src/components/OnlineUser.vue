@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="body">
     <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-header">Library</a>
@@ -7,31 +7,11 @@
     </nav>
     <div class="container">
       <div class="row d-flex justify-content-center">
-        <div class="col-md-5 mt-5 mr-5">
-            <input class="text-field" type="text" v-model="item_query" placeholder="Search Item...">
-            <i class="bi-search search-icon" v-bind:diabled="!item_query" @click="searchItem(item_query)"></i>
-            <li class="left-align" v-for="item in item_response" :key="item.itemId">
-                <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
-                <button @click="reserveItem(item)" class="btn">Reserve</button>
-            </li>
-            <br>
-            <button @click="getReservedItems()" class="btn">Reserved Items</button>
-            <li v-for="item in reserved_response.items" :key="item.itemId">
-                <b>{{item.title}}</b><br>
-                &emsp;&emsp;<b>ID:</b> &ensp;{{item.itemId}}<br>
-                &emsp;&emsp;<b>Creator:</b> &ensp;{{item.creator.lastName}}, {{item.creator.firstName}}<br>
-                &emsp;&emsp;<b>Release Date:</b> &ensp;{{item.releaseDate}}<br>
-                <button @click="removeItem(item)" class="btn">Remove</button>
-            </li>
-        </div>
-        <div class="col-md-5 mt-5 ml-5">
-          
+        <div class="col-xl-12 mt-5">
+            <button @click="gotoCreateReservation()" class="btn">Create Reservation</button>
         </div>
       </div>  
-      <div class="row">
+      <div class="row d-flex justify-content-center">
         <div class="col-xl-12 mt-3 mb-3">
             <button @click="logout()" class="btn">Logout</button>
         </div>
@@ -51,7 +31,7 @@
     --dark-secondary: #414141;
     --font: "Roboto"
   }
-  #login {
+  #body {
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);

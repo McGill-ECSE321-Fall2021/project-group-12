@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Login from '@/components/Login.vue'
-import SignUp from '@/components/SignUp.vue'
-import OnlineUser from '@/components/OnlineUser.vue'
 
 
 Vue.use(Router)
@@ -29,6 +26,11 @@ export default new Router({
       path: '/onlineuser',
       name: 'OnlineUser',
       component: require('../components/OnlineUser.vue').default
+    },
+    {
+      path: '/createreservation',
+      name: 'CreateReservation',
+      component: require('../components/CreateReservation.vue').default
     }
   ]
 })

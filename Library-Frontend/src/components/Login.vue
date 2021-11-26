@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="body">
     <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-header">Library</a>
@@ -36,7 +36,7 @@
     --dark-secondary: #414141;
     --font: "Roboto"
   }
-  #login {
+  #body {
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
