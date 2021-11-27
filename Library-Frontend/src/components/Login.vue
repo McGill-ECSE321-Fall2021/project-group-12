@@ -89,6 +89,13 @@
   }
 
   .eye-icon {
-    cursor:pointer;
+    color: var(--light-color);
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .eye-icon:hover, .eye-icon:active, .eye-icon:focus {
+    color: var(--primary-color);
+    transition: 0.3s;
   }
 </style>
