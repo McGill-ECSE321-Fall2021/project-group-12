@@ -130,7 +130,7 @@ public class LibrarianRestController {
 		return convertToDto(librarianService.getLibrarian(username));
 	}
 	@GetMapping(value = {"/librarian/offlineUser/{id}", "/librarian/offlineUser/{id}/"})
-	public OfflineUserDto getLibrarianByUsername(@PathVariable("id") Long id) {
+	public OfflineUserDto getOfflineUserByUsername(@PathVariable("id") Long id) {
 		return convertToDto(offlineUserService.getOfflineUser(id));
 	}
 	@GetMapping(value = {"/librarian/head", "/librarian/head/"})

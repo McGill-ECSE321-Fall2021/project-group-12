@@ -228,7 +228,7 @@ export default {
                 return
             }
             console.log('offlineUser query: ' + query);
-            AXIOS.get('librarian/oflineUser/'+query)
+            AXIOS.get('librarian/offlineUser/'+query)
             .then(response => {
                 this.id_response = response.data;
                 this.id_query = '';
