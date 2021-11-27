@@ -873,7 +873,7 @@ public class OnlineUserService {
     	    		item.setIsReservable(true);
     				reservation.removeItem(item);
     				if (reservation.getItems().size() == 0) {
-    					reservationRepository.delete(reservation);
+    					reservationRepository.deleteById(reservation.getReservationId());
     				}
     				return true;
     			}
