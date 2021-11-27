@@ -8,19 +8,12 @@
    <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
-          <h1>Login User</h1>
+          <h1>Login</h1>
           <div class="card-body mt-3 mb-3">
               <input class="text-field" type="text" v-model="username" placeholder="Username">
               <label><input id="password-field" class="text-field" type="password" v-model="password" placeholder="Password"><i id="hidden-icon" class="bi bi-eye eye-icon" @click="togglePasswordVisibility()"></i></label>
               <label>Librarian:</label><input type="checkbox" class="text-field" v-model="isLibrarian">
               <button v-bind:diabled="!username||!password" @click="loginUser(username, password, isLibrarian)" class="btn">Login</button>
-          </div>
-          <br>
-          <h1>Login Librarian</h1>
-          <div class="card-body mt-3 mb-3">
-              <input class="text-field" type="text" v-model="username" placeholder="Username">
-              <input class="text-field" type="text" v-model="password" placeholder="Password">
-              <button v-bind:diabled="!username||!password" @click="loginLibrarian(username, password)" class="btn">Login</button>
           </div>
           <br>
           <a class="regular-text">Don't have an account?</a>
