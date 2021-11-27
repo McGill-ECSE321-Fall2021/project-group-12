@@ -839,6 +839,11 @@ public class OnlineUserService {
     				return true;
     			}
     		}
+    		if(item.getIsReservable() == false || item.getIsAvailable() == false || item.getIsArchive() == true) {
+				throw new IllegalArgumentException("At least one item selected is not reservable.");
+			}
+    		item.setIsAvailable(false);
+    		item.setIsReservable(false);
     		reservation.addItem(item);
     		return true;
     	}
@@ -864,6 +869,8 @@ public class OnlineUserService {
     		for (Item i: reservation.getItems()) {
     			if (i.getItemId() == item.getItemId()) {
     				// Item is already in the reservation
+    	    		item.setIsAvailable(true);
+    	    		item.setIsReservable(true);
     				reservation.removeItem(item);
     				return true;
     			}

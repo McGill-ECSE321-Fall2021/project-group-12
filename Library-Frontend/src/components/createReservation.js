@@ -73,35 +73,14 @@ export default {
         removeItem: function(item) {
             for (let i=0;i<this.reserved_items.length;i++){
                 if (this.reserved_items[i].itemId === item.itemId){
-                    this.reserved_items.splice(i, 1) // remove the item
-                    AXIOS.delete('/reservation/delete/'+this.current_reservation.reservationId)
+                    AXIOS.post('/onlineuser/removeitem/username/'+this.username+'?reservationId='+this.current_reservation.reservationId+'&itemId='+item.itemId)
                     .then(response => {
-                        localStorage.setItem('reservation', null)
                         console.log(response)
+                        this.reserved_items.splice(i, 1) // remove the item
                     })
                     .catch(e => {
                         console.log(e)
                     })
-                    var temp_list = []
-                    if (this.reserved_items.length > 0){
-                        AXIOS.post('onlineuser/reserve/username/'+this.username+'?itemIds='+this.reserved_items[0].itemId+'&timeSlotId='+this.current_timeslot.timeSlotId)
-                        .then(response => {
-                            this.current_reservation = response.data
-                            console.log(this.current_reservation)
-                            localStorage.setItem('reservation', this.current_reservation.reservationId)
-                        })
-                        .catch(e => {
-                            this.e = "Item already reserved."
-                        })
-                        for(let i=1;i<this.reserved_items.length;i++){
-                            AXIOS.post('onlineuser/additem/username/'+this.username+'?reservationId='+this.current_reservation.reservationId+'&itemId='+this.reservation_items[i].itemId)
-                            .catch(e => {
-                                this.e = "Item already reserved."
-                            })
-                        }
-                        
-                    }
-                    break
                 }
             }
         },
