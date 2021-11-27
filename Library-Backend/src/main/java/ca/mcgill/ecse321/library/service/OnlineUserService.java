@@ -50,6 +50,8 @@ public class OnlineUserService {
     
     @Autowired
     TimeSlotRepository timeSlotRepository;
+    
+    ReservationService reservationService = new ReservationService();
     // Basic login method
     @Transactional
     public OnlineUser login(String username, String password) {
@@ -871,9 +873,8 @@ public class OnlineUserService {
     				// Item is already in the reservation
     	    		item.setIsAvailable(true);
     	    		item.setIsReservable(true);
-    				reservation.removeItem(item);
-    				if (reservation.getItems().size() == 0) {
-    					reservationRepository.deleteById(reservation.getReservationId());
+    				if (reservation.getItems().size() == 1) {
+    					reservationService.deleteReservation(reservation);
     				}
     				return true;
     			}
