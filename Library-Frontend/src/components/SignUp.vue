@@ -13,7 +13,10 @@
             <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
             <input class="text-field" type="text" v-model="address" placeholder="Address">
-            <label>Local:</label><input type="checkbox" class="text-field" v-model="isLocal">
+            <br>
+            <label>Local:</label>
+            <br>
+            <input type="checkbox" class="text-field" v-model="isLocal">
             <input class="text-field" type="text" v-model="username" placeholder="Username">
             <input class="text-field" type="text" v-model="password" placeholder="Password">
             <input class="text-field" type="text" v-model="email" placeholder="Email">
@@ -44,7 +47,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 100vh;
+    height: 180vh;
   }
   .navbar-main {
     font-family: var(--font);

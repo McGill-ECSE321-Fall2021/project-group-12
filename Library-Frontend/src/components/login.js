@@ -83,7 +83,7 @@ export default {
                 name: "Librarian",
             });
         },
-
+        
         gotoSignUp: function() {
             Router.push({
                 path: "/signup",

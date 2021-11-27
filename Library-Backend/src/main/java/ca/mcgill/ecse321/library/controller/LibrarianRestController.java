@@ -129,6 +129,10 @@ public class LibrarianRestController {
 	public LibrarianDto getLibrarianByUsername(@PathVariable("username") String username) {
 		return convertToDto(librarianService.getLibrarian(username));
 	}
+	@GetMapping(value = {"/librarian/offlineUser/{id}", "/librarian/offlineUser/{id}/"})
+	public OfflineUserDto getOfflineUserByUsername(@PathVariable("id") Long id) {
+		return convertToDto(offlineUserService.getOfflineUser(id));
+	}
 	@GetMapping(value = {"/librarian/head", "/librarian/head/"})
 	public LibrarianDto getHeadLibrarian() {
 		return convertToDto(librarianService.getHeadLibrarian());
@@ -188,71 +192,62 @@ public class LibrarianRestController {
 		Album album = albumService.createAlbum(title, isArchive, isReservable, date, numSongs, available, genre, creator);
 		return convertToDto(album);
 	}
-	@PutMapping(value = {"/librarian/album/update/{itemId}", "/librarian/album/update/{itemId}/"})
-	public AlbumDto updateAlbum(@PathVariable("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
+	@PutMapping(value = {"/librarian/album/update", "/librarian/album/update/"})
+	public AlbumDto updateAlbum(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(albumService.updateAlbum(itemId, isArchive, isReservable, available));
 	}
-	@DeleteMapping(value = {"/librarian/ablum/delete/{itemId}", "/librarian/album/delete/{itemId}/"})
-	public AlbumDto deleteAlbum(@PathVariable("itemId") Long albumId) throws IllegalArgumentException {
+	@DeleteMapping(value = {"/librarian/ablum/delete", "/librarian/album/delete/"})
+	public AlbumDto deleteAlbum(@RequestParam("itemId") Long albumId) throws IllegalArgumentException {
 		Album album = albumService.deleteAlbum(albumId);
 		return convertToDto(album);
 	}
 	
-	@PostMapping(value = {"/librarian/book/create/{librarian}", "/librarian/book/create/{librarian}/"})
-	public BookDto createBook(@PathVariable("librarian") String librarianUsername, @RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numPages") int numPages, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") Book.BMGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@PostMapping(value = {"/librarian/book/create", "/librarian/book/create/"})
+	public BookDto createBook(@RequestParam(value="title") String title, @RequestParam(value="isArchive") boolean isArchive, @RequestParam(value="isReservable") boolean isReservable, @RequestParam(value="releaseDate") String releaseDate, @RequestParam(value="numPages") int numPages, @RequestParam(value="isAvailable") boolean available, @RequestParam(value="genre") Book.BMGenre genre, @RequestParam(value="creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		Date date = Date.valueOf(releaseDate);
 		Book book = bookService.createBook(title, isArchive, isReservable, date, numPages, available, genre, creator);
 		return convertToDto(book);
 	}
-	@PutMapping(value = {"/librarian/book/update/{itemId}/{librarian}", "/librarian/book/update/{itemId}/{librarian}/"})
-	public BookDto updateBook(@PathVariable("itemId") Long itemId, @PathVariable("librarian") String librarianUsername, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@PutMapping(value = {"/librarian/book/update", "/librarian/book/update/"})
+	public BookDto updateBook(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean available) throws IllegalArgumentException {
 		return convertToDto(bookService.updateBook(itemId, isArchive, isReservable, available));
 	}
-	@DeleteMapping(value = {"/librarian/book/delete/{itemId}/{librarian}", "/librarian/book/delete/{itemId}/{librarian}/"})
-	public BookDto deleteBook(@PathVariable("itemId") Long bookId, @PathVariable("librarian") String librarianUsername) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@DeleteMapping(value = {"/librarian/book/delete", "/librarian/book/delete/"})
+	public BookDto deleteBook(@RequestParam("itemId") Long bookId) throws IllegalArgumentException {
 		Book book = bookService.deleteBook(bookId);
 		return convertToDto(book);
 	}
 	
-	@PostMapping(value = {"/librarian/movie/create/{librarian}", "/librarian/movie/create/{librarian}/"})
-	public MovieDto createMovie(@PathVariable("librarian") String librarianUsername, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
-		librarianService.isLibrarian(librarianUsername);
+	@PostMapping(value = {"/librarian/movie/create", "/librarian/movie/create/"})
+	public MovieDto createMovie(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
 		Creator creator = creatorService.getCreator(creatorId);
 		Movie movie = movieService.createMovie(title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator);
 		return convertToDto(movie);
 	}
-	@PutMapping(value = {"/librarian/movie/update/{itemId}/{librarian}", "/librarian/movie/update/{itemId}/{librarian}/"})
-	public MovieDto updateMovie(@PathVariable("itemId") Long itemId, @PathVariable("librarian") String librarianUsername, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable, @RequestParam("releaseDate") Date releaseDate, @RequestParam("duration") int duration, @RequestParam("genre") Movie.BMGenre genre, @RequestParam("creatorId") Long creatorId) {
-		librarianService.isLibrarian(librarianUsername);
+	@PutMapping(value = {"/librarian/movie/update", "/librarian/movie/update/"})
+	public MovieDto updateMovie(@RequestParam("itemId") Long itemId, @RequestParam("isArchive") boolean isArchive, @RequestParam("isReservable") boolean isReservable, @RequestParam("isAvailable") boolean isAvailable) {
 		return convertToDto(movieService.updateMovie(itemId, isArchive, isReservable, isAvailable));
 	}
-	@DeleteMapping(value = {"/librarian/movie/delete/{itemId}/{librarian}", "/librarian/movie/delete/{itemId}/{librarian}/"})
-	public MovieDto deleteMovie(@PathVariable("itemId") Long itemId, @PathVariable("librarian") String librarianUsername) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@DeleteMapping(value = {"/librarian/movie/delete", "/librarian/movie/delete/"})
+	public MovieDto deleteMovie(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		Movie movie = movieService.getMovie(itemId);
 		movieService.deleteMovie(itemId);
 		return convertToDto(movie);
 	}
 	
-	@PostMapping(value = {"/librarian/newspaper/create/{librarian}", "/librarian/newspaper/create/{librarian}/"})
-	public NewspaperDto createNewspaper(@PathVariable("librarian") String librarianUsername, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@PostMapping(value = {"/librarian/newspaper/create", "/librarian/newspaper/create/"})
+	public NewspaperDto createNewspaper(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(newspaperService.createNewspaper(title, isArchive, releaseDate, creator));
 	}
-	@PutMapping(value = {"/librarian/newspaper/update/{itemId}/{librarian}", "/librarian/newspaper/update/{itemId}/{librarian}/"})
-	public NewspaperDto updateNewspaper(@PathVariable("itemId") Long itemId, @PathVariable("librarian") String librarianUsername, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@PutMapping(value = {"/librarian/newspaper/update", "/librarian/newspaper/update/"})
+	public NewspaperDto updateNewspaper(@RequestParam("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
 		return convertToDto(newspaperService.updateNewspaper(itemId, title, isArchive, releaseDate, creator));
 	}
-	@DeleteMapping(value = {"/librarian/newspaper/delete/{itemId}/{librarian}", "/librarian/newspaper/delete/{itemId}/{librarian}/"})
-	public NewspaperDto deleteNewspaper(@PathVariable("itemId") Long itemId, @PathVariable("librarian") String librarianUsername) throws IllegalArgumentException {
-		librarianService.isLibrarian(librarianUsername);
+	@DeleteMapping(value = {"/librarian/newspaper/delete", "/librarian/newspaper/delete/"})
+	public NewspaperDto deleteNewspaper(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		Newspaper newspaper = newspaperService.getNewspaper(itemId);
 		NewspaperDto  newspaperDto = convertToDto(newspaper);
 		newspaperService.deleteNewspaper(itemId);
