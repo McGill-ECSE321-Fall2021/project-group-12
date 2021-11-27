@@ -40,6 +40,11 @@ export default new Router({
       path: '/libraryhour',
       name: 'LibraryHour',
       component: require('../components/LibraryHour.vue').default
+    },
+    {
+      path: '/librarian',
+      name: 'Librarian',
+      component: require('../components/Librarian.vue').default
     }
   ]
 })

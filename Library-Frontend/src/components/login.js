@@ -44,6 +44,24 @@ export default {
                     localStorage.setItem('userType', 'onlineuser')
                     this.gotoOnlineUserView();
                 }
+                localStorage.setItem('username', username);
+                gottoOnlineUserView();
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        loginLibrarian: function (username, password) {
+            console.log('username: ' + username)
+            console.log('password: ' + password)
+            AXIOS.post('librarian/login/?username='+username+'&password='+password)
+            .then(response => {
+                this.response = response.data;
+                localStorage.setItem('username', username);
+                gotoLibrarianView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -85,6 +103,19 @@ export default {
                 icon.classList.add('bi-eye')
                 field.setAttribute('type', 'password')
             }
-        }
+        },
+        gotoLibrarianView: function() {
+            Router.push({
+                path: "/librarian",
+                name: "Librarian",
+            });
+        },
+
+        gottoOnlineUserView: function() {
+            Router.push({
+                path: "/onlineuser",
+                name: "OnlineUser",
+            });
+        },
     },
 };
