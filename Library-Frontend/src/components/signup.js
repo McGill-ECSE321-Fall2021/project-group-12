@@ -84,28 +84,6 @@ export default {
             });
         },
 
-        signUpLibrarian: function (firstName, lastName, address, isLocal, username, password, email, isHead, id) {
-            console.log('first name: ' + firstName)
-            console.log('last name: ' + lastName)
-            console.log('address: ' + address)
-            console.log('isLocal: ' + isLocal)
-            console.log('username: ' + username)
-            console.log('password: ' + password)
-            console.log('email: ' + email)
-            console.log('isHead: ' + isHead)
-            console.log('id: ' + id)
-            AXIOS.post('librarian/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email+'&isHead='+isHead+'&id='+id)
-            .then(response => {
-                this.response = response.data;
-                localStorage.setItem('username', username);
-                gotoLibrarianView();
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl)
-                console.log('\nbackend url:' + backendUrl)
-                this.error = e;
-            })
-        },
 
         gotoLogin: function() {
             Router.push({

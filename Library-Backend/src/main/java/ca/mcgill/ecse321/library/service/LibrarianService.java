@@ -147,6 +147,14 @@ public class LibrarianService {
 			if (librarian == null) throw new IllegalArgumentException("Librarian does not exist.");
 			return librarian.getLibraryHours();
 		}
+		
+		@Transactional
+		public OfflineUser getOfflineUser(Long id) throws IllegalArgumentException{
+			OfflineUser user = offlineUserRepository.findOfflineUserByUserId(id);
+			if (user == null) throw new IllegalArgumentException("User does not exist.");
+			return user;
+		}
+		
 //create library hour / schedule
 		@Transactional
 		public LibraryHour createLibraryHour(String librarianUsername, String username, Time startTime, Time endTime, Day day) throws IllegalArgumentException{

@@ -15,13 +15,6 @@
               <button v-bind:diabled="!username||!password" @click="loginUser(username, password)" class="btn">Login</button>
           </div>
           <br>
-          <h1>Login Librarian</h1>
-          <div class="card-body mt-3 mb-3">
-              <input class="text-field" type="text" v-model="username" placeholder="Username">
-              <input class="text-field" type="text" v-model="password" placeholder="Password">
-              <button v-bind:diabled="!username||!password" @click="loginLibrarian(username, password)" class="btn">Login</button>
-          </div>
-          <br>
           <a class="regular-text">Don't have an account?</a>
           <br>
           <button class="btn mt-3 mb-5" @click="gotoSignUp()">Sign Up</button>

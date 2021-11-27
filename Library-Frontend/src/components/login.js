@@ -38,22 +38,6 @@ export default {
             })
         },
 
-        loginLibrarian: function (username, password) {
-            console.log('username: ' + username)
-            console.log('password: ' + password)
-            AXIOS.post('librarian/login/?username='+username+'&password='+password)
-            .then(response => {
-                this.response = response.data;
-                localStorage.setItem('username', username);
-                gotoLibrarianView();
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl)
-                console.log('\nbackend url:' + backendUrl)
-                this.error = e;
-            })
-        },
-
         gotoSignUp: function() {
             Router.push({
                 path: "/signup",

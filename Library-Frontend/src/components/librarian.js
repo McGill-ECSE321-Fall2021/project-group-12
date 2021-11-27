@@ -222,6 +222,25 @@ export default {
             })
         },
 
+        searchOfflineUser: function (query) {
+            if (query === null || query === ""){
+                this.error = "";
+                return
+            }
+            console.log('offlineUser query: ' + query);
+            AXIOS.get('librarian/oflineUser/'+query)
+            .then(response => {
+                this.id_response = response.data;
+                this.id_query = '';
+                console.log(id_response);
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl);
+                console.log('\nbackend url:' + backendUrl);
+                this.error = e;
+            })
+        },
+
         gotoOfflineUserView: function() {
             Router.push({
                 path: "/offlineuser",
