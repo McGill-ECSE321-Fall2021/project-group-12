@@ -51,7 +51,6 @@ public class OnlineUserService {
     @Autowired
     TimeSlotRepository timeSlotRepository;
     
-    ReservationService reservationService = new ReservationService();
     // Basic login method
     @Transactional
     public OnlineUser login(String username, String password) {
@@ -874,7 +873,7 @@ public class OnlineUserService {
     	    		item.setIsAvailable(true);
     	    		item.setIsReservable(true);
     				if (reservation.getItems().size() == 1) {
-    					reservationService.deleteReservation(reservation);
+    					deleteReservation(reservation);
     				}
     				return true;
     			}
@@ -882,5 +881,71 @@ public class OnlineUserService {
     	}
     	return false;
     }
+    
+	public void deleteReservation(Reservation reservation) throws IllegalArgumentException {
+		if(reservation == null) {
+			throw new IllegalArgumentException("The input is empty.");
+		}
+		
+		List<Item> items = reservation.getItems();
+		Book newBook = new Book();
+		Movie newMovie = new Movie();
+		Album newAlbum = new Album();
+		List<Book> newBooks = new ArrayList<>();
+		List<Movie> newMovies = new ArrayList<>();
+		List<Album> newAlbums = new ArrayList<>();
+		
+		for(Item i : items) {
+			if(i instanceof Book) {
+				Book book = (Book) i;
+				newBook.setCreator(book.getCreator());
+				newBook.setGenre(book.getGenre());
+				newBook.setIsArchive(book.getIsArchive());
+				newBook.setIsAvailable(true);
+				newBook.setIsReservable(true);
+				newBook.setItemId(i.getItemId());
+				newBook.setNumPages(book.getNumPages());
+				newBook.setReleaseDate(book.getReleaseDate());
+				newBook.setTitle(book.getTitle());
+				newBooks.add(newBook);
+			} else if(i instanceof Movie) {
+				Movie movie = (Movie) i;
+				newMovie.setCreator(movie.getCreator());
+				newMovie.setDuration(movie.getDuration());
+				newMovie.setGenre(movie.getGenre());
+				newMovie.setIsArchive(movie.getIsArchive());
+				newMovie.setIsAvailable(true);
+				newMovie.setIsReservable(true);
+				newMovie.setItemId(movie.getItemId());
+				newMovie.setReleaseDate(movie.getReleaseDate());
+				newMovie.setTitle(movie.getTitle());
+				newMovies.add(newMovie);
+			} else if(i instanceof Album) {
+				Album album = (Album) i;
+				newAlbum.setCreator(album.getCreator());
+				newAlbum.setGenre(album.getGenre());
+				newAlbum.setIsArchive(album.getIsArchive());
+				newAlbum.setIsAvailable(true);
+				newAlbum.setIsReservable(true);
+				newAlbum.setItemId(album.getItemId());
+				newAlbum.setNumSongs(album.getNumSongs());
+				newAlbum.setReleaseDate(album.getReleaseDate());
+				newAlbum.setTitle(album.getTitle());
+				newAlbums.add(newAlbum);
+			} else {
+				
+			}
+		}
+		reservationRepository.delete(reservation);
+		for(Book b : newBooks) {
+			bookRepository.save(b);
+		}
+		for(Movie m : newMovies) {
+			movieRepository.save(m);
+		}
+		for(Album a : newAlbums) {
+			albumRepository.save(a);
+		}
+	}
     
 }
