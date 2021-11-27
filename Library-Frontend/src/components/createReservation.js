@@ -25,12 +25,14 @@ export default {
             reserved_items: [],
             current_item: null,
             current_reservation: null,
+            current_timeslot: null,
             year: '',
             month: '',
             day: '',
             error: '',
             response: '',
-            alert: ''
+            alert: '',
+            selected_timeslot: ''
         }
     },
 
@@ -47,15 +49,61 @@ export default {
             }
             if (this.current_reservation === null){
                 var reservation_items = [item.itemId]
-                AXIOS.post('onlineuser/reserve/username/'+this.username, reservation_items, this.current_timeslot.timeSlotId)
+                AXIOS.post('onlineuser/reserve/username/'+this.username+'?itemIds='+item.itemId+'&timeSlotId='+this.current_timeslot.timeSlotId)
+                .then (response => {
+                    this.current_reservation = response.data
+                    console.log(this.current_reservation)
+                    this.reserved_items.push(item)
+                    localStorage.setItem('reservation', this.current_reservation.reservationId)
+                })
+                .catch(e => {
+                    this.e = "Item already reserved."
+                })
             } else {
-                AXIOS.post('onlineuser/additem/username/'+this.username, this.current_reservation.reservationId, item.itemId)
+                AXIOS.post('onlineuser/additem/username/'+this.username+'?reservationId='+this.current_reservation.reservationId+'&itemId='+item.itemId)
+                .then (response => {
+                    this.reserved_items.push(item)
+                })
+                .catch(e => {
+                    this.e = "Item already reserved."
+                })
             }
-            this.reserved_items.add(item)
         },
 
         removeItem: function(item) {
-
+            for (let i=0;i<this.reserved_items.length;i++){
+                if (this.reserved_items[i].itemId === item.itemId){
+                    this.reserved_items.splice(i, 1) // remove the item
+                    AXIOS.delete('/reservation/delete/'+this.current_reservation.reservationId)
+                    .then(response => {
+                        localStorage.setItem('reservation', null)
+                        console.log(response)
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+                    var temp_list = []
+                    if (this.reserved_items.length > 0){
+                        AXIOS.post('onlineuser/reserve/username/'+this.username+'?itemIds='+this.reserved_items[0].itemId+'&timeSlotId='+this.current_timeslot.timeSlotId)
+                        .then(response => {
+                            this.current_reservation = response.data
+                            console.log(this.current_reservation)
+                            localStorage.setItem('reservation', this.current_reservation.reservationId)
+                        })
+                        .catch(e => {
+                            this.e = "Item already reserved."
+                        })
+                        for(let i=1;i<this.reserved_items.length;i++){
+                            AXIOS.post('onlineuser/additem/username/'+this.username+'?reservationId='+this.current_reservation.reservationId+'&itemId='+this.reservation_items[i].itemId)
+                            .catch(e => {
+                                this.e = "Item already reserved."
+                            })
+                        }
+                        
+                    }
+                    break
+                }
+            }
         },
 
         createTimeSlot: function(year, month, day) {
@@ -73,7 +121,8 @@ export default {
                     this.year = '';
                     this.month = '';
                     this.day = '';
-                    this.alert = "Return Date Selected!"
+                    this.selected_timeslot = "Return Date Selected!   "+this.current_timeslot.endDate
+                    localStorage.setItem('timeslot', this.current_timeslot.timeSlotId.toString())
             }).catch(e => {
                 console.log(e)
                 this.error = e;
@@ -158,7 +207,7 @@ export default {
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl);
                 console.log('\nbackend url:' + backendUrl);
-                this.error = e;
+                this.error = e + ': Invalid search';
             })
         },
 
@@ -188,9 +237,37 @@ export default {
             if (localStorage.getItem('username') === null){
                 this.logout();
             }
+        },
+
+        displayTimeSlotStatus: function() {
+            var timeSlotId = parseInt(localStorage.getItem('timeslot'))
+            console.log('timeSlotId: '+timeSlotId)
+            if(timeSlotId !== null && !isNaN(timeSlotId)){
+                AXIOS.get('timeSlot/'+timeSlotId)
+                .then(response =>{
+                    this.current_timeslot = response.data;
+                    console.log(this.current_timeslot)
+                    this.selected_timeslot = 'Return Date: '+this.current_timeslot.endDate
+                })
+            }
+        },
+
+        getReservationStatus: function() {
+            var reservationId = parseInt(localStorage.getItem('reservation'))
+            console.log('reservationId: '+reservationId)
+            if(reservationId !== null && !isNaN(reservationId)){
+                AXIOS.get('reservation/'+reservationId)
+                .then(response =>{
+                    this.current_reservation = response.data;
+                    this.reserved_items = this.current_reservation.items
+                    console.log(this.current_reservation)
+                })
+            }
         }
     },
     beforeMount() {
         this.checkLoggedIn();
+        this.displayTimeSlotStatus();
+        this.getReservationStatus();
     },
 };

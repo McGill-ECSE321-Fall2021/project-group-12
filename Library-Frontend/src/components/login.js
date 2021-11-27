@@ -48,7 +48,7 @@ export default {
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
                 console.log('\nbackend url:' + backendUrl)
-                this.error = e;
+                this.error = 'Invalid username or password';
             })
         },
 
@@ -72,5 +72,19 @@ export default {
                 name: "SignUp",
             });
         },
+
+        togglePasswordVisibility: function() {
+            const icon = document.getElementById('hidden-icon')
+            const field = document.getElementById('password-field')
+            if (icon.classList.contains('bi-eye')){
+                icon.classList.remove('bi-eye')
+                icon.classList.add('bi-eye-slash')
+                field.setAttribute('type', 'text') 
+            } else {
+                icon.classList.remove('bi-eye-slash')
+                icon.classList.add('bi-eye')
+                field.setAttribute('type', 'password')
+            }
+        }
     },
 };
