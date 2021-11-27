@@ -32,7 +32,8 @@ export default {
             error: '',
             response: '',
             alert: '',
-            selected_timeslot: ''
+            selected_timeslot: '',
+            previous_query: ''
         }
     },
 
@@ -79,6 +80,56 @@ export default {
                         this.reserved_items.splice(i, 1) // remove the item
                         if (this.reserved_items.length == 0){
                             localStorage.setItem('reservation', null)
+                            this.current_reservation = null;
+                            // refresh the lists
+                            if(this.all_albums.length > 0){
+                                AXIOS.get('/albums')
+                                .then(response => {
+                                    this.all_albums = response.data;
+                                })
+                                .catch(e => {
+                                    this.error = e;
+                                })
+                            }
+                            if(this.all_books.length > 0){
+                                AXIOS.get('/books')
+                                .then(response => {
+                                    this.all_books = response.data;
+                                })
+                                .catch(e => {
+                                    this.error = e;
+                                })
+                            }
+                            if(this.all_movies.length > 0){
+                                AXIOS.get('/movies')
+                                .then(response => {
+                                    this.all_movies = response.data;
+                                })
+                                .catch(e => {
+                                    this.error = e;
+                                })
+                            }
+                            if(this.all_newspapers > 0){
+                                AXIOS.get('/newspapers')
+                                .then(response => {
+                                    this.all_newspapers = response.data;
+                                })
+                                .catch(e => {
+                                    this.error = e;
+                                })
+                            }
+                            if (this.item_response.length > 0){
+                                AXIOS.get('items/getbytitle/'+this.previous_query)
+                                .then(response => {
+                                    console.log(response)
+                                    this.item_response = response.data;
+                                })
+                                .catch(e => {
+                                    console.log('frontend url: ' + frontendUrl);
+                                    console.log('\nbackend url:' + backendUrl);
+                                    this.error = e + ': Invalid search';
+                                })
+                            }
                         }
                     })
                     .catch(e => {
@@ -184,6 +235,7 @@ export default {
             .then(response => {
                 console.log(response)
                 this.item_response = response.data;
+                this.previous_query = this.item_query
                 this.item_query = '';
             })
             .catch(e => {
