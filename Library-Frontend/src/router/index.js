@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Login from '@/components/Login.vue'
 import SignUp from '@/components/SignUp.vue'
 import OnlineUser from '@/components/OnlineUser.vue'
+import Librarian from '@/components/Librarian.vue'
 
 
 Vue.use(Router)
