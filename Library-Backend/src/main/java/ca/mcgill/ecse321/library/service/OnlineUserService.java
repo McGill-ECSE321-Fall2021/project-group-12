@@ -395,6 +395,57 @@ public class OnlineUserService {
     	}
     	throw new IllegalArgumentException("Item does not exist");
     }
+    
+    @Transactional
+    public boolean removeItemFromReservation(Long userId, Long reservationId, Long itemId) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	Reservation reservation = reservationRepository.findReservationByReservationId(reservationId);
+    	if (reservation == null) {
+    		throw new IllegalArgumentException("Reservation does not exist.");
+    	}
+    	Album album = albumRepository.findAlbumByItemId(itemId);
+    	if (album != null) {
+    		return removeItem(userId, reservationId, album);
+    	}
+    	Book book = bookRepository.findBookByItemId(itemId);
+    	if (book != null) {
+    		return removeItem(userId, reservationId, book);
+    	}
+    	Movie movie = movieRepository.findMovieByItemId(itemId);
+    	if (movie != null) {
+    		return removeItem(userId, reservationId, movie);
+    	}
+    	throw new IllegalArgumentException("Item does not exist");
+    }
+    
+    @Transactional
+    public boolean removeItemFromReservation(String username, Long reservationId, Long itemId) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUsername(username);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	Reservation reservation = reservationRepository.findReservationByReservationId(reservationId);
+    	if (reservation == null) {
+    		throw new IllegalArgumentException("Reservation does not exist.");
+    	}
+    	Long userId = getUserIdFromUsername(username);
+    	Album album = albumRepository.findAlbumByItemId(itemId);
+    	if (album != null) {
+    		return removeItem(userId, reservationId, album);
+    	}
+    	Book book = bookRepository.findBookByItemId(itemId);
+    	if (book != null) {
+    		return removeItem(userId, reservationId, book);
+    	}
+    	Movie movie = movieRepository.findMovieByItemId(itemId);
+    	if (movie != null) {
+    		return removeItem(userId, reservationId, movie);
+    	}
+    	throw new IllegalArgumentException("Item does not exist");
+    }
    
     @Transactional
     public boolean cancelReservation(Long userId, Long reservationId) {
@@ -790,6 +841,33 @@ public class OnlineUserService {
     		}
     		reservation.addItem(item);
     		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean removeItem(Long userId, Long reservationId, Item item) {
+    	OnlineUser onlineUser = onlineUserRepository.findOnlineUserByUserId(userId);
+    	if (onlineUser == null) {
+    		throw new IllegalArgumentException("Online user does not exist.");
+    	}
+    	Reservation reservation = reservationRepository.findReservationByReservationId(reservationId);
+    	if (reservation == null) {
+    		throw new IllegalArgumentException("Reservation does not exist.");
+    	}
+    	if (item == null) {
+    		throw new IllegalArgumentException("Item does not exist.");
+    	}
+    	if (reservation.getUser() != null && reservation.getUser().getUserId() == userId) {
+    		if (reservation.getItems() == null) {
+    			reservation.setItems(new ArrayList<Item>());
+    		}
+    		for (Item i: reservation.getItems()) {
+    			if (i.getItemId() == item.getItemId()) {
+    				// Item is already in the reservation
+    				reservation.removeItem(item);
+    				return true;
+    			}
+    		}
     	}
     	return false;
     }

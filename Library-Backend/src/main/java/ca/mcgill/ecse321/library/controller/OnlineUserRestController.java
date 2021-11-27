@@ -134,6 +134,16 @@ public class OnlineUserRestController {
 		return service.addItemToReservation(username, reservationId, itemId);
 	}
 	
+	@PostMapping(value = {"/onlineuser/removeitem/userId/{userId}", "/onlineuser/removeitem/userId/{userId}/"})
+	public boolean removeItemFromReservation(@PathVariable("userId") Long userId, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		return service.removeItemFromReservation(userId, reservationId, itemId);
+	}
+	
+	@PostMapping(value = {"/onlineuser/removeitem/username/{username}", "/onlineuser/removeitem/username/{username}/"})
+	public boolean removeItemFromReservation(@PathVariable("username") String username, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		return service.removeItemFromReservation(username, reservationId, itemId);
+	}
+	
 	@PostMapping(value = {"/onlineuser/cancelreservation/userId/{userId}", "/onlineuser/cancelreservation/userId/{userId}/"})
 	public boolean cancelReservation(@PathVariable("userId") Long userId, @RequestParam("reservationId") Long reservationId) throws IllegalArgumentException {
 		return service.cancelReservation(userId, reservationId);
