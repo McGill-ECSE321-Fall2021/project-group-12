@@ -77,6 +77,9 @@ export default {
                     .then(response => {
                         console.log(response)
                         this.reserved_items.splice(i, 1) // remove the item
+                        if (this.reserved_items.length == 0){
+                            localStorage.setItem('reservation', null)
+                        }
                     })
                     .catch(e => {
                         console.log(e)
