@@ -872,6 +872,9 @@ public class OnlineUserService {
     	    		item.setIsAvailable(true);
     	    		item.setIsReservable(true);
     				reservation.removeItem(item);
+    				if (reservation.getItems().size() == 0) {
+    					reservation.delete();
+    				}
     				return true;
     			}
     		}
