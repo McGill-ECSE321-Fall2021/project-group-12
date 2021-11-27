@@ -130,8 +130,18 @@ public class OnlineUserRestController {
 	}
 	
 	@PostMapping(value = {"/onlineuser/additem/username/{username}", "/onlineuser/additem/username/{username}/"})
-	public boolean addItemToReservation(@PathVariable("userId") String username, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+	public boolean addItemToReservation(@PathVariable("username") String username, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
 		return service.addItemToReservation(username, reservationId, itemId);
+	}
+	
+	@PostMapping(value = {"/onlineuser/removeitem/userId/{userId}", "/onlineuser/removeitem/userId/{userId}/"})
+	public boolean removeItemFromReservation(@PathVariable("userId") Long userId, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		return service.removeItemFromReservation(userId, reservationId, itemId);
+	}
+	
+	@PostMapping(value = {"/onlineuser/removeitem/username/{username}", "/onlineuser/removeitem/username/{username}/"})
+	public boolean removeItemFromReservation(@PathVariable("username") String username, @RequestParam("reservationId") Long reservationId, @RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		return service.removeItemFromReservation(username, reservationId, itemId);
 	}
 	
 	@PostMapping(value = {"/onlineuser/cancelreservation/userId/{userId}", "/onlineuser/cancelreservation/userId/{userId}/"})

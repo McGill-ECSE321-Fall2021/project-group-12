@@ -4,7 +4,6 @@ import Hello from '@/components/Hello'
 import Login from '@/components/Login.vue'
 import SignUp from '@/components/SignUp.vue'
 import OnlineUser from '@/components/OnlineUser.vue'
-import LibraryHour from '@/components/LibraryHour.vue'
 
 
 Vue.use(Router)
@@ -32,9 +31,15 @@ export default new Router({
       component: require('../components/OnlineUser.vue').default
     },
     {
+      path: '/createreservation',
+      name: 'CreateReservation',
+      component: require('../components/CreateReservation.vue').default
+    },
+
+    {
       path: '/libraryhour',
       name: 'LibraryHour',
-      component: LibraryHour
+      component: require('../components/LibraryHour.vue').default
     }
   ]
 })

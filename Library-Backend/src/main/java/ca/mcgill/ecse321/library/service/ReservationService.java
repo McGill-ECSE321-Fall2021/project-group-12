@@ -47,7 +47,7 @@ public class ReservationService {
 		List<Long> itemId = new ArrayList<>();
 		for(Item i : items) {
 			if(i.getIsReservable() == false || i.getIsAvailable() == false || i.getIsArchive() == true) {
-				throw new IllegalArgumentException("At least one item selected is not reseverable.");
+				throw new IllegalArgumentException("At least one item selected is not reseevable.");
 			}
 			for(Long id : itemId) {
 				if(id.compareTo(i.getItemId()) == 0) {

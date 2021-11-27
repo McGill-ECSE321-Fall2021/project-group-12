@@ -15,40 +15,27 @@ export default {
     data(){
         return {
             username: localStorage.getItem('username'),
+            userId: localStorage.getItem('userId'),
             item_query: '',
             item_response: [],
             reserved_response: [],
+            current_item: null,
             error: '',
             response: ''
         }
     },
 
     methods: {
-        searchItem: function (query) {
-            if (query === null || query === ""){
-                this.error = "";
-                return
-            }
-            console.log('item query: ' + query);
-            AXIOS.get('items/getbytitle/'+query)
-            .then(response => {
-                this.item_response = response.data;
-                this.item_query = '';
-                console.log(item_response);
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl);
-                console.log('\nbackend url:' + backendUrl);
-                this.error = e;
-            })
-        },
 
-        toggleReserved: function(item) {
-
+        gotoCreateReservation: function() {
+            Router.push({
+                path: "/createreservation",
+                name: "CreateReservation",
+            });
         },
 
         logout: function() {
-            localStorage.setItem('username', '');
+            localStorage.clear();
             Router.push({
                 path: "/login",
                 name: "Login",
@@ -65,6 +52,16 @@ export default {
                 this.reserved_response = response.data;
                 console.log(this.reserved_response);
             })
+        },
+
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem('username'))
+            if (localStorage.getItem('username') === null){
+                this.logout();
+            }
         }
+    },
+    beforeMount() {
+        this.checkLoggedIn();
     },
 };
