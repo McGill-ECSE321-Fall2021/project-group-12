@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Login from '@/components/Login.vue'
 import SignUp from '@/components/SignUp.vue'
 import OnlineUser from '@/components/OnlineUser.vue'
+import LibraryHour from '@/components/LibraryHour.vue'
 
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: '/onlineuser',
       name: 'OnlineUser',
       component: require('../components/OnlineUser.vue').default
+    },
+    {
+      path: '/libraryhour',
+      name: 'LibraryHour',
+      component: LibraryHour
     }
   ]
 })
