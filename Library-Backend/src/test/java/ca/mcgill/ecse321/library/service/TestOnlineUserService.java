@@ -123,6 +123,9 @@ public class TestOnlineUserService {
                     if(invocation.getArgument(0).equals(ITEM_ID)) {
                         Album album = new Album();
                         album.setNumSongs(1);
+                        album.setIsReservable(true);
+                        album.setIsAvailable(true);
+                        album.setIsArchive(false);
                         album.setGenre(Album.MusicGenre.Classical);
                         album.setItemId(ITEM_ID);
                         return album;

@@ -716,7 +716,7 @@ public class TestReservationService {
 			error = e.getMessage();
 		}
 		assertNull(reservation);
-		assertEquals("At least one item selected is not reseverable.", error);
+		assertEquals("At least one item selected is not reservable.", error);
 		assertEquals(true, book.getIsAvailable());
 		assertEquals(true, book.getIsReservable());
 		assertNull(book.getReservation());
@@ -730,7 +730,7 @@ public class TestReservationService {
 			error = e.getMessage();
 		}
 		assertNull(reservation2);
-		assertEquals("At least one item selected is not reseverable.", error);
+		assertEquals("At least one item selected is not reservable.", error);
 		assertEquals(true, album.getIsAvailable());
 		assertEquals(false, album.getIsReservable());
 		assertNull(album.getReservation());
@@ -743,7 +743,7 @@ public class TestReservationService {
 			error = e.getMessage();
 		}
 		assertNull(reservation3);
-		assertEquals("At least one item selected is not reseverable.", error);
+		assertEquals("At least one item selected is not reservable.", error);
 		assertEquals(false, movie.getIsAvailable());
 		assertEquals(true, movie.getIsReservable());
 		assertNull(book.getReservation());
