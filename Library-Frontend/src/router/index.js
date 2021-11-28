@@ -50,6 +50,11 @@ export default new Router({
       path: '/offlineuser',
       name: 'OfflineUser',
       component: require('../components/OfflineUser.vue').default
+    },
+    {
+      path: '/headlibrarian',
+      name: 'HeadLibrarian',
+      component: require('../components/HeadLibrarian.vue').default
     }
   ]
 })
