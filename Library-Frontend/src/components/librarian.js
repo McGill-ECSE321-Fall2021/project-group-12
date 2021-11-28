@@ -61,6 +61,7 @@ export default {
             .then(response => {
                 this.response = response.data;
                 this.librarians.push(response.data);
+		        this.librarian = response.data;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -72,7 +73,7 @@ export default {
             AXIOS.get('/librarians/')
             .then(response => {
                 this.response = response.data;
-                this.librarians.push(this.response);
+                this.librarians = response.data;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)

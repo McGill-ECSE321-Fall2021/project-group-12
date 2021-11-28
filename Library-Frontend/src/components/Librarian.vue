@@ -6,7 +6,7 @@
         </div>
       </nav>
   <div class="container">
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-contegit git statugit gitnt-center">
       <div class="col mt-5">
         <h1>Librarian</h1>
         <div class="container">
