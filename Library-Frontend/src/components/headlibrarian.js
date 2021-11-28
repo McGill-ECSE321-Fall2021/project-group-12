@@ -23,7 +23,7 @@ function LibrarianDto (firstName, lastName, address, isLocal, username, password
 }
 
 export default {
-    name: "librarian",
+    name: "headlibrarian",
     data(){
         return {
             username: localStorage.getItem('username'),
