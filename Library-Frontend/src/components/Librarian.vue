@@ -241,7 +241,49 @@
           <br>
         </div>
       </div>            
-   </div>
+  </div>
+  <div>
+    <h3>Set up new head librarian account</h3>
+                  <div class="card-body">
+                    <input class="text-field" type="text" v-model="firstName" placeholder="First Name"><br>
+                    <input class="text-field" type="text" v-model="lastName" placeholder="Last Name"><br>
+                    <input class="text-field" type="text" v-model="address" placeholder="Address"><br>
+                    <input class="text-field" type="text" v-model="username" placeholder="Username"><br>
+                    <input class="text-field" type="text" v-model="password" placeholder="Password"><br>
+                    <input class="text-field" type="text" v-model="email" placeholder="Email"><br>
+                    <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, username, password, email)" class="btn">Signup</button>
+                  </div>
+    <div class="container">
+                <div class="row align-left align-content-start">
+                  <h5>Found results:</h5><br>
+                </div>
+                <div class="row align-left align-content-start">
+                  <b v-if="librarian">{{ librarian.firstName }}</b>
+                  <v-divider verticle></v-divider>
+                  <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
+                </div>
+                <div class="row align-left no-gutters">
+                  <b>ID:&ensp;</b>
+                  <v-divider verticle></v-divider>
+                  <p v-if="librarian">{{ librarian.id }}</p>
+                </div>
+                <div class="row align-left no-gutters">
+                  <b>Username:&ensp;</b>
+                  <v-divider verticle></v-divider>
+                  <p v-if="librarian">{{ librarian.username }}</p>
+                </div>
+                <div class="row align-left no-gutters">
+                  <b>Address:&ensp;</b>
+                  <v-divider verticle></v-divider>
+                  <p v-if="librarian">{{ librarian.address }}</p>
+                </div>
+                <div class="row align-left no-gutters">
+                  <b>Email:&ensp;</b>
+                  <v-divider verticle></v-divider>
+                  <p v-if="librarian">{{ librarian.email }}</p>
+                </div>
+    </div>
+  </div>
     <p>
       <span v-if="error" style="color:red">{{ error }}</span>
     </p>
@@ -261,7 +303,6 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 200vh;
   }
   .navbar-main {
     font-family: var(--font);

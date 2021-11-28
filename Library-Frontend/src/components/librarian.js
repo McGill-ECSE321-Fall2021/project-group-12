@@ -19,7 +19,17 @@ export default {
             item_response: [],
             reserved_response: [],
             error: '',
-            response: ''
+            response: '',
+            librarian: '',
+            firstname: '',
+            lastName: '',
+            address: '',
+            email: '',
+            username: '',
+            password: '',
+            id: 0,
+            isLocal: false,
+            isHead: false
         }
     },
 
@@ -247,6 +257,24 @@ export default {
                 name: "OfflineUser",
             });
         },
-        
+
+        signUpLibrarian: function (firstName, lastName, address, username, password, email) {
+            console.log('first name: ' + firstName)
+            console.log('last name: ' + lastName)
+            console.log('address: ' + address)
+            console.log('username: ' + username)
+            console.log('password: ' + password)
+            console.log('email: ' + email)
+            AXIOS.post('/librarian/create/head?firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)
+            .then(response => {
+                this.response = response.data;
+		        this.librarian = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
     },
 };
