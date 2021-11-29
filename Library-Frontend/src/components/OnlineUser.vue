@@ -14,6 +14,9 @@
       <div class="row d-flex justify-content-center">
         <div class="col-xl-12 mt-3 mb-3">
             <button @click="logout()" class="btn">Logout</button>
+            <button @click="deleteOnlineUser()" class="btn">
+              Delete Online User
+            </button>
         </div>
     </div>          
    </div>
