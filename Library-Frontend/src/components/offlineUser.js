@@ -19,7 +19,12 @@ export default {
             item_response: [],
             reserved_response: [],
             error: '',
-            response: ''
+            response: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            isLocal: false,
+            id: ''
         }
     },
 

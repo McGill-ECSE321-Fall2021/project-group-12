@@ -14,12 +14,23 @@ export default {
     name: "librarian",
     data(){
         return {
-            username: localStorage.getItem('username'),
-            item_query: '',
-            item_response: [],
+            title: localStorage.getItem('title'),
+            isReservable: false,
+            isAvailable: false,
+            available: false,
+            releaseDate: '',
+            numPages: '',
+            numSongs: '',
+            duration: '',
+            isArchive: false,
+            genre: '',
+            creatorId: '',
+            id_query: '',
+            id_response: [],
             reserved_response: [],
             error: '',
-            response: ''
+            response: '',
+            id: '',
         }
     },
 
