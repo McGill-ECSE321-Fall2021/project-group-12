@@ -45,6 +45,15 @@ export default {
       Router.push({
         path: "/onlineuser"
       });
+    },
+    checkLoggedIn: function() {
+      console.log(localStorage.getItem("username"));
+      if (localStorage.getItem("username") === null) {
+        this.logout();
+      }
     }
+  },
+  beforeMount() {
+    this.checkLoggedIn();
   }
 };

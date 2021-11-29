@@ -9,7 +9,7 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-12">
           <p class="mt-4">Are you sure you want to delete this account?</p>
-          <button @click="deleteUserConfirm()" class="btn">Yes</button>
+          <button @click="deleteUserConfirm()" class="btn">Delete</button>
           <button @click="deleteUserReject()" class="btn">Cancel</button>
         </div>
       </div>
