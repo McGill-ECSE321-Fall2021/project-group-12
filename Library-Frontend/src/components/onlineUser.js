@@ -34,6 +34,20 @@ export default {
             });
         },
 
+        gotoCreateEvent: function() {
+            Router.push({
+                path: "/createevent",
+                name: "CreateEvent",
+            });
+        },
+
+        gotoUpdateOnlineAccount: function() {
+            Router.push({
+                path: "/updateonlineaccount",
+                name: "UpdateOnlineAccount",
+            });
+        },
+
         logout: function() {
             localStorage.clear();
             Router.push({

@@ -31,6 +31,16 @@ export default new Router({
       path: '/createreservation',
       name: 'CreateReservation',
       component: require('../components/CreateReservation.vue').default
+    },
+    {
+      path: '/updateonlineaccount',
+      name: 'UpdateOnlineAccount',
+      component: require('../components/UpdateOnlineAccount.vue').default
+    },
+    {
+      path: '/createevent',
+      name: 'CreateEvent',
+      component: require('../components/CreateEvent.vue').default
     }
   ]
 })
