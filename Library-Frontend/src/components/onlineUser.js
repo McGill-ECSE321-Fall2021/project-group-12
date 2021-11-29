@@ -41,6 +41,12 @@ export default {
                 name: "Login",
             });
         },
+      
+        deleteOnlineUser: function() {
+          Router.push({
+            path: "/onlineuser/delete"
+          });
+        },
 
         getReservedItems: function() {
             var username = localStorage.getItem('username');
