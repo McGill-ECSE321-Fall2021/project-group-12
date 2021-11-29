@@ -50,6 +50,21 @@ export default new Router({
       path: '/offlineuser',
       name: 'OfflineUser',
       component: require('../components/OfflineUser.vue').default
+    },
+    {
+      path: "/users/:userId/reservations/:reservationId/cancel",
+      name: "CancelReservation",
+      component: require("../components/CancelReservation.vue").default
+    },
+    {
+      path: "/users/:userId/events/:eventId/cancel",
+      name: "CancelEvent",
+      component: require("../components/CancelEvent.vue").default
+    },
+    {
+      path: "/onlineuser/delete",
+      name: "DeleteOnlineUser",
+      component: require("../components/DeleteOnlineUser.vue").default
     }
   ]
 })
