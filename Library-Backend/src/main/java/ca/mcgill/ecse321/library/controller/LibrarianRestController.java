@@ -67,7 +67,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@CrossOrigin(origins = ",")
+@CrossOrigin(origins = "*")
 @RestController
 public class LibrarianRestController {
 	

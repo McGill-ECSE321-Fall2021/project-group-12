@@ -9,14 +9,30 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
         <br>
-          <h1>Get Offline User</h1>
+          <h1>Get All Offline Users</h1>
+          <button @click="getOfflineUsers()" class="btn">Get All Offline Users</button>
+          <li v-for="offlineUser in allOfflineUsers" :key="offlineUser.userId">
+                <b>{{offlineUser.lastName}}, {{offlineUser.firstName}}, {{offlineUser.userId}}</b>
+          </li>
+          <h1 class="mt-5">Get Offline User</h1>
           <input class="text-field" type="text" v-model="id_query" placeholder="Offline User ID">
           <i class="bi-search search-icon" v-bind:diabled="!id_query" @click="searchOfflineUser(id_query)"></i>
-          <li v-for="id in id_response" :key="id.firstName">
-                {{item.firstName}}
+          <li v-if="id_response">
+                <b>{{id_response.lastName}}, {{id_response.firstName}}, {{id_response.userId}}</b>
           </li>
-
           <br>
+          <br>
+          <br>
+          <h1>Get All Creators</h1>
+          <button @click="getCreators()" class="btn">Get All Creators</button>
+          <li v-for="creator in allCreators" :key="creator.creatorId">
+                <b>{{creator.lastName}}, {{creator.firstName}}, {{creator.creatorType}}, {{creator.creatorId}}</b>
+          </li>
+          <h1 class="mt-5">Create Creator</h1>
+          <input class="text-field" type="text" v-model="creatorFirst" placeholder="First Name">
+          <input class="text-field" type="text" v-model="creatorLast" placeholder="Last Name">
+          <input class="text-field" type="text" v-model="creatorType" placeholder="Creator Type">
+          <button v-bind:diabled="!creatorFirst||!creatorLast||!creatorType" @click="createCreator(creatorFirst, creatorLast, creatorType)" class="btn">Create Creator</button>
         </div>
       </div>            
    </div>
@@ -261,7 +277,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 200vh;
+    height: 250vh;
   }
   .navbar-main {
     font-family: var(--font);

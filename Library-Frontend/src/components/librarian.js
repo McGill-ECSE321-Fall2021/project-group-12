@@ -10,14 +10,48 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 });
 
+function AlbumDto (title, isArchive, isReservable, releaseDate, numSongs, available, genre, creator) {
+    this.title = title
+    this.isArchive = isArchive
+    this.isReservable = isReservable
+    this.releaseDate = releaseDate
+    this.numSongs = numSongs
+    this.available = available
+    this.genre = genre
+    this.creator = creator
+}
+
+function BookDto (title, isArchive, isReservable, releaseDate, numPages, available, genre, creator) {
+    this.title = title
+    this.isArchive = isArchive
+    this.isReservable = isReservable
+    this.releaseDate = releaseDate
+    this.numPages = numPages
+    this.available = available
+    this.genre = genre
+    this.creator = creator
+}
+
+function BookDto (title, isArchive, isReservable, isAvailable, releaseDate, duration, genre, creator) {
+    this.title = title
+    this.isArchive = isArchive
+    this.isReservable = isReservable
+    this.isAvailable = isAvailable
+    this.releaseDate = releaseDate
+    this.duration = duration
+    this.genre = genre
+    this.creator = creator
+}
+
 export default {
     name: "librarian",
     data(){
         return {
             title: localStorage.getItem('title'),
             isReservable: false,
-            isAvailable: false,
+            isArchive: false,
             available: false,
+            isAvailable: false,
             releaseDate: '',
             numPages: '',
             numSongs: '',
@@ -26,11 +60,16 @@ export default {
             genre: '',
             creatorId: '',
             id_query: '',
-            id_response: [],
+            id_response: null,
             reserved_response: [],
             error: '',
             response: '',
             id: '',
+            allOfflineUsers: [],
+            creatorFirst: '',
+            creatorLast: '',
+            creatorType: '',
+            allCreators: []
         }
     },
 
@@ -45,7 +84,7 @@ export default {
             console.log('available: ' + available)
             console.log('genre: ' + genre)
             console.log('creator id: ' + creatorId)
-            AXIOS.post('librarian/album/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numSongs='+numSongs+'&available='+available+'&genre='+genre+'&creatorId='+creatorId)
+            AXIOS.post('librarian/album/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numSongs='+numSongs+'&isAvailable='+available+'&genre='+genre+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('title', title);
@@ -75,7 +114,7 @@ export default {
             console.log('is archive: ' + isArchive)
             console.log('is reservable: ' + isReservable)
             console.log('available: ' + available)
-            AXIOS.put('librarian/album/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+available)
+            AXIOS.put('librarian/album/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
             .then(response => {
                 this.response = response.data;
             })
@@ -95,10 +134,9 @@ export default {
             console.log('available: ' + available)
             console.log('genre: ' + genre)
             console.log('creator id: ' + creatorId)
-            AXIOS.post('librarian/book/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numPages='+numPages+'&available='+available+'&genre='+genre+'&creatorId='+creatorId)
+            AXIOS.post('librarian/book/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&releaseDate='+releaseDate+'&numPages='+numPages+'&isAvailable='+available+'&genre='+genre+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
-                localStorage.setItem('title', title);
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -125,7 +163,7 @@ export default {
             console.log('is archive: ' + isArchive)
             console.log('is reservable: ' + isReservable)
             console.log('available: ' + available)
-            AXIOS.put('librarian/book/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+available)
+            AXIOS.put('librarian/book/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
             .then(response => {
                 this.response = response.data;
             })
@@ -219,12 +257,30 @@ export default {
         updateNewspaper: function (id, title, isArchive, releaseDate, creatorId) {
             console.log('id: ' + id)
             console.log('title: ' + title)
-            console.log('is archive: ' + isArchive)
+            console.log('isArchive: ' + isArchive)
             console.log('release date: ' + releaseDate)
             console.log('creator id: ' + creatorId)
             AXIOS.put('librarian/newspaper/update?id='+id+'&title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+
+        createCreator: function (creatorFirst, creatorLast, creatorType){
+            console.log('firstName: ' + creatorFirst)
+            console.log('lastName: ' + creatorLast)
+            console.log('creatorType: ' + creatorType)
+            AXIOS.post('creator/create?firstName='+creatorFirst+'&lastName='+creatorLast+'&creatorType='+creatorType)
+            .then(response => {
+                this.response = response.data;
+                this.creatorFirst = ''
+                this.creatorLast = ''
+                this.creatorType = ''
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -243,7 +299,7 @@ export default {
             .then(response => {
                 this.id_response = response.data;
                 this.id_query = '';
-                console.log(id_response);
+                console.log(this.id_response);
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl);
@@ -252,6 +308,26 @@ export default {
             })
         },
 
+        getOfflineUsers: function() {
+            AXIOS.get('offlineusers')
+            .then(response => {
+                this.allOfflineUsers = response.data
+            })
+            .catch(e => {
+                this.error = e
+            })
+        },
+
+        getCreators: function()
+        {
+            AXIOS.get('creators')
+            .then(response => {
+                this.allCreators = response.data
+            })
+            .catch(e => {
+                this.error = e
+            })
+        },
         gotoOfflineUserView: function() {
             Router.push({
                 path: "/offlineuser",
