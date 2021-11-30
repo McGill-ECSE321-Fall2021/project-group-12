@@ -46,6 +46,10 @@
                 <input class="text-field" type="text" v-model="oldPassword" placeholder="Old Password"><br>
                 <input class="text-field" type="text" v-model="newPassword" placeholder="New Password"><br>
                 <button v-bind:diabled="!oldPassword||!newPassword" @click="changePassword(oldPassword, newPassword)" class="btn">Change Password</button>   
+              <div class="card-body">
+                <h3>Manage LibraryHour</h3>
+                  <button @click="gotoModifyLibraryHour()" class="btn">Go</button>
+              </div>
             </div>
             <div class="col-4">
               <h3>Search librarian</h3>

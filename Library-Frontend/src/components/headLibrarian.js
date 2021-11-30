@@ -212,5 +212,11 @@ export default {
             }
             
         },
+        gotoModifyLibraryHour: function() {
+			Router.push({
+                path: "//headlibrarian/modifylibraryhour",
+                name: "ModifyLibraryHour",
+            });
+		}
     },
 };

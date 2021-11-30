@@ -9,6 +9,9 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
         <br>
+          <h1 class="mt-5">View Weekly Schedule</h1>
+          <button @click="gotoLibraryHour()" class="btn">Go to Schedule</button>
+          
           <h1>Get All Offline Users</h1>
           <button @click="getOfflineUsers()" class="btn">Get All Offline Users</button>
           <li v-for="offlineUser in allOfflineUsers" :key="offlineUser.userId">
@@ -33,6 +36,8 @@
           <input class="text-field" type="text" v-model="creatorLast" placeholder="Last Name">
           <input class="text-field" type="text" v-model="creatorType" placeholder="Creator Type">
           <button v-bind:diabled="!creatorFirst||!creatorLast||!creatorType" @click="createCreator(creatorFirst, creatorLast, creatorType)" class="btn">Create Creator</button>
+          
+          
         </div>
       </div>            
    </div>

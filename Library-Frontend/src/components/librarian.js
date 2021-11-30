@@ -385,6 +385,12 @@ export default {
                 this.error = e
             })
         },
+        gotoLibraryHour: function() {
+			Router.push({
+				path: "/libraryhour",
+				name: "LibraryHour",
+			});
+ 		},
         gotoOfflineUserView: function() {
             Router.push({
                 path: "/offlineuser",
