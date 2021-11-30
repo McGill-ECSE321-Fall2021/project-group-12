@@ -18,6 +18,7 @@ export default {
             error: '',
             response: '',
             librarian: '',
+            foundLibrarian: '',
             librarianUsername: '',
             librarians: [],
             firstName: '',
@@ -26,7 +27,7 @@ export default {
             email: '',
             libusername: '',
             password: '',
-            id: 0,
+            id: '',
             isLocal: false,
             isHead: false,
             nwfirstName: '',
@@ -36,9 +37,25 @@ export default {
             nwusername: '',
             newPassword: '',
             oldPassword: '',
-            delId: 0,
+            delId: '',
             nwisLocal: false,
-            nwisHead: false
+            nwisHead: false,
+            event: '',
+            events: [],
+            eventsUser: [],
+            eventName: '',
+            eventStartTime:'',
+            eventEndTime: '',
+            eventStartDate: '',
+            eventEndDate: '',
+            eventIsPrivate: false,
+            eventIsAccepted: false,
+            eventUserFirstname: '',
+            eventUserLastname: '',
+            eventUserId: '',
+            isRejected: false,
+            isAccepted: false,
+            eventId: ''
         }
     },
 
@@ -47,7 +64,7 @@ export default {
             AXIOS.get('/librarian/'+librarianUsername)
             .then(response => {
                 this.response = response.data;
-                this.librarian = response.data;
+                this.foundLibrarian = response.data;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -62,11 +79,20 @@ export default {
             console.log('username: ' + username)
             console.log('password: ' + password)
             console.log('email: ' + email)
-            AXIOS.post('/librarian/create/head?firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)
+            AXIOS.post('/librarian/create/?librarianUsername='+this.username+'firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)
             .then(response => {
                 this.response = response.data;
                 this.librarians.push(response.data);
 		        this.librarian = response.data;
+                this.lastName = '';
+                this.address = '';
+                this.firstName = '';
+                this.email = '';
+                this.libusername = '';
+                this.password = '';
+                this.id = 0;
+                this.isLocal = false;
+                this.isHead = false;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -120,6 +146,71 @@ export default {
                 this.error = e;
             })
         },
-        
+        findAllEvents: function () {
+            AXIOS.get('/librarian/events')
+            .then(response => {
+                this.response = response.data;
+                this.events = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+        findEventsByUser: function (eventUserId) {
+            AXIOS.get('/librarian/events/'+eventUserId)
+            .then(response => {
+                this.response = response.data;
+                this.eventsUser = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+        findEvent: function (eventId) {
+            AXIOS.get('/event/'+eventId)
+            .then(response => {
+                this.response = response.data;
+                this.event = response.data;
+            })
+            .catch(e => {
+                console.log('frontend url: ' + frontendUrl)
+                console.log('\nbackend url:' + backendUrl)
+                this.error = e;
+            })
+        },
+        eventRequest: function (isAccepted, eventId) {
+            console.log(isAccepted);
+            console.log(eventId);
+            
+            if (isAccepted === "Accepted") {
+                AXIOS.put('/librarian/event/accept/'+eventId)
+                .then(response => {
+                    this.response = response.data;
+                    this.event = response.data;
+                })
+                .catch(e => {
+                    console.log('frontend url: ' + frontendUrl)
+                    console.log('\nbackend url:' + backendUrl)
+                    this.error = e;
+                })
+            }
+            if (isAccepted === "Rejected") {
+                AXIOS.put('/librarian/event/reject/'+eventId)
+                .then(response => {
+                    this.response = response.data;
+                    this.event = response.data;
+                })
+                .catch(e => {
+                    console.log('frontend url: ' + frontendUrl)
+                    console.log('\nbackend url:' + backendUrl)
+                    this.error = e;
+                })
+            }
+            
+        },
     },
 };

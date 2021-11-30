@@ -38,7 +38,8 @@
                 <input class="text-field" type="text" v-model="nwaddress" placeholder="Address"><br>
                 <input class="text-field" type="text" v-model="nwusername" placeholder="Username"><br>
                 <input class="text-field" type="text" v-model="nwemail" placeholder="Email"><br>
-                <label>isHead:</label><input type="checkbox" class="text-field" v-model="nwisHead"><br>
+                <label>Head librarian:</label><br>
+                <input type="checkbox" class="text-field" v-model="nwisHead">
                 <button @click="updateLibrarian(nwfirstName, nwlastName, nwaddress, nwusername, nwemail,nwisHead)" class="btn">Save & Update</button>
               </div>
               <h3>Change password</h3>
@@ -48,46 +49,24 @@
             </div>
             <div class="col-4">
               <h3>Search librarian</h3>
-                  <table>
-                    <tr>
-                      <td>
-                        <input class="text-field" type="text" v-model="librarianUsername" placeholder="Librarian Username">
-                      </td>
-                      <td>
-                        <button class="btn" @click="findLibrarian(librarianUsername)">Search</button>
-                      </td>
-                    </tr>
-                  </table>
+                  <input class="text-field" type="text" v-model="librarianUsername" placeholder="Search librarian...">
+                  <i class="bi-search search-icon" v-bind:diabled="!librarianUsername" @click="findLibrarian(librarianUsername)"></i>
                   <div class="container">
                     <div class="row align-left align-content-start">
                       <h5>Found results:</h5><br>
                     </div>
                     <div class="row align-left align-content-start">
-                      <b v-if="librarian">{{ librarian.firstName }}</b>
-                      <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
                       <table v-if="librarian">
                         <tr>
                             <td>
-                                <b>ID:&ensp;</b>
-                                <p>{{ librarian.userId }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Username:&ensp;</b>
-                                <p>{{ librarian.username }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Address:&ensp;</b>
-                                <p>{{ librarian.address }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Email:&ensp;</b>
-                                <p>{{ librarian.email }}</p>
+                                <b v-if="foundLibrarian">{{ foundLibrarian.firstName }}</b>
+                                <b v-if="foundLibrarian">&nbsp;{{ foundLibrarian.lastName }}</b>
+                                <ul>
+                                  <li><b>ID:&ensp;</b>{{ foundLibrarian.userId }}</li>
+                                  <li><b>Username:&ensp;</b>{{ foundLibrarian.username }}</li>
+                                  <li><b>Address:&ensp;</b>{{ foundLibrarian.address }}</li>
+                                  <li><b>Email:&ensp;</b>{{ foundLibrarian.email }}</li>
+                                </ul>
                             </td>
                         </tr>
                       </table>
@@ -95,34 +74,21 @@
                   </div>
               <h3>All librarians</h3>
                 <div>
+                  <button class="btn" @click="findAllLibrarians()">Refresh</button>
                   <table>
                     <tr v-for="librarian of librarians" :key="librarian.username">
                       <div class="row align-left align-content-start">
-                      <b v-if="librarian">{{ librarian.firstName }}</b>
-                      <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
-                      <table>
+                      <table v-if="librarian">
                         <tr>
                             <td>
-                                <b>ID:&ensp;</b>
-                                <p>{{ librarian.userId }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Username:&ensp;</b>
-                                <p>{{ librarian.username }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Address:&ensp;</b>
-                                <p>{{ librarian.address }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Email:&ensp;</b>
-                                <p>{{ librarian.email }}</p>
+                                <b v-if="librarian">{{ librarian.firstName }}</b>
+                                <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
+                                <ul>
+                                  <li><b>ID:&ensp;</b>{{ librarian.userId }}</li>
+                                  <li><b>Username:&ensp;</b>{{ librarian.username }}</li>
+                                  <li><b>Address:&ensp;</b>{{ librarian.address }}</li>
+                                  <li><b>Email:&ensp;</b>{{ librarian.email }}</li>
+                                </ul>
                             </td>
                         </tr>
                       </table>
@@ -132,8 +98,79 @@
                 </div>
             </div>
             <div class="col-4">
-                <h3>View events</h3>
+              <h3>Event requests</h3>
+              <input class="text-field" type="text" v-model="eventId" placeholder="Search event...">
+              <i class="bi-search search-icon" v-bind:diabled="!eventId" @click="findEvent(eventId)"></i>
+              <div class="row align-left align-content-start">
+                <h5>Found event:</h5><br>
+              </div>
+              <div class="row align-left align-content-start">
+                <table v-if="event">
+                  <tr>
+                      <td>
+                          <b>{{ event.name }}</b>
+                          <ul>
+                            <li><b>Event ID:&ensp;</b>{{ event.eventId }}</li>
+                            <li><b>User ID:&ensp;</b>{{ event.user.userId }}</li>
+                            <li><b>Start date:&ensp;</b>{{ event.timeSlot.startDate }}</li>
+                            <li><b>End date:&ensp;</b>{{ event.timeSlot.endDate }}</li>
+                            <li><b>Start time:&ensp;</b>{{ event.timeSlot.startTime }}</li>
+                            <li><b>End time:&ensp;</b>{{ event.timeSlot.endTime }}</li>
+                            <li><b>Is private:&ensp;</b>{{ event.isPrivate }}</li>
+                            <li><b>Is accepted:&ensp;</b>{{ event.isAccepted }}</li>
+                          </ul>
+                      </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="row align-left align-content-start">
+                <table>
+                  <tr>
+                    <td><label>Accept event:</label></td>
+                    <td><input type="radio" id="accepted" value="Accepted" v-model="isAccepted"></td>
+                  </tr>
+                  <tr>
+                    <td><label>Reject event:</label></td>
+                    <td><input type="radio" id="rejected" value="Rejected" v-model="isAccepted"></td>
+                  </tr>  
+                </table>
+              </div>
+              <button v-if="event" @click="eventRequest(isAccepted, eventId)" class="btn">Confirm</button>
+              <br>
+              <br>
+              <input class="text-field" type="text" v-model="eventUserId" placeholder="Search event by user...">
+              <i class="bi-search search-icon" v-bind:diabled="!eventUserId" @click="findEventsByUser(eventUserId)"></i>
+              <br>
+              <br>    
+              <h3>All events</h3>
+              <div>
+                  <button class="btn" @click="findAllEvents()">Refresh</button>
+                  <table>
+                    <tr v-for="event of events" :key="event.eventId">
+                      <div class="row align-left align-content-start">
+                      <table v-if="event">
+                        <tr>
+                            <td>
+                                <b>{{ event.name }}</b>
+                                <ul>
+                                  <li><b>Event ID:&ensp;</b>{{ event.eventId }}</li>
+                                  <li><b>User ID:&ensp;</b>{{ event.user.userId }}</li>
+                                  <li><b>Start date:&ensp;</b>{{ event.timeSlot.startDate }}</li>
+                                  <li><b>End date:&ensp;</b>{{ event.timeSlot.endDate }}</li>
+                                  <li><b>Start time:&ensp;</b>{{ event.timeSlot.startTime }}</li>
+                                  <li><b>End time:&ensp;</b>{{ event.timeSlot.endTime }}</li>
+                                  <li><b>Is private:&ensp;</b>{{ event.isPrivate }}</li>
+                                  <li><b>Is accepted:&ensp;</b>{{ event.isAccepted }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                      </table>
+                      </div>
+                    </tr>
+                  </table> 
+              </div>
             </div>
+
           </div>
         </div>  
       </div>        
