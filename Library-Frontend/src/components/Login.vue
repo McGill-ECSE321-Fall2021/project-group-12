@@ -20,11 +20,14 @@
           <br>
           <button class="btn mt-3 mb-5" @click="gotoSignUp()">Sign Up</button>
         </div>
-      </div>            
+      </div>         
    </div>
     <p>
       <span v-if="error" style="color:red">{{ error }}</span>
     </p>
+    <div class="row justify-content-center d-flex">
+      <i id="egg" class="egg-icon bi bi-egg" @click="breakEgg()"></i>
+    </div>
   </div>    
 </template>
 <script src="./login.js"></script>
@@ -40,7 +43,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 100vh;
+    height: 200vh;
   }
   .navbar-main {
     font-family: var(--font);
@@ -97,5 +100,18 @@
   .eye-icon:hover, .eye-icon:active, .eye-icon:focus {
     color: var(--primary-color);
     transition: 0.3s;
+  }
+
+  .egg-icon {
+    font-size: 24px;
+    position: absolute;
+    bottom: -95vh;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .egg-icon:hover, .egg-icon:active, .egg-icon:focus {
+    transition: 0.3s;
+    color: var(--primary-color);
   }
 </style>

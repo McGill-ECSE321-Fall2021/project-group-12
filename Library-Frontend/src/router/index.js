@@ -20,6 +20,11 @@ export default new Router({
       component: require("../components/Login.vue").default
     },
     {
+      path: "/",
+      name: "LandingPage",
+      component: require("../components/Login.vue").default
+    },
+    {
       path: "/signup",
       name: "SignUp",
       component: require("../components/SignUp.vue").default
