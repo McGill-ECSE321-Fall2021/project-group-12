@@ -1,19 +1,17 @@
 <template>
-  <div id="libraryhour">
+  <div id="modifyLibraryHour">
     <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-header">Library</a>
       </div>
     </nav>
     <div class="card-body mt-3 mb-3">
-      <div class="card-body mt-3 mb-3">
-      	<h1>Search For Colleague?</h1>
-        <input class="text-field" type="text" v-model="librarianId" placeholder="Search by userId">
-        <i class="bi-search search-icon" v-bind:diabled="!librarianId" @click="searchLibraryHour(librarianId)"></i>
-        <input class="text-field" type="text" v-model="username" placeholder="Search by username">
-        <i class="bi-search search-icon" v-bind:diabled="!username" @click="searchLibraryHourByUsername(username)"></i>
-      </div>
+      <h1>LibraryHour Management</h1>
+      <button @click="gotoHeadLibrarian()" class="btn">Back</button>
     </div>
+    
+    <input class="text-field" type="text" v-model="libId" placeholder="Search by userId">
+    <i class="bi-search search-icon" v-bind:diabled="!libId" @click="searchLibraryHour(libId)"></i>
     <h1>Weekly Schedule</h1>
     <table>
       <tr>
@@ -34,18 +32,59 @@
         {{libraryHour.endTime}}
         </td>
       </tr>
+      <tr>
+        <td>ID</td>
+        <td v-for="libraryHour in libraryHours">
+        {{libraryHour.libraryHourId}}
+        </td>
+      </tr>
     </table>
+    
+    <div class="card-body">
+      <div class="col-12">
+        <h3>Create LibraryHour</h3>
+        <div class="card-body">
+          <input class="text-field" type="text" v-model="startTime" placeholder="Start Time: HH:MM:SS">
+          <input class="text-field" type="text" v-model="endTime" placeholder="End Time: HH:MM:SS">
+          <input class="text-field" type="text" v-model="day" placeholder="Monday/Tuesday/...">
+          <input class="text-field" type="text" v-model="libId" placeholder="librarianId">
+          <div>
+            <button v-bind:diabled="!startTime||!endTime||!day||!libId" @click="createLibraryHour(startTime, endTime, day, libId)" class="btn">Create</button>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="col-12">
+        <h3>Delete LibraryHour</h3>
+        <div class="card-body">
+          <input class="text-field" type="text" v-model="libraryHourId" placeholder="libraryHourId">
+          <input class="text-field" type="text" v-model="libId" placeholder="LibrarianId">
+          <div>
+            <button v-bind:diabled="!libraryHourId||!libId" @click="deleteLibraryHour(libraryHourId, libId)" class="btn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+  	
+  
     <p>
       <span v-if="error" style="color:red">{{error}}</span>
     </p>
-    
-    <button @click="gotoLibrarian()" class="btn">Back</button>
   </div>
 </template>
 
 
 
-<script src="./LibraryHour.js"></script>
+<script src="./modifyLibraryHour.js"></script>
 
 
 
@@ -57,7 +96,7 @@
     --dark-secondary: #414141;
     --font: "Roboto"
   }
-  #libraryhour {
+  #modifyLibraryHour {
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
@@ -73,7 +112,20 @@
     color: var(--primary-color);
     transition: 0.3s;
   }
-
+  table {
+  margin-left: auto; 
+  margin-right: auto;
+  border: 5px solid white;
+  table-layout: fixed ;
+  width: 90% ;
+  }
+  td {
+  border: 5px solid white;
+  width: 25% ;
+  }
+  th {
+  border: 5px solid white;
+  }
  .search-icon:hover, .search-icon:active, .search-icon:focus{
     padding: 5px;
     font-size: 16px;
@@ -115,19 +167,5 @@
     font-size: 24px;
     background-color: var(--primary-color);
     height: 65px;
-  }
-  table {
-  margin-left: auto; 
-  margin-right: auto;
-  border: 5px solid white;
-  table-layout: fixed ;
-  width: 90% ;
-  }
-  td {
-  border: 5px solid white;
-  width: 25% ;
-  }
-  th {
-  border: 5px solid white;
   }
 </style>

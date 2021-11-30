@@ -22,7 +22,7 @@ this.eventId = eventId
 }
 
 export default {
-    name: "createEvent",
+    name: "createOfflineEvent",
     data(){
         return {
         username: localStorage.getItem('username'),
@@ -37,13 +37,11 @@ export default {
         endTime: '',
         error: '',
         response: '',
-        selected_timeslot: '',
-        selected_event: '',
         eTime: '',
         sDate: '',
         sTime: '',
         eDate: '',
-        eventName: ''
+        eventName: '',
      }
     },
 
@@ -62,7 +60,6 @@ export default {
             AXIOS.post('event/create?name='+eventN+'&timeSlotId='+this.current_timeslot.timeSlotId+'&isPrivate='+isPriv+'&isAccepted='+isAcc+'&userId='+this.userId)
             .then(response => {
                 this.current_event = response.data
-                this.selected_event = "Event Created: " + this.current_event.eventName
                 console.log(this.current_event)
                 localStorage.setItem('event', this.current_event.eventId)
 
@@ -89,7 +86,6 @@ export default {
                     this.startTime = '';
                     this.endTime = '',
                     this.alert = "Event Time Selected"
-                    this.selected_timeslot = "Start: " + this.current_timeslot.startDate + " " + this.current_timeslot.startTime + "End: " + this.current_timeslot.endDate + " " + this.current_timeslot.endTime
                     localStorage.setItem('timeslot', this.current_timeslot.timeSlotId.toString())
             }).catch(e => {
                 console.log(e)
@@ -104,6 +100,13 @@ export default {
             });
         },
 
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+              this.logout();
+            }
+        },
+
         logout: function() {
             localStorage.clear();
             Router.push({
@@ -112,9 +115,16 @@ export default {
             });
         },
 
-        beforeMount() {
-            this.checkLoggedIn();
+        gotoOfflineUser: function() {
+            Router.push({
+                path: "/offlinefunction",
+                name: "OfflineFunction",
+            });
         },
 
-    }
+    },
+
+    beforeMount() {
+        this.checkLoggedIn();
+     },
 };

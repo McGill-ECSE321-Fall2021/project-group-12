@@ -10,6 +10,13 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 });
 
+function OfflineUserDto (firstName, lastName, address, isLocal) {
+    this.firstName = firstName
+    this.lastName = lastName
+    this.address = address
+    this.isLocal = isLocal
+}
+
 export default {
     name: "offlineuser",
     data(){
@@ -19,21 +26,34 @@ export default {
             item_response: [],
             reserved_response: [],
             error: '',
-            response: ''
+            response: '',
+            createFirstName: '',
+            updateFirstName: '',
+            createLastName: '',
+            updateLastName: '',
+            lastName: '',
+            createAddress: '',
+            updateAddress: '',
+            updateIsLocal: false,
+            createIsLocal: false,
+            updateId: '',
+            deleteId: '',
+            offlineId: ''
+
         }
     },
 
     methods: {
         
         signUpOffline: function (firstName, lastName, address, isLocal) {
-            console.log('first name: ' + firstName)
-            console.log('last name: ' + lastName)
+            console.log('firstName: ' + firstName)
+            console.log('lastName: ' + lastName)
             console.log('address: ' + address)
             console.log('isLocal: ' + isLocal)
             AXIOS.post('offlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal)
             .then(response => {
                 this.response = response.data;
-                localStorage.setItem('username', username);
+                localStorage.setItem('firstName', firstName);
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -73,12 +93,39 @@ export default {
             })
         },
 
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+                this.logout();
+            }
+        },
+
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+                path: "/login",
+                name: "Login"
+            });
+        },
+
         gotoLibrarianView: function() {
             Router.push({
                 path: "/librarian",
                 name: "Librarian",
             });
         },
+
+        gotoOfflineFunctionView: function() {
+            Router.push({
+                path: "/offlinefunction",
+                name: "OfflineFunction",
+            });
+        },
         
     },
+
+    beforeMount() {
+        this.checkLoggedIn();
+     },
+
 };

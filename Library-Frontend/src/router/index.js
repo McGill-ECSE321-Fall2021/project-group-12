@@ -4,6 +4,8 @@ import Hello from "@/components/Hello";
 import Login from "@/components/Login.vue";
 import SignUp from "@/components/SignUp.vue";
 import OnlineUser from "@/components/OnlineUser.vue";
+import OfflineUser from "@/components/OfflineUser.vue";
+
 
 Vue.use(Router);
 
@@ -45,6 +47,11 @@ export default new Router({
       component: require("../components/LibraryHour.vue").default
     },
     {
+      path: "/headlibrarian/modifylibraryhour",
+      name: "ModifyLibraryHour",
+      component: require("../components/ModifyLibraryHour.vue").default
+    },
+    {
       path: "/librarian",
       name: "Librarian",
       component: require("../components/Librarian.vue").default
@@ -75,9 +82,29 @@ export default new Router({
       component: require('../components/UpdateOnlineAccount.vue').default
     },
     {
+      path: '/headlibrarian',
+      name: 'HeadLibrarian',
+      component: require('../components/HeadLibrarian.vue').default
+    },
+    {
       path: '/createevent',
       name: 'CreateEvent',
       component: require('../components/CreateEvent.vue').default
+    },
+    {
+      path: "/offlinefunction",
+      name: "OfflineFunction",
+      component: require('../components/OfflineFunction.vue').default
+    },
+    {
+      path: "/createofflineevent",
+      name: "CreateOfflineEvent",
+      component: require('../components/CreateOfflineEvent.vue').default
+    },
+    {
+      path: "/createofflinereservation",
+      name: "CreateOfflineReservation",
+      component: require('../components/CreateOfflineReservation.vue').default
     }
   ]
 });

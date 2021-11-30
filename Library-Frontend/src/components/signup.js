@@ -44,7 +44,8 @@ export default {
             password: '',
             email: '',
             error: '',
-            response: ''
+            response: '',
+            librarians: []
         }
     },
 
@@ -64,6 +65,17 @@ export default {
             console.log('username: ' + username)
             console.log('password: ' + password)
             console.log('email: ' + email)
+            AXIOS.get('librarians')
+            .then(response => {
+                this.librarians = response.data
+                if (this.librarians == null || this.librarians.length == 0){
+                    console.log('null or empty')
+                    AXIOS.post('librarian/create/head?firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)       
+                    this.gotoLibrarianView();
+                    return;
+                }
+                console.log('not null or empty')
+            })
             AXIOS.post('onlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
             .then(response => {
                 this.response = response.data;
