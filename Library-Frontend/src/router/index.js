@@ -75,11 +75,6 @@ export default new Router({
       component: require('../components/UpdateOnlineAccount.vue').default
     },
     {
-      path: '/offlineuser',
-      name: 'OfflineUser',
-      component: require('../components/OfflineUser.vue').default
-    },
-    {
       path: '/headlibrarian',
       name: 'HeadLibrarian',
       component: require('../components/HeadLibrarian.vue').default

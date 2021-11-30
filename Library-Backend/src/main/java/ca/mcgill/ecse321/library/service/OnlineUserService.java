@@ -98,9 +98,9 @@ public class OnlineUserService {
         // confirm username and email are unique
         Iterable<OnlineUser> iterable = onlineUserRepository.findAll();
         for (OnlineUser user:iterable) {
-        	if (user.getUsername() == username ) {
+        	if (user.getUsername().equals(username)) {
         		throw new IllegalArgumentException("A user with that username already exists.");
-        	} else if (user.getEmail() == email) {
+        	} else if (user.getEmail().equals(email)) {
         		throw new IllegalArgumentException("A user with that email already exists.");
         	}
         }
@@ -770,28 +770,6 @@ public class OnlineUserService {
     	}
     	return true;
     }
-    
-//    private Item getItemFromItemId(Long itemId) throws IllegalArgumentException {
-//    	if (itemId ==  null) {
-//    		throw new IllegalArgumentException("Item id cannot be empty");
-//    	}
-//    	if (albumRepository.existsById(itemId)) {
-//			Album album = albumRepository.findAlbumByItemId(itemId);
-//			return album;
-//		} else if(bookRepository.existsById(itemId)) {
-//			Book book = bookRepository.findBookByItemId(itemId);
-//			return book;
-//		} else if (movieRepository.existsById(itemId)) {
-//			Movie movie = movieRepository.findMovieByItemId(itemId);
-//			return movie;
-//		} else if (newspaperRepository.existsById(itemId)) {
-//			Newspaper newspaper = newspaperRepository.findByItemId(itemId);
-//			return newspaper;
-//		} else {
-//			throw new IllegalArgumentException("Invalid item id");
-//		}
-//    	
-//    }
     
     private List<Item> getItemsFromItemIds(List<Long> itemIds) throws IllegalArgumentException {
     	if (itemIds == null) {

@@ -20,7 +20,7 @@
             <input class="text-field" type="text" v-model="username" placeholder="Username">
             <input class="text-field" type="text" v-model="password" placeholder="Password">
             <input class="text-field" type="text" v-model="email" placeholder="Email">
-            <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpUser(firstName, lastName, address, isLocal, username, password, email)" class="btn">Signup</button>
+            <button v-bind:disabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpUser(firstName, lastName, address, isLocal, username, password, email)" class="btn">Signup</button>
           </div>
           <br>
           <a class="regular-text">Already have an account?</a>
