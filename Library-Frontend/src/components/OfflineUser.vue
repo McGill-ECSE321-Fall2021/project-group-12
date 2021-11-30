@@ -13,38 +13,38 @@
       <br>
           <h1>Create Offline Account</h1>
            <div class="card-body mt-3 mb-3">
-            <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
-            <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
-            <input class="text-field" type="text" v-model="address" placeholder="Address">
+            <input class="text-field" type="text" v-model="createFirstName" placeholder="First Name">
+            <input class="text-field" type="text" v-model="createLastName" placeholder="Last Name">
+            <input class="text-field" type="text" v-model="createAddress" placeholder="Address">
             <br>
             <label>Local:</label>
             <br>
-            <input type="checkbox" class="text-field" v-model="isLocal">
+            <input type="checkbox" class="text-field" v-model="createIsLocal">
             <br>
-            <button v-bind:diabled="!firstName||!lastName||!address" @click="signUpOffline(firstName, lastName, address, isLocal)" class="btn">Register</button>
+            <button v-bind:diabled="!createFirstName||!createLastName||!createAddress" @click="signUpOffline(createFirstName, createLastName, createAddress, createIsLocal)" class="btn">Register</button>
           </div>
     </div>
     <div class="col-sm">
       <br>
           <h1>Update Offline Account</h1>
            <div class="card-body mt-3 mb-3">
-            <input class="text-field" type="text" v-model="id" placeholder="id">
-            <input class="text-field" type="text" v-model="firstName" placeholder="First Name">
-            <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
-            <input class="text-field" type="text" v-model="address" placeholder="Address">
+            <input class="text-field" type="text" v-model="updateId" placeholder="id">
+            <input class="text-field" type="text" v-model="updateFirstName" placeholder="First Name">
+            <input class="text-field" type="text" v-model="updateLastName" placeholder="Last Name">
+            <input class="text-field" type="text" v-model="updateAddress" placeholder="Address">
             <br>
             <label>Local:</label>
             <br>
-            <input type="checkbox" class="text-field" v-model="isLocal">
-            <button v-bind:diabled="!id||!firstName||!lastName||!address" @click="updateOffline(id, firstName, lastName, address, isLocal)" class="btn">Update</button>
+            <input type="checkbox" class="text-field" v-model="updateIsLocal">
+            <button v-bind:diabled="!updateId||!updateFirstName||!updateLastName||!updateAddress" @click="updateOffline(updateId, updateFirstName, updateLastName, UpdateAddress, updateIsLocal)" class="btn">Update</button>
           </div>
     </div>
     <div class="col-sm">
       <br>
           <h1>Delete Offline Account</h1>
            <div class="card-body mt-3 mb-3">
-            <input class="text-field" type="text" v-model="id" placeholder="id">
-            <button v-bind:diabled="!id" @click="deleteOffline(id)" class="btn">Delete</button>
+            <input class="text-field" type="text" v-model="deleteId" placeholder="deleteId">
+            <button v-bind:diabled="!deleteId" @click="deleteOffline(deleteId)" class="btn">Delete</button>
           </div>
     </div>
    </div>
@@ -56,7 +56,7 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
         <br>
-          </br>
+          <br>
           <button class="btn mt-3 mb-5" @click="gotoLibrarianView()">Back</button>
         </div>
       </div>            

@@ -62,14 +62,14 @@ public class OfflineUserRestController {
     
     //creating new user
     @PostMapping(value = {"/offlineuser/create", "/offlineuser/create/"})
-    public OfflineUserDto createRestOfflineUser(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
-    	return convertToDto(service.createOfflineUser(firstname, lastname, address, isLocal));
+    public OfflineUserDto createRestOfflineUser(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
+    	return convertToDto(service.createOfflineUser(firstName, lastName, address, isLocal));
     }
 
     //updating exist user
     @PutMapping(value = {"/offlineuser/update", "/offlineuser/update/"})
-    public OfflineUserDto updateRestOfflineUser(@RequestParam("id") long id, @RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
-        return convertToDto(service.updateOfflineUser(id,firstname,lastname,address,isLocal));
+    public OfflineUserDto updateRestOfflineUser(@RequestParam("id") long id, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("address") String address, @RequestParam("isLocal") boolean isLocal) {
+        return convertToDto(service.updateOfflineUser(id,firstName,lastName,address,isLocal));
     }
     
     //deleting user by id

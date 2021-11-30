@@ -37,8 +37,8 @@ public class BookRestController {
 	}
 	
 	@GetMapping(value = { "/book", "/book/" })
-	public BookDto getBook(@RequestParam(value="bookId") Long bookId){
-		return convertToDto(bookService.getBook(bookId));
+	public BookDto getBook(@RequestParam(value="itemId") Long itemId){
+		return convertToDto(bookService.getBook(itemId));
 	}
 	
 	@GetMapping(value = {"/book/creator", "/book/creator/"})
@@ -61,8 +61,8 @@ public class BookRestController {
 	}
 	
 	@DeleteMapping(value = { "/book/delete", "/book/delete/" })
-	public BookDto deleteBook(@RequestParam("bookId") Long bookId) throws IllegalArgumentException {
-		Book book = bookService.deleteBook(bookId);
+	public BookDto deleteBook(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		Book book = bookService.deleteBook(itemId);
 		return convertToDto(book);
 	}
 	

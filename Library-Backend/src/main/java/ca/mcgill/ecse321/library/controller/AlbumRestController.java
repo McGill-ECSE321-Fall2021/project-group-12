@@ -38,8 +38,8 @@ public class AlbumRestController {
 	}
 	
 	@GetMapping(value = { "/album", "/album/" })
-	public AlbumDto getAlbum(@RequestParam(value="albumId") Long albumId){
-		return convertToDto(albumService.getAlbum(albumId));
+	public AlbumDto getAlbum(@RequestParam(value="itemId") Long itemId){
+		return convertToDto(albumService.getAlbum(itemId));
 	}
 	
 	@GetMapping(value = {"/album/creator", "/album/creator/"})
@@ -62,8 +62,8 @@ public class AlbumRestController {
 	}
 	
 	@DeleteMapping(value = { "/album/delete", "/album/delete/" })
-	public AlbumDto deleteAlbum(@RequestParam("albumId") Long albumId) throws IllegalArgumentException {
-		Album album = albumService.deleteAlbum(albumId);
+	public AlbumDto deleteAlbum(@RequestParam("itemId") Long itemId) throws IllegalArgumentException {
+		Album album = albumService.deleteAlbum(itemId);
 		return convertToDto(album);
 	}
 	
