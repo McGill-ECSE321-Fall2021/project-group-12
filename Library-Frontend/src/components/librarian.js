@@ -47,6 +47,7 @@ export default {
     name: "librarian",
     data(){
         return {
+
             albumTitle: '',
             bookTitle: '',
             movieTitle: '',
@@ -106,7 +107,7 @@ export default {
             error: '',
             response: '',
             librarian: '',
-            firstname: '',
+            firstName: '',
             lastName: '',
             address: '',
             email: '',
@@ -432,7 +433,7 @@ export default {
         
     },
     
-    beforeMount() {
-        this.checkLoggedIn();
-    }
+    //beforeMount() {
+   //     this.checkLoggedIn();
+    //}
 };

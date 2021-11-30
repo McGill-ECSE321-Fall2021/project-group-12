@@ -28,7 +28,7 @@
       <br>
           <h1>Update Offline Account</h1>
            <div class="card-body mt-3 mb-3">
-            <input class="text-field" type="text" v-model="updateId" placeholder="id">
+            <input class="text-field" type="text" v-model="updateId" placeholder="Id">
             <input class="text-field" type="text" v-model="updateFirstName" placeholder="First Name">
             <input class="text-field" type="text" v-model="updateLastName" placeholder="Last Name">
             <input class="text-field" type="text" v-model="updateAddress" placeholder="Address">
@@ -36,21 +36,31 @@
             <label>Local:</label>
             <br>
             <input type="checkbox" class="text-field" v-model="updateIsLocal">
-            <button v-bind:diabled="!updateId||!updateFirstName||!updateLastName||!updateAddress" @click="updateOffline(updateId, updateFirstName, updateLastName, UpdateAddress, updateIsLocal)" class="btn">Update</button>
+            <button v-bind:diabled="!updateId||!updateFirstName||!updateLastName||!updateAddress" @click="updateOffline(updateId, updateFirstName, updateLastName, updateAddress, updateIsLocal)" class="btn">Update</button>
           </div>
     </div>
     <div class="col-sm">
       <br>
           <h1>Delete Offline Account</h1>
            <div class="card-body mt-3 mb-3">
-            <input class="text-field" type="text" v-model="deleteId" placeholder="deleteId">
+            <input class="text-field" type="text" v-model="deleteId" placeholder="Id">
             <button v-bind:diabled="!deleteId" @click="deleteOffline(deleteId)" class="btn">Delete</button>
+            <br>
           </div>
     </div>
    </div>
    </div>
    <br>
 
+  <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-3 mt-5">
+        <h1>Offline User Functions</h1>
+            <button lass="btn mt-3 mb-5" @click="gotoOfflineFunctionView()" class="btn">Offline Functions</button>
+
+        </div>
+      </div>            
+   </div>
 
    <div class="container">
       <div class="row d-flex justify-content-center">

@@ -37,7 +37,8 @@ export default {
             updateIsLocal: false,
             createIsLocal: false,
             updateId: '',
-            deleteId: ''
+            deleteId: '',
+            offlineId: ''
 
         }
     },
@@ -96,6 +97,13 @@ export default {
             Router.push({
                 path: "/librarian",
                 name: "Librarian",
+            });
+        },
+
+        gotoOfflineFunctionView: function() {
+            Router.push({
+                path: "/offlinefunction",
+                name: "OfflineFunction",
             });
         },
         

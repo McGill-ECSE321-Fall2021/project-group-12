@@ -4,6 +4,8 @@ import Hello from "@/components/Hello";
 import Login from "@/components/Login.vue";
 import SignUp from "@/components/SignUp.vue";
 import OnlineUser from "@/components/OnlineUser.vue";
+import OfflineUser from "@/components/OfflineUser.vue";
+
 
 Vue.use(Router);
 
@@ -88,6 +90,21 @@ export default new Router({
       path: '/createevent',
       name: 'CreateEvent',
       component: require('../components/CreateEvent.vue').default
+    },
+    {
+      path: "/offlinefunction",
+      name: "OfflineFunction",
+      component: require('../components/OfflineFunction.vue').default
+    },
+    {
+      path: "/createofflineevent",
+      name: "CreateOfflineEvent",
+      component: require('../components/CreateOfflineEvent.vue').default
+    },
+    {
+      path: "/createofflinereservation",
+      name: "CreateOfflineReservation",
+      component: require('../components/CreateOfflineReservation.vue').default
     }
   ]
 });

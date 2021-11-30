@@ -22,26 +22,26 @@ this.eventId = eventId
 }
 
 export default {
-    name: "createEvent",
+    name: "createOfflineEvent",
     data(){
         return {
-            username: localStorage.getItem('username'),
-            userId: localStorage.getItem('userId'),
-            current_timeslot: '',
-            current_event: '',
-            isPrivate: '',
-            isAccepted: '',
-            startDate: '',
-            endDate: '',
-            startTime: '',
-            endTime: '',
-            error: '',
-            response: '',
-            eTime: '',
-            sDate: '',
-            sTime: '',
-            eDate: '',
-            eventName: '',
+        username: localStorage.getItem('username'),
+        userId: localStorage.getItem('userId'),
+        current_timeslot: '',
+        current_event: '',
+        isPrivate: '',
+        isAccepted: '',
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        error: '',
+        response: '',
+        eTime: '',
+        sDate: '',
+        sTime: '',
+        eDate: '',
+        eventName: '',
      }
     },
 
@@ -105,6 +105,13 @@ export default {
             Router.push({
                 path: "/login",
                 name: "Login",
+            });
+        },
+
+        gotoOfflineUser: function() {
+            Router.push({
+                path: "/offlinefunction",
+                name: "OfflineFunction",
             });
         },
 

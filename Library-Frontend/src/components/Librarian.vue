@@ -11,7 +11,8 @@
         <br>
           <h1 class="mt-5">View Weekly Schedule</h1>
           <button @click="gotoLibraryHour()" class="btn">Go to Schedule</button>
-          
+          <br>
+          <br>
           <h1>Get All Offline Users</h1>
           <button @click="getOfflineUsers()" class="btn">Get All Offline Users</button>
           <li v-for="offlineUser in allOfflineUsers" :key="offlineUser.userId">
@@ -254,24 +255,8 @@
     </div>
     </div>
     </div>
-<div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-3 mt-5">
-        <br>
-            <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Offline User Services</button>
-            <br>
-            <button @click="logout()" class="btn">Logout</button>
-          <br>
-        </div>
-        <div class="row d-flex justify-content-center">
-          <div class="col-xl-12 mt-3 mb-3">
-            <button @click="logout()" class="btn">Logout</button>
-          </div>
-      </div>
-      </div>            
-  </div>
   <div>
-    <h3>Set up new head librarian account</h3>
+    <h1>Set-Up New Head Librarian</h1>
                   <div class="card-body">
                     <input class="text-field" type="text" v-model="firstName" placeholder="First Name"><br>
                     <input class="text-field" type="text" v-model="lastName" placeholder="Last Name"><br>
@@ -281,36 +266,18 @@
                     <input class="text-field" type="text" v-model="email" placeholder="Email"><br>
                     <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, username, password, email)" class="btn">Signup</button>
                   </div>
-    <div class="container">
-                <div class="row align-left align-content-start">
-                  <h5>Found results:</h5><br>
-                </div>
-                <div class="row align-left align-content-start">
-                  <b v-if="librarian">{{ librarian.firstName }}</b>
-                  <v-divider verticle></v-divider>
-                  <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
-                </div>
-                <div class="row align-left no-gutters">
-                  <b>ID:&ensp;</b>
-                  <v-divider verticle></v-divider>
-                  <p v-if="librarian">{{ librarian.id }}</p>
-                </div>
-                <div class="row align-left no-gutters">
-                  <b>Username:&ensp;</b>
-                  <v-divider verticle></v-divider>
-                  <p v-if="librarian">{{ librarian.username }}</p>
-                </div>
-                <div class="row align-left no-gutters">
-                  <b>Address:&ensp;</b>
-                  <v-divider verticle></v-divider>
-                  <p v-if="librarian">{{ librarian.address }}</p>
-                </div>
-                <div class="row align-left no-gutters">
-                  <b>Email:&ensp;</b>
-                  <v-divider verticle></v-divider>
-                  <p v-if="librarian">{{ librarian.email }}</p>
-                </div>
-    </div>
+  </div>
+  <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-3 mt-5">
+        <br>
+          <h1>Offline User View</h1>
+            <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Offline User View</button>
+            <br>
+            <button @click="logout()" class="btn">Logout</button>
+          <br>
+        </div>
+      </div>            
   </div>
     <p>
       <span v-if="error" style="color:red">{{ error }}</span>
@@ -331,7 +298,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 280vh;
+    height: 380vh;
   }
   .navbar-main {
     font-family: var(--font);
