@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="col-4">
-              <h3>Event requests</h3>
+              <h3>Event requests management</h3>
               <input class="text-field" type="text" v-model="eventId" placeholder="Search event...">
               <i class="bi-search search-icon" v-bind:diabled="!eventId" @click="findEvent(eventId)"></i>
               <div class="row align-left align-content-start">
