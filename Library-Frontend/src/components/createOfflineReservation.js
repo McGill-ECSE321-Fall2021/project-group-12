@@ -298,9 +298,7 @@ export default {
             }
         }
     },
-    //beforeMount() {
-    //    this.checkLoggedIn();
-    //    this.displayTimeSlotStatus();
-    //    this.getReservationStatus();
-    //},
+    beforeMount() {
+        this.checkLoggedIn();
+    },
 };

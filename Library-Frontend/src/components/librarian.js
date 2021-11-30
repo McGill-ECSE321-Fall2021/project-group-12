@@ -433,7 +433,7 @@ export default {
         
     },
     
-    //beforeMount() {
-   //     this.checkLoggedIn();
-    //}
+    beforeMount() {
+        this.checkLoggedIn();
+    }
 };

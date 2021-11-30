@@ -49,12 +49,19 @@ export default {
             });
         },
 
-        logout: function() {
+        exit: function() {
         localStorage.clear();
         Router.push({
             path: "/offlineuser",
             name: "OfflineUser"
         });
+        },
+
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+              this.logout();
+            }
         },
 
         getReservedItems: function() {
@@ -70,5 +77,9 @@ export default {
         });
         }
     },
+
+    beforeMount() {
+        this.checkLoggedIn();
+     },
 
 };

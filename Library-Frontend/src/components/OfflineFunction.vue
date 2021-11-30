@@ -22,7 +22,7 @@
       </div>  
       <div class="row d-flex justify-content-center">
         <div class="col-xl-12 mt-3 mb-3">
-          <button @click="logout()" class="btn">Exit</button>
+          <button @click="exit()" class="btn">Exit</button>
         </div>
       </div>
     </div>
