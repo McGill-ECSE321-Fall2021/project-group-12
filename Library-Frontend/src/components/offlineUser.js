@@ -93,6 +93,21 @@ export default {
             })
         },
 
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+                this.logout();
+            }
+        },
+
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+                path: "/login",
+                name: "Login"
+            });
+        },
+
         gotoLibrarianView: function() {
             Router.push({
                 path: "/librarian",
@@ -108,4 +123,9 @@ export default {
         },
         
     },
+
+    beforeMount() {
+        this.checkLoggedIn();
+     },
+
 };
