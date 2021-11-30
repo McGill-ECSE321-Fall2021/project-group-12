@@ -257,7 +257,6 @@ export default {
                 name: "OfflineUser",
             });
         },
-
         signUpLibrarian: function (firstName, lastName, address, username, password, email) {
             console.log('first name: ' + firstName)
             console.log('last name: ' + lastName)
@@ -276,5 +275,22 @@ export default {
                 this.error = e;
             })
         },
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+              this.logout();
+            }
+        },
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+              path: "/login",
+              name: "Login"
+            });
+        },
+        
     },
+    beforeMount() {
+        this.checkLoggedIn();
+      }
 };
