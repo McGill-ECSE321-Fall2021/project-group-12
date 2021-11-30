@@ -34,7 +34,6 @@ export default new Router({
       name: "CreateReservation",
       component: require("../components/CreateReservation.vue").default
     },
-
     {
       path: "/libraryhour",
       name: "LibraryHour",
@@ -64,6 +63,20 @@ export default new Router({
       path: "/onlineuser/delete",
       name: "DeleteOnlineUser",
       component: require("../components/DeleteOnlineUser.vue").default
+    },
+      path: '/createreservation',
+      name: 'CreateReservation',
+      component: require('../components/CreateReservation.vue').default
+    },
+    {
+      path: '/updateonlineaccount',
+      name: 'UpdateOnlineAccount',
+      component: require('../components/UpdateOnlineAccount.vue').default
+    },
+    {
+      path: '/createevent',
+      name: 'CreateEvent',
+      component: require('../components/CreateEvent.vue').default
     }
   ]
 });

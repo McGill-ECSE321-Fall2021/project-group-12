@@ -27,48 +27,70 @@ export default {
   },
 
   methods: {
-    gotoCreateReservation: function() {
-      Router.push({
-        path: "/createreservation",
-        name: "CreateReservation"
-      });
-    },
+        gotoCreateReservation: function() {
+        Router.push({
+            path: "/createreservation",
+            name: "CreateReservation"
+        });
+        },
 
-    logout: function() {
-      localStorage.clear();
-      Router.push({
-        path: "/login",
-        name: "Login"
-      });
-    },
+        gotoCreateEvent: function() {
+            Router.push({
+                path: "/createevent",
+                name: "CreateEvent",
+            });
+        },
 
-    deleteOnlineUser: function() {
-      Router.push({
-        path: "/onlineuser/delete"
-      });
-    },
+        gotoUpdateOnlineAccount: function() {
+            Router.push({
+                path: "/updateonlineaccount",
+                name: "UpdateOnlineAccount",
+            });
+        },
 
-    getReservedItems: function() {
-      var username = localStorage.getItem("username");
-      if (username === null || username === "") {
-        this.logout();
-      }
-      AXIOS.get(
-        "/onlineuser/reservations/username/" + localStorage.getItem("username")
-      ).then(response => {
-        this.reserved_response = response.data;
-        console.log(this.reserved_response);
-      });
-    },
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+                path: "/login",
+                name: "Login",
+            });
+        },
 
-    checkLoggedIn: function() {
-      console.log(localStorage.getItem("username"));
-      if (localStorage.getItem("username") === null) {
-        this.logout();
-      }
+        logout: function() {
+        localStorage.clear();
+        Router.push({
+            path: "/login",
+            name: "Login"
+        });
+        },
+
+        deleteOnlineUser: function() {
+        Router.push({
+            path: "/onlineuser/delete"
+        });
+        },
+
+        getReservedItems: function() {
+        var username = localStorage.getItem("username");
+        if (username === null || username === "") {
+            this.logout();
+        }
+        AXIOS.get(
+            "/onlineuser/reservations/username/" + localStorage.getItem("username")
+        ).then(response => {
+            this.reserved_response = response.data;
+            console.log(this.reserved_response);
+        });
+        },
+
+        checkLoggedIn: function() {
+        console.log(localStorage.getItem("username"));
+        if (localStorage.getItem("username") === null) {
+            this.logout();
+        }
+        }
+    },
+    beforeMount() {
+        this.checkLoggedIn();
     }
-  },
-  beforeMount() {
-    this.checkLoggedIn();
-  }
 };

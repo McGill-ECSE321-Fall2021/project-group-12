@@ -19,6 +19,16 @@
           </button>
       </div>
       <div class="row d-flex justify-content-center">
+        <div class="col-xl-12 mt-5">
+            <button @click="gotoCreateEvent()" class="btn">Create Event</button>
+        </div>
+      </div> 
+      <div class="row d-flex justify-content-center">
+        <div class="col-xl-12 mt-5">
+            <button @click="gotoUpdateOnlineAccount()" class="btn">Update Online Account</button>
+        </div>
+      </div>   
+      <div class="row d-flex justify-content-center">
         <div class="col-xl-12 mt-3 mb-3">
           <button @click="logout()" class="btn">Logout</button>
         </div>
