@@ -64,10 +64,6 @@ export default new Router({
       name: "DeleteOnlineUser",
       component: require("../components/DeleteOnlineUser.vue").default
     },
-      path: '/createreservation',
-      name: 'CreateReservation',
-      component: require('../components/CreateReservation.vue').default
-    },
     {
       path: '/updateonlineaccount',
       name: 'UpdateOnlineAccount',
