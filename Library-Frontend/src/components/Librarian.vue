@@ -46,204 +46,204 @@
     <div class="col-sm">
     <div class="card-body mt-3 mb-3">
     <h1>Create Album</h1>
-    <input class="text-field" type="text" v-model="title" placeholder="Title">
+    <input class="text-field" type="text" v-model="albumTitle" placeholder="Title">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="albumCreateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="albumCreateIsArchive">
     <br>
-    <input class="text-field" type="text" v-model="releaseDate" placeholder="Release Date">
+    <input class="text-field" type="text" v-model="albumReleaseDate" placeholder="Release Date">
     <input class="text-field" type="text" v-model="numSongs" placeholder="Number of Songs">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="available">
+    <input type="checkbox" class="text-field" v-model="albumCreateAvailable">
     <br>
-    <input class="text-field" type="text" v-model="genre" placeholder="Genre">
-    <input class="text-field" type="text" v-model="creatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!title||!releaseDate||!numSongs||!genre||!creatorId" @click="createAlbum(title, isReservable, isArchive, releaseDate, numSongs, available, genre, creatorId)" class="btn">Create Album</button>
+    <input class="text-field" type="text" v-model="albumGenre" placeholder="Genre">
+    <input class="text-field" type="text" v-model="albumCreatorId" placeholder="Creator ID">
+    <button v-bind:diabled="!albumTitle||!albumReleaseDate||!numSongs||!albumGenre||!albumCreatorId" @click="createAlbum(albumTitle, albumCreateIsReservable, albumCreateIsArchive, albumReleaseDate, numSongs, albumCreateAvailable, albumGenre, albumCreatorId)" class="btn">Create Album</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Update Album</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
+    <input class="text-field" type="text" v-model="albumUpdateId" placeholder="Item ID">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="albumUpdateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="albumUpdateIsArchive">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="available">
+    <input type="checkbox" class="text-field" v-model="albumUpdateAvailable">
     <br>
-    <button v-bind:diabled="!id" @click="updateAlbum(id, isReservable, isArchive, available)" class="btn">Update Album</button>
+    <button v-bind:diabled="!albumUpdateId" @click="updateAlbum(albumUpdateId, albumCreateIsReservable, albumCreateIsArchive, albumCreateAvailable)" class="btn">Update Album</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Remove Album</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
-    <button v-bind:diabled="!id" @click="deleteAlbum(id)" class="btn">Remove Album</button>
+    <input class="text-field" type="text" v-model="albumDeleteId" placeholder="Item ID">
+    <button v-bind:diabled="!albumDeleteId" @click="deleteAlbum(albumDeleteId)" class="btn">Remove Album</button>
     <br>
     </div>
     </div>
     <div class="col-sm">
     <div class="card-body mt-3 mb-3">
     <h1>Create Book</h1>
-    <input class="text-field" type="text" v-model="title" placeholder="Title">
+    <input class="text-field" type="text" v-model="bookTitle" placeholder="Title">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="bookCreateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="bookCreateIsArchive">
     <br>
-    <input class="text-field" type="text" v-model="releaseDate" placeholder="Release Date">
+    <input class="text-field" type="text" v-model="bookReleaseDate" placeholder="Release Date">
     <input class="text-field" type="text" v-model="numPages" placeholder="Number of Pages">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="available">
+    <input type="checkbox" class="text-field" v-model="bookCreateAvailable">
     <br>
-    <input class="text-field" type="text" v-model="genre" placeholder="Genre">
-    <input class="text-field" type="text" v-model="creatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!title||!releaseDate||!numPages||!genre||!creatorId" @click="createBook(title, isReservable, isArchive, releaseDate, numPages, available, genre, creatorId)" class="btn">Create Book</button>
+    <input class="text-field" type="text" v-model="bookGenre" placeholder="Genre">
+    <input class="text-field" type="text" v-model="bookCreatorId" placeholder="Creator ID">
+    <button v-bind:diabled="!bookTitle||!bookReleaseDate||!numPages||!bookGenre||!bookCreatorId" @click="createBook(bookTitle, bookCreateIsReservable, bookCreateIsArchive, bookReleaseDate, numPages, bookCreateAvailable, bookGenre, bookCreatorId)" class="btn">Create Book</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Update Book</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
+    <input class="text-field" type="text" v-model="bookUpdateId" placeholder="Item ID">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="bookUpdateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="bookUpdateIsArchive">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="available">
+    <input type="checkbox" class="text-field" v-model="bookUpdateAvailable">
     <br>
-    <button v-bind:diabled="!id" @click="updateBook(id, isReservable, isArchive, available)" class="btn">Update Album</button>
+    <button v-bind:diabled="!bookUpdateId" @click="updateBook(bookUpdateId, bookUpdateIsReservable, bookUpdateIsArchive, bookUpdateAvailable)" class="btn">Update Album</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Remove Book</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
-    <button v-bind:diabled="!id" @click="deleteBook(id)" class="btn">Remove Book</button>
+    <input class="text-field" type="text" v-model="bookDeleteId" placeholder="Item ID">
+    <button v-bind:diabled="!bookDeleteId" @click="deleteBook(bookDeleteId)" class="btn">Remove Book</button>
     <br>
     </div>
     </div>
     <div class="col-sm">
     <div class="card-body mt-3 mb-3">
     <h1>Create Movie</h1>
-    <input class="text-field" type="text" v-model="title" placeholder="Title">
+    <input class="text-field" type="text" v-model="movieTitle" placeholder="Title">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="movieCreateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="movieCreateIsArchive">
     <br>
-    <input class="text-field" type="text" v-model="releaseDate" placeholder="Release Date">
+    <input class="text-field" type="text" v-model="movieReleaseDate" placeholder="Release Date">
     <input class="text-field" type="text" v-model="duration" placeholder="Duration">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isAvailable">
+    <input type="checkbox" class="text-field" v-model="movieCreateIsAvailable">
     <br>
-    <input class="text-field" type="text" v-model="genre" placeholder="Genre">
-    <input class="text-field" type="text" v-model="creatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!title||!releaseDate||!duration||!genre||!creatorId" @click="createMovie(title, isReservable, isArchive, isAvailable, releaseDate, duration, genre, creatorId)" class="btn">Create Movie</button>
+    <input class="text-field" type="text" v-model="movieGenre" placeholder="Genre">
+    <input class="text-field" type="text" v-model="movieCreatorId" placeholder="Creator ID">
+    <button v-bind:diabled="!movieTitle||!movieReleaseDate||!duration||!movieGenre||!movieCreatorId" @click="createMovie(movieTitle, movieCreateIsReservable, movieCreateIsArchive, movieCreateIsAvailable, movieReleaseDate, duration, movieGenre, movieCreatorId)" class="btn">Create Movie</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Update Movie</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
+    <input class="text-field" type="text" v-model="movieUpdateId" placeholder="Item ID">
     <br>
     <label>Is Reservable:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isReservable">
+    <input type="checkbox" class="text-field" v-model="movieUpdateIsReservable">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="movieUpdateIsArchive">
     <br>
     <label>Is Available:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isAvailable">
+    <input type="checkbox" class="text-field" v-model="movieUpdateIsAvailable">
     <br>
-    <button v-bind:diabled="!id" @click="updateMovie(id, isReservable, isArchive, isAvailable)" class="btn">Update Movie</button>
+    <button v-bind:diabled="!movieUpdateId" @click="updateMovie(movieUpdateId, movieUpdateIsReservable, movieUpdateIsArchive, movieUpdateIsAvailable)" class="btn">Update Movie</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Remove Movie</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
-    <button v-bind:diabled="!id" @click="deleteMovie(id)" class="btn">Remove Movie</button>
+    <input class="text-field" type="text" v-model="movieDeleteId" placeholder="Item ID">
+    <button v-bind:diabled="!movieDeleteId" @click="deleteMovie(movieDeleteId)" class="btn">Remove Movie</button>
     <br>
     </div>
     </div>
     <div class="col-sm">
     <div class="card-body mt-3 mb-3">
     <h1>Create Newspaper</h1>
-    <input class="text-field" type="text" v-model="title" placeholder="Title">
+    <input class="text-field" type="text" v-model="newspaperCreateTitle" placeholder="Title">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="newspaperCreateIsArchive">
     <br>
-    <input class="text-field" type="text" v-model="releaseDate" placeholder="Release Date">
-    <input class="text-field" type="text" v-model="creatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!title||!releaseDate||!creatorId" @click="createNewspaper(title, isArchive, releaseDate, creatorId)" class="btn">Create Newspaper</button>
+    <input class="text-field" type="text" v-model="newspaperCreateReleaseDate" placeholder="Release Date">
+    <input class="text-field" type="text" v-model="newspaperCreateCreatorId" placeholder="Creator ID">
+    <button v-bind:diabled="!newspaperCreateTitle||!newspaperCreateReleaseDate||!newspaperCreateCreatorId" @click="createNewspaper(newspaperCreateTitle, newspaperCreateIsArchive, newspaperCreateReleaseDate, newspaperCreateCreatorId)" class="btn">Create Newspaper</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Update Newspaper</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
-    <input class="text-field" type="text" v-model="title" placeholder="Title">
+    <input class="text-field" type="text" v-model="newspaperUpdateId" placeholder="Item ID">
+    <input class="text-field" type="text" v-model="newspaperUpdateTitle" placeholder="Title">
     <br>
     <label>Is Archive:</label>
     <br>
-    <input type="checkbox" class="text-field" v-model="isArchive">
+    <input type="checkbox" class="text-field" v-model="newspaperUpdateIsArchive">
     <br>
-    <input class="text-field" type="text" v-model="releaseDate" placeholder="Release Date">
-    <input class="text-field" type="text" v-model="creatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!id||!title||!releaseDate||!creatorId" @click="updateNewspaper(id, title, isArchive, releaseDate, creatorId)" class="btn">Update Newspaper</button>
+    <input class="text-field" type="text" v-model="newspaperUpdateReleaseDate" placeholder="Release Date">
+    <input class="text-field" type="text" v-model="newspaperUpdateCreatorId" placeholder="Creator ID">
+    <button v-bind:diabled="!newspaperUpdateId||!newspaperUpdateTitle||!newspaperUpdateReleaseDate||!newspaperUpdateCreatorId" @click="updateNewspaper(newspaperUpdateId, newspaperUpdateTitle, newspaperUpdateIsArchive, newspaperUpdateReleaseDate, newspaperUpdateCreatorId)" class="btn">Update Newspaper</button>
     <br>
     <br>
     <br>
     <br>
     <br>
     <h1>Remove Newspaper</h1>
-    <input class="text-field" type="text" v-model="id" placeholder="Item ID">
-    <button v-bind:diabled="!id" @click="deleteNewspaper(id)" class="btn">Remove Newspaper</button>
+    <input class="text-field" type="text" v-model="newspaperDeleteId" placeholder="Item ID">
+    <button v-bind:diabled="!newspaperDeleteId" @click="deleteNewspaper(newspaperDeleteId)" class="btn">Remove Newspaper</button>
     <br>
     </div>
     </div>
@@ -254,6 +254,8 @@
         <div class="col-md-3 mt-5">
         <br>
             <button class="btn mt-3 mb-5" @click="gotoOfflineUserView()">Offline User Services</button>
+            <br>
+            <button @click="logout()" class="btn">Logout</button>
           <br>
         </div>
       </div>            
@@ -277,7 +279,7 @@
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
-    height: 250vh;
+    height: 280vh;
   }
   .navbar-main {
     font-family: var(--font);

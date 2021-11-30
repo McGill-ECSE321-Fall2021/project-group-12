@@ -47,15 +47,18 @@ public class NewspaperRestController {
 	}
 	
 	@PostMapping(value = {"/newspaper/create", "/newspaper/create/"})
-	public NewspaperDto createNewspaper(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
+	public NewspaperDto createNewspaper(@RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") String releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
-		return convertToDto(newspaperService.createNewspaper(title, isArchive, releaseDate, creator));
+		Date date = Date.valueOf(releaseDate);
+		Newspaper newspaper = newspaperService.createNewspaper(title, isArchive, date, creator);
+		return convertToDto(newspaper);
 	}
 	
 	@PutMapping(value = {"/newspaper/update/{itemId}", "/newspaper/update/{itemId}/"})
-	public NewspaperDto updateNewspaper(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") Date releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
+	public NewspaperDto updateNewspaper(@PathVariable("itemId") Long itemId, @RequestParam("title") String title, @RequestParam("isArchive") boolean isArchive, @RequestParam("releaseDate") String releaseDate, @RequestParam("creatorId") Long creatorId) throws IllegalArgumentException {
 		Creator creator = creatorService.getCreator(creatorId);
-		return convertToDto(newspaperService.updateNewspaper(itemId, title, isArchive, releaseDate, creator));
+		Date date = Date.valueOf(releaseDate);
+		return convertToDto(newspaperService.updateNewspaper(itemId, title, isArchive, date, creator));
 	}
 	
 	@DeleteMapping(value = {"/newspaper/delete/{itemId}", "/newspaper/delete/{itemId}/"})

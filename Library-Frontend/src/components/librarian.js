@@ -47,24 +47,72 @@ export default {
     name: "librarian",
     data(){
         return {
-            title: localStorage.getItem('title'),
-            isReservable: false,
-            isArchive: false,
-            available: false,
-            isAvailable: false,
-            releaseDate: '',
+            albumTitle: '',
+            bookTitle: '',
+            movieTitle: '',
+            newspaperCreateTitle: '',
+            newspaperUpdateTitle: '',
+            albumCreateIsReservable: false,
+            bookCreateIsReservable: false,
+            movieCreateIsReservable: false,
+            newspaperCreateIsReservable: false,
+            albumCreateIsArchive: false,
+            bookCreateIsArchive: false,
+            movieCreateIsArchive: false,
+            newspaperCreateIsArchive: false,
+            albumCreateAvailable: false,
+            bookCreateAvailable: false,
+            movieCreateAvailable: false,
+            newspaperCreateAvailable: false,
+            albumCreateIsAvailable: false,
+            bookCreateIsAvailable: false,
+            movieCreateIsAvailable: false,
+            newspaperCreateIsAvailable: false,
+            albumUpdateIsReservable: false,
+            bookUpdateIsReservable: false,
+            movieUpdateIsReservable: false,
+            newspaperUpdateIsReservable: false,
+            albumUpdateIsArchive: false,
+            bookUpdateIsArchive: false,
+            movieUpdateIsArchive: false,
+            newspaperUpdateIsArchive: false,
+            albumUpdateAvailable: false,
+            bookUpdateAvailable: false,
+            movieUpdateAvailable: false,
+            newspaperUpdateAvailable: false,
+            albumUpdateIsAvailable: false,
+            bookUpdateIsAvailable: false,
+            movieUpdateIsAvailable: false,
+            newspaperUpdateIsAvailable: false,
+            albumReleaseDate: '',
+            bookReleaseDate: '',
+            movieReleaseDate: '',
+            newspaperCreateReleaseDate: '',
+            newspaperUpdateReleaseDate: '',
             numPages: '',
             numSongs: '',
             duration: '',
-            isArchive: false,
-            genre: '',
-            creatorId: '',
+            albumGenre: '',
+            bookGenre: '',
+            movieGenre: '',
+            albumCreatorId: '',
+            bookCreatorId: '',
+            movieCreatorId: '',
+            newspaperCreateCreatorId: '',
+            newspaperUpdateCreatorId: '',
             id_query: '',
             id_response: null,
             reserved_response: [],
             error: '',
             response: '',
-            id: '',
+            albumUpdateId: '',
+            bookUpdateId: '',
+            movieUpdateId: '',
+            newspaperUpdateId: '',
+            albumDeleteId: '',
+            bookDeleteId: '',
+            movieDeleteId: '',
+            newspaperDeleteId: '',
             allOfflineUsers: [],
             creatorFirst: '',
             creatorLast: '',
@@ -98,7 +146,7 @@ export default {
 
         deleteAlbum: function (id) {
             console.log('id: ' + id)
-            AXIOS.delete('/librarian/ablum/delete?id='+id)
+            AXIOS.delete('/librarian/ablum/delete?itemId='+id)
             .then(response => {
                 this.response = response.data;
             })
@@ -114,7 +162,7 @@ export default {
             console.log('is archive: ' + isArchive)
             console.log('is reservable: ' + isReservable)
             console.log('available: ' + available)
-            AXIOS.put('librarian/album/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
+            AXIOS.put('librarian/album/update?itemId='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
             .then(response => {
                 this.response = response.data;
             })
@@ -147,7 +195,7 @@ export default {
 
         deleteBook: function (id) {
             console.log('id: ' + id)
-            AXIOS.delete('/librarian/book/delete?id='+id)
+            AXIOS.delete('/librarian/book/delete?itemId='+id)
             .then(response => {
                 this.response = response.data;
             })
@@ -163,7 +211,7 @@ export default {
             console.log('is archive: ' + isArchive)
             console.log('is reservable: ' + isReservable)
             console.log('available: ' + available)
-            AXIOS.put('librarian/book/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
+            AXIOS.put('librarian/book/update?itemId='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+available)
             .then(response => {
                 this.response = response.data;
             })
@@ -183,7 +231,7 @@ export default {
             console.log('duration: ' + duration)
             console.log('genre: ' + genre)
             console.log('creator id: ' + creatorId)
-            AXIOS.post('librarian/book/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+isAvailable+'&releaseDate='+releaseDate+'&duration='+duration+'&genre='+genre+'&creatorId='+creatorId)
+            AXIOS.post('librarian/movie/create?title='+title+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+isAvailable+'&releaseDate='+releaseDate+'&duration='+duration+'&genre='+genre+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('title', title);
@@ -197,7 +245,7 @@ export default {
 
         deleteMovie: function (id) {
             console.log('id: ' + id)
-            AXIOS.delete('/librarian/movie/delete?id='+id)
+            AXIOS.delete('/librarian/movie/delete?itemId='+id)
             .then(response => {
                 this.response = response.data;
             })
@@ -213,7 +261,7 @@ export default {
             console.log('is archive: ' + isArchive)
             console.log('is reservable: ' + isReservable)
             console.log('is available: ' + isAvailable)
-            AXIOS.put('librarian/movie/update?id='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&available='+isAvailable)
+            AXIOS.put('librarian/movie/update?itemId='+id+'&isArchive='+isArchive+'&isReservable='+isReservable+'&isAvailable='+isAvailable)
             .then(response => {
                 this.response = response.data;
             })
@@ -232,7 +280,6 @@ export default {
             AXIOS.post('librarian/newspaper/create?title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
-                localStorage.setItem('title', title);
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -243,7 +290,7 @@ export default {
 
         deleteNewspaper: function (id) {
             console.log('id: ' + id)
-            AXIOS.delete('/librarian/newspaper/delete?id='+id)
+            AXIOS.delete('/librarian/newspaper/delete?itemId='+id)
             .then(response => {
                 this.response = response.data;
             })
@@ -260,7 +307,7 @@ export default {
             console.log('isArchive: ' + isArchive)
             console.log('release date: ' + releaseDate)
             console.log('creator id: ' + creatorId)
-            AXIOS.put('librarian/newspaper/update?id='+id+'&title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
+            AXIOS.put('librarian/newspaper/update?itemId='+id+'&title='+title+'&isArchive='+isArchive+'&releaseDate='+releaseDate+'&creatorId='+creatorId)
             .then(response => {
                 this.response = response.data;
             })
@@ -334,6 +381,14 @@ export default {
                 name: "OfflineUser",
             });
         },
+
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+              path: "/login",
+              name: "Login"
+            });
+          },
         
     },
 };
