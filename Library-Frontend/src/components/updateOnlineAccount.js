@@ -33,7 +33,7 @@ methods: {
         console.log('first name: ' + firstName)
         console.log('last name: ' + lastName)
         console.log('address: ' + address)
-        console.log('isLocal: ' + isLocal)
+        console.log('is Local: ' + isLocal)
         console.log('username: ' + username)
         console.log('password: ' + password)
         console.log('email: ' + email)
@@ -41,8 +41,11 @@ methods: {
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', username);
+            this.gotoOnlineUserView();
         })
         .catch(e => {
+            console.log('frontend url: ' + frontendUrl)
+            console.log('\nbackend url:' + backendUrl)
             this.error = e;
         })
     },
@@ -54,8 +57,11 @@ methods: {
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', username);
+            this.gotoOnlineUserView();
         })
         .catch(e => {
+            console.log('frontend url: ' + frontendUrl)
+            console.log('\nbackend url:' + backendUrl)
             this.error = e;
         })
     },
@@ -67,8 +73,11 @@ methods: {
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', newUser);
+            this.gotoOnlineUserView();
         })
         .catch(e => {
+            console.log('frontend url: ' + frontendUrl)
+            console.log('\nbackend url:' + backendUrl)
             this.error = e;
         })
     },

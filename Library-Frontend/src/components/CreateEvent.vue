@@ -16,6 +16,9 @@
 
                     <button @click="createTimeSlot(sDate, eDate, sTime, eTime)" class="btn">Select</button>
                  </div>
+                        <p>
+                            <span v-if="selected_timeslot" style="color:green">{{ selected_timeslot }}</span>
+                        </p> 
              </div>
              <div class="row d-flex justify-content-center">
                  <div class="col-md-10 mt-3 mb-3">
@@ -25,7 +28,15 @@
                     <label>Accepted:</label><input type="checkbox" class="text-field" v-model="isAccepted">
                     <button @click="createEvent(eventName, isPrivate, isAccepted)" class="btn">Select</button>
                  </div>
+                        <p>
+                            <span v-if="selected_event" style="color:green">{{ selected_event }}</span>
+                        </p> 
              </div>
+             <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 mt-3">
+                  <button @click="gotoOnlineUser()" class="btn">Return</button>
+                </div>
+            </div>
         </div>    
     </div>  
 </template>

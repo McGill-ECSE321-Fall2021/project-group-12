@@ -9,19 +9,19 @@
              <div class="row d-flex justify-content-center">
                  <div class="col-md-10 mt-3 mb-3">
                     <h5>Update Username</h5>
-                    <input class="text-field" type="text" v-model="username" placeholder="Username">
-                    <input class="text-field" type="text" v-model="password" placeholder="Password">
+                    <input class="text-field" type="text" v-model="username1" placeholder="Username">
+                    <input class="text-field" type="text" v-model="password1" placeholder="Password">
                     <input class="text-field" type="text" v-model="newUser" placeholder="New Username">
-                    <button @click="updateUsername(username, password, newUser)" class="btn">Select</button>
+                    <button @click="updateUsername(username1, password1, newUser)" class="btn">Select</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">
                  <div class="col-md-10 mt-3 mb-3">
                     <h5>Update Password</h5>
-                    <input class="text-field" type="text" v-model="username" placeholder="Username">
-                    <input class="text-field" type="text" v-model="password" placeholder="Password">
+                    <input class="text-field" type="text" v-model="username2" placeholder="Username">
+                    <input class="text-field" type="text" v-model="password2" placeholder="Password">
                     <input class="text-field" type="text" v-model="newPass" placeholder="New Password">
-                    <button @click="updatePassword(username,password,newPass)" class="btn">Select</button>
+                    <button @click="updatePassword(username2,password2,newPass)" class="btn">Select</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">
@@ -31,12 +31,17 @@
                     <input class="text-field" type="text" v-model="lastName" placeholder="Last Name">
                     <input class="text-field" type="text" v-model="address" placeholder="Address">
                     <label>Local:</label><input type="checkbox" class="text-field" v-model="isLocal">
-                    <input class="text-field" type="text" v-model="username" placeholder="Username">
-                    <input class="text-field" type="text" v-model="password" placeholder="Password">
+                    <input class="text-field" type="text" v-model="username3" placeholder="Username">
+                    <input class="text-field" type="text" v-model="password3" placeholder="Password">
                     <input class="text-field" type="text" v-model="email" placeholder="Email">
-                    <button @click="updateOnlineUserAccount(firstName,lastName,address,isLocal,username,password,email)" class="btn">Select</button>
+                    <button @click="updateOnlineUserAccount(firstName,lastName,address,isLocal,username3,password3,email)" class="btn">Select</button>
                  </div>
              </div>
+             <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 mt-3">
+                  <button @click="gotoOnlineUser()" class="btn">Return</button>
+             </div>
+            </div>
         </div>    
     </div>
     </template>
