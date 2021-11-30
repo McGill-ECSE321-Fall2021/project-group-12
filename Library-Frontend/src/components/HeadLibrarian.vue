@@ -63,31 +63,17 @@
                       <h5>Found results:</h5><br>
                     </div>
                     <div class="row align-left align-content-start">
-                      <b v-if="librarian">{{ librarian.firstName }}</b>
-                      <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
                       <table v-if="librarian">
                         <tr>
                             <td>
-                                <b>ID:&ensp;</b>
-                                <p>{{ librarian.userId }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Username:&ensp;</b>
-                                <p>{{ librarian.username }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Address:&ensp;</b>
-                                <p>{{ librarian.address }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Email:&ensp;</b>
-                                <p>{{ librarian.email }}</p>
+                                <b v-if="foundLibrarian">{{ foundLibrarian.firstName }}</b>
+                                <b v-if="foundLibrarian">&nbsp;{{ foundLibrarian.lastName }}</b>
+                                <ul>
+                                  <li><b>ID:&ensp;</b>{{ foundLibrarian.userId }}</li>
+                                  <li><b>Username:&ensp;</b>{{ foundLibrarian.username }}</li>
+                                  <li><b>Address:&ensp;</b>{{ foundLibrarian.address }}</li>
+                                  <li><b>Email:&ensp;</b>{{ foundLibrarian.email }}</li>
+                                </ul>
                             </td>
                         </tr>
                       </table>
@@ -95,34 +81,21 @@
                   </div>
               <h3>All librarians</h3>
                 <div>
+                  <button class="btn" @click="findAllLibrarians()">Refresh</button>
                   <table>
                     <tr v-for="librarian of librarians" :key="librarian.username">
                       <div class="row align-left align-content-start">
-                      <b v-if="librarian">{{ librarian.firstName }}</b>
-                      <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
-                      <table>
+                      <table v-if="librarian">
                         <tr>
                             <td>
-                                <b>ID:&ensp;</b>
-                                <p>{{ librarian.userId }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Username:&ensp;</b>
-                                <p>{{ librarian.username }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Address:&ensp;</b>
-                                <p>{{ librarian.address }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Email:&ensp;</b>
-                                <p>{{ librarian.email }}</p>
+                                <b v-if="librarian">{{ librarian.firstName }}</b>
+                                <b v-if="librarian">&nbsp;{{ librarian.lastName }}</b>
+                                <ul>
+                                  <li><b>ID:&ensp;</b>{{ librarian.userId }}</li>
+                                  <li><b>Username:&ensp;</b>{{ librarian.username }}</li>
+                                  <li><b>Address:&ensp;</b>{{ librarian.address }}</li>
+                                  <li><b>Email:&ensp;</b>{{ librarian.email }}</li>
+                                </ul>
                             </td>
                         </tr>
                       </table>
@@ -130,9 +103,6 @@
                     </tr>
                   </table>
                 </div>
-            </div>
-            <div class="col-4">
-                <h3>View events</h3>
             </div>
           </div>
         </div>  

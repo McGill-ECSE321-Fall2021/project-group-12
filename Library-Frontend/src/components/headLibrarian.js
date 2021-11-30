@@ -18,6 +18,7 @@ export default {
             error: '',
             response: '',
             librarian: '',
+            foundLibrarian: '',
             librarianUsername: '',
             librarians: [],
             firstName: '',
@@ -38,7 +39,19 @@ export default {
             oldPassword: '',
             delId: 0,
             nwisLocal: false,
-            nwisHead: false
+            nwisHead: false,
+            event: '',
+            events: [],
+            eventName: '',
+            eventStartTime:'',
+            eventEndTime: '',
+            eventStartDay: '',
+            eventEndDay: '',
+            eventIsPrivate: false,
+            eventIsAccepted: false,
+            eventUserFirstname: '',
+            eventUserLastname: '',
+            eventUserId: '',
         }
     },
 
@@ -47,7 +60,7 @@ export default {
             AXIOS.get('/librarian/'+librarianUsername)
             .then(response => {
                 this.response = response.data;
-                this.librarian = response.data;
+                this.foundLibrarian = response.data;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
@@ -67,6 +80,15 @@ export default {
                 this.response = response.data;
                 this.librarians.push(response.data);
 		        this.librarian = response.data;
+                this.lastName = '';
+                this.address = '';
+                this.firstName = '';
+                this.email = '';
+                this.libusername = '';
+                this.password = '';
+                this.id = 0;
+                this.isLocal = false;
+                this.isHead = false;
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
