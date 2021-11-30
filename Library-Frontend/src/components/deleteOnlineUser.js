@@ -32,7 +32,7 @@ export default {
       AXIOS.delete("/onlineuser/delete/username/" + this.username)
         .then(response => {
           alert("Account deleted successfully");
-          localStorage.setItem("username", "");
+          localStorage.clear();
           Router.push({
             path: "/login"
           });

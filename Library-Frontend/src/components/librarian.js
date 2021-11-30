@@ -247,6 +247,22 @@ export default {
                 name: "OfflineUser",
             });
         },
+        checkLoggedIn: function() {
+            console.log(localStorage.getItem("username"));
+            if (localStorage.getItem("username") === null) {
+              this.logout();
+            }
+        },
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+              path: "/login",
+              name: "Login"
+            });
+        },
         
     },
+    beforeMount() {
+        this.checkLoggedIn();
+      }
 };

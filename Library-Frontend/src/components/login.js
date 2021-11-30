@@ -117,5 +117,23 @@ export default {
                 name: "OnlineUser",
             });
         },
+
+        breakEgg: function() {
+            const egg = document.getElementById('egg')
+            egg.classList.remove('bi-egg')
+            egg.classList.add('bi-egg-fried')
+            localStorage.setItem("egg", true)
+        },
+
+        checkEgg: function(){
+            var status = localStorage.getItem('egg')
+            console.log(status)
+            if (status !== null){
+                this.breakEgg();
+            }
+        }
     },
+    mounted() {
+        this.checkEgg();
+    }
 };
