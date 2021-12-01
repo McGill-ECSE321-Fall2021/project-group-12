@@ -8,6 +8,16 @@
    <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="col-md-3 mt-5">
+        
+        <div>
+          <h1 class="mt-5">View Weekly Schedule</h1>
+          <button @click="gotoLibraryHour()" class="btn"><i class="bi bi-arrow-right"></i></button>
+        </div>
+        <div>
+          <h1 class="mt-5">Manage Reservaion</h1>
+          <button @click="gotoReservationManagement()" class="btn"><i class="bi bi-arrow-right"></i></button>
+        </div>
+        
         <br>
           <h1 class="mt-5">View Weekly Schedule</h1>
           <button @click="gotoLibraryHour()" class="btn">Go to Schedule</button>

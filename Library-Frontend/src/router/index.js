@@ -57,6 +57,11 @@ export default new Router({
       component: require("../components/Librarian.vue").default
     },
     {
+      path: "/librarian/managereservation",
+      name: "ManageReservation",
+      component: require("../components/ManageReservation.vue").default
+    },
+    {
       path: "/offlineuser",
       name: "OfflineUser",
       component: require("../components/OfflineUser.vue").default

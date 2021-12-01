@@ -45,7 +45,8 @@ export default {
             email: '',
             error: '',
             response: '',
-            librarians: []
+            librarians: [],
+            created_librarian: false
         }
     },
 
@@ -68,24 +69,26 @@ export default {
             AXIOS.get('librarians')
             .then(response => {
                 this.librarians = response.data
+                console.log(this.librarians);
                 if (this.librarians == null || this.librarians.length == 0){
                     console.log('null or empty')
                     AXIOS.post('librarian/create/head?firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)       
-                    this.gotoLibrarianView();
-                    return;
+                    console.log('created librarian')
+                    this.created_librarian = true;
+                }else {
+                    console.log('not null or empty')
+                    AXIOS.post('onlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
+                    .then(response => {
+                        this.response = response.data;
+                        localStorage.setItem('username', username);
+                        console.log('created onlineuser')
+                    })
+                    .catch(e => {
+                        console.log('frontend url: ' + frontendUrl)
+                        console.log('\nbackend url:' + backendUrl)
+                        this.error = e; 
+                    })
                 }
-                console.log('not null or empty')
-            })
-            AXIOS.post('onlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
-            .then(response => {
-                this.response = response.data;
-                localStorage.setItem('username', username);
-                this.gotoOnlineUserView();
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl)
-                console.log('\nbackend url:' + backendUrl)
-                this.error = e;
             })
         },
 
