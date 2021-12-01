@@ -16,6 +16,7 @@ export default {
 	name: "manageReservation",
 	data(){
         return {
+			userReservations: [],
 			reservations: [],
             error: '',
             response: ''
@@ -28,6 +29,34 @@ export default {
 				name: "Librarian",
 			});
 		},
+		searchReservationByUserId: function(userId) {
+			if (this.userReservations.length > 0){
+                this.userReservations = []
+                return
+            }
+            AXIOS.get('/reservations/'+userId)
+            .then(response => {
+				console.log(response)
+                this.userReservations = response.data;
+            })
+            .catch(e => {
+				console.log('frontend url: ' + frontendUrl)
+                console.log('backend url:' + backendUrl)
+                this.error = e;
+            })
+		},
+		deleteReservation: function(reservationId) {
+			AXIOS.delete('/reservation/delete/'+reservationId)
+            .then(response => {
+				console.log(response)
+                this.reservations = response.data;
+            })
+            .catch(e => {
+				console.log('frontend url: ' + frontendUrl)
+                console.log('backend url:' + backendUrl)
+                this.error = e;
+            })
+		},
 		getReservations: function() {
 			if (this.reservations.length > 0){
                 this.reservations = []
@@ -35,17 +64,14 @@ export default {
             }
             AXIOS.get('/reservations')
             .then(response => {
+				console.log(response)
                 this.reservations = response.data;
             })
             .catch(e => {
+				console.log('frontend url: ' + frontendUrl)
+                console.log('backend url:' + backendUrl)
                 this.error = e;
             })
 		}
-	
-	
-	
 	}
-	
-	
-	
 }

@@ -31,7 +31,7 @@
              </div>
              <div class="row d-flex justify-content-center">
                 <div class="col-xl-12 mt-3">
-                  <button @click="gotoOnlineUser()" class="btn">Return</button>
+                  <button @click="gotoOnlineUserView()" class="btn">Return</button>
                 </div>
             </div>
         </div>    

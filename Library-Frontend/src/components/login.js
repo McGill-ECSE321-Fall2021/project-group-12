@@ -19,38 +19,52 @@ export default {
             userId: null,
             error: '',
             response: '',
-            isLibrarian: false
+            isALibrarian: false,
+            isHeadLibrarian: false
         }
     },
 
     methods: {
-        loginUser: function (username, password, isLibrarian) {
+        loginUser: function (username, password) {
             console.log('username: ' + username)
             console.log('password: ' + password)
-            AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
+            AXIOS.get('librarian/islibrarian/'+username)
             .then(response => {
-                this.response = response.data;
-                console.log(response);
-                console.log(response.data)
-                localStorage.setItem('username', response.data.username);
-                localStorage.setItem('userId', response.data.userId);
-                localStorage.setItem('email', response.data.email);
-                localStorage.setItem('firstName', response.data.firstName);
-                localStorage.setItem('lastName', response.data.lastName);
-                if (isLibrarian){
-                    localStorage.setItem('userType', 'librarian')
-                    this.gotoLibrarianView();
-                }else {
-                    localStorage.setItem('userType', 'onlineuser')
-                    this.gotoOnlineUserView();
+                this.isALibrarian = response.data;
+                if (this.isALibrarian){
+                    AXIOS.get('librarian/isheadlibrarian/'+username)
+                    .then(response => {
+                        this.isHeadLibrarian = response.data;
+                        if (this.isHeadLibrarian){
+                            AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
+                            .then(response => {
+                                localStorage.setItem('userType', 'headlibrarian')
+                                this.gotoHeadLibrarianView();
+                            })
+                            .catch(e => {
+                                this.error = e;
+                            })
+                        }else {
+                            AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
+                            .then(response => {
+                                localStorage.setItem('userType', 'librarian')
+                                this.gotoLibrarianView();
+                            })
+                            .catch(e => {
+                                this.error = e;
+                            })
+                        }
+                    })
+                } else {
+                    AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
+                    .then(response => {
+                        localStorage.setItem('userType', 'onlineuser')
+                        this.gotoOnlineUserView();
+                    })
+                    .catch(e => {
+                        this.error = e;
+                    })
                 }
-                localStorage.setItem('username', username);
-                gottoOnlineUserView();
-            })
-            .catch(e => {
-                console.log('frontend url: ' + frontendUrl)
-                console.log('\nbackend url:' + backendUrl)
-                this.error = e;
             })
         },
 
@@ -61,13 +75,23 @@ export default {
             .then(response => {
                 this.response = response.data;
                 localStorage.setItem('username', username);
-                gotoLibrarianView();
+                if (response.data.isHead == true) {
+                    this.gotoHeadLibrarianView();
+                }
+                this.gotoLibrarianView();
             })
             .catch(e => {
                 console.log('frontend url: ' + frontendUrl)
                 console.log('\nbackend url:' + backendUrl)
                 this.error = 'Invalid username or password';
             })
+        },
+
+        gotoHeadLibrarianView: function() {
+            Router.push({
+                path: "/headlibrarian",
+                name: "HeadLibrarian",
+            });
         },
 
         gotoOnlineUserView: function() {
