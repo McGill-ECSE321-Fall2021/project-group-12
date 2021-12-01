@@ -48,7 +48,9 @@
                 <button v-bind:diabled="!oldPassword||!newPassword" @click="changePassword(oldPassword, newPassword)" class="btn">Change Password</button>   
               <div class="card-body">
                 <h3>Manage LibraryHour</h3>
-                  <button @click="gotoModifyLibraryHour()" class="btn">Go</button>
+                <button @click="gotoModifyLibraryHour()" class="btn">Go</button>
+                <h3>Manage Reservation</h3>
+                <button @click="gotoReservationManagement()" class="btn">Go</button>
               </div>
             </div>
             <div class="col-4">
