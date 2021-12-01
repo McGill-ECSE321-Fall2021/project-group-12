@@ -52,7 +52,7 @@ Design an application for a library to assist it in providing its services. Such
 | :---: | :--- | :---:|
 | Aaron Mills |<ul><li>Login View</li><li>Sign Up View</li><li>Create Reservation View</li><li>Archictecture Model Diagram</li><li>Debugging</li></ul> | 25.5 |
 | Ann Trinh |<ul><li>Head Librarian View</li><li>Wiki Documentation</li></ul> | 15 |
-| Chirag Sood |<ul><li>Cancel Event View</li><li>Cancel Reservation View</li></ul><ul><li>Delete OnlineUser View</li><li>| 16 || Lucca Di Lullo |<ul><li>Librarian View</li><li>Offline User View</li><li>Librarian Item Management</li><li>Debugging</li></ul> | 20.5 |
+| Chirag Sood |<ul><li>Cancel Event View</li><li>Cancel Reservation View</li></ul><ul><li>Delete OnlineUser View</li></ul>| 16 || Lucca Di Lullo |<ul><li>Librarian View</li><li>Offline User View</li><li>Librarian Item Management</li><li>Debugging</li></ul> | 20.5 |
 | Mia Stevanovic |
 | Yuyan Shi |<ul><li>LibraryHour View</li><li>LibraryHour Modification View</li><li>Reservation Management View</li></ul> | 15 |
 
