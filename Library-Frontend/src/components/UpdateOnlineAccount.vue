@@ -12,7 +12,7 @@
                     <input class="text-field" type="text" v-model="username1" placeholder="Username">
                     <input class="text-field" type="text" v-model="password1" placeholder="Password">
                     <input class="text-field" type="text" v-model="newUser" placeholder="New Username">
-                    <button @click="updateUsername(username1, password1, newUser)" class="btn">Select</button>
+                    <button v-bind:diabled="!username1||!password1||!newUser" @click="updateUsername(username1, password1, newUser)" class="btn">Select</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">
@@ -21,7 +21,7 @@
                     <input class="text-field" type="text" v-model="username2" placeholder="Username">
                     <input class="text-field" type="text" v-model="password2" placeholder="Password">
                     <input class="text-field" type="text" v-model="newPass" placeholder="New Password">
-                    <button @click="updatePassword(username2,password2,newPass)" class="btn">Select</button>
+                    <button v-bind:diabled="!username2||!password2||!newPass" @click="updatePassword(username2,password2,newPass)" class="btn">Select</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">
@@ -34,7 +34,7 @@
                     <input class="text-field" type="text" v-model="username3" placeholder="Username">
                     <input class="text-field" type="text" v-model="password3" placeholder="Password">
                     <input class="text-field" type="text" v-model="email" placeholder="Email">
-                    <button @click="updateOnlineUserAccount(firstName,lastName,address,isLocal,username3,password3,email)" class="btn">Select</button>
+                    <button v-bind:diabled="!firstName||!lastName||!address||!username3||!password3||!email" @click="updateOnlineUserAccount(firstName,lastName,address,isLocal,username3,password3,email)" class="btn">Select</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">

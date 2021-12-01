@@ -26,11 +26,8 @@
                     <input class="text-field" type="text" v-model="eventName" placeholder="Event Name:">
                     <label>Private:</label><input type="checkbox" class="text-field" v-model="isPrivate">
                     <label>Accepted:</label><input type="checkbox" class="text-field" v-model="isAccepted">
-                    <button @click="createEvent(eventName, isPrivate, isAccepted)" class="btn">Select</button>
+                    <button v-bind:diabled="!eventName" @click="createEvent(eventName, isPrivate, isAccepted)" class="btn">Create</button>
                  </div>
-                        <p>
-                            <span v-if="selected_event" style="color:green">{{ selected_event }}</span>
-                        </p> 
              </div>
              <div class="row d-flex justify-content-center">
                 <div class="col-xl-12 mt-3">

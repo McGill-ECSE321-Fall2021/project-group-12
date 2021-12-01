@@ -37,7 +37,7 @@ methods: {
         console.log('username: ' + username)
         console.log('password: ' + password)
         console.log('email: ' + email)
-        AXIOS.post('onlineuser/update?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
+        AXIOS.put('onlineuser/update?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', username);
@@ -53,7 +53,7 @@ methods: {
     updatePassword: function(username,password,newPass){
         console.log('username: ' + username)
         console.log('password: ' + newPass)
-        AXIOS.post('onlineuser/update/password?username='+username+'&password='+password+'&newPassword='+newPass)
+        AXIOS.put('onlineuser/update/password?username='+username+'&password='+password+'&newPassword='+newPass)
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', username);
@@ -69,7 +69,7 @@ methods: {
     updateUsername: function(username,password,newUser){
         console.log('username: ' + newUser)
         console.log('password: ' + password)
-        AXIOS.post('onlineuser/update/username?username='+username+'&password='+password+'&newPassword='+newPass)
+        AXIOS.put('onlineuser/update/username?username='+username+'&password='+password+'&newPassword='+newPass)
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', newUser);
