@@ -26,9 +26,10 @@ export default {
     data(){
         return {
         username: localStorage.getItem('username'),
-        userId: localStorage.getItem('userId'),
+        userId: '',
         current_timeslot: '',
         current_event: '',
+        username: '',
         isPrivate: '',
         isAccepted: '',
         startDate: '',
@@ -49,15 +50,23 @@ export default {
 
     methods: {
 
-        createEvent: function(eventName, isPrivate, isAccepted) {
+        createEvent: function(username, eventName, isPrivate, isAccepted) {
             if (this.current_timeslot === null){
                 this.error = 'Please chose your timeslot before creating the event.'
                 return
             }
             var eventN = eventName
             var isPriv = isPrivate
+            var user = username
             var isAcc = isAccepted
-
+            AXIOS.get('onlineuser/username/'+user)
+            .then(response => {
+                this.userId = response.data.userId
+                console.log(userId)
+            })
+            .catch(e => {
+                this.error = e;
+            })
             AXIOS.post('event/create?name='+eventN+'&timeSlotId='+this.current_timeslot.timeSlotId+'&isPrivate='+isPriv+'&isAccepted='+isAcc+'&userId='+this.userId)
             .then(response => {
                 this.current_event = response.data

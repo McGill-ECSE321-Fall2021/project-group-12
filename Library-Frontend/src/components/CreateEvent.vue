@@ -24,9 +24,10 @@
                  <div class="col-md-10 mt-3 mb-3">
                     <h5>Create Event at Specified Time</h5>
                     <input class="text-field" type="text" v-model="eventName" placeholder="Event Name:">
+                    <input class="text-field" type="text" v-model="username" placeholder="Username:">
                     <label>Private:</label><input type="checkbox" class="text-field" v-model="isPrivate">
                     <label>Accepted:</label><input type="checkbox" class="text-field" v-model="isAccepted">
-                    <button v-bind:diabled="!eventName" @click="createEvent(eventName, isPrivate, isAccepted)" class="btn">Create</button>
+                    <button v-bind:disabled="!eventName" @click="createEvent(username, eventName, isPrivate, isAccepted)" class="btn">Create</button>
                  </div>
              </div>
              <div class="row d-flex justify-content-center">
