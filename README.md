@@ -50,7 +50,7 @@ Design an application for a library to assist it in providing its services. Such
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills |<ul><li>Login View</li><li>Sign Up View</li><li>Create Reservation View</li><li>Archictecture Model Diagram</li><li>Debugging</li></ul> | 24.5 |
+| Aaron Mills |<ul><li>Login View</li><li>Sign Up View</li><li>Create Reservation View</li><li>Archictecture Model Diagram</li><li>Debugging</li></ul> | 25.5 |
 | Ann Trinh |
 | Chirag Sood |
 | Lucca Di Lullo |
