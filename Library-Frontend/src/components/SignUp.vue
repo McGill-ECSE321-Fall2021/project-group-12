@@ -7,6 +7,7 @@
     </nav>
    <div class="container">
       <div class="row d-flex justify-content-center">
+        <p><b>Password Requirements:</b> Password must be 8 characters long, have one capital letter and contain one special character (!,@,#,$,%,^,&,*,+,-,=,?,_)</p>
         <div class="col-md-3 mt-5">
           <h1>Sign Up</h1>
           <div class="card-body mt-3 mb-3">

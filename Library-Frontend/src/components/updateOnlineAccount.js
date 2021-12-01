@@ -24,52 +24,60 @@ export default {
                 password: '',
                 email: '',
                 error: '',
-                response: ''
+                response: '',
+                username1: '',
+                password1: '',
+                username2: '',
+                password2: '',
+                username3: '',
+                password3: '',
+                newPass: '',
+                newUser: ''
             }
 },
 
 methods: {
-    updateOnlineUserAccount: function(firstName,lastName,address,isLocal,username,password,email){
+    updateOnlineUserAccount: function(firstName,lastName,address,isLocal,username1,password1,email){
         console.log('first name: ' + firstName)
         console.log('last name: ' + lastName)
         console.log('address: ' + address)
         console.log('is Local: ' + isLocal)
-        console.log('username: ' + username)
-        console.log('password: ' + password)
+        console.log('username: ' + username1)
+        console.log('password: ' + password1)
         console.log('email: ' + email)
-        AXIOS.put('onlineuser/update?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
+        AXIOS.put('onlineuser/update?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username1+'&password='+password1+'&email='+email)
         .then(response => {
             this.response = response.data;
-            localStorage.setItem('username', username);
+            localStorage.setItem('username', username1);
             this.gotoOnlineUserView();
         })
         .catch(e => {
             console.log('frontend url: ' + frontendUrl)
-            console.log('\nbackend url:' + backendUrl)
+            console.log('backend url:' + backendUrl)
             this.error = e;
         })
     },
 
-    updatePassword: function(username,password,newPass){
-        console.log('username: ' + username)
+    updatePassword: function(username2,password2,newPass){
+        console.log('username: ' + username2)
         console.log('password: ' + newPass)
-        AXIOS.put('onlineuser/update/password?username='+username+'&password='+password+'&newPassword='+newPass)
+        AXIOS.put('onlineuser/update/password?username='+username2+'&password='+password2+'&newPassword='+newPass)
         .then(response => {
             this.response = response.data;
-            localStorage.setItem('username', username);
+            localStorage.setItem('username', username2);
             this.gotoOnlineUserView();
         })
         .catch(e => {
             console.log('frontend url: ' + frontendUrl)
-            console.log('\nbackend url:' + backendUrl)
+            console.log('backend url:' + backendUrl)
             this.error = e;
         })
     },
 
-    updateUsername: function(username,password,newUser){
+    updateUsername: function(username3,password3,newUser){
         console.log('username: ' + newUser)
-        console.log('password: ' + password)
-        AXIOS.put('onlineuser/update/username?username='+username+'&password='+password+'&newPassword='+newPass)
+        console.log('password: ' + password3)
+        AXIOS.put('onlineuser/update/username?username='+username3+'&password='+password3+'&newPassword='+newPass)
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', newUser);
@@ -77,7 +85,7 @@ methods: {
         })
         .catch(e => {
             console.log('frontend url: ' + frontendUrl)
-            console.log('\nbackend url:' + backendUrl)
+            console.log('backend url:' + backendUrl)
             this.error = e;
         })
     },

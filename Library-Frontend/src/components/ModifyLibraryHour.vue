@@ -11,7 +11,7 @@
     </div>
     
     <input class="text-field" type="text" v-model="libId" placeholder="Search by userId">
-    <i class="bi-search search-icon" v-bind:diabled="!libId" @click="searchLibraryHour(libId)"></i>
+    <i class="bi-search search-icon" v-bind:disabled="!libId" @click="searchLibraryHour(libId)"></i>
     <h1>Weekly Schedule</h1>
     <table>
       <tr>
@@ -49,7 +49,7 @@
           <input class="text-field" type="text" v-model="day" placeholder="Monday/Tuesday/...">
           <input class="text-field" type="text" v-model="libId" placeholder="librarianId">
           <div>
-            <button v-bind:diabled="!startTime||!endTime||!day||!libId" @click="createLibraryHour(startTime, endTime, day, libId)" class="btn">Create</button>
+            <button v-bind:disabled="!startTime||!endTime||!day||!libId" @click="createLibraryHour(startTime, endTime, day, libId)" class="btn">Create</button>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
           <input class="text-field" type="text" v-model="libraryHourId" placeholder="libraryHourId">
           <input class="text-field" type="text" v-model="libId" placeholder="LibrarianId">
           <div>
-            <button v-bind:diabled="!libraryHourId||!libId" @click="deleteLibraryHour(libraryHourId, libId)" class="btn">Delete</button>
+            <button v-bind:disabled="!libraryHourId||!libId" @click="deleteLibraryHour(libraryHourId, libId)" class="btn">Delete</button>
           </div>
         </div>
       </div>

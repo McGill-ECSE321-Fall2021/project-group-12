@@ -46,7 +46,7 @@
           <input class="text-field" type="text" v-model="creatorFirst" placeholder="First Name">
           <input class="text-field" type="text" v-model="creatorLast" placeholder="Last Name">
           <input class="text-field" type="text" v-model="creatorType" placeholder="Creator Type">
-          <button v-bind:diabled="!creatorFirst||!creatorLast||!creatorType" @click="createCreator(creatorFirst, creatorLast, creatorType)" class="btn">Create Creator</button>
+          <button v-bind:disabled="!creatorFirst||!creatorLast||!creatorType" @click="createCreator(creatorFirst, creatorLast, creatorType)" class="btn">Create Creator</button>
           
           
         </div>
@@ -81,7 +81,7 @@
     <br>
     <input class="text-field" type="text" v-model="albumGenre" placeholder="Genre">
     <input class="text-field" type="text" v-model="albumCreatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!albumTitle||!albumReleaseDate||!numSongs||!albumGenre||!albumCreatorId" @click="createAlbum(albumTitle, albumCreateIsReservable, albumCreateIsArchive, albumReleaseDate, numSongs, albumCreateAvailable, albumGenre, albumCreatorId)" class="btn">Create Album</button>
+    <button v-bind:disabled="!albumTitle||!albumReleaseDate||!numSongs||!albumGenre||!albumCreatorId" @click="createAlbum(albumTitle, albumCreateIsReservable, albumCreateIsArchive, albumReleaseDate, numSongs, albumCreateAvailable, albumGenre, albumCreatorId)" class="btn">Create Album</button>
     <br>
     <br>
     <br>
@@ -102,7 +102,7 @@
     <br>
     <input type="checkbox" class="text-field" v-model="albumUpdateAvailable">
     <br>
-    <button v-bind:diabled="!albumUpdateId" @click="updateAlbum(albumUpdateId, albumCreateIsReservable, albumCreateIsArchive, albumCreateAvailable)" class="btn">Update Album</button>
+    <button v-bind:disabled="!albumUpdateId" @click="updateAlbum(albumUpdateId, albumCreateIsReservable, albumCreateIsArchive, albumCreateAvailable)" class="btn">Update Album</button>
     <br>
     <br>
     <br>
@@ -110,7 +110,7 @@
     <br>
     <h1>Remove Album</h1>
     <input class="text-field" type="text" v-model="albumDeleteId" placeholder="Item ID">
-    <button v-bind:diabled="!albumDeleteId" @click="deleteAlbum(albumDeleteId)" class="btn">Remove Album</button>
+    <button v-bind:disabled="!albumDeleteId" @click="deleteAlbum(albumDeleteId)" class="btn">Remove Album</button>
     <br>
     </div>
     </div>
@@ -136,7 +136,7 @@
     <br>
     <input class="text-field" type="text" v-model="bookGenre" placeholder="Genre">
     <input class="text-field" type="text" v-model="bookCreatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!bookTitle||!bookReleaseDate||!numPages||!bookGenre||!bookCreatorId" @click="createBook(bookTitle, bookCreateIsReservable, bookCreateIsArchive, bookReleaseDate, numPages, bookCreateAvailable, bookGenre, bookCreatorId)" class="btn">Create Book</button>
+    <button v-bind:disabled="!bookTitle||!bookReleaseDate||!numPages||!bookGenre||!bookCreatorId" @click="createBook(bookTitle, bookCreateIsReservable, bookCreateIsArchive, bookReleaseDate, numPages, bookCreateAvailable, bookGenre, bookCreatorId)" class="btn">Create Book</button>
     <br>
     <br>
     <br>
@@ -157,7 +157,7 @@
     <br>
     <input type="checkbox" class="text-field" v-model="bookUpdateAvailable">
     <br>
-    <button v-bind:diabled="!bookUpdateId" @click="updateBook(bookUpdateId, bookUpdateIsReservable, bookUpdateIsArchive, bookUpdateAvailable)" class="btn">Update Album</button>
+    <button v-bind:disabled="!bookUpdateId" @click="updateBook(bookUpdateId, bookUpdateIsReservable, bookUpdateIsArchive, bookUpdateAvailable)" class="btn">Update Album</button>
     <br>
     <br>
     <br>
@@ -165,7 +165,7 @@
     <br>
     <h1>Remove Book</h1>
     <input class="text-field" type="text" v-model="bookDeleteId" placeholder="Item ID">
-    <button v-bind:diabled="!bookDeleteId" @click="deleteBook(bookDeleteId)" class="btn">Remove Book</button>
+    <button v-bind:disabled="!bookDeleteId" @click="deleteBook(bookDeleteId)" class="btn">Remove Book</button>
     <br>
     </div>
     </div>
@@ -191,7 +191,7 @@
     <br>
     <input class="text-field" type="text" v-model="movieGenre" placeholder="Genre">
     <input class="text-field" type="text" v-model="movieCreatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!movieTitle||!movieReleaseDate||!duration||!movieGenre||!movieCreatorId" @click="createMovie(movieTitle, movieCreateIsReservable, movieCreateIsArchive, movieCreateIsAvailable, movieReleaseDate, duration, movieGenre, movieCreatorId)" class="btn">Create Movie</button>
+    <button v-bind:disabled="!movieTitle||!movieReleaseDate||!duration||!movieGenre||!movieCreatorId" @click="createMovie(movieTitle, movieCreateIsReservable, movieCreateIsArchive, movieCreateIsAvailable, movieReleaseDate, duration, movieGenre, movieCreatorId)" class="btn">Create Movie</button>
     <br>
     <br>
     <br>
@@ -212,7 +212,7 @@
     <br>
     <input type="checkbox" class="text-field" v-model="movieUpdateIsAvailable">
     <br>
-    <button v-bind:diabled="!movieUpdateId" @click="updateMovie(movieUpdateId, movieUpdateIsReservable, movieUpdateIsArchive, movieUpdateIsAvailable)" class="btn">Update Movie</button>
+    <button v-bind:disabled="!movieUpdateId" @click="updateMovie(movieUpdateId, movieUpdateIsReservable, movieUpdateIsArchive, movieUpdateIsAvailable)" class="btn">Update Movie</button>
     <br>
     <br>
     <br>
@@ -220,7 +220,7 @@
     <br>
     <h1>Remove Movie</h1>
     <input class="text-field" type="text" v-model="movieDeleteId" placeholder="Item ID">
-    <button v-bind:diabled="!movieDeleteId" @click="deleteMovie(movieDeleteId)" class="btn">Remove Movie</button>
+    <button v-bind:disabled="!movieDeleteId" @click="deleteMovie(movieDeleteId)" class="btn">Remove Movie</button>
     <br>
     </div>
     </div>
@@ -235,7 +235,7 @@
     <br>
     <input class="text-field" type="text" v-model="newspaperCreateReleaseDate" placeholder="Release Date">
     <input class="text-field" type="text" v-model="newspaperCreateCreatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!newspaperCreateTitle||!newspaperCreateReleaseDate||!newspaperCreateCreatorId" @click="createNewspaper(newspaperCreateTitle, newspaperCreateIsArchive, newspaperCreateReleaseDate, newspaperCreateCreatorId)" class="btn">Create Newspaper</button>
+    <button v-bind:disabled="!newspaperCreateTitle||!newspaperCreateReleaseDate||!newspaperCreateCreatorId" @click="createNewspaper(newspaperCreateTitle, newspaperCreateIsArchive, newspaperCreateReleaseDate, newspaperCreateCreatorId)" class="btn">Create Newspaper</button>
     <br>
     <br>
     <br>
@@ -251,7 +251,7 @@
     <br>
     <input class="text-field" type="text" v-model="newspaperUpdateReleaseDate" placeholder="Release Date">
     <input class="text-field" type="text" v-model="newspaperUpdateCreatorId" placeholder="Creator ID">
-    <button v-bind:diabled="!newspaperUpdateId||!newspaperUpdateTitle||!newspaperUpdateReleaseDate||!newspaperUpdateCreatorId" @click="updateNewspaper(newspaperUpdateId, newspaperUpdateTitle, newspaperUpdateIsArchive, newspaperUpdateReleaseDate, newspaperUpdateCreatorId)" class="btn">Update Newspaper</button>
+    <button v-bind:disabled="!newspaperUpdateId||!newspaperUpdateTitle||!newspaperUpdateReleaseDate||!newspaperUpdateCreatorId" @click="updateNewspaper(newspaperUpdateId, newspaperUpdateTitle, newspaperUpdateIsArchive, newspaperUpdateReleaseDate, newspaperUpdateCreatorId)" class="btn">Update Newspaper</button>
     <br>
     <br>
     <br>
@@ -259,7 +259,7 @@
     <br>
     <h1>Remove Newspaper</h1>
     <input class="text-field" type="text" v-model="newspaperDeleteId" placeholder="Item ID">
-    <button v-bind:diabled="!newspaperDeleteId" @click="deleteNewspaper(newspaperDeleteId)" class="btn">Remove Newspaper</button>
+    <button v-bind:disabled="!newspaperDeleteId" @click="deleteNewspaper(newspaperDeleteId)" class="btn">Remove Newspaper</button>
     <br>
     </div>
     </div>
@@ -274,7 +274,7 @@
                     <input class="text-field" type="text" v-model="username" placeholder="Username"><br>
                     <input class="text-field" type="text" v-model="password" placeholder="Password"><br>
                     <input class="text-field" type="text" v-model="email" placeholder="Email"><br>
-                    <button v-bind:diabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, username, password, email)" class="btn">Signup</button>
+                    <button v-bind:disabled="!firstName||!lastName||!address||!username||!password||!email" @click="signUpLibrarian(firstName, lastName, address, username, password, email)" class="btn">Signup</button>
                   </div>
   </div>
   <div class="container">
