@@ -24,10 +24,17 @@ export default {
     },
     methods: {
 		gotoLibrarian: function() {
-			Router.push({
-				path: "/librarian",
-				name: "Librarian",
-			});
+			if (localStorage.getItem('isHead'===true)) {
+				Router.push({
+					path: "/headlibrarian",
+					name: "HeadLibrarian",
+				});
+			} else {
+				Router.push({
+					path: "/librarian",
+					name: "Librarian",
+				});
+			}
 		},
 		searchReservationByUserId: function(userId) {
 			if (this.userReservations.length > 0){
