@@ -212,6 +212,12 @@ export default {
             }
             
         },
+        gotoReservationManagement: function() {
+			Router.push({
+                path: "/librarian/managereservation",
+      			name: "ManageReservation",
+            });
+		},
         gotoModifyLibraryHour: function() {
 			Router.push({
                 path: "//headlibrarian/modifylibraryhour",
