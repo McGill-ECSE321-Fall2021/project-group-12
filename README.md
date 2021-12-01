@@ -54,7 +54,7 @@ Design an application for a library to assist it in providing its services. Such
 | Ann Trinh |<ul><li>Head Librarian View</li><li>Wiki Documentation</li></ul> | 15 |
 | Chirag Sood |<ul><li>Cancel Event View</li><li>Cancel Reservation View</li></ul><ul><li>Delete OnlineUser View</li></ul>| 16 |
 | Lucca Di Lullo |<ul><li>Librarian View</li><li>Offline User View</li><li>Librarian Item Management</li><li>Debugging</li></ul> | 20.5 |
-| Mia Stevanovic |
+| Mia Stevanovic |<ul><li>Update Online Account View</li><li>Create Event View</li><li>Online User View</li></ul> | 15.5 |
 | Yuyan Shi |<ul><li>LibraryHour View</li><li>LibraryHour Modification View</li><li>Reservation Management View</li></ul> | 15 |
 
 ## Sprint 4
