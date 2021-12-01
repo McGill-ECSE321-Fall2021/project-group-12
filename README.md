@@ -55,7 +55,7 @@ Design an application for a library to assist it in providing its services. Such
 | Chirag Sood |
 | Lucca Di Lullo |
 | Mia Stevanovic |
-| Yuyan Shi |
+| Yuyan Shi |<ul><li>LibraryHour View</li><li>LibraryHour Modification View</li><li>Reservation Management View</li></ul> | 15 |
 
 ## Sprint 4
 
