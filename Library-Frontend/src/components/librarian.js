@@ -398,6 +398,12 @@ export default {
                 name: "OfflineUser",
             });
         },
+        gotoReservationManagement: function() {
+			Router.push({
+                path: "/librarian/managereservation",
+      			name: "ManageReservation",
+            });
+		},
         signUpLibrarian: function (firstName, lastName, address, username, password, email) {
             console.log('first name: ' + firstName)
             console.log('last name: ' + lastName)

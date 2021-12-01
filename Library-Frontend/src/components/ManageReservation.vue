@@ -1,51 +1,62 @@
 <template>
-  <div id="libraryhour">
+  <div id="manageReservation">
     <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-header">Library</a>
       </div>
     </nav>
     <div class="card-body mt-3 mb-3">
-      <div class="card-body mt-3 mb-3">
-      	<h1>Search For Colleague?</h1>
-        <input class="text-field" type="text" v-model="librarianId" placeholder="Search by userId">
-        <i class="bi-search search-icon" v-bind:diabled="!librarianId" @click="searchLibraryHour(librarianId)"></i>
-        <input class="text-field" type="text" v-model="username" placeholder="Search by username">
-        <i class="bi-search search-icon" v-bind:diabled="!username" @click="searchLibraryHourByUsername(username)"></i>
-      </div>
+      <h1>Reservation Management</h1>
     </div>
-    <h1>Weekly Schedule</h1>
-    <table>
-      <tr>
-        <td>Day</td>
-        <td v-for="libraryHour in libraryHours">
-        {{libraryHour.day}}
-        </td>
-      </tr>
-      <tr>
-        <td>Start Time</td>
-        <td v-for="libraryHour in libraryHours">
-        {{libraryHour.startTime}}
-        </td>
-      </tr>
-      <tr>
-        <td>End Time</td>
-        <td v-for="libraryHour in libraryHours">
-        {{libraryHour.endTime}}
-        </td>
-      </tr>
-    </table>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mt-3 mr-3 left-col">
+          <button @click="getReservations()" class="btn">Browse Reservations</button>
+          <li class="item-list left-align" v-for="reservation in reservations" :key="reservation.reservationId">
+          <b><i>ID:</i></b> &ensp;{{reservation.reservationId}}<br>
+          <ul>
+          	<li><b><i>User Id:</i></b> &ensp;{{reservation.user.userId}}</li>
+          	<li><b><i>User Full Name:</i></b> &ensp;{{reservation.user.lastName}},&ensp;{{reservation.user.firstName}}</li>
+            <li><b><i>Start Date:</i></b> &ensp;{{reservation.timeSlot.startDate}}</li>
+            <li><b><i>End Date:</i></b> &ensp;{{reservation.timeSlot.endDate}}</li>
+            <li><b><i>Start Time:</i></b> &ensp;{{reservation.timeSlot.startTime}}</li>
+            <li><b><i>End Time:</i></b> &ensp;{{reservation.timeSlot.endTime}}</li>
+          </ul>
+          
+          <table>
+		      <tr>
+		        <td>Item Id:</td>
+		        <td>Title:</td>
+		        
+		      </tr>
+		      <tr v-for="item in reservation.items">
+		        <td>
+		          {{item.itemId}}
+		        </td>
+		        <td>
+		          {{item.title}}
+		        </td>
+		      </tr>
+		      
+		   </table>
+          <hr>
+          </li>
+        </div>
+     </div>
+    </div>
+    
+    
     <button @click="gotoLibrarian()" class="btn">Back</button>
     <p>
       <span v-if="error" style="color:red">{{error}}</span>
     </p>
-    
   </div>
 </template>
 
 
 
-<script src="./LibraryHour.js"></script>
+<script src="./manageReservation.js"></script>
 
 
 
@@ -57,7 +68,7 @@
     --dark-secondary: #414141;
     --font: "Roboto"
   }
-  #libraryhour {
+  #manageReservation {
     font-family: var(--font);
     color: var(--light);
     background: var(--dark-color);
