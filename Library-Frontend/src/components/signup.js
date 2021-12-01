@@ -75,6 +75,7 @@ export default {
                     AXIOS.post('librarian/create/head?firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)       
                     console.log('created librarian')
                     this.created_librarian = true;
+                    this.gotoHeadLibrarianView();
                 }else {
                     console.log('not null or empty')
                     AXIOS.post('onlineuser/create?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username+'&password='+password+'&email='+email)
@@ -82,6 +83,7 @@ export default {
                         this.response = response.data;
                         localStorage.setItem('username', username);
                         console.log('created onlineuser')
+                        this.gotoOnlineUserView();
                     })
                     .catch(e => {
                         console.log('frontend url: ' + frontendUrl)
@@ -106,6 +108,12 @@ export default {
             });
         },
 
+        gotoHeadLibrarianView: function() {
+            Router.push({
+                path: "/headlibrarian",
+                name: "HeadLibrarian",
+            });
+        },
 
         gotoLogin: function() {
             Router.push({

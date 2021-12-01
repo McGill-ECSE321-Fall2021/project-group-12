@@ -341,6 +341,23 @@ public class LibrarianService {
 			}
 			return eventsByUser;
 		}
+		
+		@Transactional
+		public boolean isALibrarian(String username) throws IllegalArgumentException {
+			if (librarianRepository.findLibrarianByUsername(username) == null) {
+				return false;
+			}
+			return true;
+		}
+		
+		@Transactional
+		public boolean isTheHeadLibrarian(String username) throws IllegalArgumentException {
+			Librarian librarian = librarianRepository.findLibrarianByUsername(username);
+			if (librarian == null) {
+				return false;
+			}
+			return librarian.getIsHead();
+		}
 //accept / reject bookings
 		@Transactional
 		public Event acceptEvent(Long id) throws IllegalArgumentException {

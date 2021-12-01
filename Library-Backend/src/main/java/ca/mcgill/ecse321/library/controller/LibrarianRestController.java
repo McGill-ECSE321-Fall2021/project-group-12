@@ -108,6 +108,16 @@ public class LibrarianRestController {
 	@Autowired
 	MovieRepository movieRepository;
 	
+	@GetMapping(value = {"/librarian/islibrarian/{username}", "/librarian/islibrarian/{username}/"})
+	public boolean isLibrarian(@PathVariable("username") String username) {
+		return librarianService.isALibrarian(username);
+	}
+	
+	@GetMapping(value = {"/librarian/isheadlibrarian/{username}", "/librarian/isheadlibrarian/{username}/"})
+	public boolean isHeadLibrarian(@PathVariable("username") String username) {
+		return librarianService.isTheHeadLibrarian(username);
+	}
+	
 	@PostMapping(value = {"/librarian/create/head", "/librarian/create/head/"})
 	public LibrarianDto createHeadLibrarian(@RequestParam(value="firstname") String first, @RequestParam(value="lastname") String last, @RequestParam(value="address") String address, @RequestParam(value="email") String email, @RequestParam(value="password") String password, @RequestParam(value="username") String username) {
 		return convertToDto(librarianService.createHeadLibrarian(first, last, address, email, password, username));
