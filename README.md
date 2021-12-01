@@ -36,7 +36,7 @@ Design an application for a library to assist it in providing its services. Such
 | Yuyan Shi | <ul><li>Continuous Integration</li><li>Success Spectrum</li><li>Domain Model</li><li>Use case diagram: User Account</li><li>Detailed soecification: Create Online Account</li><li>Refactor and persistence: Librarian, HeadLibrarian, LibraryHour</li></ul> | 17 |
 
 ## Sprint 2
-
+**[Project Report - Sprint 2](https://github.com/McGill-ECSE321-Fall2021/project-group-12/wiki/Project-Report---Sprint-2)**
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
 | Aaron Mills | <ul><li>Business Methods:<br><ul><li>Creator</li><li>OnlineUser</li><li>OfflineUser</li><li>Newspaper</li></ul></li><li>DTOs:<br><ul><li>Creator</li><li>Item</li><li>Newspaper</li></ul></li><li>Controller:<br><ul><li>Creator</li><li>OnlineUser</li><li>Newspaper</li></ul></li><li>Unit Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Integration Tests:<br><ul><li>Creator</li><li>Newspaper</li></ul><li>Code Coverage:<br><ul><li>Clean up code</li></ul></li></ul> | 39 |
@@ -47,11 +47,11 @@ Design an application for a library to assist it in providing its services. Such
 | Yuyan Shi | <ul><li>Business Methods:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>DTOs:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>Controller:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></li><li>Unit Tests:<br><ul><li>Reservation</li><li>LibraryHour</li></ul><li>Integration Tests:<br><ul><li>Reservation</li><li>LibraryHour</li></ul></ul> | 32 |
 
 ## Sprint 3
-
+**[Project Report - Sprint 3](https://github.com/McGill-ECSE321-Fall2021/project-group-12/wiki/Project-Report---Sprint-3)**
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
 | Aaron Mills |<ul><li>Login View</li><li>Sign Up View</li><li>Create Reservation View</li><li>Archictecture Model Diagram</li><li>Debugging</li></ul> | 25.5 |
-| Ann Trinh |
+| Ann Trinh |<ul><li>Head Librarian View</li><li>Wiki Documentation</li></ul> | 15 |
 | Chirag Sood |
 | Lucca Di Lullo |
 | Mia Stevanovic |
