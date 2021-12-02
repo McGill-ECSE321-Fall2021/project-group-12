@@ -79,7 +79,7 @@ export default {
             console.log('username: ' + username)
             console.log('password: ' + password)
             console.log('email: ' + email)
-            AXIOS.post('/librarian/create/?librarianUsername='+this.username+'firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)
+            AXIOS.post('/librarian/create/?librarianUsername='+this.username+'&firstname='+firstName+'&lastname='+lastName+'&address='+address+'&email='+email+'&password='+password+'&username='+username)
             .then(response => {
                 this.response = response.data;
                 this.librarians.push(response.data);
@@ -223,6 +223,14 @@ export default {
                 path: "//headlibrarian/modifylibraryhour",
                 name: "ModifyLibraryHour",
             });
-		}
+		},
+
+        logout: function() {
+            localStorage.clear();
+            Router.push({
+              path: "/login",
+              name: "Login"
+            });
+        },
     },
 };

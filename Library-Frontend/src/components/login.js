@@ -39,6 +39,7 @@ export default {
                             AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
                             .then(response => {
                                 localStorage.setItem('userType', 'headlibrarian')
+                                localStorage.setItem('username', username);
                                 this.gotoHeadLibrarianView();
                             })
                             .catch(e => {
@@ -48,6 +49,7 @@ export default {
                             AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
                             .then(response => {
                                 localStorage.setItem('userType', 'librarian')
+                                localStorage.setItem('username', username);
                                 this.gotoLibrarianView();
                             })
                             .catch(e => {
@@ -59,6 +61,7 @@ export default {
                     AXIOS.post('onlineuser/login/?username='+username+'&password='+password)
                     .then(response => {
                         localStorage.setItem('userType', 'onlineuser')
+                        localStorage.setItem('username', username);
                         this.gotoOnlineUserView();
                     })
                     .catch(e => {

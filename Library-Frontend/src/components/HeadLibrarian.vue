@@ -176,12 +176,18 @@
                   </table> 
               </div>
             </div>
-
           </div>
         </div>  
       </div>        
     </div>            
   </div>
+   <div class="row d-flex justify-content-center">
+            <div class="col-md-3 mt-5">
+            <br>
+            <button @click="logout()" class="btn">Logout</button>
+            <br>
+            </div>
+            </div>
     <p>
       <span v-if="error" style="color:red">{{ error }}</span>
     </p>
