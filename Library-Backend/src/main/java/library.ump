@@ -1,0 +1,124 @@
+class Item
+{
+abstract;
+  long itemId;
+  String title;
+  boolean isArchive;
+  boolean isReservable;
+  Date releaseDate;
+  int quantityAvailable;
+  int quantity;
+  1 creator <- * Item items;
+  }
+
+enum BMGenre {Fiction, Nonfiction, Classic, Horror, Fantasy, Mystery, Action};
+
+class Book
+{
+  int numPages;
+  BMGenre genre;
+  isA Item;
+}
+
+enum MusicGenre {Rock, Country, Jazz, Pop, Classical, Mixed, EDM, HipHop};
+
+class Album
+{
+  int numSongs;
+  isA Item;
+  MusicGenre genre;
+}
+
+class Movie
+{
+  int duration;
+  isA Item;
+  BMGenre genre;
+}
+
+class Newspaper
+{
+  isA Item;
+}
+
+class User
+{
+  1 user -- * Event events;
+String firstName;
+String lastName;
+String address;
+long userId;
+  boolean isLocal;
+abstract;
+}
+
+class OnlineUser
+{
+  String username;
+  String password;
+  String email;
+isA User;
+}
+
+class OfflineUser
+{
+isA User;
+}
+
+class Librarian
+{
+  isA OnlineUser;
+  boolean isHead;
+  1 librarian <- * LibraryHour libraryHour;
+}
+
+class LibraryApplicationSystem
+{
+  1 <@>- * User users;
+  1 <@>- * Item items;
+  1 <@>- * TimeSlot timeSlots;
+  1 <@>- * LibraryHour libraryHours;
+  1 <@>- * Event events;
+  1 <@>- * Creator creators;
+  1 <@>- * Reservation reservations;
+  long applicationId;
+  }
+
+class Creator
+{
+  enum CreatorType {Director, Author, Artist, Publisher};
+  CreatorType creatorType;
+  long creatorId;
+  String firstName;
+  String lastName; 
+}
+
+
+
+class Event
+{
+0..1 event -> 1 TimeSlot timeSlot;
+  String name;
+  boolean isPrivate;
+}
+
+class TimeSlot
+{
+  Time startTime;
+  Time endTime;
+  Date startDate;
+  Date endDate;
+}
+
+class LibraryHour
+{
+  Time startTime;
+  Time endTime;
+  enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+  Day day;
+}class Reservation
+{
+  1 reservation -- * Item items;
+  * reservations -- 1 User user;
+  0..1 reservation -> 1 TimeSlot timeSlot;
+}

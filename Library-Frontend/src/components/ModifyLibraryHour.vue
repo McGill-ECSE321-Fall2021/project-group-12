@@ -1,0 +1,171 @@
+<template>
+  <div id="modifyLibraryHour">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-main" id="mainNav">
+      <div class="container-fluid">
+        <a class="navbar-header">Library</a>
+      </div>
+    </nav>
+    <div class="card-body mt-3 mb-3">
+      <h1>LibraryHour Management</h1>
+      <button @click="gotoHeadLibrarian()" class="btn">Back</button>
+    </div>
+    
+    <input class="text-field" type="text" v-model="libId" placeholder="Search by userId">
+    <i class="bi-search search-icon" v-bind:disabled="!libId" @click="searchLibraryHour(libId)"></i>
+    <h1>Weekly Schedule</h1>
+    <table>
+      <tr>
+        <td>Day</td>
+        <td v-for="libraryHour in libraryHours">
+        {{libraryHour.day}}
+        </td>
+      </tr>
+      <tr>
+        <td>Start Time</td>
+        <td v-for="libraryHour in libraryHours">
+        {{libraryHour.startTime}}
+        </td>
+      </tr>
+      <tr>
+        <td>End Time</td>
+        <td v-for="libraryHour in libraryHours">
+        {{libraryHour.endTime}}
+        </td>
+      </tr>
+      <tr>
+        <td>ID</td>
+        <td v-for="libraryHour in libraryHours">
+        {{libraryHour.libraryHourId}}
+        </td>
+      </tr>
+    </table>
+    
+    <div class="card-body">
+      <div class="col-12">
+        <h3>Create LibraryHour</h3>
+        <div class="card-body">
+          <input class="text-field" type="text" v-model="startTime" placeholder="Start Time: HH:MM:SS">
+          <input class="text-field" type="text" v-model="endTime" placeholder="End Time: HH:MM:SS">
+          <input class="text-field" type="text" v-model="day" placeholder="Monday/Tuesday/...">
+          <input class="text-field" type="text" v-model="libId" placeholder="librarianId">
+          <div>
+            <button v-bind:disabled="!startTime||!endTime||!day||!libId" @click="createLibraryHour(startTime, endTime, day, libId)" class="btn">Create</button>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="col-12">
+        <h3>Delete LibraryHour</h3>
+        <div class="card-body">
+          <input class="text-field" type="text" v-model="libraryHourId" placeholder="libraryHourId">
+          <input class="text-field" type="text" v-model="libId" placeholder="LibrarianId">
+          <div>
+            <button v-bind:disabled="!libraryHourId||!libId" @click="deleteLibraryHour(libraryHourId, libId)" class="btn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+  	
+  
+    <p>
+      <span v-if="error" style="color:red">{{error}}</span>
+    </p>
+  </div>
+</template>
+
+
+
+<script src="./modifyLibraryHour.js"></script>
+
+
+
+<style>
+  :root {
+    --primary-color: #ED1B2F;
+    --light-color: #EEF1EF;
+    --dark-color: #262626;
+    --dark-secondary: #414141;
+    --font: "Roboto"
+  }
+  #modifyLibraryHour {
+    font-family: var(--font);
+    color: var(--light);
+    background: var(--dark-color);
+    height: 100vh;
+  }
+  .search-icon {
+    padding: 5px;
+    font-size: 16px;
+    width: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 100%;
+    color: var(--primary-color);
+    transition: 0.3s;
+  }
+  table {
+  margin-left: auto; 
+  margin-right: auto;
+  border: 5px solid white;
+  table-layout: fixed ;
+  width: 90% ;
+  }
+  td {
+  border: 5px solid white;
+  width: 25% ;
+  }
+  th {
+  border: 5px solid white;
+  }
+ .search-icon:hover, .search-icon:active, .search-icon:focus{
+    padding: 5px;
+    font-size: 16px;
+    width: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 100%;
+    color: var(--light-color);
+    transition: 0.3s;
+    cursor:pointer;
+  }
+  .text-field {
+    text-align: center;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 200px;
+    font-size: 15px;
+    transition: 0.3s;
+    background-color: var(--light-color);
+    border-color: var(--dark-color);
+    border: none;
+    border-radius: 3em;
+    margin: 5px;
+  }
+  .btn {
+    color: var(--dark-color);
+    background-color: var(--light-color);
+    border-color: var(--dark-secondary);
+    text-decoration: none;
+    transition: 0.3s;
+    margin:5px;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    border-radius: 3em !important;
+  }
+  .navbar-main {
+    font-family: var(--font);
+    font-size: 24px;
+    background-color: var(--primary-color);
+    height: 65px;
+  }
+</style>
