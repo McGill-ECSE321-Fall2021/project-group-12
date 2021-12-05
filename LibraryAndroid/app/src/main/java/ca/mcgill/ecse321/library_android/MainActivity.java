@@ -21,6 +21,7 @@ import cz.msebera.android.httpclient.Header;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -201,5 +202,11 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
             }
         });
+
     }
+
+//    public void toggleIcon(View v){
+//        final ImageView img = (ImageView) findViewById(R.id.mButton);
+//        img.setImageResource(R.drawable.baseline_mystery_alt_24);
+//    }
 }
