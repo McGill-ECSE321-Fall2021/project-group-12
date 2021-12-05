@@ -21,6 +21,7 @@ import cz.msebera.android.httpclient.Header;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -146,6 +147,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void changePassword(View v) {
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changePassword_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changePassword_message);
+        message.setText("");
+        final TextView username = (TextView) findViewById(R.id.changePassword_userName);
+        final TextView oldPassword = (TextView) findViewById(R.id.changePassword_oldPassword);
+        final TextView newPassword = (TextView) findViewById(R.id.changePassword_newPassword);
+        final TextView confirmPassword = (TextView) findViewById(R.id.changePassword_confirm_newPassword);
+        if(!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+            curError.setText("Two Entered New Password Does Not Match.");
+            return;
+        }
+        HttpUtils.put("/onlineuser/update/password?username=" + username.getText().toString() + "&password=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                message.setText("Password Changed Successfully!");
+                username.setText("");
+                oldPassword.setText("");
+                newPassword.setText("");
+                confirmPassword.setText("");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
     public void Logout(View v) {
         error = "";
         currentUser = null;
@@ -153,8 +200,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPersonalInfo(View v) {
+        error = "";
         setContentView(R.layout.manageaccount_page);
         TextView curError = (TextView)findViewById(R.id.manageaccount_error);
+        curError.setText("");
         TextView username = (TextView)findViewById(R.id.accountManagement_username_text);
         TextView email = (TextView)findViewById(R.id.accountManagement_email_text);
         TextView firstName = (TextView)findViewById(R.id.accountManagement_firstName_text);
@@ -209,6 +258,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void toManageAccount(View v) {
         setContentView(R.layout.manageaccount_page);
+        UserInfoOn = false;
+    }
+
+    public void toChangePassword(View v) {
+        setContentView(R.layout.changepassword_page);
     }
 
     public void toSignUp(View v) {

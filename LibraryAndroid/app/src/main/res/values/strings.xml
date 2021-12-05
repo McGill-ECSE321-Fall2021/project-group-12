@@ -26,6 +26,13 @@
     <string name="onlineUser_manageAccount_text">Manage Account</string>
     <string name="onlineUser_manageAccount_back_text">Back</string>
     <string name="onlineUser_manageAccount_showInfo_text">Browse Info</string>
+    <string name="onlineUser_manageAccount_changePassword_text">Change Password</string>
+    <string name="changePassword_back_text">Back</string>
+    <string name="changePassword_userName_hint">Enter Username</string>
+    <string name="changePassword_oldPassword_hint">Enter Old Password</string>
+    <string name="changePassword_newPassword_hint">Enter New Password</string>
+    <string name="changePassword_confirm_newPassword_hint">Confirm New Password</string>
+    <string name="changePassword_confirm_text">Confirm</string>
 
     <string name="signup_firstname_hint">First Name</string>
     <string name="signup_lastname_hint">Last Name</string>
