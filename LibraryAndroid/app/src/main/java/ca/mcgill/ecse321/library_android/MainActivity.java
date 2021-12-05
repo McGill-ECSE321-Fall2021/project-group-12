@@ -20,11 +20,17 @@ import cz.msebera.android.httpclient.Header;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String error = null;
     private String currentUser = null;
+    private ArrayAdapter<String> reservedItemAdapter;
+    private List<String> reservedItemTitles = new ArrayList<>();
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -76,8 +84,42 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(R.layout.login_page);
         refreshErrorMessage();
-    }
 
+        Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
+        reservedItemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reservedItemSpinner.setAdapter(reservedItemAdapter);
+    }
+    public void refreshReservationList(View v) {
+        final ArrayAdapter<String> adapter = reservedItemAdapter;
+        final List<String> titles = reservedItemTitles;
+        HttpUtils.get("onlineuser/reservation/username"+currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                titles.clear();
+                titles.add("Please select...");
+                for (int i = 0; i < response.length(); i++){
+                    try {
+                        //getting the title of the reserved item
+                        titles.add(response.getJSONObject(i).getString(""));
+                    } catch (Exception e) {
+                        error = e.getMessage();
+                    }
+                    refreshErrorMessage();
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
