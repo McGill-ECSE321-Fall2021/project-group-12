@@ -9,10 +9,10 @@
              <div class="row d-flex justify-content-center">
                  <div class="col-md-10 mt-3 mb-3">
                     <h5>Update Username</h5>
-                    <input class="text-field" type="text" v-model="username1" placeholder="Username">
-                    <input class="text-field" type="text" v-model="password1" placeholder="Password">
+                    <input class="text-field" type="text" v-model="username3" placeholder="Username">
+                    <input class="text-field" type="text" v-model="password3" placeholder="Password">
                     <input class="text-field" type="text" v-model="newUser" placeholder="New Username">
-                    <button @click="updateUsername(username1, password1, newUser)" class="btn">Select</button>
+                    <button @click="updateUsername(username3, password3, newUser)" class="btn">Select</button>
                  </div>
              </div
              <div class="row d-flex justify-content-center">
@@ -39,7 +39,7 @@
              </div>
              <div class="row d-flex justify-content-center">
                 <div class="col-xl-12 mt-3">
-                  <button @click="gotoOnlineUser()" class="btn">Return</button>
+                  <button @click="gotoOnlineUserView()" class="btn">Return</button>
              </div>
             </div>
         </div>    
