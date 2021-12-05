@@ -32,7 +32,8 @@ export default {
                 username3: '',
                 password3: '',
                 newPass: '',
-                newUser: ''
+                newUser: '',
+                curUserId: ''
             }
 },
 
@@ -45,17 +46,29 @@ methods: {
         console.log('username: ' + username1)
         console.log('password: ' + password1)
         console.log('email: ' + email)
-        AXIOS.put('onlineuser/update?firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username1+'&password='+password1+'&email='+email)
-        .then(response => {
-            this.response = response.data;
-            localStorage.setItem('username', username1);
-            this.gotoOnlineUserView();
-        })
-        .catch(e => {
-            console.log('frontend url: ' + frontendUrl)
-            console.log('backend url:' + backendUrl)
-            this.error = e;
-        })
+        console.log('localusername: ' + localStorage.getItem("username"))
+        AXIOS.get('/onlineuser/username/'+localStorage.getItem("username"))
+        	.then(response => {
+	            this.curUserId = response.data.userId;
+	            console.log('curUserId: ' + this.curUserId)
+	            AXIOS.put('onlineuser/update?userId='+this.curUserId+'&firstName='+firstName+'&lastName='+lastName+'&address='+address+'&isLocal='+isLocal+'&username='+username1+'&password='+password1+'&email='+email)
+		        .then(response => {
+		            this.response = response.data;
+		            localStorage.setItem('username', username1);
+		            this.gotoOnlineUserView();
+		        })
+		        .catch(e => {
+		            console.log('frontend url: ' + frontendUrl)
+		            console.log('backend url:' + backendUrl)
+		            this.error = e;
+	        	})
+	        })
+	        .catch(e => {
+	            console.log('frontend url: ' + frontendUrl)
+	            console.log('backend url:' + backendUrl)
+	            this.error = e;
+        	})
+        
     },
 
     updatePassword: function(username2,password2,newPass){
@@ -77,7 +90,7 @@ methods: {
     updateUsername: function(username3,password3,newUser){
         console.log('username: ' + newUser)
         console.log('password: ' + password3)
-        AXIOS.put('onlineuser/update/username?username='+username3+'&password='+password3+'&newPassword='+newPass)
+        AXIOS.put('/onlineuser/update/username?username='+username3+'&password='+password3+'&newUsername='+newUser)
         .then(response => {
             this.response = response.data;
             localStorage.setItem('username', newUser);
