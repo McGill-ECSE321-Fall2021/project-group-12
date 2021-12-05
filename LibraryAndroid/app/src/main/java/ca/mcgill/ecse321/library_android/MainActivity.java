@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private String error = null;
     private String currentUser = null;
     private boolean UserInfoOn = false;
+    private Long userId = null;
+    private String password = null;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -193,6 +195,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void updateUserInfo(View v) {
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changeUserInfo_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changeUserInfo_message);
+        message.setText("");
+        TextView username = (TextView)findViewById(R.id.changeUserInfo_username);
+        TextView email = (TextView)findViewById(R.id.changeUserInfo_email);
+        TextView firstName = (TextView)findViewById(R.id.changeUserInfo_firstName);
+        TextView lastName = (TextView)findViewById(R.id.changeUserInfo_lastName);
+        TextView address = (TextView)findViewById(R.id.changeUserInfo_address);
+        CheckBox isLocal = (CheckBox) findViewById(R.id.changeUserInfo_local);
+        TextView enteredPassword = (TextView)findViewById(R.id.changeUserInfo_password);
+
+        if(!enteredPassword.getText().toString().equals(password)) {
+            curError.setText("Wrong Password Entered.");
+            return;
+        }
+
+        HttpUtils.put("/onlineuser/update?userId=" + userId + "&firstName=" + firstName.getText().toString() + "&lastName=" + lastName.getText().toString() + "&address=" + address.getText().toString() + "&isLocal=" + isLocal.isChecked() + "&username=" + username.getText().toString() + "&password=" + enteredPassword.getText().toString() + "&email=" + email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                message.setText("User Information Changed Successfully!");
+                currentUser = username.getText().toString();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
     public void Logout(View v) {
         error = "";
         currentUser = null;
@@ -259,10 +311,67 @@ public class MainActivity extends AppCompatActivity {
     public void toManageAccount(View v) {
         setContentView(R.layout.manageaccount_page);
         UserInfoOn = false;
+        userId = null;
+        password = null;
     }
 
     public void toChangePassword(View v) {
         setContentView(R.layout.changepassword_page);
+    }
+
+    public void toChangeUserInfo(View v) {
+        setContentView(R.layout.changeuserinfo_page);
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changeUserInfo_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changeUserInfo_message);
+        message.setText("");
+        TextView username = (TextView)findViewById(R.id.changeUserInfo_username);
+        TextView email = (TextView)findViewById(R.id.changeUserInfo_email);
+        TextView firstName = (TextView)findViewById(R.id.changeUserInfo_firstName);
+        TextView lastName = (TextView)findViewById(R.id.changeUserInfo_lastName);
+        TextView address = (TextView)findViewById(R.id.changeUserInfo_address);
+        CheckBox isLocal = (CheckBox) findViewById(R.id.changeUserInfo_local);
+
+        HttpUtils.get("onlineuser/username/" + currentUser,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                try {
+                    username.setText(response.getString("username"));
+                    email.setText(response.getString("email"));
+                    firstName.setText(response.getString("firstName"));
+                    lastName.setText(response.getString("lastName"));
+                    address.setText(response.getString("address"));
+                    isLocal.setChecked(response.getBoolean("isLocal"));
+                    userId = response.getLong("userId");
+                    password = response.getString("password");
+                } catch (JSONException e) {
+                    String newError = e.getMessage();
+                    curError.setText(newError);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
     }
 
     public void toSignUp(View v) {
