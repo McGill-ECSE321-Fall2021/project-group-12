@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String error = null;
     private String currentUser = null;
+    private boolean UserInfoOn = false;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -115,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.post("onlineuser/login?username="+username.getText().toString()+"&password="+password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                setCurrentUser(username.getText().toString());
                 refreshErrorMessage();
                 username.setText("");
                 password.setText("");
-                setCurrentUser(username.getText().toString());
                 toOnlineUser(v);
             }
             @Override
@@ -145,6 +146,71 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void Logout(View v) {
+        error = "";
+        currentUser = null;
+        toLogin(v);
+    }
+
+    public void showPersonalInfo(View v) {
+        setContentView(R.layout.manageaccount_page);
+        TextView curError = (TextView)findViewById(R.id.manageaccount_error);
+        TextView username = (TextView)findViewById(R.id.accountManagement_username_text);
+        TextView email = (TextView)findViewById(R.id.accountManagement_email_text);
+        TextView firstName = (TextView)findViewById(R.id.accountManagement_firstName_text);
+        TextView lastName = (TextView)findViewById(R.id.accountManagement_lastName_text);
+        TextView address = (TextView)findViewById(R.id.accountManagement_address_text);
+        TextView isLocal = (TextView)findViewById(R.id.accountManagement_isLocal_text);
+        TextView userId = (TextView)findViewById(R.id.accountManagement_userId_text);
+        if(UserInfoOn == true) {
+            UserInfoOn = false;
+            return;
+        }
+        HttpUtils.get("onlineuser/username/" + currentUser,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                try {
+                    username.setText("Username: " + response.getString("username"));
+                    email.setText("Email: " + response.getString("email"));
+                    firstName.setText("FirstName: " + response.getString("firstName"));
+                    lastName.setText("LastName: " + response.getString("lastName"));
+                    address.setText("Address: " + response.getString("address"));
+                    isLocal.setText("IsLocal: " + response.getString("isLocal"));
+                    userId.setText("UserId: " + response.getString("userId"));
+                    UserInfoOn = true;
+                } catch (JSONException e) {
+                    String newError = e.getMessage();
+                    curError.setText(newError);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
+    public void toManageAccount(View v) {
+        setContentView(R.layout.manageaccount_page);
+    }
+
     public void toSignUp(View v) {
         setContentView(R.layout.signup_page);
     }
@@ -169,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.post("onlineuser/create?firstName="+firstName.getText().toString()+"&lastName="+lastName.getText().toString()+"&address="+address.getText().toString()+"&isLocal="+isLocal.isChecked()+"&username="+username.getText().toString()+"&password="+password.getText().toString()+"&email="+email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                setCurrentUser(username.getText().toString());
                 refreshErrorMessage();
                 firstName.setText("");
                 lastName.setText("");
@@ -177,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 username.setText("");
                 password.setText("");
                 email.setText("");
-                setCurrentUser(username.getText().toString());
                 toOnlineUser(v);
             }
             @Override
