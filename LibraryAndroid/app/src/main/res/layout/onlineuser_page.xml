@@ -78,7 +78,7 @@
         android:layout_marginBottom="80dp"
         android:backgroundTint="@color/primary_color"
         android:gravity="center"
-        android:onClick="deleteUser"
+        android:onClick="deleteUserPrompt"
         android:text="@string/deleteAccount_button_text"
         android:textColor="@color/light_color"
         app:cornerRadius="100px"
