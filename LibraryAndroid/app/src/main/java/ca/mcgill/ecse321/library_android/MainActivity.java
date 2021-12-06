@@ -726,22 +726,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void displayAlbums(){
-
-    }
-
-    private void displayBooks(){
-
-    }
-
-    private void displayMovies(){
-
-    }
-
-    private void displayNewspapers(){
-
-    }
-
 //    public void toggleIcon(View v){
 //        final ImageView img = (ImageView) findViewById(R.id.mButton);
 //        img.setImageResource(R.drawable.baseline_mystery_alt_24);
