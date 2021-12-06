@@ -237,28 +237,32 @@ public class MainActivity extends AppCompatActivity {
 
         HttpUtils.get("offlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 userType = "offline";
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
                 HttpUtils.get("onlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
                         userType = "online";
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-                        System.out.println("find online user by id error: " + responseString);
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        System.out.println("find online user by id error: " + errorResponse);
                     }
+
                 });
             }
+
+
         });
 
         return userType;
@@ -266,12 +270,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelReservationConfirm(View v) {
         checkUserType();
-        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
-        String fullPath = path + "cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
+
+        if(userType != "online" || userType != "offline") {
+            return;
+        }
+
+        String path = userType == "online" ? "onlineuser": "offlineuser";
+        String fullPath = path + "/cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
 
         HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getApplicationContext()
                         ,"Reservation has been cancelled"
@@ -280,13 +289,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
                 Toast.makeText(getApplicationContext()
                         ,"Reservation not cancelled. Please try again"
                         , Toast.LENGTH_SHORT).show();
                 toOnlineUser(v);
             }
+
         });
 
     }
@@ -297,27 +308,35 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelEventConfirm(View v) {
         checkUserType();
-        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
-        String fullPath = path + "cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
+
+        if(userType != "online" || userType != "offline") {
+            return;
+        }
+
+        String path = userType == "online" ? "onlineuser": "offlineuser";
+
+        String fullPath = path + "/cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
 
         HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, String response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getApplicationContext()
-                        ,"Event has been cancelled"
+                        , "Event has been cancelled"
                         , Toast.LENGTH_SHORT).show();
                 toOnlineUser(v);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
                 Toast.makeText(getApplicationContext()
                         ,"Event not cancelled. Please try again"
                         , Toast.LENGTH_SHORT).show();
                 toOnlineUser(v);
             }
+
         });
     }
 
