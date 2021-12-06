@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private AlertDialog.Builder builder;
     private String error = null;
     private String currentUser = null;
     private boolean UserInfoOn = false;
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        builder = new AlertDialog.Builder(this);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -126,46 +124,60 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void deleteUser(View v) {
+    public void deleteUserConfirm(View v) {
         error = "";
 
-        builder.setMessage(R.string.deleteAccount_dialog_text).setCancelable(false)
-                .setPositiveButton(R.string.deleteAccount_dialog_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        HttpUtils.delete("onlineuser/delete/username/" + currentUser, new RequestParams(), new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                                super.onSuccess(statusCode, headers, response);
-                                finish();
-                                error = "";
-                                currentUser = null;
-                                toLogin(v);
-                            }
+        System.out.println("Current User" + currentUser);
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                                super.onFailure(statusCode, headers, responseString, throwable);
-                                finish();
-                                System.out.println("User not deleted");
-                                Toast.makeText(getApplicationContext() ,
-                                        R.string.deleteAccount_request_failure,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+        HttpUtils.delete("onlineuser/delete/username/" + currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                super.onSuccess(statusCode, headers, responseString);
+                error = "";
+                currentUser = null;
 
-                    }
-                })
-                .setNegativeButton(R.string.deleteAccount_dialog_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                System.out.println("Status 1: " + statusCode);
+                toLogin(v);
+            }
 
-        AlertDialog alert = builder.create();
-        alert.setTitle(R.string.deleteAccount_dialog_title);
-        alert.show();
+
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+                System.out.println("Failure 1: " + responseString);
+//                Toast.makeText(getApplicationContext(),
+//                        R.string.deleteAccount_request_failure, Toast.LENGTH_SHORT).show();
+
+                System.out.println("Status: " + statusCode);
+                error = "";
+                currentUser = null;
+                toLogin(v);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                System.out.println("Error JSON: " + errorResponse);
+                System.out.println("Status 2: " + statusCode);
+
+                Toast.makeText(getApplicationContext(),
+                        R.string.deleteAccount_request_failure, Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+    }
+
+    public void deleteUserPrompt(View v) {
+        setContentView(R.layout.delete_online_user);
+    }
+
+    public void deleteUserReject(View v) {
+        toOnlineUser(v);
     }
 
     public String checkUserType() {
@@ -180,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                HttpUtils.get("offlineuser/userId" + userId, new RequestParams(), new JsonHttpResponseHandler() {
+                HttpUtils.get("onlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         super.onSuccess(statusCode, headers, response);
@@ -202,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     public void cancelReservationConfirm(View v) {
         checkUserType();
         String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
-        String fullPath = path + "/cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
+        String fullPath = path + "cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
 
         HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -233,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
     public void cancelEventConfirm(View v) {
         checkUserType();
         String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
-        String fullPath = path + "/cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
+        String fullPath = path + "cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
 
         HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
