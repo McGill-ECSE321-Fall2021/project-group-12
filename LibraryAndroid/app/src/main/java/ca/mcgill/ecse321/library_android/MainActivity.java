@@ -614,8 +614,20 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         HttpUtils.get("albums/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                displayAlbums();
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int numSongs = element.getInt("numSongs");
+                        boolean isAvailable = element.getBoolean("available");
+
+                        System.out.println("Title: "+title+", Number of Songs: "+numSongs+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -646,8 +658,20 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         HttpUtils.get("Books/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                displayBooks();
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int numPages = element.getInt("numPages");
+                        boolean isAvailable = element.getBoolean("available");
+
+                        System.out.println("Title: "+title+", Number of Pages: "+numPages+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -678,8 +702,20 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         HttpUtils.get("movies/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                displayMovies();
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int duration = element.getInt("duration");
+                        boolean isAvailable = element.getBoolean("isAvailable");
+
+                        System.out.println("Title: "+title+", Duration: "+duration+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -710,9 +746,19 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         HttpUtils.get("Newspapers/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-                displayNewspapers();
-            }
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        boolean isArchive = element.getBoolean("isArchive");
+
+                        System.out.println("Title: "+title+", Is Archive: "+isArchive);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }            }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
