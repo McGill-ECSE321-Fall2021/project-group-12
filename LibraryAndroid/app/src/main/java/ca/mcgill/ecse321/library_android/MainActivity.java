@@ -33,11 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String error = null;
     private String currentUser = null;
+    private Long currentUserId = 0L;
+    private Long timeSlotId = 0L;
     private boolean UserInfoOn = false;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
     }
+
+    private void setCurrentUserId(String userId) { this.currentUserId = Long.parseLong(userId); }
+
+    private void setTimeSlotId(String timeSlotId) { this.timeSlotId = Long.parseLong(timeSlotId); }
 
     private String getCurrentUser(){
         return this.currentUser;
@@ -117,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 setCurrentUser(username.getText().toString());
+                try {
+                    setCurrentUserId(response.getString("userId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
                 refreshErrorMessage();
                 username.setText("");
                 password.setText("");
@@ -211,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.manageaccount_page);
     }
 
+    public void toAddEvent(View v) { setContentView(R.layout.addevent_page); }
+
     public void toSignUp(View v) {
         setContentView(R.layout.signup_page);
     }
@@ -236,6 +249,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 setCurrentUser(username.getText().toString());
+                try {
+                    setCurrentUserId(response.getString("userId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
                 refreshErrorMessage();
                 firstName.setText("");
                 lastName.setText("");
@@ -244,6 +262,92 @@ public class MainActivity extends AppCompatActivity {
                 username.setText("");
                 password.setText("");
                 email.setText("");
+                toOnlineUser(v);
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+
+    }
+
+    public void createTimeSlot(View v){
+    error = "";
+    final TextView startDate = (TextView) findViewById(R.id.addevent_startdate);
+    final TextView endDate = (TextView) findViewById(R.id.addevent_enddate);
+    final TextView startTime = (TextView) findViewById(R.id.addevent_starttime);
+    final TextView endTime = (TextView) findViewById(R.id.addevent_endtime);
+
+        HttpUtils.post("timeslot/create?startTime="+startTime.getText().toString()+"&endTime="+endTime.getText().toString()+"&startDate="+startDate.getText().toString()+"&endDate="+endDate.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                startDate.setText("");
+                endDate.setText("");
+                startTime.setText("");
+                endTime.setText("");
+                try {
+                    setTimeSlotId(response.getString("timeSlotId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+
+    }
+
+    public void createEvent(View v){
+        error = "";
+        final TextView name = (TextView) findViewById(R.id.addevent_name);
+        final CheckBox isPrivate = (CheckBox) findViewById(R.id.addevent_private);
+        final CheckBox isAccepted = (CheckBox) findViewById(R.id.addevent_accepted);
+
+        HttpUtils.post("event/create?name="+name.getText().toString()+"&timeSlotId="+timeSlotId+"&isPrivate="+isPrivate.isChecked()+"&isAccepted="+isAccepted.isChecked()+"&userId="+currentUserId, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                name.setText("");
+                isPrivate.setChecked(false);
+                isAccepted.setChecked(false);
                 toOnlineUser(v);
             }
             @Override

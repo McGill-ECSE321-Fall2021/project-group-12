@@ -35,6 +35,19 @@
     <string name="signup_password_hint">Password</string>
     <string name="signup_email_hint">Email</string>
 
+    <string name="addevent_startdate_hint">Start Date\: MM\-DD\-YYYY</string>
+    <string name="addevent_enddate_hint">End Date\: MM\-DD\-YYYY</string>
+    <string name="addevent_starttime_hint">Start Time\: HH\:mm\:ss</string>
+    <string name="addevent_endtime_hint">End Time\: HH\:mm\:ss</string>
+    <string name="addevent_timeslot_button_text">Create TimeSlot</string>
+    <string name="addevent_button_text">Create Event</string>
+    <string name="addevent_name_hint">Event Name</string>
+    <string name="addevent_isprivate_hint">Private</string>
+    <string name="addevent_isaccepted_hint">Accepted</string>
+    <string name="addevent_back_button_text">Back</string>
+
+
+
     <string name="back_text">Back</string>
 
 

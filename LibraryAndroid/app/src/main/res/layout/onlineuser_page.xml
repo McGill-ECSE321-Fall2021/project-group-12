@@ -52,6 +52,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="500dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toAddEvent"
+        android:text="Add event"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginEnd="156dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/primary_color"
