@@ -27,6 +27,12 @@
     <string name="onlineUser_manageAccount_back_text">Back</string>
     <string name="onlineUser_manageAccount_showInfo_text">Browse Info</string>
     <string name="onlineUser_manageAccount_changePassword_text">Change Password</string>
+
+    <string name="browse_albums_button">Browse Albums</string>
+    <string name="browse_books_button">Browse Books</string>
+    <string name="browse_movies_button">Browse Movies</string>
+    <string name="browse_newspapers_button">Browse Newspapers</string>
+
     <string name="changePassword_back_text">Back</string>
     <string name="changePassword_userName_hint">Enter Username</string>
     <string name="changePassword_oldPassword_hint">Enter Old Password</string>
