@@ -51,9 +51,53 @@ public class MainActivity extends AppCompatActivity {
     private String selectedReservationId = null;
     private String selectedEventId = null;
     private String selectedUserId = null;
+    private String startTimeGlobal = null;
+    private String endTimeGlobal = null;
+    private String startDateGlobal = null;
+    private String endDateGlobal = null;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
+    }
+
+    private void setTimeSlotVars(Long id){
+        HttpUtils.get("timeSlot/" + id, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                try {
+                    startTimeGlobal = response.getString("startTime");
+                    endTimeGlobal = response.getString("endTime");
+                    startDateGlobal = response.getString("startDate");
+                    endDateGlobal = response.getString("endDate");
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                    System.out.println(error);
+                    refreshErrorMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
     }
 
     private void setTimeSlotId(String timeSlotId) { this.timeSlotId = Long.parseLong(timeSlotId); }
@@ -692,7 +736,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewEvent(View v){
         error = "";
-        final TextView id = (TextView) findViewById(R.id.viewevent_id);
+        TextView id = (TextView) findViewById(R.id.viewevent_id);
         TextView name = (TextView) findViewById(R.id.viewevent_name);
         TextView startDate = (TextView) findViewById(R.id.viewevent_startdate);
         TextView endDate = (TextView) findViewById(R.id.viewevent_enddate);
@@ -701,24 +745,25 @@ public class MainActivity extends AppCompatActivity {
         TextView isAccepted = (TextView) findViewById(R.id.viewevent_isaccepted);
         TextView isPrivate = (TextView) findViewById(R.id.viewevent_isprivate);
         TextView eventId = (TextView) findViewById(R.id.viewevent_eventid);
-
         HttpUtils.get("event/" + Long.parseLong(id.getText().toString()), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 refreshErrorMessage();
-                id.setText("");
+                id.setText("Id: " + Long.parseLong(id.getText().toString()));
                 try {
-                    name.setText("Name: " + response.getString("eventName"));
-                    startDate.setText("Start Date: "+ response.getString("startDate"));
-                    endDate.setText("End Date: "+response.getString("endDate"));
-                    startTime.setText("Start Time: "+response.getString("startTime"));
-                    endTime.setText("End Time: "+response.getString("endTime"));
+                    name.setText("Name: " + response.getString("name"));
+                    startDate.setText("Start Date: "+ response.getJSONObject("timeSlot").getString("startDate"));
+                    endDate.setText("End Date: "+response.getJSONObject("timeSlot").getString("endDate"));
+                    startTime.setText("Start Date: "+ response.getJSONObject("timeSlot").getString("startTime"));
+                    endTime.setText("End Date: "+response.getJSONObject("timeSlot").getString("endTime"));
                     isAccepted.setText("Is Accepted: "+response.getString("isAccepted"));
                     isPrivate.setText("Is Private: "+response.getString("isPrivate"));
                     eventId.setText("Event Id: "+response.getString("eventId"));
 
                 } catch (JSONException e) {
                     error += e.getMessage();
+                    System.out.println(error);
+                    refreshErrorMessage();
                 }
             }
             @Override
