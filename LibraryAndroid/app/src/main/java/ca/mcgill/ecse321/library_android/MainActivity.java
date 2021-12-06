@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.library_android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -20,11 +22,14 @@ import cz.msebera.android.httpclient.Header;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private AlertDialog.Builder builder;
     private String error = null;
     private String currentUser = null;
     private Long currentUserId = 0L;
@@ -39,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean UserInfoOn = false;
     private Long userId = null;
     private String password = null;
+
+//  cancel reservation and events initializations
+    private String userType = null;
+    private String selectedReservationId = null;
+    private String selectedEventId = null;
+    private String selectedUserId = null;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -73,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        builder = new AlertDialog.Builder(this);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -116,6 +130,140 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void deleteUser(View v) {
+        error = "";
+
+        builder.setMessage(R.string.deleteAccount_dialog_text).setCancelable(false)
+                .setPositiveButton(R.string.deleteAccount_dialog_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        HttpUtils.delete("onlineuser/delete/username/" + currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                                super.onSuccess(statusCode, headers, response);
+                                finish();
+                                error = "";
+                                currentUser = null;
+                                toLogin(v);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                                super.onFailure(statusCode, headers, responseString, throwable);
+                                finish();
+                                System.out.println("User not deleted");
+                                Toast.makeText(getApplicationContext() ,
+                                        R.string.deleteAccount_request_failure,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                })
+                .setNegativeButton(R.string.deleteAccount_dialog_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.setTitle(R.string.deleteAccount_dialog_title);
+        alert.show();
+    }
+
+    public String checkUserType() {
+
+        HttpUtils.get("offlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                userType = "offline";
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                HttpUtils.get("offlineuser/userId" + userId, new RequestParams(), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                        userType = "online";
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        System.out.println("find online user by id error: " + responseString);
+                    }
+                });
+            }
+        });
+
+        return userType;
+    }
+
+    public void cancelReservationConfirm(View v) {
+        checkUserType();
+        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
+        String fullPath = path + "/cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
+
+        HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getApplicationContext()
+                        ,"Reservation has been cancelled"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getApplicationContext()
+                        ,"Reservation not cancelled. Please try again"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+
+    }
+
+    public void cancelReservationReject(View v) {
+        toOnlineUser(v);
+    }
+
+    public void cancelEventConfirm(View v) {
+        checkUserType();
+        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
+        String fullPath = path + "/cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
+
+        HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getApplicationContext()
+                        ,"Event has been cancelled"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getApplicationContext()
+                        ,"Event not cancelled. Please try again"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+    }
+
+    public void cancelEventReject(View v) {
+        toOnlineUser(v);
     }
 
     public void loginUser(View v) {
