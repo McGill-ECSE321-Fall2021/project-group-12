@@ -65,6 +65,18 @@
     <string name="signup_email_hint">Email</string>
 
     <string name="back_text">Back</string>
+    <string name="reservation_year_hint">year (yyyy)</string>
+    <string name="reservation_month_hint">month (mm)</string>
+    <string name="reservation_day_hint">day (dd)</string>
+    <string name="reservation_return_button_text">Select</string>
+    <string name="reservation_item_id">Search item by id...</string>
+    <string name="reservation_viewItem_text">View item</string>
+    <string name="reservation_browseItems_text">Browse items</string>
+    <string name="reservation_item_selected">Selected</string>
+    <string name="reservation_reserveItem_button_text">Reserve item</string>
+    <string name="reservation_refresh_button_text">Refresh</string>
+    <string name="reservation_viewReservation_text">View reservation</string>
+    <string name="reservation_reload_button_text">reload</string>
 
     <string name="cancelEvent_text">Are you sure you want to cancel this event?</string>
     <string name="cancelEvent_yes">Yes</string>
