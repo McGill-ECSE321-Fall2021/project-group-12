@@ -23,6 +23,12 @@
     <string name="signup_button_text">Sign Up</string>
 
     <string name="onlineUser_logout_text">Logout</string>
+    <string name="deleteAccount_button_text">Delete Account</string>
+    <string name="deleteAccount_dialog_title">Delete Account</string>
+    <string name="deleteAccount_dialog_text">Are you sure you want to delete your account?</string>
+    <string name="deleteAccount_dialog_yes">Yes</string>
+    <string name="deleteAccount_dialog_no">No</string>
+    <string name="deleteAccount_request_failure">Account not deleted. Please try again</string>
     <string name="onlineUser_manageAccount_text">Manage Account</string>
     <string name="onlineUser_manageAccount_back_text">Back</string>
     <string name="onlineUser_manageAccount_showInfo_text">Browse Info</string>
@@ -59,6 +65,14 @@
     <string name="signup_email_hint">Email</string>
 
     <string name="back_text">Back</string>
+
+    <string name="cancelEvent_text">Are you sure you want to cancel this event?</string>
+    <string name="cancelEvent_yes">Yes</string>
+    <string name="cancelEvent_no">No</string>
+
+    <string name="cancelReservation_text">Are you sure you want to cancel this reservation?</string>
+    <string name="cancelReservation_yes">Yes</string>
+    <string name="cancelReservation_no">No</string>
 
 
 </resources>
