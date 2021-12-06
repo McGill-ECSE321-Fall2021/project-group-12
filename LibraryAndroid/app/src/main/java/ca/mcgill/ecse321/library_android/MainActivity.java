@@ -29,7 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private String currentUser = null;
     private ArrayAdapter<String> reservedItemAdapter;
     private List<String> reservedItemTitles = new ArrayList<>();
+    private Long currentTimeSlot;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -85,41 +89,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.login_page);
         refreshErrorMessage();
 
-        Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
-        reservedItemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        reservedItemSpinner.setAdapter(reservedItemAdapter);
+//        Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
+//        reservedItemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, reservedItemTitles);
+//        reservedItemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        reservedItemSpinner.setAdapter(reservedItemAdapter);
     }
-    public void refreshReservationList(View v) {
-        final ArrayAdapter<String> adapter = reservedItemAdapter;
-        final List<String> titles = reservedItemTitles;
-        HttpUtils.get("onlineuser/reservation/username"+currentUser, new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                titles.clear();
-                titles.add("Please select...");
-                for (int i = 0; i < response.length(); i++){
-                    try {
-                        //getting the title of the reserved item
-                        titles.add(response.getJSONObject(i).getString(""));
-                    } catch (Exception e) {
-                        error = e.getMessage();
-                    }
-                    refreshErrorMessage();
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    error += errorResponse.get("message").toString();
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                }
-                System.out.println(error);
-                refreshErrorMessage();
-            }
-        });
-    }
+//    public void refreshReservationList(View v) {
+//        final ArrayAdapter<String> adapter = reservedItemAdapter;
+//        final List<String> titles = reservedItemTitles;
+//        HttpUtils.get("onlineuser/reservation/username/"+currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                titles.clear();
+//                titles.add("Please select...");
+//                for (int i = 0; i < response.length(); i++){
+//                    try {
+//                        //getting the title of the reserved item
+//                        titles.add(response.getJSONObject(i).getString("title"));
+//                    } catch (Exception e) {
+//                        error = e.getMessage();
+//                    }
+//                    refreshErrorMessage();
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                try {
+//                    error += errorResponse.get("message").toString();
+//                } catch (JSONException e) {
+//                    error += e.getMessage();
+//                }
+//                System.out.println(error);
+//                refreshErrorMessage();
+//            }
+//        });
+//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -243,5 +248,103 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
             }
         });
+    }
+    public void toReservation(View v) {
+        setContentView(R.layout.reservation_page);
+    }
+    public void cancelReservation(View v) {
+        setContentView(R.layout.login_page);
+    }
+    public void searchItemId(View v) {
+        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
+
+    }
+    public void reserveSelectedItem(View v) {
+        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
+        HttpUtils.post("onlineuser/reserve/username/"+currentUser+"?itemIds="+itemId+"&timeSlot="+currentTimeSlot, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                itemId.setText("");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+    public void selectReturnDate(View v) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+        Calendar c = Calendar.getInstance();
+        String startDate = dateFormat.format(c.getTime());
+        String startTime = timeFormat.format(c.getTime());
+        String endTime = "11:59:59";
+        final TextView endYear = (TextView) findViewById(R.id.reservation_year);
+        final TextView endMonth = (TextView) findViewById(R.id.reservation_month);
+        final TextView endDay = (TextView) findViewById(R.id.reservation_day);
+        String endDate = endYear.getText().toString()+"-"+endMonth.getText().toString()+"-"+endDay.getText().toString();
+        HttpUtils.post("timeSlot/create?startTime="+startTime+"&endTime="+endTime+"&startDate="+startDate+"&endDate="+endDate, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                endYear.setText("");
+                endMonth.setText("");
+                endDay.setText("");
+                try {
+                    currentTimeSlot = response.getLong("timeSlotId");
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                TextView timeSlotConfirmed = (TextView) findViewById(R.id.reservation_returnDateConfirm_text);
+                timeSlotConfirmed.setText("Return date selected: "+endDate);
+                timeSlotConfirmed.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+    public void goToBrowseItems(View v) {
+        setContentView(R.layout.login_page);
+    }
+    public void toLogout(View v) {
+        currentUser = null;
+        setContentView(R.layout.login_page);
     }
 }
