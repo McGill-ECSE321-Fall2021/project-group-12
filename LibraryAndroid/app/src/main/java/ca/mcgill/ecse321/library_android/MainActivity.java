@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private String currentUser = null;
     private ArrayAdapter<String> reservedItemAdapter;
     private List<String> reservedItemTitles = new ArrayList<>();
-    private Long currentTimeSlot;
+    private String currentTimeSlot;
+    private String currentItemId;
+    private String itemTypeSelected_Reservation = null;
 
     private void setCurrentUser(String username){
         this.currentUser = username;
@@ -162,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 refreshErrorMessage();
+                setCurrentUser(username.getText().toString());
                 username.setText("");
                 password.setText("");
-                setCurrentUser(username.getText().toString());
                 toOnlineUser(v);
             }
             @Override
@@ -255,17 +258,209 @@ public class MainActivity extends AppCompatActivity {
     public void cancelReservation(View v) {
         setContentView(R.layout.login_page);
     }
-    public void searchItemId(View v) {
-        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
 
+    public void searchItemId(View v) {
+        if (itemTypeSelected_Reservation == null) {
+            error = "Please select a type";
+            refreshErrorMessage();
+        }
+        switch(itemTypeSelected_Reservation) {
+            case "album":
+                searchAlbumId(v);
+                break;
+            case "book":
+                searchBookId(v);
+                break;
+            case "movie":
+                searchMovieId(v);
+                break;
+        }
+    }
+    public void searchAlbumId(View v) {
+        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
+        final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
+        final TextView itemFoundId = (TextView) findViewById(R.id.reservation_itemId_Text);
+        final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
+        final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
+
+        HttpUtils.get("album/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                try {
+                    itemTitle.setText(response.getString("title"));
+                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
+                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemTitle.setVisibility(View.VISIBLE);
+                    itemFoundId.setVisibility(View.VISIBLE);
+                    itemCreator.setVisibility(View.VISIBLE);
+                    itemReleaseDate.setVisibility(View.VISIBLE);
+                    currentItemId = response.getString(("itemId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+    public void searchBookId(View v) {
+        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
+        final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
+        final TextView itemFoundId = (TextView) findViewById(R.id.reservation_itemId_Text);
+        final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
+        final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
+
+        HttpUtils.get("book/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                try {
+                    itemTitle.setText(response.getString("title"));
+                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
+                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemTitle.setVisibility(View.VISIBLE);
+                    itemFoundId.setVisibility(View.VISIBLE);
+                    itemCreator.setVisibility(View.VISIBLE);
+                    itemReleaseDate.setVisibility(View.VISIBLE);
+                    currentItemId = response.getString(("itemId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+    public void searchMovieId(View v) {
+        final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
+        final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
+        final TextView itemFoundId = (TextView) findViewById(R.id.reservation_itemId_Text);
+        final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
+        final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
+
+        HttpUtils.get("movie/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                try {
+                    itemTitle.setText(response.getString("title"));
+                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
+                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemTitle.setVisibility(View.VISIBLE);
+                    itemFoundId.setVisibility(View.VISIBLE);
+                    itemCreator.setVisibility(View.VISIBLE);
+                    itemReleaseDate.setVisibility(View.VISIBLE);
+                    currentItemId = response.getString(("itemId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+    public void onItemReservationRadioButton(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch(view.getId()) {
+            case R.id.reserve_select_album:
+                if (checked) itemTypeSelected_Reservation = "album";
+                break;
+            case R.id.reserve_select_book:
+                if (checked) itemTypeSelected_Reservation = "book";
+                break;
+            case R.id.reserve_select_movie:
+                if (checked) itemTypeSelected_Reservation = "movie";
+                break;
+
+        }
     }
     public void reserveSelectedItem(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
-        HttpUtils.post("onlineuser/reserve/username/"+currentUser+"?itemIds="+itemId+"&timeSlot="+currentTimeSlot, new RequestParams(), new JsonHttpResponseHandler() {
+        final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
+        final TextView itemFoundId = (TextView) findViewById(R.id.reservation_itemId_Text);
+        final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
+        final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
+        final TextView reservationConfirm = (TextView) findViewById(R.id.reservation_Confirm_text);
+        HttpUtils.post("onlineuser/reserve/username/"+currentUser+"?itemIds="+currentItemId+"&timeSlotId="+currentTimeSlot, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 refreshErrorMessage();
                 itemId.setText("");
+                itemTitle.setText("");
+                itemFoundId.setText("");
+                itemCreator.setText("");
+                itemReleaseDate.setText("");
+                itemTitle.setVisibility(View.GONE);
+                itemFoundId.setVisibility(View.GONE);
+                itemCreator.setVisibility(View.GONE);
+                itemReleaseDate.setVisibility(View.GONE);
+                try {
+                    reservationConfirm.setText("Reservation successful: "+response.getString("reservationId"));
+                    reservationConfirm.setVisibility(View.VISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -291,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void selectReturnDate(View v) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
         Calendar c = Calendar.getInstance();
         String startDate = dateFormat.format(c.getTime());
@@ -309,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
                 endMonth.setText("");
                 endDay.setText("");
                 try {
-                    currentTimeSlot = response.getLong("timeSlotId");
+                    currentTimeSlot = response.getString("timeSlotId");
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
