@@ -31,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
     private String currentItemId;
     private String itemTypeSelected_Reservation = null;
 
-    private void setCurrentUser(String username){
+    private void setCurrentUser(String username) {
         this.currentUser = username;
     }
 
-    private String getCurrentUser(){
+    private String getCurrentUser() {
         return this.currentUser;
     }
 
@@ -91,43 +90,47 @@ public class MainActivity extends AppCompatActivity {
         });
         setContentView(R.layout.login_page);
         refreshErrorMessage();
-
-//        Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
-//        reservedItemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, reservedItemTitles);
-//        reservedItemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        reservedItemSpinner.setAdapter(reservedItemAdapter);
     }
-//    public void refreshReservationList(View v) {
-//        final ArrayAdapter<String> adapter = reservedItemAdapter;
-//        final List<String> titles = reservedItemTitles;
-//        HttpUtils.get("onlineuser/reservation/username/"+currentUser, new RequestParams(), new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                titles.clear();
-//                titles.add("Please select...");
-//                for (int i = 0; i < response.length(); i++){
-//                    try {
-//                        //getting the title of the reserved item
-//                        titles.add(response.getJSONObject(i).getString("title"));
-//                    } catch (Exception e) {
-//                        error = e.getMessage();
-//                    }
-//                    refreshErrorMessage();
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                try {
-//                    error += errorResponse.get("message").toString();
-//                } catch (JSONException e) {
-//                    error += e.getMessage();
-//                }
-//                System.out.println(error);
-//                refreshErrorMessage();
-//            }
-//        });
-//    }
+
+    public void refreshInitialReservationList(View v) {
+        final ArrayAdapter<String> adapter = reservedItemAdapter;
+        final List<String> titles = reservedItemTitles;
+        titles.add("Please select...");
+        adapter.notifyDataSetChanged();
+    }
+
+    public void refreshReservationList(View v) {
+        final ArrayAdapter<String> adapter = reservedItemAdapter;
+        final List<String> titles = reservedItemTitles;
+        HttpUtils.get("onlineuser/reservations/username/" + currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                titles.clear();
+                titles.add("Please select...");
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        titles.add(response.getJSONObject(i).getString("reservationId"));
+                    } catch (Exception e) {
+                        error = e.getMessage();
+                    }
+                    refreshErrorMessage();
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -161,15 +164,16 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         final TextView username = (TextView) findViewById(R.id.login_username);
         final TextView password = (TextView) findViewById(R.id.login_password);
-        HttpUtils.post("onlineuser/login?username="+username.getText().toString()+"&password="+password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("onlineuser/login?username=" + username.getText().toString() + "&password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 setCurrentUser(username.getText().toString());
                 username.setText("");
                 password.setText("");
                 toOnlineUser(v);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -215,9 +219,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView username = (TextView) findViewById(R.id.signup_username);
         final TextView password = (TextView) findViewById(R.id.signup_password);
         final TextView email = (TextView) findViewById(R.id.signup_email);
-        HttpUtils.post("onlineuser/create?firstName="+firstName.getText().toString()+"&lastName="+lastName.getText().toString()+"&address="+address.getText().toString()+"&isLocal="+isLocal.isChecked()+"&username="+username.getText().toString()+"&password="+password.getText().toString()+"&email="+email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("onlineuser/create?firstName=" + firstName.getText().toString() + "&lastName=" + lastName.getText().toString() + "&address=" + address.getText().toString() + "&isLocal=" + isLocal.isChecked() + "&username=" + username.getText().toString() + "&password=" + password.getText().toString() + "&email=" + email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 firstName.setText("");
                 lastName.setText("");
@@ -229,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 setCurrentUser(username.getText().toString());
                 toOnlineUser(v);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -252,11 +257,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void toReservation(View v) {
         setContentView(R.layout.reservation_page);
     }
-    public void cancelReservation(View v) {
-        setContentView(R.layout.login_page);
+
+    public void toViewReservation(View v) {
+        setContentView(R.layout.view_reservation_page);
+        Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
+        reservedItemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, reservedItemTitles);
+        reservedItemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reservedItemSpinner.setAdapter(reservedItemAdapter);
+        refreshInitialReservationList(this.getCurrentFocus());
+    }
+
+    public void reloadReservationPage(View v) {
+        final TextView reservationConfirm = (TextView) findViewById(R.id.reservation_returnDateConfirm_text);
+        final TextView timeSlotConfirmed = (TextView) findViewById(R.id.reservation_Confirm_text);
+
+        reservationConfirm.setText("");
+        reservationConfirm.setVisibility(View.GONE);
+        timeSlotConfirmed.setText("");
+        timeSlotConfirmed.setVisibility(View.GONE);
     }
 
     public void searchItemId(View v) {
@@ -264,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
             error = "Please select a type";
             refreshErrorMessage();
         }
-        switch(itemTypeSelected_Reservation) {
+        switch (itemTypeSelected_Reservation) {
             case "album":
                 searchAlbumId(v);
                 break;
@@ -276,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
     public void searchAlbumId(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
         final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
@@ -283,15 +306,15 @@ public class MainActivity extends AppCompatActivity {
         final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
         final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
 
-        HttpUtils.get("album/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("album/?itemId=" + itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
                     itemTitle.setText(response.getString("title"));
-                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
-                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
-                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemFoundId.setText("Item ID: " + response.getString("itemId"));
+                    itemCreator.setText("Creator: " + response.getJSONObject("creator").getString("firstName") + ", " + response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: " + response.getString("releaseDate"));
                     itemTitle.setVisibility(View.VISIBLE);
                     itemFoundId.setVisibility(View.VISIBLE);
                     itemCreator.setVisibility(View.VISIBLE);
@@ -301,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
                     error += e.getMessage();
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -324,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void searchBookId(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
         final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
@@ -331,15 +356,15 @@ public class MainActivity extends AppCompatActivity {
         final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
         final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
 
-        HttpUtils.get("book/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("book/?itemId=" + itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
                     itemTitle.setText(response.getString("title"));
-                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
-                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
-                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemFoundId.setText("Item ID: " + response.getString("itemId"));
+                    itemCreator.setText("Creator: " + response.getJSONObject("creator").getString("firstName") + ", " + response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: " + response.getString("releaseDate"));
                     itemTitle.setVisibility(View.VISIBLE);
                     itemFoundId.setVisibility(View.VISIBLE);
                     itemCreator.setVisibility(View.VISIBLE);
@@ -349,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
                     error += e.getMessage();
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -372,6 +398,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void searchMovieId(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
         final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
@@ -379,15 +406,15 @@ public class MainActivity extends AppCompatActivity {
         final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
         final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
 
-        HttpUtils.get("movie/?itemId="+itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("movie/?itemId=" + itemId.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 try {
                     itemTitle.setText(response.getString("title"));
-                    itemFoundId.setText("Item ID: "+response.getString("itemId"));
-                    itemCreator.setText("Creator: "+response.getJSONObject("creator").getString("firstName")+", "+response.getJSONObject("creator").getString("lastName"));
-                    itemReleaseDate.setText("Release date: "+response.getString("releaseDate"));
+                    itemFoundId.setText("Item ID: " + response.getString("itemId"));
+                    itemCreator.setText("Creator: " + response.getJSONObject("creator").getString("firstName") + ", " + response.getJSONObject("creator").getString("lastName"));
+                    itemReleaseDate.setText("Release date: " + response.getString("releaseDate"));
                     itemTitle.setVisibility(View.VISIBLE);
                     itemFoundId.setVisibility(View.VISIBLE);
                     itemCreator.setVisibility(View.VISIBLE);
@@ -397,6 +424,7 @@ public class MainActivity extends AppCompatActivity {
                     error += e.getMessage();
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -420,9 +448,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onItemReservationRadioButton(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.reserve_select_album:
                 if (checked) itemTypeSelected_Reservation = "album";
                 break;
@@ -435,6 +464,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     public void reserveSelectedItem(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
         final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
@@ -442,9 +472,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView itemCreator = (TextView) findViewById(R.id.reservation_itemCreator_Text);
         final TextView itemReleaseDate = (TextView) findViewById(R.id.reservation_itemReleaseDate_Text);
         final TextView reservationConfirm = (TextView) findViewById(R.id.reservation_Confirm_text);
-        HttpUtils.post("onlineuser/reserve/username/"+currentUser+"?itemIds="+currentItemId+"&timeSlotId="+currentTimeSlot, new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("onlineuser/reserve/username/" + currentUser + "?itemIds=" + currentItemId + "&timeSlotId=" + currentTimeSlot, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 itemId.setText("");
                 itemTitle.setText("");
@@ -456,12 +486,13 @@ public class MainActivity extends AppCompatActivity {
                 itemCreator.setVisibility(View.GONE);
                 itemReleaseDate.setVisibility(View.GONE);
                 try {
-                    reservationConfirm.setText("Reservation successful: "+response.getString("reservationId"));
+                    reservationConfirm.setText("Reservation successful: " + response.getString("reservationId"));
                     reservationConfirm.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -485,6 +516,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void searchReservationId(View v) {
+        final Spinner reservationSpinner = (Spinner) findViewById(R.id.reservationSpinner);
+        String reservationId = reservationSpinner.getSelectedItem().toString();
+        final TextView reservationIDText = (TextView) findViewById(R.id.reservation_reservationId_Text);
+        final TextView reservationItemTitle = (TextView) findViewById(R.id.reservation_reservationItemTitle_Text);
+        final TextView reservationItemId = (TextView) findViewById(R.id.reservation_reservationItemId_Text);
+        final TextView reservationItemReleaseDate = (TextView) findViewById(R.id.reservation_reservationItemReleaseDate_Text);
+        final TextView reservationItemReturnDateandTime = (TextView) findViewById(R.id.reservation_reservationReturnDateandTime_Text);
+
+        HttpUtils.get("reservation/" + reservationId, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                try {
+                    reservationIDText.setText("Reservation ID: " + response.getString("reservationId"));
+                    reservationItemTitle.setText(response.getJSONArray("items").getJSONObject(0).getString("title"));
+                    reservationItemId.setText("Item ID: " + response.getJSONArray("items").getJSONObject(0).getString("itemId"));
+                    reservationItemReleaseDate.setText("Item release date: " + response.getJSONArray("items").getJSONObject(0).getString("releaseDate"));
+                    reservationItemReturnDateandTime.setText("Return by " + response.getJSONObject("timeSlot").getString("endDate") +
+                            ", " + response.getJSONObject("timeSlot").getString("endTime"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                reservationIDText.setVisibility(View.VISIBLE);
+                reservationItemTitle.setVisibility(View.VISIBLE);
+                reservationItemId.setVisibility(View.VISIBLE);
+                reservationItemReleaseDate.setVisibility(View.VISIBLE);
+                reservationItemReturnDateandTime.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
+    }
+
     public void selectReturnDate(View v) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
@@ -495,10 +581,10 @@ public class MainActivity extends AppCompatActivity {
         final TextView endYear = (TextView) findViewById(R.id.reservation_year);
         final TextView endMonth = (TextView) findViewById(R.id.reservation_month);
         final TextView endDay = (TextView) findViewById(R.id.reservation_day);
-        String endDate = endYear.getText().toString()+"-"+endMonth.getText().toString()+"-"+endDay.getText().toString();
-        HttpUtils.post("timeSlot/create?startTime="+startTime+"&endTime="+endTime+"&startDate="+startDate+"&endDate="+endDate, new RequestParams(), new JsonHttpResponseHandler() {
+        String endDate = endYear.getText().toString() + "-" + endMonth.getText().toString() + "-" + endDay.getText().toString();
+        HttpUtils.post("timeSlot/create?startTime=" + startTime + "&endTime=" + endTime + "&startDate=" + startDate + "&endDate=" + endDate, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
                 endYear.setText("");
                 endMonth.setText("");
@@ -509,9 +595,10 @@ public class MainActivity extends AppCompatActivity {
                     error += e.getMessage();
                 }
                 TextView timeSlotConfirmed = (TextView) findViewById(R.id.reservation_returnDateConfirm_text);
-                timeSlotConfirmed.setText("Return date selected: "+endDate);
+                timeSlotConfirmed.setText("Return date selected: " + endDate);
                 timeSlotConfirmed.setVisibility(View.VISIBLE);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -535,9 +622,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void goToBrowseItems(View v) {
         setContentView(R.layout.login_page);
     }
+
     public void toLogout(View v) {
         currentUser = null;
         setContentView(R.layout.login_page);
