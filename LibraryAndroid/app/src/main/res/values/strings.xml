@@ -69,6 +69,11 @@
     <string name="addevent_isaccepted_hint">Accepted</string>
     <string name="addevent_back_button_text">Back</string>
 
+    <string name="viewevent_eventId_hint">Event Id : #</string>
+    <string name="viewevent_view_button_text">View Event</string>
+
+
+
 
 
     <string name="back_text">Back</string>

@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         this.currentUser = username;
     }
 
-    private void setCurrentUserId(String userId) { this.currentUserId = Long.parseLong(userId); }
-
     private void setTimeSlotId(String timeSlotId) { this.timeSlotId = Long.parseLong(timeSlotId); }
 
     private String getCurrentUser(){
@@ -275,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 setCurrentUser(username.getText().toString());
                 try {
-                    setCurrentUserId(response.getString("userId"));
+                    currentUserId = (response.getLong("userId"));
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
@@ -547,6 +545,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.onlineuser_page);
     }
 
+    public void toViewEvent(View v) {setContentView(R.layout.viewevent_page); }
+
     public void signUp(View v) {
         error = "";
         final TextView firstName = (TextView) findViewById(R.id.signup_firstname);
@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 setCurrentUser(username.getText().toString());
                 try {
-                    setCurrentUserId(response.getString("userId"));
+                    currentUserId = (response.getLong("userId"));
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
@@ -601,13 +601,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createTimeSlot(View v){
-        setContentView(R.layout.addevent_page);
         error = "";
         final TextView startTime = (TextView) findViewById(R.id.addevent_starttime);
         final TextView endTime = (TextView) findViewById(R.id.addevent_endtime);
         final TextView startDate = (TextView) findViewById(R.id.addevent_startdate);
         final TextView endDate = (TextView) findViewById(R.id.addevent_enddate);
-        HttpUtils.post("timeslot/create?startTime="+startTime.getText().toString()+"&endTime="+endTime.getText().toString()+"&startDate="+startDate.getText().toString()+"&endDate="+endDate.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.post("timeSlot/create?startTime="+startTime.getText().toString()+"&endTime="+endTime.getText().toString()+"&startDate="+startDate.getText().toString()+"&endDate="+endDate.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 refreshErrorMessage();
@@ -647,11 +646,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createEvent(View v){
-        setContentView(R.layout.addevent_page);
         error = "";
         final TextView name = (TextView) findViewById(R.id.addevent_name);
         final CheckBox isPrivate = (CheckBox) findViewById(R.id.addevent_private);
         final CheckBox isAccepted = (CheckBox) findViewById(R.id.addevent_accepted);
+        TextView eventId = (TextView) findViewById(R.id.addevent_id);
 
         HttpUtils.post("event/create?name="+name.getText().toString()+"&timeSlotId="+timeSlotId+"&isPrivate="+isPrivate.isChecked()+"&isAccepted="+isAccepted.isChecked()+"&userId="+currentUserId, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -660,7 +659,11 @@ public class MainActivity extends AppCompatActivity {
                 name.setText("");
                 isPrivate.setChecked(false);
                 isAccepted.setChecked(false);
-                toOnlineUser(v);
+                try {
+                    eventId.setText(response.getString("eventId"));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -685,6 +688,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void viewEvent(View v){
+        error = "";
+        final TextView id = (TextView) findViewById(R.id.viewevent_id);
+        TextView name = (TextView) findViewById(R.id.viewevent_name);
+        TextView startDate = (TextView) findViewById(R.id.viewevent_startdate);
+        TextView endDate = (TextView) findViewById(R.id.viewevent_enddate);
+        TextView startTime = (TextView) findViewById(R.id.viewevent_starttime);
+        TextView endTime = (TextView) findViewById(R.id.viewevent_endtime);
+        TextView isAccepted = (TextView) findViewById(R.id.viewevent_isaccepted);
+        TextView isPrivate = (TextView) findViewById(R.id.viewevent_isprivate);
+        TextView eventId = (TextView) findViewById(R.id.viewevent_eventid);
+
+        HttpUtils.get("event/" + Long.parseLong(id.getText().toString()), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                refreshErrorMessage();
+                id.setText("");
+                try {
+                    name.setText("Name: " + response.getString("eventName"));
+                    startDate.setText("Start Date: "+ response.getString("startDate"));
+                    endDate.setText("End Date: "+response.getString("endDate"));
+                    startTime.setText("Start Time: "+response.getString("startTime"));
+                    endTime.setText("End Time: "+response.getString("endTime"));
+                    isAccepted.setText("Is Accepted: "+response.getString("isAccepted"));
+                    isPrivate.setText("Is Private: "+response.getString("isPrivate"));
+                    eventId.setText("Event Id: "+response.getString("eventId"));
+
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+        });
     }
 
 //    public void toggleIcon(View v){

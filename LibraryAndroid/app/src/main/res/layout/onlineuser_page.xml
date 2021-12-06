@@ -70,6 +70,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="452dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toViewEvent"
+        android:text="View Event"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginStart="153dp"
         android:layout_marginEnd="153dp"
         android:layout_marginBottom="30dp"
