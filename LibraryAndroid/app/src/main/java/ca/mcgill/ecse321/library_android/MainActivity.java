@@ -453,12 +453,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createTimeSlot(View v){
-    error = "";
-    final TextView startDate = (TextView) findViewById(R.id.addevent_startdate);
-    final TextView endDate = (TextView) findViewById(R.id.addevent_enddate);
-    final TextView startTime = (TextView) findViewById(R.id.addevent_starttime);
-    final TextView endTime = (TextView) findViewById(R.id.addevent_endtime);
-
+        setContentView(R.layout.addevent_page);
+        error = "";
+        final TextView startTime = (TextView) findViewById(R.id.addevent_starttime);
+        final TextView endTime = (TextView) findViewById(R.id.addevent_endtime);
+        final TextView startDate = (TextView) findViewById(R.id.addevent_startdate);
+        final TextView endDate = (TextView) findViewById(R.id.addevent_enddate);
         HttpUtils.post("timeslot/create?startTime="+startTime.getText().toString()+"&endTime="+endTime.getText().toString()+"&startDate="+startDate.getText().toString()+"&endDate="+endDate.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
@@ -499,6 +499,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createEvent(View v){
+        setContentView(R.layout.addevent_page);
         error = "";
         final TextView name = (TextView) findViewById(R.id.addevent_name);
         final CheckBox isPrivate = (CheckBox) findViewById(R.id.addevent_private);
