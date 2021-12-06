@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.library_android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,7 +26,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
     private String currentTimeSlot;
     private String currentItemId;
     private String itemTypeSelected_Reservation = null;
+    private boolean UserInfoOn = false;
+    private Long userId = null;
+    private String password = null;
+
+//  cancel reservation and events initializations
+    private String userType = null;
+    private String selectedReservationId = null;
+    private String selectedEventId = null;
+    private String selectedUserId = null;
 
     private void setCurrentUser(String username) {
         this.currentUser = username;
@@ -76,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -160,15 +177,164 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    public void deleteUserConfirm(View v) {
+        error = "";
+
+        System.out.println("Current User" + currentUser);
+
+        HttpUtils.delete("onlineuser/delete/username/" + currentUser, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                super.onSuccess(statusCode, headers, responseString);
+                error = "";
+                currentUser = null;
+
+                System.out.println("Status 1: " + statusCode);
+                toLogin(v);
+            }
+
+
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+                System.out.println("Failure 1: " + responseString);
+//                Toast.makeText(getApplicationContext(),
+//                        R.string.deleteAccount_request_failure, Toast.LENGTH_SHORT).show();
+
+                System.out.println("Status: " + statusCode);
+                error = "";
+                currentUser = null;
+                toLogin(v);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                System.out.println("Error JSON: " + errorResponse);
+                System.out.println("Status 2: " + statusCode);
+
+                Toast.makeText(getApplicationContext(),
+                        R.string.deleteAccount_request_failure, Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+    }
+
+    public void deleteUserPrompt(View v) {
+        setContentView(R.layout.delete_online_user);
+    }
+
+    public void deleteUserReject(View v) {
+        toOnlineUser(v);
+    }
+
+    public String checkUserType() {
+
+        HttpUtils.get("offlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                userType = "offline";
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                HttpUtils.get("onlineuser/userId/" + userId, new RequestParams(), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                        userType = "online";
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        System.out.println("find online user by id error: " + responseString);
+                    }
+                });
+            }
+        });
+
+        return userType;
+    }
+
+    public void cancelReservationConfirm(View v) {
+        checkUserType();
+        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
+        String fullPath = path + "cancelreservation/userId/" + selectedUserId + "?reservationId=" + selectedReservationId;
+
+        HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getApplicationContext()
+                        ,"Reservation has been cancelled"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getApplicationContext()
+                        ,"Reservation not cancelled. Please try again"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+
+    }
+
+    public void cancelReservationReject(View v) {
+        toOnlineUser(v);
+    }
+
+    public void cancelEventConfirm(View v) {
+        checkUserType();
+        String path = userType == "online" ? "onlineuser": userType == "offline" ? "offlineuser":"";
+        String fullPath = path + "cancelevent/userId/" + selectedUserId + "?eventId=" + selectedReservationId;
+
+        HttpUtils.post(fullPath, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(getApplicationContext()
+                        ,"Event has been cancelled"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getApplicationContext()
+                        ,"Event not cancelled. Please try again"
+                        , Toast.LENGTH_SHORT).show();
+                toOnlineUser(v);
+            }
+        });
+    }
+
+    public void cancelEventReject(View v) {
+        toOnlineUser(v);
+    }
+
     public void loginUser(View v) {
         error = "";
         final TextView username = (TextView) findViewById(R.id.login_username);
         final TextView password = (TextView) findViewById(R.id.login_password);
         HttpUtils.post("onlineuser/login?username=" + username.getText().toString() + "&password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 setCurrentUser(username.getText().toString());
+                setCurrentUser(username.getText().toString());
+                refreshErrorMessage();
                 username.setText("");
                 password.setText("");
                 toOnlineUser(v);
@@ -198,6 +364,231 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void changePassword(View v) {
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changePassword_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changePassword_message);
+        message.setText("");
+        final TextView username = (TextView) findViewById(R.id.changePassword_userName);
+        final TextView oldPassword = (TextView) findViewById(R.id.changePassword_oldPassword);
+        final TextView newPassword = (TextView) findViewById(R.id.changePassword_newPassword);
+        final TextView confirmPassword = (TextView) findViewById(R.id.changePassword_confirm_newPassword);
+        if(!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+            curError.setText("Two Entered New Password Does Not Match.");
+            return;
+        }
+        HttpUtils.put("/onlineuser/update/password?username=" + username.getText().toString() + "&password=" + oldPassword.getText().toString() + "&newPassword=" + newPassword.getText().toString(), new RequestParams(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                message.setText("Password Changed Successfully!");
+                username.setText("");
+                oldPassword.setText("");
+                newPassword.setText("");
+                confirmPassword.setText("");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
+    public void updateUserInfo(View v) {
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changeUserInfo_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changeUserInfo_message);
+        message.setText("");
+        TextView username = (TextView)findViewById(R.id.changeUserInfo_username);
+        TextView email = (TextView)findViewById(R.id.changeUserInfo_email);
+        TextView firstName = (TextView)findViewById(R.id.changeUserInfo_firstName);
+        TextView lastName = (TextView)findViewById(R.id.changeUserInfo_lastName);
+        TextView address = (TextView)findViewById(R.id.changeUserInfo_address);
+        CheckBox isLocal = (CheckBox) findViewById(R.id.changeUserInfo_local);
+        TextView enteredPassword = (TextView)findViewById(R.id.changeUserInfo_password);
+
+        if(!enteredPassword.getText().toString().equals(password)) {
+            curError.setText("Wrong Password Entered.");
+            return;
+        }
+
+        HttpUtils.put("/onlineuser/update?userId=" + userId + "&firstName=" + firstName.getText().toString() + "&lastName=" + lastName.getText().toString() + "&address=" + address.getText().toString() + "&isLocal=" + isLocal.isChecked() + "&username=" + username.getText().toString() + "&password=" + enteredPassword.getText().toString() + "&email=" + email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                message.setText("User Information Changed Successfully!");
+                currentUser = username.getText().toString();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
+    public void Logout(View v) {
+        error = "";
+        currentUser = null;
+        toLogin(v);
+    }
+
+    public void showPersonalInfo(View v) {
+        error = "";
+        setContentView(R.layout.manageaccount_page);
+        TextView curError = (TextView)findViewById(R.id.manageaccount_error);
+        curError.setText("");
+        TextView username = (TextView)findViewById(R.id.accountManagement_username_text);
+        TextView email = (TextView)findViewById(R.id.accountManagement_email_text);
+        TextView firstName = (TextView)findViewById(R.id.accountManagement_firstName_text);
+        TextView lastName = (TextView)findViewById(R.id.accountManagement_lastName_text);
+        TextView address = (TextView)findViewById(R.id.accountManagement_address_text);
+        TextView isLocal = (TextView)findViewById(R.id.accountManagement_isLocal_text);
+        TextView userId = (TextView)findViewById(R.id.accountManagement_userId_text);
+        if(UserInfoOn == true) {
+            UserInfoOn = false;
+            return;
+        }
+        HttpUtils.get("onlineuser/username/" + currentUser,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                try {
+                    username.setText("Username: " + response.getString("username"));
+                    email.setText("Email: " + response.getString("email"));
+                    firstName.setText("FirstName: " + response.getString("firstName"));
+                    lastName.setText("LastName: " + response.getString("lastName"));
+                    address.setText("Address: " + response.getString("address"));
+                    isLocal.setText("IsLocal: " + response.getString("isLocal"));
+                    userId.setText("UserId: " + response.getString("userId"));
+                    UserInfoOn = true;
+                } catch (JSONException e) {
+                    String newError = e.getMessage();
+                    curError.setText(newError);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
+    public void toManageAccount(View v) {
+        setContentView(R.layout.manageaccount_page);
+        UserInfoOn = false;
+        userId = null;
+        password = null;
+    }
+
+    public void toChangePassword(View v) {
+        setContentView(R.layout.changepassword_page);
+    }
+
+    public void toChangeUserInfo(View v) {
+        setContentView(R.layout.changeuserinfo_page);
+        error = "";
+        TextView curError = (TextView) findViewById(R.id.changeUserInfo_error);
+        curError.setText("");
+        TextView message = (TextView) findViewById(R.id.changeUserInfo_message);
+        message.setText("");
+        TextView username = (TextView)findViewById(R.id.changeUserInfo_username);
+        TextView email = (TextView)findViewById(R.id.changeUserInfo_email);
+        TextView firstName = (TextView)findViewById(R.id.changeUserInfo_firstName);
+        TextView lastName = (TextView)findViewById(R.id.changeUserInfo_lastName);
+        TextView address = (TextView)findViewById(R.id.changeUserInfo_address);
+        CheckBox isLocal = (CheckBox) findViewById(R.id.changeUserInfo_local);
+
+        HttpUtils.get("onlineuser/username/" + currentUser,new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                try {
+                    username.setText(response.getString("username"));
+                    email.setText(response.getString("email"));
+                    firstName.setText(response.getString("firstName"));
+                    lastName.setText(response.getString("lastName"));
+                    address.setText(response.getString("address"));
+                    isLocal.setChecked(response.getBoolean("isLocal"));
+                    userId = response.getLong("userId");
+                    password = response.getString("password");
+                } catch (JSONException e) {
+                    String newError = e.getMessage();
+                    curError.setText(newError);
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                curError.setText(error);
+            }
+        });
+    }
+
     public void toSignUp(View v) {
         setContentView(R.layout.signup_page);
     }
@@ -221,7 +612,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView email = (TextView) findViewById(R.id.signup_email);
         HttpUtils.post("onlineuser/create?firstName=" + firstName.getText().toString() + "&lastName=" + lastName.getText().toString() + "&address=" + address.getText().toString() + "&isLocal=" + isLocal.isChecked() + "&username=" + username.getText().toString() + "&password=" + password.getText().toString() + "&email=" + email.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+                setCurrentUser(username.getText().toString());
                 refreshErrorMessage();
                 firstName.setText("");
                 lastName.setText("");
@@ -230,7 +622,6 @@ public class MainActivity extends AppCompatActivity {
                 username.setText("");
                 password.setText("");
                 email.setText("");
-                setCurrentUser(username.getText().toString());
                 toOnlineUser(v);
             }
 
@@ -621,8 +1012,8 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
             }
         });
-    }
 
+    }
     public void goToBrowseItems(View v) {
         setContentView(R.layout.login_page);
     }
@@ -631,4 +1022,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = null;
         setContentView(R.layout.login_page);
     }
+//    public void toggleIcon(View v){
+//        final ImageView img = (ImageView) findViewById(R.id.mButton);
+//        img.setImageResource(R.drawable.baseline_mystery_alt_24);
+//    }
 }
