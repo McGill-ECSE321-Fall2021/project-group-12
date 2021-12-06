@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_color"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <TextView
+        android:id="@+id/changeUserInfo_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="153dp"
+        android:text=""
+        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="@string/changeUserInfo_firstName_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_lastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="@string/changeUserInfo_lastName_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:hint="@string/changeUserInfo_address_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:hint="@string/changeUserInfo_username_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:hint="@string/changeUserInfo_email_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <CheckBox
+        android:id="@+id/changeUserInfo_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="153dp"
+        android:text="@string/changeUserInfo_local_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeUserInfo_email" />
+
+    <EditText
+        android:id="@+id/changeUserInfo_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="370dp"
+        android:hint="@string/changeUserInfo_password_hint"
+        android:textAlignment="center"
+        android:textColor="@color/light_color"
+        android:textColorHighlight="@color/primary_color"
+        android:textColorHint="@color/light_color"
+        android:textColorLink="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/button_changeUserInfo_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="153dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="updateUserInfo"
+        android:text="@string/changeUserInfo_confirm_text"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeUserInfo_local" />
+
+    <TextView
+        android:id="@+id/changeUserInfo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="153dp"
+        android:text=""
+        android:textColor="#00FF19"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_changeUserInfo_toManageAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toManageAccount"
+        android:text="@string/changeUserInfo_back_text"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,16 +7,6 @@
     android:background="@color/dark_color"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/manageaccount_error"
         android:layout_width="wrap_content"
@@ -48,6 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/button_manageAccount_toOnlineuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -65,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_showUserInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -82,6 +73,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountManagement_text" />
 
+    <Button
+        android:id="@+id/button_changeUserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toChangeUserInfo"
+        android:text="@string/onlineUser_manageAccount_changeUserInfo_text"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintBottom_toTopOf="@+id/button_changePassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_changePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toChangePassword"
+        android:text="@string/onlineUser_manageAccount_changePassword_text"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintBottom_toTopOf="@+id/button_manageAccount_toOnlineuser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/accountManagement_username_text"
         android:layout_width="wrap_content"
@@ -97,7 +124,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button_showUserInfo" />
 
     <TextView
         android:id="@+id/accountManagement_email_text"
