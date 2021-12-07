@@ -111,15 +111,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/mButton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:layout_marginTop="15dp"-->
-        <!--            app:srcCompat="@drawable/baseline_mystery_24"-->
-        <!--            android:onClick="toggleIcon"-->
-        <!--            app:tint="@color/light_color" />-->
+                <ImageView
+                    android:id="@+id/mButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@drawable/baseline_mystery_24"
+                    android:onClick="toggleIcon"
+                    app:tint="@color/light_color" />
 
     </LinearLayout>
 

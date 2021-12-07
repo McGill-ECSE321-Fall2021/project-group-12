@@ -1362,8 +1362,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.login_page);
     }
 
-//    public void toggleIcon(View v){
-//        final ImageView img = (ImageView) findViewById(R.id.mButton);
-//        img.setImageResource(R.drawable.baseline_mystery_alt_24);
-//    }
+    public void toggleIcon(View v){
+        final ImageView img = (ImageView) findViewById(R.id.mButton);
+        img.setImageResource(R.drawable.baseline_mystery_alt_24);
+    }
 }
