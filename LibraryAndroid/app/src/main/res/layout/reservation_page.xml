@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_color"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingBottom="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="25dp"
+                    android:backgroundTint="@color/primary_color"
+                    android:onClick="toOnlineUser"
+                    android:text="HOME"
+                    android:textColor="@color/light_color"
+                    app:cornerRadius="100px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="25dp"
+                    android:backgroundTint="@color/primary_color"
+                    android:layout_alignParentRight="true"
+                    android:onClick="toLogout"
+                    android:text="Logout"
+                    android:textColor="@color/light_color"
+                    app:cornerRadius="100px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="#FF0000"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/reservation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Item Reservation"
+                android:textAlignment="center"
+                android:textColor="@color/light_color"
+                android:textSize="25sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/primary_color"
+                android:gravity="center"
+                android:onClick="goToBrowseItems"
+                android:text="@string/reservation_browseItems_text"
+                android:textColor="@color/light_color"
+                app:cornerRadius="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/reservation_TimeslotText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Select return date"
+                android:textAlignment="center"
+                android:textColor="@color/light_color"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/reservation_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/reservation_year_hint"
+                android:textAlignment="center"
+                android:textColor="@color/light_color"
+                android:textColorHighlight="@color/primary_color"
+                android:textColorHint="@color/light_color"
+                android:textColorLink="@color/primary_color" />
+
+            <EditText
+                android:id="@+id/reservation_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/reservation_month_hint"
+                android:textAlignment="center"
+                android:textColor="@color/light_color"
+                android:textColorHighlight="@color/primary_color"
+                android:textColorHint="@color/light_color"
+                android:textColorLink="@color/primary_color" />
+
+            <EditText
+                android:id="@+id/reservation_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/reservation_day_hint"
+                android:textAlignment="center"
+                android:textColor="@color/light_color"
+                android:textColorHighlight="@color/primary_color"
+                android:textColorHint="@color/light_color"
+                android:textColorLink="@color/primary_color" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/primary_color"
+                android:gravity="center"
+                android:onClick="selectReturnDate"
+                android:text="@string/reservation_return_button_text"
+                android:textColor="@color/light_color"
+                app:cornerRadius="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/reservation_returnDateConfirm_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="#4CBB17"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="34dp"
+                android:paddingRight="34dp">
+
+                <TextView
+                    android:id="@+id/reservation_searchItem_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:text="Select item"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_color"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/reservation_item_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reservation_searchItem_Text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/reservation_item_id"
+                    android:textColor="@color/light_color"
+                    android:textColorHighlight="@color/primary_color"
+                    android:textColorHint="@color/light_color"
+                    android:textColorLink="@color/primary_color" />
+
+                <RelativeLayout
+                    android:id="@+id/select_itemType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/reservation_item_id"
+                    android:layout_centerHorizontal="true">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/reserve_select_album"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:onClick="onItemReservationRadioButton"
+                            android:text="Album"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_color"
+                            android:textColorHighlight="@color/primary_color"
+                            android:textColorHint="@color/light_color"
+                            android:textColorLink="@color/primary_color" />
+
+                        <RadioButton
+                            android:id="@+id/reserve_select_book"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:onClick="onItemReservationRadioButton"
+                            android:text="Book"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_color"
+                            android:textColorHighlight="@color/primary_color"
+                            android:textColorHint="@color/light_color"
+                            android:textColorLink="@color/primary_color" />
+
+                        <RadioButton
+                            android:id="@+id/reserve_select_movie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_toRightOf="@+id/select_book"
+                            android:onClick="onItemReservationRadioButton"
+                            android:text="Movie"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_color"
+                            android:textColorHighlight="@color/primary_color"
+                            android:textColorHint="@color/light_color"
+                            android:textColorLink="@color/primary_color" />
+                    </RadioGroup>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:backgroundTint="@color/primary_color"
+                        android:onClick="searchItemId"
+                        android:text="@string/reservation_viewItem_text"
+                        android:textColor="@color/light_color"
+                        app:cornerRadius="100px"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/reservation_itemTitle_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/select_itemType"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/light_color"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/reservation_itemId_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reservation_itemTitle_Text"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/light_color"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/reservation_itemCreator_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reservation_itemId_Text"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/light_color"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/reservation_itemReleaseDate_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reservation_itemCreator_Text"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@color/light_color"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/primary_color"
+                android:gravity="center"
+                android:onClick="reserveSelectedItem"
+                android:text="@string/reservation_reserveItem_button_text"
+                android:textColor="@color/light_color"
+                app:cornerRadius="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/reservation_Confirm_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="#4CBB17"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/primary_color"
+                android:gravity="center"
+                android:onClick="reloadReservationPage"
+                android:text="@string/reservation_reload_button_text"
+                android:textColor="@color/light_color"
+                app:cornerRadius="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
