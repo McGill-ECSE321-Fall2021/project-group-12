@@ -61,7 +61,7 @@ Design an application for a library to assist it in providing its services. Such
 
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
-| Aaron Mills |
+| Aaron Mills | <ul><li>Login Page</li><li>Sign Up Page</li> | 6 |
 | Ann Trinh |
 | Chirag Sood |
 | Lucca Di Lullo |<ul><li>Browse Items Pages</li><li>Writing Presentation Slides</li><li>Presenting Demo</li></ul> | 16 | 
