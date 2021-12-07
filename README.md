@@ -58,7 +58,7 @@ Design an application for a library to assist it in providing its services. Such
 | Yuyan Shi |<ul><li>LibraryHour View</li><li>LibraryHour Modification View</li><li>Reservation Management View</li></ul> | 15 |
 
 ## Sprint 4
-
+**[Project Report - Sprint 4](https://github.com/McGill-ECSE321-Fall2021/project-group-12/wiki/Project-Report---Sprint-4)**
 | Name | Tasks | Hours | 
 | :---: | :--- | :---:|
 | Aaron Mills | <ul><li>Login Page</li><li>Sign Up Page</li> | 6 |
