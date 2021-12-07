@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/primary_color"
@@ -84,6 +84,76 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
+            android:layout_width="180dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="153dp"
+            android:layout_marginEnd="153dp"
+            android:backgroundTint="@color/primary_color"
+            android:gravity="center"
+            android:onClick="toAlbum"
+            android:text="Browse Albums"
+            android:textColor="@color/light_color"
+            app:cornerRadius="100px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.48"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="206dp" />
+
+        <Button
+        android:layout_width="180dp"
+        android:layout_height="51dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toBook"
+        android:text="Browse Books"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="257dp" />
+
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="51dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toMovie"
+        android:text="Browse Movies"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="308dp" />
+
+    <Button
+        android:layout_width="207dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="153dp"
+        android:backgroundTint="@color/primary_color"
+        android:gravity="center"
+        android:onClick="toNewspaper"
+        android:text="Browse Newspapers"
+        android:textColor="@color/light_color"
+        app:cornerRadius="100px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="359dp" />
+
+        <Button
+            android:layout_marginStart="153dp"
+            android:layout_marginEnd="153dp"
+            android:layout_marginBottom="76dp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -108,12 +178,18 @@
             android:textColor="@color/light_color"
             app:cornerRadius="100px"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.387"
+            app:layout_constraintStart_toStartOf="parent" />
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="153dp"
+            android:layout_marginEnd="153dp"
+            android:layout_marginBottom="30dp"
             android:backgroundTint="@color/primary_color"
             android:layout_marginTop="15dp"
             android:gravity="center"

@@ -695,6 +695,57 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.reservation_page);
     }
 
+    public void toAlbum(View v) {
+        setContentView(R.layout.album_page);
+    }
+
+    public void toBook(View v) {
+        setContentView(R.layout.book_page);
+    }
+
+    public void toMovie(View v) {
+        setContentView(R.layout.movie_page);
+    }
+
+    public void toNewspaper(View v) {
+        setContentView(R.layout.newspaper_page);
+    }
+
+    public void browseAlbums(View v) {
+        error = "";
+        HttpUtils.get("albums/", new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int numSongs = element.getInt("numSongs");
+                        boolean isAvailable = element.getBoolean("available");
+
+                        System.out.println("Title: "+title+", Number of Songs: "+numSongs+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
+
+    }
+
     public void toViewReservation(View v) {
         setContentView(R.layout.view_reservation_page);
         Spinner reservedItemSpinner = (Spinner) findViewById(R.id.reservationSpinner);
@@ -871,6 +922,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void browseBooks(View v) {
+        error = "";
+        HttpUtils.get("Books/", new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int numPages = element.getInt("numPages");
+                        boolean isAvailable = element.getBoolean("available");
+
+                        System.out.println("Title: "+title+", Number of Pages: "+numPages+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
+    }
+
     public void searchBookId(View v) {
         final TextView itemId = (TextView) findViewById(R.id.reservation_item_id);
         final TextView itemTitle = (TextView) findViewById(R.id.reservation_itemTitle_Text);
@@ -946,7 +1031,6 @@ public class MainActivity extends AppCompatActivity {
                     error += e.getMessage();
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -1026,6 +1110,40 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(error);
                 refreshErrorMessage();
             }
+        });
+    }
+
+    public void browseMovies(View v) {
+        error = "";
+        HttpUtils.get("movies/", new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        int duration = element.getInt("duration");
+                        boolean isAvailable = element.getBoolean("isAvailable");
+
+                        System.out.println("Title: "+title+", Duration: "+duration+", Is Available: "+isAvailable);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
         });
     }
 
@@ -1150,6 +1268,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void browseNewspapers(View v) {
+        error = "";
+        HttpUtils.get("Newspapers/", new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                for(int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject element = response.getJSONObject(i);
+                        String title = element.getString("title");
+                        boolean isArchive = element.getBoolean("isArchive");
+
+                        System.out.println("Title: "+title+", Is Archive: "+isArchive);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }            
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
+    }
+
     public void selectReturnDate(View v) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
@@ -1177,7 +1328,6 @@ public class MainActivity extends AppCompatActivity {
                 timeSlotConfirmed.setText("Return date selected: " + endDate);
                 timeSlotConfirmed.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -1202,6 +1352,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     public void goToBrowseItems(View v) {
         setContentView(R.layout.login_page);
     }
