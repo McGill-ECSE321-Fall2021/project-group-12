@@ -688,7 +688,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
 
     }
 
@@ -798,7 +810,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
     }
 
     public void searchBookId(View v) {
@@ -919,7 +943,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
     }
 
     public void onItemReservationRadioButton(View view) {
@@ -1062,7 +1098,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }            
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String errorResponse, Throwable throwable) {
+                try {
+                    error += errorResponse;
+                } catch (Exception e) {
+                    error += e.getMessage();
+                }
+                System.out.println(error);
+                refreshErrorMessage();
+            }
+
+        });
     }
 
     public void selectReturnDate(View v) {
