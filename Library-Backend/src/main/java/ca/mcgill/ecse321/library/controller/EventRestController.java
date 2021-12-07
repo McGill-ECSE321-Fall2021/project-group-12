@@ -76,10 +76,10 @@ public class EventRestController {
 	@PostMapping(value = { "/event/create", "/event/create/" })
 	public EventDto createEvent(@RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
 		User user;
-		if (offlineUserService.getOfflineUser(userId)!=null) {
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
 			user = offlineUserService.getOfflineUser(userId);
 			
-		} else if (onlineUserService.getOnlineUser(userId)!= null){
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
 			user = onlineUserService.getOnlineUser(userId);
 		} else {
 			user = librarianService.getLibrarian(userId);
@@ -93,10 +93,10 @@ public class EventRestController {
 	@PutMapping(value = {"/event/update/{Id}", "/event/update/{Id}/"})
 	public EventDto updateEvent(@PathVariable("Id") Long Id, @RequestParam(value="name") String name, @RequestParam(value="timeSlotId") Long timeSlotId, @RequestParam(value="isPrivate") Boolean isPrivate, @RequestParam(value="isAccepted") Boolean isAccepted, @RequestParam(value="userId") Long userId) throws IllegalArgumentException {
 		User user;
-		if (offlineUserService.getOfflineUser(userId)!=null) {
+		if (offlineUserRepository.findOfflineUserByUserId(userId)!=null) {
 			user = offlineUserService.getOfflineUser(userId);
 			
-		} else if (onlineUserService.getOnlineUser(userId)!= null){
+		} else if (onlineUserRepository.findOnlineUserByUserId(userId)!= null){
 			user = onlineUserService.getOnlineUser(userId);
 		} else {
 			user = librarianService.getLibrarian(userId);
