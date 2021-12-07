@@ -63,7 +63,7 @@ Design an application for a library to assist it in providing its services. Such
 | :---: | :--- | :---:|
 | Aaron Mills | <ul><li>Login Page</li><li>Sign Up Page</li> | 6 |
 | Ann Trinh | <ul><li>Item reservation page</li><li>View reservation</li><li>Speaker at presentation</li><li>Wiki Documentation</li></ul> | 15 |
-| Chirag Sood |
+| Chirag Sood |<ul><li>Delete Reservation</li><li>Delete Event</li><li>Delete Account</li></ul> | 15 | 
 | Lucca Di Lullo |<ul><li>Browse Items Pages</li><li>Writing Presentation Slides</li><li>Presenting Demo</li></ul> | 16 | 
 | Mia Stevanovic |<ul><li>View Event page</li><li>Create Event page</li></ul> | 13 | 
 | Yuyan Shi |<ul><li>Logout</li><li>Manage Account Page</li><li>Change User Information/Password Pages</li></ul> | 15 | 
